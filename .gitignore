@@ -1,5 +1,20 @@
 # Object file
 *.o
+*.lexch
 
 # Ada Library Information
 *.ali
+*.a
+*ada_target_properties
+# Adainclude files
+
+*.adb
+*.ads
+*.h
+
+#stderr
+*.stderr
+*.stdout
+
+#obj
+*obj-static/*
