@@ -35,6 +35,7 @@ To compile natively, follow these steps:
     ./list_gen.sh libgnarl.a libgnarl.lst
     mv *.list <rts_folder_path>/adainclude
    ```
+3. Create adalib and obj-static in your rts folder
 
 3. Add gnat-native /bin folder to path and gprbuild
     ```sh
@@ -55,9 +56,13 @@ For cross-compiling the project, follow these steps:
 1. Copy Adainclude folder from Debian gnat
 2. use listgen.sh in debian adalib to generate .lsts
 3. Copy gprs into adainclude
-  
-3. Create adalib and obj-static folders
-4. Run the build command with the target specification:
+4. Add cross-compiler and gprbuild to path
+    ```sh
+    PATH=~/Downloads/gnat-arm-elf-linux64-x86_64-14.2.0-1/bin:$PATH
+    PATH=~/Documents/gprbuild_22.0.1_24dfc1b5/bin:$PATH
+    ``
+5. Create adalib and obj-static folders
+6. Run the build command with the target specification:
    ```sh
    gprbuild -P libada --target=arm-eabi
    ```
