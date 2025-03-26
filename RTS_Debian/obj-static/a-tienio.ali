@@ -1,0 +1,129 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_ENUMERATION_MAPS
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTIONS
+RV NO_IO
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_ASPECT_SPECIFICATIONS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U ada.text_io.enumeration_io%b  a-tienio.adb	d41ba98d NE OL PK GE
+W ada%s			ada.ads			ada.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W ada.text_io.enumeration_aux%s  a-tienau.adb	a-tienau.ali
+
+U ada.text_io.enumeration_io%s  a-tienio.ads	438e4e87 BN NE OL PK GE
+W ada.text_io%s		a-textio.adb		a-textio.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-except.ads		20240801081713 e7970cd9 ada.exceptions%s
+D a-ioexce.ads		20240801081713 40018c65 ada.io_exceptions%s
+D a-stream.ads		20240801081713 119b8fb3 ada.streams%s
+D a-string.ads		20240801081713 90ac6797 ada.strings%s
+D a-sttebu.ads		20240801081713 f1ad67a2 ada.strings.text_buffers%s
+D a-stuten.ads		20240801081713 c6ced0ae ada.strings.utf_encoding%s
+D a-tags.ads		20240801081713 9eaa38c6 ada.tags%s
+D a-textio.ads		20240801081713 34ef47de ada.text_io%s
+D a-tienau.ads		20240801081713 6a9c157b ada.text_io.enumeration_aux%s
+D a-tienio.ads		20240801081713 77610959 ada.text_io.enumeration_io%s
+D a-tienio.adb		20240801081713 c9e6b5af ada.text_io.enumeration_io%b
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20240801081713 9111f9c1 interfaces%s
+D i-cstrea.ads		20240801081713 ffd01b9d interfaces.c_streams%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-crtl.ads		20240801081713 beb39b9e system.crtl%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-ficobl.ads		20240801081713 dc5161d4 system.file_control_block%s
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-putima.ads		20240801081713 17291fe4 system.put_images%s
+D s-secsta.ads		20240801081713 578279f5 system.secondary_stack%s
+D s-soflin.ads		20240801081713 df77073e system.soft_links%s
+D s-stache.ads		20240801081713 0b81c1fe system.stack_checking%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+D s-stoele.ads		20240801081713 ccded4e8 system.storage_elements%s
+D s-traent.ads		20240801081713 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		20240801081713 fa2a7f59 system.unsigned_types%s
+D s-wchcon.ads		20240801081714 d9032363 system.wch_con%s
+G a e
+G c Z s b [enumeration_io ada__text_io 26 21 none]
+X 1 ada.ads
+16K9*Ada 20e8 11|26r9 67r44 85r5 12|32r6 34r14 36r24 137r5
+X 9 a-textio.ads
+58K13*Text_IO 1|16k9 9|785e16 11|26r13 67r48 85r9 12|32r10 34r18 36r28 137r9
+60@24*File_System 11|35r38 42r38 55r38 66r38
+67P9*File_Type 11|33r26 46r15 12|42r26 92r15
+69n23*In_File{69E9} 11|34r65 51r66
+80I9*Count<integer>
+89I12*Field{integer} 11|30r20 48r15 60r15 12|94r15 112r15
+93E9*Type_Set 93e45 11|31r22 49r15 61r15 80r14 12|95r15 113r15 122r14
+93n34*Upper_Case{93E9} 11|31r34
+164V13*Mode{69E9} 11|34s51 51s51
+176V13*Is_Open{boolean} 11|34s27 51s27
+259V13*Line_Length{80I9} 11|53s8 53s33 56s44
+263V13*Line_Length{80I9} 11|40s8 40s26 64s8 64s26 67s56
+266V13*Page_Length{80I9} 11|54s12 54s37
+270V13*Page_Length{80I9} 11|41s12 41s30 65s12 65s30
+604X4*End_Error 11|36r41 43r41
+605X4*Data_Error 11|36r28 43r28 75r28 12|57r38 84r38
+606X4*Layout_Error 11|56r28 67r28 83r28
+766p4 Current_In{67P9} 12|63r12
+768p4 Current_Out{67P9} 12|116r12
+X 10 a-tienau.ads
+35K29*Enumeration_Aux 69e32 12|32w18 36r36
+37U14*Get_Enum_Lit 12|47s11
+46U14*Scan_Enum_Lit 12|74s11
+54U14*Put 12|107s11
+62U14*Puts 12|134s11
+X 11 a-tienio.ads
+24E9 Enum 33r48 38r30 47r15 59r15 71r18 79r14 12|42r48 43r29 53r18 60r30
+. 68r18 80r18 93r15 107r22 111r15 121r14 134r21
+26k21*Enumeration_IO 9|58k13 11|24z9 85l17 85e31 12|34b26 137l17 137t31
+30i4*Default_Width{9|89I12} 48r24 60r24 12|94r24 112r24
+31e4*Default_Setting{9|93E9} 49r27 61r27 80r26 12|95r27 113r27 122r26
+33U14*Get 33>19 33<37 12|42b14 58l8 58t11 63s7
+33p19 File{9|67P9} 34r36 34r57 12|42b19 47r25
+33*37 Item{24E9} 12|42b37 53m10
+38U14*Get 38<19 12|60b14 64l8 64t11
+38*19 Item{24E9} 12|60b19 63m24
+45U14*Put 46>7 47>7 48>7 49>7 12|91b14 108l8 108t11 116s7
+46p7 File{9|67P9} 51r36 51r57 53r21 53r46 54r25 54r50 56r57 12|92b7 107r16
+47*7 Item{24E9} 12|93b7 103r14 107r34
+48i7 Width{9|89I12} 12|94b7 107r41
+49e7 Set{9|93E9} 12|95b7 107r48
+58U14*Put 59>7 60>7 61>7 12|110b14 117l8 117t11
+59*7 Item{24E9} 12|111b7 116r25
+60i7 Width{9|89I12} 12|112b7 116r31
+61e7 Set{9|93E9} 12|113b7 116r38
+69U14*Get 70>7 71<7 72<7 12|66b14 85l8 85t11
+70a7 From{string} 12|67b7 74r26 77r36
+71*7 Item{24E9} 12|68b7 80m10
+72i7 Last{positive} 12|69b7 74m39 77r51
+77U14*Put 78<7 79>7 80>7 12|119b14 135l8 135t11
+78a7 To{string} 12|120b7 134m17
+79*7 Item{24E9} 12|121b7 130r14 134r33
+80e7 Set{9|93E9} 12|122b7 134r40
+X 12 a-tienio.adb
+36K12 Aux=36:36 47r7 74r7 107r7 134r7
+43a7 Buf{string} 47m31 50r35
+44i7 Buflen{natural} 47m36 50r45
+50a10 Buf_Str{string} 53r30
+71i7 Start{natural} 74m32 77r42
+77a10 From_Str{string} 80r30
+

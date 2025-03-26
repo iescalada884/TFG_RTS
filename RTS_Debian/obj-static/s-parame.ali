@@ -1,0 +1,62 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_ATTRIBUTES
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.parameters%b	s-parame.adb		3007a9ef NE OL PK
+W system%s		system.ads		system.ali
+
+U system.parameters%s	s-parame.ads		71105c6e NE OL PU PK
+W system%s		system.ads		system.ali
+
+D system.ads		20240801081714 d0bef732 system%s
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-parame.adb		20240801081713 91a902b3 system.parameters%b
+G a e
+G c Z s b [default_stack_size system__parameters 66 13 none]
+G c Z s b [minimum_stack_size system__parameters 69 13 none]
+G c Z s b [adjust_storage_size system__parameters 72 13 none]
+X 1 system.ads
+37K9*System 156e11 2|49r9 109r25 181r5 3|34r14 82r5
+67M9*Address 2|109r32
+73N4*Memory_Size 2|56r29 56r48
+X 2 s-parame.ads
+49K16*Parameters 1|37k9 2|181l12 181e22 3|34b21 82l12 82t22
+56I9*Size_Type<integer> 63r32 63r45 66r39 69r39 72r41 72r59 81r38 91r46 3|40r41
+. 40r59 55r39 61r13 64r17 72r39
+63i4*Unspecified_Size{56I9} 3|42r17
+66V13*Default_Stack_Size{56I9} 3|43s17 55b13 66l8 66t26
+69V13*Minimum_Stack_Size{56I9} 3|44s20 45s17 61s46 62s17 72b13 80l8 80t26
+72V13*Adjust_Storage_Size{56I9} 72>34 3|40b13 49l8 49t27
+72i34 Size{56I9} 3|40b34 42r10 44r13 47r17
+81i4*Default_Env_Stack_Size{56I9}
+86b4*Stack_Grows_Down{boolean}
+91i4*Runtime_Default_Sec_Stack_Size{56I9}
+95b4*Sec_Stack_Dynamic{boolean}
+103N4*long_bits
+108N4*ptr_bits
+109M12*C_Address{1|67M9}
+112a4*C_Malloc_Linkname{string}
+135b4*Garbage_Collected{boolean}
+150b4*No_Abort{boolean}
+163N4*Max_Attribute_Count
+170N4*Max_Task_Image_Length
+177N4*Default_Exception_Msg_Max_Length
+X 3 s-parame.adb
+56i7*Default_Stack_Size{integer} 57r25 59r10 61r24 64r28
+

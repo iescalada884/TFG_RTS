@@ -1,0 +1,93 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_FIXED_POINT
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.os_primitives%b  s-osprim.adb		d6d141f8 NE OL PK
+W system%s		system.ads		system.ali
+W system.c_time%s	s-c_time.adb		s-c_time.ali
+W system.os_constants%s	s-oscons.ads		s-oscons.ali
+
+U system.os_primitives%s  s-osprim.ads		d74392c4 BN NE OL PR PK
+W system%s		system.ads		system.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20240801081713 9111f9c1 interfaces%s
+D i-c.ads		20240801081713 aac316ce interfaces.c%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-c_time.ads		20250212140654 400b4acf system.c_time%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-oscons.ads		20250212140654 8018d59c system.os_constants%s
+D s-osprim.ads		20240801081713 07fd65f6 system.os_primitives%s
+D s-osprim.adb		20250212140654 a644fbf6 system.os_primitives%b
+D s-optide.adb		20250212140654 b77b40ab system.os_primitives.timed_delay
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+G a e
+G c Z s b [initialize system__os_primitives 59 14 none]
+G c Z s b [clock system__os_primitives 64 13 none]
+G c Z s b [timed_delay system__os_primitives 77 14 none]
+G c Z b b [nanosleep system__os_primitives 43 13 none]
+X 5 system.ads
+37K9*System 156e11 9|40r9 89r5 10|33r6 34r6 36r14 60r15 60r33 73r42 95r5
+. 11|34r11
+67M9*Address 10|60r22
+69m4*Null_Address{67M9} 10|60r40 73r49
+X 6 s-c_time.ads
+38K16*C_Time 128e18 10|33w13 43r53 54r24 59r22 74r14 11|39r25 40r25 74r21
+44R9*timespec 124e6 10|43r60 11|39r32 40r32
+45R9*timeval 118e6 10|54r31 59r29
+48O12*Non_Negative_Duration{duration}
+57V13*To_Duration{48O12} 10|74s21
+59V13*To_Timespec{44R9} 11|74s28
+X 8 s-oscons.ads
+44K16*OS_Constants 487e24 10|34w13 45r37 61r43
+414b4*Glibc_Use_Time_Bits64{boolean} 10|45r50 61r56
+X 9 s-osprim.ads
+40K16*OS_Primitives 5|37k9 9|89l12 89e25 10|36b21 95l12 95t25 11|34r18
+43o4*Max_Sensible_Delay{duration} 55r44 11|67r32
+55o4*Max_System_Delay{duration} 11|67r13 68r26 70r27
+59U14*Initialize 10|90b14 93l8 93t18
+64V13*Clock{duration} 65r19 10|52b13 75l8 75t13 11|43s38 77s24
+70N4*Relative 11|51r14
+71N4*Absolute_Calendar
+72N4*Absolute_RT
+77U14*Timed_Delay 77>27 77>44 10|81b14 11|35b11 84l5 84t16
+77o27 Time{duration} 10|82b7 11|36b4 52r19 53r19 55r19 56r19
+77i44 Mode{integer} 10|83b7 11|37b4 51r7
+X 10 s-osprim.adb
+43V13 nanosleep{integer} 43^24 43^30 45b<c,__nanosleep64>22 11|75s20
+43p24 rqtp(6|44R9)
+43p30 rmtp(6|44R9)
+54r7 TV{6|45R9} 73m31 73r31 74r34
+55i7 Result{integer} 56r28 73m7
+58V16*gettimeofday{integer} 59^10 60>10 61b<c,__gettimeofday64>25 73s17
+59p10 Tv(6|45R9)
+60m10 Tz{5|67M9}
+X 11 s-optide.adb
+39r4 Request{6|44R9} 74m10 75m31 75r31
+40r4 Remaind{6|44R9} 75m47 75r47
+41o4 Rel_Time{duration} 52m7 55m7 63r7 64r21
+42o4 Abs_Time{duration} 53m7 56m7 79r20 81r24
+43o4 Base_Time{duration} 44r29 79r64
+44o4 Check_Time{duration} 53r26 55r26 77m10 79r32 79r51 81r35
+45o4 Time_Chunk{duration} 64m7 68r13 70m13 74r41 81m10
+47i4 Result{integer} 48r25 75m10
+

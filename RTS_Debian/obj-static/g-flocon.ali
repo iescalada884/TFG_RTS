@@ -1,0 +1,42 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U gnat.float_control%s	g-flocon.ads		b62cf32c NE OL PU
+W gnat%s		gnat.ads		gnat.ali
+W system%s		system.ads		system.ali
+W system.float_control%s  s-flocon.adb		s-flocon.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D gnat.ads		20240801081713 b5988c27 gnat%s
+D g-flocon.ads		20240801081713 e3483c37 gnat.float_control%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-flocon.ads		20240801081713 e0fc433c system.float_control%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+G a e
+X 3 gnat.ads
+37K9*GNAT 60e9 4|38r9
+X 4 g-flocon.ads
+38K14*Float_Control=38:43
+X 5 system.ads
+37K9*System 4|36r6 38r36 5|156e11
+X 7 s-flocon.ads
+34K16*Float_Control 4|36w13 38r43 7|59e25
+

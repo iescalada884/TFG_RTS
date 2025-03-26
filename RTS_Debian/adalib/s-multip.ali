@@ -1,0 +1,57 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.multiprocessors%b  s-multip.adb	3053a91b NE OL PK
+W interfaces%s		interfac.ads		interfac.ali
+W interfaces.c%s	i-c.adb			i-c.ali
+W system%s		system.ads		system.ali
+N A39:7 gnatcheck exempt_on "Improper_Returns" "early returns for performance"
+N A53:7 gnatcheck exempt_off "Improper_Returns"
+
+U system.multiprocessors%s  s-multip.ads	e8126841 NE OL PR PK
+W system%s		system.ads		system.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20240801081713 9111f9c1 interfaces%s
+D i-c.ads		20240801081713 aac316ce interfaces.c%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-multip.ads		20240801081713 38ac9f73 system.multiprocessors%s
+D s-multip.adb		20240801081713 a23c20a6 system.multiprocessors%b
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+G a e
+G c Z s b [number_of_cpus system__multiprocessors 25 13 none]
+X 3 interfac.ads
+38K9*Interfaces 233e15 8|29r6 29r24
+X 4 i-c.ads
+30K20*C 598e17 8|29w17 29r35
+59I9*int<integer> 8|46r49
+X 5 system.ads
+37K9*System 156e11 7|16r9 28r5 8|31r14 56r5
+X 7 s-multip.ads
+16K16*Multiprocessors 5|37k9 7|17r25 28l12 28e27 8|31b21 56l12 56t27
+19I9*CPU_Range<integer> 21r19 21r40 23r34
+21I12*CPU{19I9} 25r35 8|37r35 42r10 49r20
+23i4*Not_A_Specific_CPU{19I9}
+25V13*Number_Of_CPUs{21I12} 8|37b13 54l8 54t22
+X 8 s-multip.adb
+46V22*Gnat_Number_Of_CPUs{4|59I9} 47b<c,__gnat_number_of_cpus>31 49s25
+

@@ -1,0 +1,86 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P SS ZX
+
+RN
+RV NO_EXCEPTIONS
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U ada.command_line%b	a-comlin.adb		3aec9310 NE OL PK
+W ada%s			ada.ads			ada.ali
+W system%s		system.ads		system.ali
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+N A105:7 gnatcheck exempt_on "Improper_Returns" "early returns for performance"
+N A118:7 gnatcheck exempt_off "Improper_Returns"
+
+U ada.command_line%s	a-comlin.ads		3cdef8c9 NE OL PR PK
+W ada%s			ada.ads			ada.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-comlin.ads		20240801081713 4aa66568 ada.command_line%s
+D a-comlin.adb		20240801081713 a0f4014a ada.command_line%b
+D system.ads		20240801081714 d0bef732 system%s
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-secsta.ads		20240801081713 578279f5 system.secondary_stack%s
+D s-stoele.ads		20240801081713 ccded4e8 system.storage_elements%s
+G a e
+G c Z s b [argument_count ada__command_line 39 13 none]
+G c Z s b [argument ada__command_line 52 13 none]
+G c Z s b [command_name ada__command_line 62 13 none]
+G c Z s s [set_exit_status ada__command_line 75 14 none]
+G c Z s s [arg_numsIP ada__command_line 131 9 none]
+G c Z b b [arg_count ada__command_line 36 13 none]
+G c Z b b [fill_arg ada__command_line 39 14 none]
+G c Z b b [len_arg ada__command_line 42 13 none]
+G c Z b b [initialized ada__command_line 49 13 none]
+X 1 ada.ads
+16K9*Ada 20e8 2|36r9 144r5 3|34r14 121r5
+X 2 a-comlin.ads
+36K13*Command_Line 1|16k9 2|117E4 144l9 144e21 3|34b18 121l9 121t21
+39V13*Argument_Count{natural} 53s24 3|60s19 78b13 85l8 85t22
+52V13*Argument{string} 52>23 3|58b13 72l8 72t16
+52i23 Number{positive} 53r14 3|58b23 60r10 66r46 66r71
+62V13*Command_Name{string} 3|103b13 119l8 119t20
+70I9*Exit_Status<integer> 72r23 73r23 75r38 117r23 118r23
+72i4*Success{70I9} 117c4
+73i4*Failure{70I9} 118c4
+75U14*Set_Exit_Status 75>31 142b<c,__gnat_set_exit_status>22
+75i31 Code{70I9}
+127i4 Remove_Count{natural} 3|83r16
+131A9 Arg_Nums(positive)<integer> 132r32
+132P9 Arg_Nums_Ptr(131A9) 137r18
+137p4 Remove_Args{132P9} 3|66r22 66r58 82r17
+X 3 a-comlin.adb
+36V13 Arg_Count{natural} 37b<c,__gnat_arg_count>22 82s41
+39U14 Fill_Arg 39>24 39>44 40b<c,__gnat_fill_arg>22 69s10 115s10
+39m24 A{4|67M9}
+39i44 Arg_Num{integer}
+42V13 Len_Arg{integer} 42>22 43b<c,__gnat_len_arg>22 67s37 112s37
+42i22 Arg_Num{integer}
+49V13 Initialized{boolean} 81s18 91b13 97l8 97t19 107s14
+65i10 Num{positive} 67r46 69r33
+67a10 Arg{string} 69m20 69r20 70r17
+92m7*gnat_argv{4|67M9} 93m25 93r25 96r14
+112a10 Arg{string} 115m20 115r20 116r17
+X 4 system.ads
+37K9*System 3|32w6 32r18 39r28 92r19 96r27 4|156e11
+67M9*Address 3|39r35 92r26
+69m4*Null_Address{67M9} 3|96r34
+81V14*"="{boolean} 3|96r24
+

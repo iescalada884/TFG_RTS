@@ -1,0 +1,69 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_EXCEPTIONS
+RV NO_IMPLEMENTATION_ASPECT_SPECIFICATIONS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.width_u%b	s-widthu.adb		dea8c233 NE OL PK GE
+W system%s		system.ads		system.ali
+
+U system.width_u%s	s-widthu.ads		526ea871 BN NE OL PU PK GE
+W ada%s			ada.ads			ada.ali
+W ada.numerics%s	a-numeri.ads		a-numeri.ali
+W ada.numerics.big_numbers%s  a-nubinu.ads	a-nubinu.ali
+W system%s		system.ads		system.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-assert.ads		20240801081713 ba465f5c ada.assertions%s
+D a-except.ads		20240801081713 e7970cd9 ada.exceptions%s
+D a-numeri.ads		20240801081713 84bea7a3 ada.numerics%s
+D a-nubinu.ads		20240801081713 93f1f3d1 ada.numerics.big_numbers%s
+D a-nbnbig.ads		20240801081713 31ff4aa1 ada.numerics.big_numbers.big_integers_ghost%s
+D a-nbnbig.adb		20240801081713 e7f9abf0 ada.numerics.big_numbers.big_integers_ghost%b
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-assert.ads		20240801081713 9c4520c7 system.assertions%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+D s-traent.ads		20240801081713 c81cbf8c system.traceback_entries%s
+D s-widthu.ads		20240801081714 b32f15e2 system.width_u%s
+D s-widthu.adb		20240801081714 6d87d7d1 system.width_u%b
+G a e
+G c Z s b [width_u system 53 16 none]
+X 1 ada.ads
+16K9*Ada 20e8 15|47r6 56r29
+X 4 a-numeri.ads
+16K13*Numerics 35e17 15|47r10 56r33
+X 5 a-nubinu.ads
+16K22*Big_Numbers 21e29 15|47r19 56r42
+X 9 system.ads
+37K9*System 156e11 15|53r9 85r35 93r5 16|32r14 180r5
+X 15 s-widthu.ads
+51M9 Uns 63r48 65r24 68r42 72r12 81r29 16|44r29 65r47 94r47 124r11 130r25
+. 130r32 145r15
+53k16*Width_U 9|37k9 15|51z9 85r42 93l12 93e19 16|32b21 180l12 180t19
+81V13*Width{natural} 81>20 81>24 85r50 16|44b13 178l8 178t13
+81*20 Lo{51M9} 87r15 90r28 16|44b20 130r41 135r10 145r24
+81*24 Hi{51M9} 87r20 91r28 16|44b24 130r45 135r15 145r28
+85i11 W{natural} 87r28 88r17 89r23 90r45 91r45
+X 16 s-widthu.adb
+123i7 W{natural} 141m10 151r55 154m13 154r18 157r36 158r53 164r52 173r52
+. 176r17
+124*7 T{15|51M9} 145m10 149r16 150r36 153m13 153r18 159r41 160r47
+

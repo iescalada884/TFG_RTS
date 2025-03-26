@@ -1,0 +1,30 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.spark%s	s-spark.ads		834f34af NE OL PU PK
+W system%s		system.ads		system.ali
+
+D system.ads		20240801081714 d0bef732 system%s
+D s-spark.ads		20240801081713 53f1c39d system.spark%s
+G a e
+X 1 system.ads
+37K9*System 156e11 2|32r9 36r5
+X 2 s-spark.ads
+32K16*SPARK 1|37k9 2|36l12 36e17
+

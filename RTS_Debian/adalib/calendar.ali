@@ -1,0 +1,40 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_CALENDAR
+RV NO_DELAY
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U calendar%s		calendar.ads		6b3a0318 NE OL
+W ada%s			ada.ads			ada.ali
+W ada.calendar%s	a-calend.adb		a-calend.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-calend.ads		20250212140654 478f26d5 ada.calendar%s
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D calendar.ads		20240801081713 2cb525cd calendar%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+G a e
+X 1 ada.ads
+16K9*Ada 20e8 4|16r6 18r26
+X 2 a-calend.ads
+36K13*Calendar 402e17 4|16w10 18r30
+X 4 calendar.ads
+18K9*Calendar=18:30
+

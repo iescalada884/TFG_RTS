@@ -1,0 +1,54 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U gnat.traceback.symbolic%s  g-trasym.ads	2086345e NE OL
+W gnat.traceback%s	g-traceb.adb		g-traceb.ali
+W system%s		system.ads		system.ali
+W system.traceback%s	s-traceb.adb		s-traceb.ali
+W system.traceback.symbolic%s  s-trasym.adb	s-trasym.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-except.ads		20240801081713 e7970cd9 ada.exceptions%s
+D a-exctra.ads		20240801081713 0966bad0 ada.exceptions.traceback%s
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D gnat.ads		20240801081713 b5988c27 gnat%s
+D g-traceb.ads		20240801081713 6cba3063 gnat.traceback%s
+D g-trasym.ads		20240801081713 f121a8ad gnat.traceback.symbolic%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+D s-traceb.ads		20240801081713 4e864b31 system.traceback%s
+D s-trasym.ads		20240801081713 bd1dac90 system.traceback.symbolic%s
+D s-traent.ads		20240801081713 c81cbf8c system.traceback_entries%s
+G a e
+X 5 gnat.ads
+37K9*GNAT 60e9 7|37r9
+X 6 g-traceb.ads
+78K14*Traceback 5|37k9 6|119e19 7|37r14
+X 7 g-trasym.ads
+37K24*Symbolic=37:58
+X 8 system.ads
+37K9*System 7|36r6 37r41 8|156e11
+X 12 s-traceb.ads
+38K16*Traceback 7|36r13 37r48 12|81e21
+75V13*C_Call_Chain{natural} 78i<c,system__traceback__c_call_chain>22
+X 13 s-trasym.ads
+77K26*Symbolic 7|36w23 37r58 13|108e30
+

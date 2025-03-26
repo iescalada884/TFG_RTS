@@ -1,0 +1,61 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IO
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U direct_io%s		directio.ads		708fca39 NE OL
+W ada%s			ada.ads			ada.ali
+W ada.direct_io%s
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-direio.ads		20240801081713 a93c9b31 ada.direct_io%s
+D a-direio.adb		20240801081713 48224b26 ada.direct_io%b
+D a-except.ads		20240801081713 e7970cd9 ada.exceptions%s
+D a-ioexce.ads		20240801081713 40018c65 ada.io_exceptions%s
+D a-stream.ads		20240801081713 119b8fb3 ada.streams%s
+D a-string.ads		20240801081713 90ac6797 ada.strings%s
+D a-sttebu.ads		20240801081713 f1ad67a2 ada.strings.text_buffers%s
+D a-stuten.ads		20240801081713 c6ced0ae ada.strings.utf_encoding%s
+D a-tags.ads		20240801081713 9eaa38c6 ada.tags%s
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D directio.ads		20240801081713 d9b35108 direct_io%s
+D interfac.ads		20240801081713 9111f9c1 interfaces%s
+D i-cstrea.ads		20240801081713 ffd01b9d interfaces.c_streams%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-crtl.ads		20240801081713 beb39b9e system.crtl%s
+D s-direio.ads		20240801081713 7c86ede3 system.direct_io%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-ficobl.ads		20240801081713 dc5161d4 system.file_control_block%s
+D s-fileio.ads		20240801081713 45ce2f0f system.file_io%s
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-putima.ads		20240801081713 17291fe4 system.put_images%s
+D s-secsta.ads		20240801081713 578279f5 system.secondary_stack%s
+D s-soflin.ads		20240801081713 df77073e system.soft_links%s
+D s-stache.ads		20240801081713 0b81c1fe system.stack_checking%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+D s-stoele.ads		20240801081713 ccded4e8 system.storage_elements%s
+D s-traent.ads		20240801081713 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		20240801081713 fa2a7f59 system.unsigned_types%s
+G a e
+X 1 ada.ads
+16K9*Ada 20e8 12|22r6 24r35
+X 2 a-direio.ads
+43k13*Direct_IO 193e18 12|22w10 24r39
+X 12 directio.ads
+24k17*Direct_IO
+
