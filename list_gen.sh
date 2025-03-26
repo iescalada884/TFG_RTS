@@ -1,5 +1,9 @@
 #!/bin/bash
 #Uso: $1 nombre de libreria $2 2 nombre del lst a generar
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <library_name> <lst_name>"
+    exit 1
+fi
 
 # Limpieza y creacion de las listas
 rm -f notfound.lst
