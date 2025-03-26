@@ -1,0 +1,69 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_EXCEPTIONS
+RV NO_IMPLEMENTATION_ASPECT_SPECIFICATIONS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.exn_int%s	s-exnint.ads		7434dbf4 NE OL PK
+W ada%s			ada.ads			ada.ali
+W ada.numerics%s	a-numeri.ads		a-numeri.ali
+W ada.numerics.big_numbers%s  a-nubinu.ads	a-nubinu.ali
+W system%s		system.ads		system.ali
+W system.exponn%s
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-assert.ads		20240801081713 ba465f5c ada.assertions%s
+D a-except.ads		20240801081713 e7970cd9 ada.exceptions%s
+D a-numeri.ads		20240801081713 84bea7a3 ada.numerics%s
+D a-nubinu.ads		20240801081713 93f1f3d1 ada.numerics.big_numbers%s
+D a-nbnbig.ads		20240801081713 31ff4aa1 ada.numerics.big_numbers.big_integers_ghost%s
+D a-nbnbig.adb		20240801081713 e7f9abf0 ada.numerics.big_numbers.big_integers_ghost%b
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-assert.ads		20240801081713 9c4520c7 system.assertions%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-exnint.ads		20240801081713 3d33a4e5 system.exn_int%s
+D s-exponn.ads		20240801081713 99b98823 system.exponn%s
+D s-exponn.adb		20240801081713 65cb0f35 system.exponn%b
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+D s-traent.ads		20240801081713 c81cbf8c system.traceback_entries%s
+G a e
+G c Z s s [to_big_integer system__exn_int__exponn_integer__signed_conversion 106 16 58_4_51_4]
+G c Z s s [from_big_integer system__exn_int__exponn_integer__signed_conversion 110 16 58_4_51_4]
+G c Z s s [big system__exn_int__exponn_integer 60 13 51_4]
+G c Z s s [in_int_range system__exn_int__exponn_integer 64 13 51_4]
+G c Z s s [expon system__exn_int__exponn_integer 68 13 51_4]
+G c Z s s [lemma_exp_expand system__exn_int__exponn_integer 49 14 51_4]
+G c Z s s [lemma_exp_in_range system__exn_int__exponn_integer 59 14 51_4]
+G c Z s s [lemma_exp_not_zero system__exn_int__exponn_integer 65 14 51_4]
+G c Z s s [lemma_exp_positive system__exn_int__exponn_integer 71 14 51_4]
+G c Z s s [lemma_mult_in_range system__exn_int__exponn_integer 78 14 51_4]
+X 9 system.ads
+37K9*System 156e11 12|45r6 47r9 56r5
+X 12 s-exnint.ads
+47K16*Exn_Int 9|37k9 12|56l12 56e19
+51K12*Exponn_Integer[13|40] 54r14
+53V13*Exn_Integer=54:29{integer}
+53i26 Left{integer}
+53i42 Right{natural}
+X 13 s-exponn.ads
+40k16*Exponn 12|45w13 51r34 13|73e18
+68V13*Expon{integer} 12|54r29[51]
+

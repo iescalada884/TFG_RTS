@@ -1,0 +1,83 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_EXCEPTIONS
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_ASPECT_SPECIFICATIONS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.img_llu%s	s-imgllu.ads		40aeeb26 NE OL PK
+W ada%s			ada.ads			ada.ali
+W ada.numerics%s	a-numeri.ads		a-numeri.ali
+W ada.numerics.big_numbers%s  a-nubinu.ads	a-nubinu.ali
+W system%s		system.ads		system.ali
+W system.image_u%s
+W system.unsigned_types%s  s-unstyp.ads		s-unstyp.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-assert.ads		20240801081713 ba465f5c ada.assertions%s
+D a-except.ads		20240801081713 e7970cd9 ada.exceptions%s
+D a-numeri.ads		20240801081713 84bea7a3 ada.numerics%s
+D a-nubinu.ads		20240801081713 93f1f3d1 ada.numerics.big_numbers%s
+D a-nbnbig.ads		20240801081713 31ff4aa1 ada.numerics.big_numbers.big_integers_ghost%s
+D a-nbnbig.adb		20240801081713 e7f9abf0 ada.numerics.big_numbers.big_integers_ghost%b
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-assert.ads		20240801081713 9c4520c7 system.assertions%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-imageu.ads		20240801081713 b0b50650 system.image_u%s
+D s-imageu.adb		20240801081713 adcee293 system.image_u%b
+D s-imgllu.ads		20240801081713 55ba53d8 system.img_llu%s
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+D s-traent.ads		20240801081713 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		20240801081713 fa2a7f59 system.unsigned_types%s
+D s-valspe.ads		20240801081714 b0fcd073 system.val_spec%s
+D s-vauspe.ads		20240801081714 89269ba5 system.value_u_spec%s
+D s-vs_llu.ads		20240801081714 8f3536c5 system.vs_llu%s
+G a e
+G c Z s s [image_unsigned system__img_llu__impl 63 14 57_4]
+G c Z s s [set_image_unsigned system__img_llu__impl 78 14 57_4]
+G c Z s s [to_big_integer system__img_llu__impl__unsigned_conversion 123 16 48_4_57_4]
+G c Z s s [from_big_integer system__img_llu__impl__unsigned_conversion 127 16 48_4_57_4]
+G c Z s s [lemma_non_zero system__img_llu__impl 62 14 57_4]
+G c Z s s [lemma_div_commutation system__img_llu__impl 68 14 57_4]
+G c Z s s [lemma_div_twice system__img_llu__impl 74 14 57_4]
+X 9 system.ads
+37K9*System 156e11 14|48r6 49r6 50r6 52r9 59r17 73r5
+X 12 s-imageu.ads
+52M9 Uns 14|58r7
+58k16*Image_U 100e19 14|48w13 57r24
+63U14*Image_Unsigned 14|65r19[57]
+78U14*Set_Image_Unsigned 14|71r19[57]
+X 14 s-imgllu.ads
+52K16*Img_LLU 9|37k9 14|73l12 73e19
+55M12*Long_Long_Unsigned{18|46M9} 58r17 62r11 68r11
+57K12*Impl[12|58] 65r14 71r14
+61U14*Image_Long_Long_Unsigned=65:19
+62m7 V{18|46M9}
+63a7 S{string}
+64i7 P{natural}
+67U14*Set_Image_Long_Long_Unsigned=71:19
+68m7 V{18|46M9}
+69a7 S{string}
+70i7 P{natural}
+X 18 s-unstyp.ads
+38K16*Unsigned_Types 14|49w13 55r34 18|249e26
+46M9*Long_Long_Unsigned 14|55r49
+

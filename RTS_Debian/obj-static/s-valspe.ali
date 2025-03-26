@@ -1,0 +1,59 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_EXCEPTIONS
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_ASPECT_SPECIFICATIONS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+
+U system.val_spec%b	s-valspe.adb		e978b28f OL
+W system%s		system.ads		system.ali
+N A70:7 gnatcheck exempt_on "Improper_Returns" "occurs in ghost code, not executable"
+N A84:7 gnatcheck exempt_off "Improper_Returns"
+
+U system.val_spec%s	s-valspe.ads		60422741 EE OL PU
+W system%s		system.ads		system.ali
+
+D system.ads		20240801081714 d0bef732 system%s
+D s-valspe.ads		20240801081714 b0fcd073 system.val_spec%s
+D s-valspe.adb		20240801081714 598462fc system.val_spec%b
+G a e
+G c Z s s [only_space_ghost system__val_spec 53 13 none]
+G c Z s b [first_non_space_ghost system__val_spec 61 13 none]
+G c Z s s [is_boolean_image_ghost system__val_spec 75 13 none]
+G c Z s s [only_number_ghost system__val_spec 111 13 none]
+G c Z s b [last_number_ghost system__val_spec 119 13 none]
+G c Z s s [is_natural_format_ghost system__val_spec 130 13 none]
+G c Z s s [starts_as_exponent_format_ghost system__val_spec 144 13 none]
+G c Z s s [is_opt_exponent_format_ghost system__val_spec 169 13 none]
+G c Z s s [scan_natural_ghost system__val_spec 184 13 none]
+G c Z s s [scan_exponent_ghost system__val_spec 198 13 none]
+X 1 system.ads
+37K9*System 156e11 2|46r9 247r5 3|40r14 87r5
+X 2 s-valspe.ads
+54i16 J{integer} 54r38
+113i16 J{integer} 113r40
+138i32 J{integer} 139r35 139r54
+X 3 s-valspe.adb
+53i11 J{integer} 54r16 55r20 58r54
+58i41 K{integer} 58r62
+73i11 J{integer} 74r18 75r20 79r39
+79i21 K{integer} 79r49
+

@@ -1,0 +1,575 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -g
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P SS ZX
+
+RN
+RV NO_ACCESS_SUBPROGRAMS
+RV NO_EXCEPTIONS
+RV NO_LONG_LONG_INTEGERS
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_UNCHECKED_CONVERSION
+RV NO_DEFAULT_INITIALIZATION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_ATTRIBUTES
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_IMPLICIT_LOOPS
+RV NO_ELABORATION_CODE
+RV NO_OBSOLESCENT_FEATURES
+
+U ada.tags%b		a-tags.adb		0d5e09a4 OL PK
+W ada%s			ada.ads			ada.ali
+W ada.exceptions%s	a-except.adb		a-except.ali
+W system%s		system.ads		system.ali
+W system.htable%s	s-htable.adb		s-htable.ali  E
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+W system.storage_elements%s  s-stoele.ads	s-stoele.ali
+Z system.unsigned_types%s  s-unstyp.ads		s-unstyp.ali
+Z system.val_uns%s	s-valuns.ads		s-valuns.ali
+W system.wch_con%s	s-wchcon.adb		s-wchcon.ali
+W system.wch_stw%s	s-wchstw.adb		s-wchstw.ali
+
+U ada.tags%s		a-tags.ads		2a9756e0 EE OL PR PK
+W ada%s			ada.ads			ada.ali
+W ada.unchecked_conversion%s
+W system%s		system.ads		system.ali
+Z system.exception_table%s  s-exctab.adb	s-exctab.ali
+Z system.standard_library%s  s-stalib.adb	s-stalib.ali
+W system.storage_elements%s  s-stoele.ads	s-stoele.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-except.ads		20240801081713 e7970cd9 ada.exceptions%s
+D a-tags.ads		20240801081713 9eaa38c6 ada.tags%s
+D a-tags.adb		20240801081713 cd76beda ada.tags%b
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D a-uncdea.ads		20240801081713 c3a8ac65 ada.unchecked_deallocation%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-htable.ads		20240801081713 81d958eb system.htable%s
+D s-htable.adb		20240801081713 51a5f568 system.htable%b
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-secsta.ads		20240801081713 578279f5 system.secondary_stack%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+D s-stoele.ads		20240801081713 ccded4e8 system.storage_elements%s
+D s-strhas.ads		20240801081713 269cd894 system.string_hash%s
+D s-strhas.adb		20240801081713 398666ac system.string_hash%b
+D s-traent.ads		20240801081713 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		20240801081713 fa2a7f59 system.unsigned_types%s
+D s-valspe.ads		20240801081714 b0fcd073 system.val_spec%s
+D s-valuns.ads		20240801081714 f7ddb71d system.val_uns%s
+D s-valueu.ads		20240801081714 a38d32a6 system.value_u%s
+D s-vauspe.ads		20240801081714 89269ba5 system.value_u_spec%s
+D s-vs_uns.ads		20240801081714 e7f47a27 system.vs_uns%s
+D s-wchcon.ads		20240801081714 d9032363 system.wch_con%s
+D s-wchstw.ads		20240801081714 2d112c01 system.wch_stw%s
+G a e
+G c Z s b [expanded_name ada__tags 79 13 none]
+G c Z s b [wide_expanded_name ada__tags 81 13 none]
+G c Z s b [wide_wide_expanded_name ada__tags 84 13 none]
+G c Z s b [external_tag ada__tags 87 13 none]
+G c Z s b [internal_tag ada__tags 89 13 none]
+G c Z s b [descendant_tag ada__tags 91 13 none]
+G c Z s b [is_descendant_at_same_level ada__tags 96 13 none]
+G c Z s b [parent_tag ada__tags 101 13 none]
+G c Z s b [interface_ancestor_tags ada__tags 106 13 none]
+G c Z s b [is_abstract ada__tags 109 13 none]
+G c Z s b [base_address ada__tags 462 13 none]
+G c Z s b [check_tsd ada__tags 466 14 none]
+G c Z s b [displace ada__tags 470 13 none]
+G c Z s b [secondary_tag ada__tags 474 13 none]
+G c Z s b [dt ada__tags 479 13 none]
+G c Z s b [get_entry_index ada__tags 482 13 none]
+G c Z s b [get_offset_index ada__tags 486 13 none]
+G c Z s b [get_prim_op_kind ada__tags 494 13 none]
+G c Z s b [get_tagged_kind ada__tags 500 13 none]
+G c Z s b [iw_membership ada__tags 505 13 none]
+G c Z s b [offset_to_top ada__tags 519 13 none]
+G c Z s b [needs_finalization ada__tags 526 13 none]
+G c Z s b [parent_size ada__tags 531 13 none]
+G c Z s b [register_interface_offset ada__tags 539 14 none]
+G c Z s b [register_tag ada__tags 553 14 none]
+G c Z s b [set_dynamic_offset_to_top ada__tags 557 14 none]
+G c Z s b [set_entry_index ada__tags 578 14 none]
+G c Z s b [set_prim_op_kind ada__tags 582 14 none]
+G c Z s b [unregister_tag ada__tags 589 14 none]
+G c Z s s [to_address ada__tags 627 13 none]
+G c Z s s [to_addr_ptr ada__tags 630 13 none]
+G c Z s s [to_type_specific_data_ptr ada__tags 633 13 none]
+G c Z s s [cw_membership ada__tags 652 13 none]
+G c Z s s [tag_arrayIP ada__tags 104 9 none]
+G c Z s s [interface_data_elementIP ada__tags 197 9 none]
+G c Z s s [interfaces_arrayIP ada__tags 215 9 none]
+G c Z s s [interface_dataIP ada__tags 217 9 none]
+G c Z s s [select_specific_data_elementIP ada__tags 241 9 none]
+G c Z s s [select_specific_data_arrayIP ada__tags 246 9 none]
+G c Z s s [select_specific_dataIP ada__tags 249 9 none]
+G c Z s s [address_arrayIP ada__tags 262 9 none]
+G c Z s s [tag_tableIP ada__tags 285 9 none]
+G c Z s s [type_specific_dataIP ada__tags 290 9 none]
+G c Z s s [dispatch_table_wrapperIP ada__tags 370 9 none]
+G c Z s s [no_dispatch_table_wrapperIP ada__tags 409 9 none]
+G c Z s s [object_specific_data_arrayIP ada__tags 446 9 none]
+G c Z s s [object_specific_dataIP ada__tags 448 9 none]
+G c Z b b [get_external_tag ada__tags 51 13 none]
+G c Z b b [is_primary_dt ada__tags 54 13 none]
+G c Z b b [iw_membership ada__tags 59 13 none]
+G c Z b b [length ada__tags 66 13 none]
+G c Z b b [osd ada__tags 71 13 none]
+G c Z b b [ssd ada__tags 76 13 none]
+G c Z b b [to_address ada__tags 87 13 none]
+G c Z b b [to_cstring_ptr ada__tags 90 13 none]
+G c Z b b [to_tag ada__tags 95 13 none]
+G c Z b b [to_tag ada__tags 98 13 none]
+G c Z b b [to_dispatch_table_ptr ada__tags 101 13 none]
+G c Z b b [to_dispatch_table_ptr ada__tags 104 13 none]
+G c Z b b [to_object_specific_data_ptr ada__tags 107 13 none]
+G c Z b b [to_tag_ptr ada__tags 110 13 none]
+G c Z b b [set_ht_link ada__tags__htable_subprograms 196 17 none]
+G c Z b b [get_ht_link ada__tags__htable_subprograms 197 17 none]
+G c Z b b [hash ada__tags__htable_subprograms 198 16 none]
+G c Z b b [equal ada__tags__htable_subprograms 199 16 none]
+G c Z b b [reset ada__tags__external_tag_htable 168 17 202_4]
+G c Z b b [set ada__tags__external_tag_htable 177 17 202_4]
+G c Z b b [get ada__tags__external_tag_htable 180 16 202_4]
+G c Z b b [present ada__tags__external_tag_htable 184 16 202_4]
+G c Z b b [set_if_not_present ada__tags__external_tag_htable 187 16 202_4]
+G c Z b b [remove ada__tags__external_tag_htable 192 17 202_4]
+G c Z b b [get_first ada__tags__external_tag_htable 196 16 202_4]
+G c Z b b [get_next ada__tags__external_tag_htable 201 16 202_4]
+G c Z b b [TtableBIP ada__tags__external_tag_htable 43 7 202_4]
+G c Z b b [get_non_null ada__tags__external_tag_htable 49 16 202_4]
+X 1 ada.ads
+16K9*Ada 20e8 3|68r6 70r9 628r10 631r11 634r10 668r5 4|32r6 45r14 102r11
+. 105r11 108r10 111r10 726r13 1074r5
+X 2 a-except.ads
+44K13*Exceptions 309e19 4|32w10 726r17
+80U14*Raise_Exception 4|726s28
+X 3 a-tags.ads
+70K13*Tags 1|16k9 3|182E12 668l9 668e13 4|45b18 1074l9 1074t13
+74P9*Tag 75r41 77r22 79r32 81r37 84r42 87r31 89r53 93r18 93r30 97r20 98r20
+. 101r29 101r41 104r51 106r42 109r30 198r30 202r30 269c9 270r31 274r22 279r31
+. 285r50 470r50 474r39 474r51 479r21 482r34 487r18 495r18 500r34 505r55 526r37
+. 533r13 540r22 541r22 553r32 559r22 560r22 578r35 583r18 589r34 628r36 652r38
+. 652r53 4|51r35 54r32 61r24 71r22 76r22 96r48 98r49 102r37 125r35 138r30
+. 156r32 165r22 176r22 196r34 196r46 197r34 197r46 205r20 247r33 247r45 272r34
+. 272r46 297r11 332r59 332r71 333r26 346r50 350r21 402r21 415r24 456r55 473r32
+. 493r31 513r34 523r18 535r18 550r34 559r42 602r53 606r13 738r20 739r20 830r37
+. 845r13 857r33 873r29 873r41 902r22 903r22 946r32 955r39 955r51 985r18 999r22
+. 1000r22 1025r18 1037r34 1050r37 1064r42
+77p4*No_Tag{74P9} 274c4 4|143r14 479r14 499r14 564r14 742r23 742r49 878r14
+. 891r17
+79V13*Expanded_Name{string} 79>28 4|473b13 487l8 487t21 1051s30 1065s30
+79p28 T{74P9} 4|473b28 479r10 483r43
+81V13*Wide_Expanded_Name{wide_string} 81>33 82r19 4|1050b13 1058l8 1058t26
+81p33 T{74P9} 4|1050b33 1051r45
+84V13*Wide_Wide_Expanded_Name{wide_wide_string} 84>38 85r19 4|1064b13 1072l8
+. 1072t31
+84p38 T{74P9} 4|1064b38 1065r45
+87V13*External_Tag{string} 87>27 4|493b13 507l8 507t20
+87p27 T{74P9} 4|493b27 499r10 503r43
+89V13*Internal_Tag{74P9} 89>27 4|333s33 602b13 731l8 731t20
+89a27 External{string} 4|602b27 617r10 623r10 625r11 625r21 626r23 631r28
+. 641r35 642r27 654r29 666r22 667r29 668r29 674r30 690r33 708r40 708r58 711r23
+. 711r42 720r47 724r52 725r15
+91V13*Descendant_Tag{74P9} 92>7 93>7 94r19 4|332b13 340l8 340t22
+92a7 External{string} 4|332b29 333r47
+93p7 Ancestor{74P9} 4|332b48 335r52
+96V13*Is_Descendant_At_Same_Level{boolean} 97>7 98>7 99r19 4|335s14 737b13
+. 765l8 765t35
+97p7 Descendant{74P9} 4|738b7 742r10 745r13 751r40 761r42
+98p7 Ancestor{74P9} 4|739b7 742r38 745r26 753r40 761r54 762r58
+101V13*Parent_Tag{74P9} 101>25 102r19 4|873b13 895l8 895t18
+101p25 T{74P9} 4|873b25 878r10 882r43
+104A9*Tag_Array(74P9)<integer> 106r54 4|559r54 574r21 581r21
+106V13*Interface_Ancestor_Tags{104A9} 106>38 107r19 4|559b13 590l8 590t31
+106p38 T{74P9} 4|559b38 564r10 568r47
+109V13*Is_Abstract{boolean} 109>26 110r21 4|138b13 150l8 150t19
+109p26 T{74P9} 4|138b26 143r10 147r43
+112X4*Tag_Error 4|144r16 336r16 480r16 500r16 565r16 618r16 726r45 743r16
+. 879r16
+182K12 SSE=182:31 191r53 200r30 282r41 383r23 414r36 415r29 420r37 421r30
+. 426r36 427r29 434r39 438r38 520r37 533r25 543r22 561r22 4|403r25 793r37
+. 795r27 796r9 798r41 809r34 845r25 866r14 905r22 1001r22 1013r34
+184A12 Cstring{string}<integer> 185r35
+185P9 Cstring_Ptr(184A12) 186r31 306r23 307r23 4|66r27 88r32 91r48 227r26
+. 228r26 262r25 474r17 494r17 776r27
+190P9 Offset_To_Top_Function_Ptr(14|51I9) 191>23 201r30 544r22 562r22 4|906r22
+. 1002r22
+191m23 This{7|67M9}
+197R9 Interface_Data_Element 203e14 215r57
+198p7*Iface_Tag{74P9} 4|364r46 424r46 584r58 921r46 969r46
+199b7*Static_Offset_To_Top{boolean} 4|368r49 923m49 927m49
+200i7*Offset_To_Top_Value{14|51I9} 4|370r51 924m49
+201p7*Offset_To_Top_Func{190P9} 4|377r51 928m49
+202p7*Secondary_DT{74P9} 4|970r53
+215A9 Interfaces_Array(197R9)<integer> 218r22
+217R9 Interface_Data 217d25 219e14 221r42
+217i25*Nb_Ifaces{positive} 218r45 4|363r37 423r37 581r49 583r39 920r37 968r37
+218a7*Ifaces_Table{215A9} 4|364r28 368r31 370r33 377r33 424r28 584r41 921r28
+. 923m31 924m31 927m31 928m31 969r28 970r35
+221P9 Interface_Data_Ptr(217R9) 334r26 4|347r21 417r21 562r21 909r30 956r21
+229E9 Prim_Op_Kind 237e26 243r15 496r35 585r18 4|524r35 1027r18
+230n7 POK_Function{229E9}
+231n7 POK_Procedure{229E9}
+232n7 POK_Protected_Entry{229E9}
+233n7 POK_Protected_Function{229E9}
+234n7 POK_Protected_Procedure{229E9}
+235n7 POK_Task_Entry{229E9}
+236n7 POK_Task_Function{229E9}
+237n7 POK_Task_Procedure{229E9}
+241R9 Select_Specific_Data_Element 244e14 247r35
+242i7*Index{positive} 4|515r43 990m36
+243e7*Kind{229E9} 4|527r43 1030m36
+246A9 Select_Specific_Data_Array(241R9)<integer> 250r19
+249R9 Select_Specific_Data 249d31 252e14 254r48
+249i31*Nb_Prim{positive} 250r52
+250a7*SSD_Table{246A9} 4|515r22 527r22 990m15 1030m15
+254P9 Select_Specific_Data_Ptr(249R9) 339r13 4|76r34 176r34
+261P9 Prim_Ptr 262r55
+262A9 Address_Array(261P9)<integer> 264r30 395r27 614r35
+264A12 Dispatch_Table{262A9}<integer> 269r27 272r37 4|204r20
+272P9 Interface_Tag(264A12)
+279P9 Tag_Ptr(74P9) 280r31 308r23 4|111r52
+282P9 Offset_To_Top_Ptr(14|51I9) 283r31
+285A9 Tag_Table(74P9)<integer> 345r20
+287P9 Size_Ptr(long_long_integer) 288>23 328r19
+288m23 A{7|67M9}
+290R9 Type_Specific_Data 290d29 348e14 350r46
+290i29*Idepth{natural} 345r36 662r52 662r69 4|433r37 890r14
+296i7*Access_Level{natural} 4|760r21 760r42
+305i7*Alignment{natural}
+306p7*Expanded_Name{185P9} 4|485r22
+307p7*External_Tag{185P9} 4|131r30 299r51 301r33 310r53 505r22
+308p7*HT_Link{279P9} 4|253r21 278r14
+317b7*Transportable{boolean}
+322b7*Is_Abstract{boolean} 4|149r18
+325b7*Needs_Finalization{boolean} 4|836r18
+328p7*Size_Func{287P9} 4|866r44
+334p7*Interfaces_Table{221P9} 4|360r61 420r37 570r26 910r63 965r61
+339p7*SSD{254P9} 4|182r18
+345a7*Tags_Table{285A9} 664r36 4|434r28 857r44 893r21
+350P9 Type_Specific_Data_Ptr(290R9) 351r31 466r31 634r52 658r33 660r33 4|60r24
+. 128r26 140r17 179r26 250r29 275r29 296r31 414r24 459r18 476r17 496r17 561r21
+. 754r34 756r34 833r26 853r26 860r33 875r17
+355E9 Signature_Kind 358e21 371r23
+356n8 Unknown{355E9}
+357n8 Primary_DT{355E9} 4|158r33
+358n8 Secondary_DT{355E9}
+362E9 Tagged_Kind 368e15 372r23 500r46 4|550r46
+363n7 TK_Abstract_Limited_Tagged{362E9}
+364n7 TK_Abstract_Tagged{362E9}
+365n7 TK_Limited_Tagged{362E9}
+366n7 TK_Protected{362E9}
+367n7 TK_Tagged{362E9}
+368n7 TK_Task{362E9}
+370R9 Dispatch_Table_Wrapper 370d33 399e14 401r42
+370i33*Num_Prims{natural} 395r47
+371e7*Signature{355E9} 4|158r21
+372e7*Tag_Kind{362E9} 4|552r21
+373m7*Predef_Prims{7|67M9}
+383i7*Offset_To_Top{14|51I9} 4|809r18 822r25 1013m17
+393m7*TSD{7|67M9} 4|360r56 464r53 910r58 965r56
+395a7*Prims_Ptr{262A9} 4|404r44
+401P9 Dispatch_Table_Ptr(370R9) 402r31 479r33 4|102r42 105r53 349r21 402r33
+. 458r18 802r17 908r30 957r21 1005r18
+409R9 No_Dispatch_Table_Wrapper 412e14
+410m7*NDT_TSD{7|67M9}
+411i7*NDT_Prims_Ptr{natural}
+414i4 DT_Predef_Prims_Size{14|53I12} 441r35
+420i4 DT_Offset_To_Top_Size{14|53I12} 436r36 440r35
+426i4 DT_Typeinfo_Ptr_Size{14|53I12} 435r32 439r31 655r48 657r48 4|127r39
+. 147r48 167r49 178r49 249r52 274r52 483r48 503r48 568r52 751r54 753r52 832r49
+. 852r49 859r48 882r48
+434i4 DT_Offset_To_Top_Offset{14|53I12}
+438i4 DT_Predef_Prims_Offset{14|53I12}
+446A9 Object_Specific_Data_Array(positive)<integer> 449r19
+448R9 Object_Specific_Data 448d31 454e14 456r48
+448i31*OSD_Num_Prims{positive} 449r52
+449a7*OSD_Table{446A9} 4|542r25
+456P9 Object_Specific_Data_Ptr(448R9) 457r31 4|71r34 108r52 165r34
+462V13 Base_Address{7|67M9} 462>27 4|287b13 290l8 290t20 357s22 462s19
+462m27 This{7|67M9} 4|287b27 289r14 289r36
+466U14 Check_TSD 466>25 4|296b14 326l8 326t17
+466p25 TSD{350P9} 4|296b25 299r47 301r29 310r49
+470V13 Displace{7|67M9} 470>23 470>46 4|346b13 396l8 396t16
+470m23 This{7|67M9} 4|346b23 353r22 357r36
+470p46 T{74P9} 4|346b46 364r58 389r37
+474V13 Secondary_Tag{74P9} 474>28 474>31 4|955b13 978l8 978t21
+474p28 T{74P9} 4|955b28 960r29 964r26
+474p31 Iface{74P9} 4|955b31 969r58
+479V13 DT{401P9} 479>17 4|158s14 359s22 402b13 407l8 407t10 463s19 552s14
+. 805s18 908s52 964s22 1012s20
+479p17 T{74P9} 4|402b17 404r41 406r49
+482V13 Get_Entry_Index{positive} 482>30 482>39 4|513b13 516l8 516t23
+482p30 T{74P9} 4|513b30 515r19
+482i39 Position{positive} 4|513b39 515r33
+486V13 Get_Offset_Index{positive} 487>7 488>7 4|534b13 544l8 544t24
+487p7 T{74P9} 4|535b7 539r25 542r22
+488i7 Position{positive} 4|536b7 540r17 542r36
+494V13 Get_Prim_Op_Kind{229E9} 495>7 496>7 4|522b13 528l8 528t24
+495p7 T{74P9} 4|523b7 527r19
+496i7 Position{positive} 4|524b7 527r33
+500V13 Get_Tagged_Kind{362E9} 500>30 4|550b13 553l8 553t23
+500p30 T{74P9} 4|550b30 552r18
+505V13 IW_Membership{boolean} 505>28 505>51 4|456b13 467l8 467t21
+505m28 This{7|67M9} 4|456b28 462r33
+505p51 T{74P9} 4|456b51 466r38
+519V13 Offset_To_Top{14|51I9} 520>7 4|289s21 792b13 824l8 824t21
+520m7 This{7|67M9} 4|793b7 805r34 816r40
+526V13 Needs_Finalization{boolean} 526>33 4|830b13 837l8 837t26
+526p33 T{74P9} 4|830b33 832r44
+531V13 Parent_Size{14|53I12} 532>7 533>7 4|843b13 867l8 867t19
+532m7 Obj{7|67M9} 4|844b7 866r59
+533p7 T{74P9} 4|845b7 852r44
+539U14 Register_Interface_Offset 540>7 541>7 542>7 543>7 544>7 4|901b14 940l8
+. 940t33 1016s7
+540p7 Prim_T{74P9} 4|902b7 908r56
+541p7 Interface_T{74P9} 4|903b7 921r58
+542b7 Is_Static{boolean} 4|904b7 922r19
+543i7 Offset_Value{14|51I9} 4|905b7 922r37 925r21
+544p7 Offset_Func{190P9} 4|906b7 929r21
+553U14 Register_Tag 553>28 4|946b14 949l8 949t20
+553p28 T{74P9} 4|946b28 948r32
+557U14 Set_Dynamic_Offset_To_Top 558>7 559>7 560>7 561>7 562>7 4|997b14 1018l8
+. 1018t33
+558m7 This{7|67M9} 4|998b7 1011r22
+559p7 Prim_T{74P9} 4|999b7 1017r10
+560p7 Interface_T{74P9} 4|1000b7 1017r18
+561i7 Offset_Value{14|51I9} 4|1001b7 1010r10 1011r29 1017r38
+562p7 Offset_Func{190P9} 4|1002b7 1017r52
+578U14 Set_Entry_Index 578>31 578>40 578>61 4|984b14 991l8 991t23
+578p31 T{74P9} 4|985b7 990r12
+578i40 Position{positive} 4|986b7 990r26
+578i61 Value{positive} 4|987b7 990r45
+582U14 Set_Prim_Op_Kind 583>7 584>7 585>7 4|1024b14 1031l8 1031t24
+583p7 T{74P9} 4|1025b7 1030r12
+584i7 Position{positive} 4|1026b7 1030r26
+585e7 Value{229E9} 4|1027b7 1030r44
+589U14 Unregister_Tag 589>30 4|1037b14 1040l8 1040t22
+589p30 T{74P9} 4|1037b30 1039r53
+592i4 Max_Predef_Prims{positive} 614r55
+614A12 Predef_Prims_Table{262A9}<integer> 615r42
+615P9 Predef_Prims_Table_Ptr(614A12) 616r31
+618P9 Addr_Ptr(7|67M9) 619r31 631r53 654r33 656r33 4|126r26 139r17 166r26
+. 177r26 248r29 273r29 475r17 495r17 560r21 750r34 752r34 831r26 851r26 858r33
+. 874r17
+627V13 To_Address[5|20]{7|67M9} 655s25 657s25 4|127s22 147s31 167s32 178s32
+. 249s35 274s35 406s37 483s31 503s31 568s35 751s28 753s28 832s32 852s32 859s22
+. 882s31
+630V13 To_Addr_Ptr[5|20]{618P9} 655s12 657s12 4|127s9 147s18 167s19 178s19
+. 249s22 274s22 483s18 503s18 568s22 751s15 753s15 832s19 852s19 859s9 882s18
+633V13 To_Type_Specific_Data_Ptr[5|20]{350P9} 659s12 661s12 4|129s9 148s18
+. 180s19 251s22 276s22 360s22 464s19 484s18 504s18 569s22 755s15 757s15 834s19
+. 854s19 861s9 883s18 910s23 965s22
+652V13 CW_Membership{boolean} 652>28 652>43 4|389s10 761s27
+652p28 Obj_Tag{74P9} 655r37
+652p43 Typ_Tag{74P9} 657r37 664r55
+654p10 Obj_TSD_Ptr{618P9} 659r39
+656p10 Typ_TSD_Ptr{618P9} 661r39
+658p10 Obj_TSD{350P9} 662r44 664r28
+660p10 Typ_TSD{350P9} 662r61
+662i10 Pos{integer} 664r10 664r48
+X 4 a-tags.adb
+51V13 Get_External_Tag{7|67M9} 51>31 80r26 125b13 132l8 132t24 210r20 1039s35
+51p31 T{3|74P9} 125b31 127r34
+54V13 Is_Primary_DT{boolean} 54>28 81r26 156b13 159l8 159t21 539s10 960s14
+54p28 T{3|74P9} 156b28 158r18
+59V13 IW_Membership{boolean} 60>7 61>7 413b13 440l8 440t21 466s14 762s36
+60p7 Descendant_TSD{3|350P9} 414b7 420r22 433r22 434r13
+61p7 T{3|74P9} 415b7 424r58 434r46
+66V13 Length{natural} 66>21 263s56 299s39 486s27 506s27 776b13 786l8 786t14
+66p21 Str{3|185P9} 776b21 781r13
+71V13 OSD{3|456P9} 71>18 82r26 165b13 170l8 170t11 542s17
+71p18 T{3|74P9} 165b18 167r44
+76V13 SSD{3|254P9} 76>18 83r26 176b13 183l8 183t11 515s14 527s14 990s7 1030s7
+76p18 T{3|74P9} 176b18 178r44
+87V13 To_Address[5|20]{7|67M9} 131s14 310s37
+90V13 To_Cstring_Ptr[5|20]{3|185P9} 227s41 228s41 262s43
+95V13 To_Tag[5|20]{3|74P9} 99s7
+98V13 To_Tag{3|74P9} 98>21 695s32
+98m21 S{14|82M9} 99r27
+101V13 To_Dispatch_Table_Ptr[5|20]{3|401P9} 404s18
+104V13 To_Dispatch_Table_Ptr[5|20]{3|401P9} 406s14
+107V13 To_Object_Specific_Data_Ptr[5|20]{3|456P9} 169s14
+110V13 To_Tag_Ptr[5|20]{3|279P9} 358s22 359s26 463s23 805s22 1012s24
+126p7 TSD_Ptr{3|618P9} 129r36
+128p7 TSD{3|350P9} 131r26
+139p7 TSD_Ptr{3|618P9} 147m7 148r45
+140p7 TSD{3|350P9} 148m7 149r14
+166p7 OSD_Ptr{3|618P9} 169r43
+177p7 TSD_Ptr{3|618P9} 180r46
+179p7 TSD{3|350P9} 182r14
+189I9 HTable_Headers<short_short_integer> 198r49 203r20 260r49 261r48 263r25
+195K12 HTable_Subprograms 200l8 200e26 207r20 208r20 211r20 212r20 220b17
+. 281l8 281t26
+196U17*Set_HT_Link 196>30 196>39 207r39 272b17 279l11 279t22
+196p30 T{3|74P9} 272b30 274r47
+196p39 Next{3|74P9} 272b39 278r29
+197V17*Get_HT_Link{3|74P9} 197>30 208r39 247b16 254l11 254t22
+197p30 T{3|74P9} 247b29 249r47
+198V16*Hash{189I9} 198>22 211r39 260b16 266l11 266t15
+198m22 F{7|67M9} 260b22 262r59
+199V16*Equal{boolean} 199>23 199>26 212r39 226b16 241l11 241t16
+199m23 A{7|67M9} 226b23 227r57
+199m26 B{7|67M9} 226b26 228r57
+202K12 External_Tag_HTable[9|166] 310r12 713r20 948r7 1039r7
+227p10 Str1{3|185P9} 233r16 235r19
+228p10 Str2{3|185P9} 233r28
+229i10 J{integer} 231m10 233r22 233r34 235r25 238m16 238r21
+248p10 TSD_Ptr{3|618P9} 251r49
+250p10 TSD{3|350P9} 253r17
+261V19 H[9|218]{189I9} 263s43 10|399b13
+262p10 Str{3|185P9} 263r46 263r64
+263i10 Res{189I9} 265r17
+273p10 TSD_Ptr{3|618P9} 276r49
+275p10 TSD{3|350P9} 278r10
+297p7 T{3|74P9} 310m7 312r10
+299i7 E_Tag_Len{integer} 300r32 317r53 320r65
+300a7 E_Tag{string} 301m11 301r11 302m27 302r27 321r15
+304a7 Dup_Ext_Tag{string} 317r32 319r23 319r46 320r18 320r44
+317a13 Msg{string} 319m13 320m13 322m13 322r18 323r38
+333p7 Int_Tag{3|74P9} 335r43 338r17
+347p7 Iface_Table{3|221P9} 360m7 362r10 363r25 364r16 368r19 370r21 377r21
+348m7 Obj_Base{7|67M9} 357m7 358r34 359r38 369m19 369r31 376m19 376r31 378r24
+. 381r23 390r17
+349p7 Obj_DT{3|401P9} 359m7 360r49
+350p7 Obj_DT_Tag{3|74P9} 358m7 389r25
+363i14 Id{integer} 364r42 368r45 370r47 377r47
+403i7 Offset{14|51I9} 406r54
+417p7 Iface_Table{3|221P9} 420m7 422r10 423r25 424r16
+423i14 Id{integer} 424r42
+433i11 Id{integer} 434r40
+457m7 Obj_Base{7|67M9} 462m7 463r35
+458p7 Obj_DT{3|401P9} 463m7 464r46
+459p7 Obj_TSD{3|350P9} 464m7 466r29
+474p7 Result{3|185P9} 485m7 486r14 486r35
+475p7 TSD_Ptr{3|618P9} 483m7 484r45
+476p7 TSD{3|350P9} 484m7 485r18
+494p7 Result{3|185P9} 505m7 506r14 506r35
+495p7 TSD_Ptr{3|618P9} 503m7 504r45
+496p7 TSD{3|350P9} 504m7 505r18
+560p7 TSD_Ptr{3|618P9} 568m7 569r49
+561p7 TSD{3|350P9} 569m7 570r22
+562p7 Iface_Table{3|221P9} 570m7 572r10 581r37 583r27 584r29
+574a13 Table{3|104A9} 576r20
+581a13 Table{3|104A9} 584m16 587r20
+583i17 J{integer} 584r23 584r55
+599a4 Internal_Tag_Header{string} 623r28 626r40 627r57 631r45
+600e4 Header_Separator{character} 642r51
+606p7 Res{3|74P9} 713m13 717r10 730r14
+630i13 Addr_First{natural} 638r26 666r32 667r39 668r39 673r31 690r43
+632i13 Addr_Last{natural} 638m13 641r22 642r37 644m19 644r32 650m19 650r32
+. 654r16 673r49 690r57
+633m13 Addr{14|82M9} 689m22 694r25 695r40
+640i17 J{integer} 649r19
+662e19 C{character} 674m25 676r33 677r41 678r41
+663b19 Wrong_Tag{boolean} 670m22 680m28 688r26
+673i26 J{integer} 674r40
+708a13 Ext_Copy{string} 709r28 711m13 712m13 712r23 713m45 713r45
+719a13 Msg1{string} 720r33 723r24 723r40 724r19 724r38
+720a13 Msg2{string} 723m13 724m13 726r65
+750p13 D_TSD_Ptr{3|618P9} 755r42
+752p13 A_TSD_Ptr{3|618P9} 757r42
+754p13 D_TSD{3|350P9} 760r15 762r51
+756p13 A_TSD{3|350P9} 760r36
+777i7 Len{integer} 780m7 781r18 782m10 782r17 785r14
+795i7 Tag_Size{14|53I12} 816r47
+798P12 Storage_Offset_Ptr(14|51I9) 800r51
+799V16 To_Storage_Offset_Ptr[5|20]{798P12} 816s17
+802p7 Curr_DT{3|401P9} 805m7 809r10 822r17
+831p7 TSD_Ptr{3|618P9} 834r46
+833p7 TSD{3|350P9} 836r14
+847i7 Parent_Slot{positive} 857r56
+851p7 TSD_Ptr{3|618P9} 854r46
+853p7 TSD{3|350P9} 857r40
+857p7 Parent_Tag{3|74P9} 859r34
+858p7 Parent_TSD_Ptr{3|618P9} 861r36
+860p7 Parent_TSD{3|350P9} 866r33
+874p7 TSD_Ptr{3|618P9} 882m7 883r45
+875p7 TSD{3|350P9} 883m7 890r10 893r17
+908p7 Prim_DT{3|401P9} 910r50
+909p7 Iface_Table{3|221P9} 919r10 920r25 921r16 923r19 924r19 927r19 928r19
+920i14 Id{integer} 921r42 923r45 924r45 927r45 928r45
+956p7 Iface_Table{3|221P9} 965m7 967r10 968r25 969r16 970r23
+957p7 Obj_DT{3|401P9} 964m7 965r49
+968i14 Id{integer} 969r42 970r49
+1004m7 Sec_Base{7|67M9} 1011m10 1012r36
+1005p7 Sec_DT{3|401P9} 1012m10 1013r10
+1046e4 WC_Encoding{character} 1047r22 1056r43 1070r43
+1051a7 S{string} 1052r29 1056r10
+1052a7 W{wide_string} 1056m13 1057r14
+1053i7 L{natural} 1056m16 1057r22
+1065a7 S{string} 1066r34 1070r10
+1066a7 W{wide_wide_string} 1070m13 1071r14
+1067i7 L{natural} 1070m16 1071r22
+X 5 a-unccon.ads
+20v14*Unchecked_Conversion 3|68w10 628r14 631r15 634r14 4|88r10 91r10 96r10
+. 102r15 105r15 108r14 111r14 800r13
+X 7 system.ads
+37K9*System 3|67r6 182r24 191r30 288r27 373r23 393r13 410r23 417r39 423r40
+. 429r39 432r13 462r34 462r57 470r30 470r62 505r35 520r14 532r13 558r22 618r28
+. 628r41 631r37 634r36 4|34r6 35r6 35r35 36r6 36r35 37r6 37r35 51r47 88r45
+. 91r32 96r32 105r37 108r36 111r36 125r47 198r26 199r30 202r39 209r20 226r30
+. 260r26 261r28 287r34 287r57 346r30 346r62 348r21 353r10 353r28 354r17 456r35
+. 457r18 793r14 796r57 800r35 844r13 998r22 1004r18 7|156e11
+67M9*Address 3|191r37 288r34 373r30 393r20 410r30 462r41 462r64 470r37 470r69
+. 505r42 520r21 532r20 558r29 618r35 628r48 631r44 634r43 4|51r54 88r52 91r39
+. 96r39 105r44 108r43 111r43 125r54 198r33 199r37 209r27 226r37 260r33 287r41
+. 287r64 346r37 346r69 348r28 456r42 457r25 793r21 800r42 844r20 998r29 1004r25
+69m4*Null_Address{67M9} 4|353r35 354r24
+71N4*Storage_Unit 3|417r46 423r47 429r46 4|796r64
+81V14*"="{boolean} 4|353r16 353r18
+X 9 s-htable.ads
+40K16*HTable 4|34w13 39r26 202r46 261r35 9|220e18
+136I12 Header_Num 4|203r6
+139+12 Element 4|204r6
+149+12 Elmt_Ptr 4|205r6
+153*7 Null_Ptr{149+12} 4|206r6
+156U22 Set_Next 4|207r6
+157V22 Next{149+12} 4|208r6
+161+12 Key 4|209r6
+162V21 Get_Key{161+12} 4|210r6
+163V21 Hash{136I12} 4|211r6
+164V21 Equal{boolean} 4|212r6
+166k12*Static_HTable 4|202r53 9|208e21
+177U17*Set 4|948s27[202]
+180V16*Get{3|74P9} 4|310s32[202] 713s40[202]
+192U17*Remove 4|1039s27[202]
+218v13*Hash 4|261r42
+X 10 s-htable.adb
+400M12 Uns
+402V16 Hash_Fun[15|60]{400M12[4|261]} 16|42b13[4|261]
+X 14 s-stoele.ads
+40K16*Storage_Elements 3|67w13 182r31 432r20 4|35w13 35r42 14|90e28
+51I9*Storage_Offset<integer> 3|191r57 200r34 282r45 383r27 432r37 520r41
+. 543r26 561r26 4|403r29 793r41 798r45 809r38 905r26 1001r26 1013r38
+53I12*Storage_Count{51I9} 3|414r40 415r33 420r41 421r34 426r40 427r33 434r43
+. 438r42 533r29 4|795r31 796r13 845r29 866r18
+67V14*"+"{7|67M9} 4|289r19 816r45
+71V14*"-"{7|67M9} 3|655r46 657r46 4|127r37 147r46 167r47 178r47 249r50 274r50
+. 369r40 376r40 406r52 483r46 503r46 568r50 751r52 753r50 832r47 852r47 859r46
+. 882r46 1011r27
+82M9*Integer_Address 4|98r25 633r26 689r30
+84V13*To_Address{7|67M9} 4|99s15
+X 24 s-wchcon.ads
+39K16*WCh_Con 4|36w13 36r42 24|218e19
+92I9*WC_Encoding_Method<short_short_integer>
+201V13*Get_WC_Encoding_Method{92I9} 4|1056s19 1070s19
+X 25 s-wchstw.ads
+37K16*WCh_StW 4|37w13 37r42 25|69e19
+40U14*String_To_Wide_String 4|1055s7
+62U14*String_To_Wide_Wide_String 4|1069s7
+

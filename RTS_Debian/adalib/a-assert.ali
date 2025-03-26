@@ -1,0 +1,57 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_EXCEPTIONS
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+
+U ada.assertions%b	a-assert.adb		8b2c6428 NE OL PK
+W ada%s			ada.ads			ada.ali
+Z ada.exceptions%s	a-except.adb		a-except.ali
+
+U ada.assertions%s	a-assert.ads		cc3ec2fd EE OL PU PK
+W ada%s			ada.ads			ada.ali
+Z system%s		system.ads		system.ali
+Z system.exception_table%s  s-exctab.adb	s-exctab.ali
+Z system.standard_library%s  s-stalib.adb	s-stalib.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-assert.ads		20240801081713 ba465f5c ada.assertions%s
+D a-assert.adb		20240801081713 316a3b74 ada.assertions%b
+D a-except.ads		20240801081713 e7970cd9 ada.exceptions%s
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+D s-traent.ads		20240801081713 c81cbf8c system.traceback_entries%s
+G a e
+G c Z s b [assert ada__assertions 47 14 none]
+G c Z s b [assert ada__assertions 50 14 none]
+X 1 ada.ads
+16K9*Ada 20e8 2|42r9 53r5 3|32r14 42r16 49r16 53r5
+X 2 a-assert.ads
+42K13*Assertions 1|16k9 2|53l9 53e19 3|32b18 42r20 49r20 53l9 53t19
+45X4*Assertion_Error 3|42r31 49r31
+47U14*Assert 47>22 3|39b14 44l8 44t14
+47b22 Check{boolean} 48r13 3|39b22 41r10
+50U14*Assert 50>22 50>39 3|46b14 51l8 51t14
+50b22 Check{boolean} 51r13 3|46b22 48r10
+50a39 Message{string} 3|46b39 49r52
+

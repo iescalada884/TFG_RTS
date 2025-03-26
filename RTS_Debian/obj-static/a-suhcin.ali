@@ -1,0 +1,93 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P SS ZX
+
+RN
+RV NO_DEFAULT_INITIALIZATION
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U ada.strings.unbounded.hash_case_insensitive%b  a-suhcin.adb  4c983b30 NE OL PR SU
+W ada%s			ada.ads			ada.ali
+W ada.strings%s		a-string.ads		a-string.ali
+W ada.strings.hash_case_insensitive%s  a-shcain.adb  a-shcain.ali
+W ada.strings.unbounded%s  a-strunb.adb		a-strunb.ali
+W ada.strings.unbounded.aux%s  a-stunau.adb	a-stunau.ali
+
+U ada.strings.unbounded.hash_case_insensitive%s  a-suhcin.ads  865b5aee NE OL PR SU
+W ada%s			ada.ads			ada.ali
+W ada.containers%s	a-contai.ads		a-contai.ali
+W ada.strings.unbounded%s  a-strunb.adb		a-strunb.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-charac.ads		20240801081713 2d3ec45b ada.characters%s
+D a-chlat1.ads		20240801081713 e0d72e76 ada.characters.latin_1%s
+D a-contai.ads		20240801081713 61e5e089 ada.containers%s
+D a-except.ads		20240801081713 e7970cd9 ada.exceptions%s
+D a-finali.ads		20240801081713 bf4f806b ada.finalization%s
+D a-stream.ads		20240801081713 119b8fb3 ada.streams%s
+D a-string.ads		20240801081713 90ac6797 ada.strings%s
+D a-shcain.ads		20240801081713 08af52df ada.strings.hash_case_insensitive%s
+D a-strmap.ads		20240801081713 1f91ebb6 ada.strings.maps%s
+D a-sttebu.ads		20240801081713 f1ad67a2 ada.strings.text_buffers%s
+D a-strunb.ads		20240801081713 98c60381 ada.strings.unbounded%s
+D a-stunau.ads		20240801081713 76c9a2c5 ada.strings.unbounded.aux%s
+D a-suhcin.ads		20240801081713 7f78b9e6 ada.strings.unbounded.hash_case_insensitive%s
+D a-suhcin.adb		20240801081713 4d8672cc ada.strings.unbounded.hash_case_insensitive%b
+D a-stuten.ads		20240801081713 c6ced0ae ada.strings.utf_encoding%s
+D a-tags.ads		20240801081713 9eaa38c6 ada.tags%s
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20240801081713 9111f9c1 interfaces%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-atocou.ads		20240801081713 dc18efc3 system.atomic_counters%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-finroo.ads		20240801081713 4ff27390 system.finalization_root%s
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-putima.ads		20240801081713 17291fe4 system.put_images%s
+D s-retsta.ads		20240801081713 0f6b06cb system.return_stack%s
+D s-secsta.ads		20240801081713 578279f5 system.secondary_stack%s
+D s-soflin.ads		20240801081713 df77073e system.soft_links%s
+D s-stache.ads		20240801081713 0b81c1fe system.stack_checking%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+D s-stoele.ads		20240801081713 ccded4e8 system.storage_elements%s
+D s-stratt.ads		20240801081713 a1861007 system.stream_attributes%s
+D s-traent.ads		20240801081713 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		20240801081713 fa2a7f59 system.unsigned_types%s
+G a e
+G c Z s b [hash_case_insensitive ada__strings__unbounded 36 32 none]
+X 1 ada.ads
+16K9*Ada 20e8 14|34r6 36r10 40r22 15|30r6 31r6 33r10 42r11 43r5
+X 4 a-contai.ads
+16K13*Containers 28e19 14|34w10 38r10 15|35r10
+19M9*Hash_Type 14|38r21 15|35r21
+X 8 a-string.ads
+16K13*Strings 35e16 14|36r14 40r26 15|30r10 31r10 33r14 42r15 43r9
+X 9 a-shcain.ads
+32V22*Hash_Case_Insensitive{4|19M9} 15|31w18 42s23
+X 12 a-strunb.ads
+85K21*Unbounded 772e26 14|36r22 37r10 40r34 15|30r18 33r22 34r10 43r17
+91R9*Unbounded_String<6|43R9> 751e15 14|37r20 15|34r20
+X 13 a-stunau.ads
+37K31*Aux 79e30 15|30w28 37r8 41r4
+40A12*Big_String{string}<integer>
+47P9*Big_String_Access(40A12) 15|37r12
+54U14*Get_String 15|41s8
+X 14 a-suhcin.ads
+36V32*Hash_Case_Insensitive{4|19M9} 12|85k21 14|37>4 40r44 15|33b32 43l27
+. 43t48
+37r4 Key{12|91R9} 15|34b4 41r20
+X 15 a-suhcin.adb
+37p4 S{13|47P9} 41m25 41r25 42r46
+38i4 L{natural} 41m28 42r54
+

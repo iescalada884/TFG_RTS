@@ -1,0 +1,98 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_ATTRIBUTES
+RV NO_IMPLEMENTATION_PRAGMAS
+RR NO_ELABORATION_CODE
+
+U system%s		system.ads		d0bef732 NE OL PU PK
+
+D system.ads		20240801081714 d0bef732 system%s
+G a e
+G c Z s s [Olt system 77 13 none]
+G c Z s s [Ole system 78 13 none]
+G c Z s s [Ogt system 79 13 none]
+G c Z s s [Oge system 80 13 none]
+G c Z s s [Oeq system 81 13 none]
+X 1 system.ads
+37K9*System 117E9 156l5 156e11
+46E9*Name 46e35 47r27
+46n18*SYSTEM_NAME_GNAT{46E9} 47r35
+47e4*System_Name{46E9}
+51N4*Min_Int
+52N4*Max_Int
+54N4*Max_Binary_Modulus
+55N4*Max_Nonbinary_Modulus
+57N4*Max_Base_Digits
+58N4*Max_Digits
+60N4*Max_Mantissa 61r49
+61N4*Fine_Delta
+63N4*Tick
+67M9*Address 68r41 69r28 77r33 78r33 79r33 80r33 81r33 117c9 118r8 120r28
+69m4*Null_Address{67M9} 120c4
+71N4*Storage_Unit
+72N4*Word_Size 73r36
+73N4*Memory_Size 117r24
+77V14*"<"{boolean} 77>19 77>25 83b31
+77m19 Left{67M9}
+77m25 Right{67M9}
+78V14*"<="{boolean} 78>19 78>25 84b31
+78m19 Left{67M9}
+78m25 Right{67M9}
+79V14*">"{boolean} 79>19 79>25 85b31
+79m19 Left{67M9}
+79m25 Right{67M9}
+80V14*">="{boolean} 80>19 80>25 86b31
+80m19 Left{67M9}
+80m25 Right{67M9}
+81V14*"="{boolean} 81>19 81>25 87b31
+81m19 Left{67M9}
+81m25 Right{67M9}
+91E9*Bit_Order 91e57 92r33 93r26
+91n23*High_Order_First{91E9}
+91n41*Low_Order_First{91E9}
+92e4*Default_Bit_Order{91E9} 94r26
+106i4*Max_Priority{positive}
+107i4*Max_Interrupt_Priority{positive}
+109I12*Any_Priority{integer} 110r34 111r34
+110I12*Priority{109I12} 113r32
+111I12*Interrupt_Priority{109I12}
+113i4*Default_Priority{110I12}
+132b4 Backend_Divide_Checks{boolean}
+133b4 Backend_Overflow_Checks{boolean}
+134b4 Command_Line_Args{boolean}
+135b4 Configurable_Run_Time{boolean}
+136b4 Denorm{boolean}
+137b4 Duration_32_Bits{boolean}
+138b4 Exit_Status_Supported{boolean}
+139b4 Machine_Overflows{boolean}
+140b4 Machine_Rounds{boolean}
+141b4 Preallocated_Stacks{boolean}
+142b4 Signed_Zeros{boolean}
+143b4 Stack_Check_Default{boolean}
+144b4 Stack_Check_Probes{boolean}
+145b4 Stack_Check_Limits{boolean}
+146b4 Support_Aggregates{boolean}
+147b4 Support_Atomic_Primitives{boolean}
+148b4 Support_Composite_Assign{boolean}
+149b4 Support_Composite_Compare{boolean}
+150b4 Support_Long_Shifts{boolean}
+151b4 Always_Compatible_Rep{boolean}
+152b4 Suppress_Standard_Library{boolean}
+153b4 Use_Ada_Main_Program_Name{boolean}
+154b4 ZCX_By_Default{boolean}
+

@@ -1,0 +1,43 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.return_stack%s	s-retsta.ads		130b2511 NE OL PR PK
+W system%s		system.ads		system.ali
+W system.storage_elements%s  s-stoele.ads	s-stoele.ali
+
+D system.ads		20240801081714 d0bef732 system%s
+D s-retsta.ads		20240801081713 0f6b06cb system.return_stack%s
+D s-stoele.ads		20240801081713 ccded4e8 system.storage_elements%s
+G a e
+G c Z s s [rs_allocate system__return_stack 44 14 none]
+X 1 system.ads
+37K9*System 156e11 2|37r6 39r9 42r24 57r5
+67M9*Address 2|45r26
+X 2 s-retsta.ads
+39K16*Return_Stack 1|37k9 2|53E4 57l12 57e24
+42K12*SSE=42:31 46r22
+44U14*RS_Allocate 45<7 46>7 47b30
+45m7 Addr{1|67M9}
+46i7 Storage_Size{3|53I12}
+53i4 RS_Pool{integer}
+X 3 s-stoele.ads
+40K16*Storage_Elements 2|37w13 42r31 3|90e28
+51I9*Storage_Offset<integer>
+53I12*Storage_Count{51I9} 2|46r26
+

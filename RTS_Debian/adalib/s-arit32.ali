@@ -1,0 +1,173 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_EXCEPTIONS
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_UNCHECKED_CONVERSION
+RV NO_IMPLEMENTATION_ASPECT_SPECIFICATIONS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.arith_32%b	s-arit32.adb		abcdce82 NE OL PK
+W ada%s			ada.ads			ada.ali
+Z ada.exceptions%s	a-except.adb		a-except.ali
+W ada.numerics%s	a-numeri.ads		a-numeri.ali
+W ada.numerics.big_numbers%s  a-nubinu.ads	a-nubinu.ali
+W ada.unchecked_conversion%s
+W system%s		system.ads		system.ali
+N A264:7 gnatprove intentional "exception might be raised" "Procedure Raise_Error is called to signal input errors"
+
+U system.arith_32%s	s-arit32.ads		98026e24 NE OL PU PK
+W ada%s			ada.ads			ada.ali
+W ada.numerics%s	a-numeri.ads		a-numeri.ali
+W ada.numerics.big_numbers%s  a-nubinu.ads	a-nubinu.ali
+W interfaces%s		interfac.ads		interfac.ali
+W system%s		system.ads		system.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-assert.ads		20240801081713 ba465f5c ada.assertions%s
+D a-except.ads		20240801081713 e7970cd9 ada.exceptions%s
+D a-numeri.ads		20240801081713 84bea7a3 ada.numerics%s
+D a-nubinu.ads		20240801081713 93f1f3d1 ada.numerics.big_numbers%s
+D a-nbnbig.ads		20240801081713 31ff4aa1 ada.numerics.big_numbers.big_integers_ghost%s
+D a-nbnbig.adb		20240801081713 e7f9abf0 ada.numerics.big_numbers.big_integers_ghost%b
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20240801081713 9111f9c1 interfaces%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-arit32.ads		20240801081713 e8522a76 system.arith_32%s
+D s-arit32.adb		20240801081713 7cfb893a system.arith_32%b
+D s-assert.ads		20240801081713 9c4520c7 system.assertions%s
+D s-exctab.ads		20240801081713 91bef6ef system.exception_table%s
+D s-parame.ads		20250212140654 a1aeab5c system.parameters%s
+D s-stalib.ads		20240801081713 1c9580f6 system.standard_library%s
+D s-traent.ads		20240801081713 c81cbf8c system.traceback_entries%s
+G a e
+G c Z s s [to_big_integer system__arith_32__signed_conversion 106 16 62_4]
+G c Z s s [from_big_integer system__arith_32__signed_conversion 110 16 62_4]
+G c Z s s [big system__arith_32 66 13 none]
+G c Z s s [in_int32_range system__arith_32 70 13 none]
+G c Z s s [same_sign system__arith_32 75 13 none]
+G c Z s s [round_quotient system__arith_32 81 13 none]
+G c Z s b [scaled_divide32 system__arith_32 91 14 none]
+G c Z b b [to_int system__arith_32 59 13 none]
+G c Z b b [to_big_integer system__arith_32__unsigned_conversion 123 16 61_4]
+G c Z b b [from_big_integer system__arith_32__unsigned_conversion 127 16 61_4]
+G c Z b b [big system__arith_32 63 13 none]
+G c Z b b [to_big_integer system__arith_32__unsigned_conversion_64 123 16 67_4]
+G c Z b b [from_big_integer system__arith_32__unsigned_conversion_64 127 16 67_4]
+G c Z b b [big system__arith_32 69 13 none]
+G c Z b b [Oabs system__arith_32 92 13 none]
+G c Z b b [lo system__arith_32 99 13 none]
+G c Z b b [hi system__arith_32 102 13 none]
+G c Z b b [to_neg_int system__arith_32 105 13 none]
+G c Z b b [to_pos_int system__arith_32 114 13 none]
+G c Z b b [raise_error system__arith_32 122 14 none]
+G c Z b b [lemma_abs_commutation system__arith_32 130 14 none]
+G c Z b b [lemma_abs_div_commutation system__arith_32 135 14 none]
+G c Z b b [lemma_abs_mult_commutation system__arith_32 141 14 none]
+G c Z b b [lemma_abs_rem_commutation system__arith_32 146 14 none]
+G c Z b b [lemma_div_commutation system__arith_32 152 14 none]
+G c Z b b [lemma_div_ge system__arith_32 158 14 none]
+G c Z b b [lemma_ge_commutation system__arith_32 164 14 none]
+G c Z b b [lemma_hi_lo system__arith_32 170 14 none]
+G c Z b b [lemma_mult_commutation system__arith_32 176 14 none]
+G c Z b b [lemma_mult_non_negative system__arith_32 182 14 none]
+G c Z b b [lemma_mult_non_positive system__arith_32 189 14 none]
+G c Z b b [lemma_neg_rem system__arith_32 196 14 none]
+G c Z b b [lemma_not_in_range_big2xx32 system__arith_32 202 14 none]
+G c Z b b [lemma_rem_commutation system__arith_32 207 14 none]
+X 1 ada.ads
+16K9*Ada 20e8 11|48r6 53r13 59r6 63r6 71r7 12|43r6 44r5 45r6 59r27
+X 4 a-numeri.ads
+16K13*Numerics 35e17 11|48r10 53r17 59r10 63r10 71r11 12|43r10 44r9
+X 5 a-nubinu.ads
+16K22*Big_Numbers 21e29 11|48r19 53r26 59r19 63r19 71r20 12|43r19 44r18
+X 8 a-unccon.ads
+20v14*Unchecked_Conversion 12|45w10 59r31
+X 9 interfac.ads
+38K9*Interfaces 233e15 11|47w6 54r13 56r21 12|54r21 55r21 57r8
+54I9*Integer_32<integer> 11|54r24 56r32
+81M9*Unsigned_32 12|54r32
+84M9*Unsigned_64 12|55r32
+171V13*Shift_Right{84M9} 12|102s52
+X 10 system.ads
+37K9*System 156e11 11|50r9 117r5 12|47r14 569r5
+X 11 s-arit32.ads
+50K16*Arith_32 10|37k9 11|117l12 117e20 12|47b21 569l12 569t20
+56I12*Int32{9|54I9} 64r14 66r24 72r19 72r38 76r16 77r26 78r27 78r51 82r32
+. 82r51 83r43 84r23 92r17 93r21 12|59r60 92r24 93r14 95r19 105r43 114r43
+. 130r41 217r41 274r17 275r21 542r43 543r20 544r28 559r43 560r20
+91U14*Scaled_Divide32 92>7 92>10 92>13 93<7 93<10 94>7 12|273b14 536l8 536t23
+92i7 X{56I12} 98r46 99r46 100r46 101r21 102r29 105r44 106r44 108r28 12|274b7
+. 278r35 291r49 302r22 302r44 304r49 305r49 306r49 307r24 316r42 318r35 319r35
+. 320r35 327r22 327r45 329r49 330r49 331r49 332r24 341r32 342r33 344r34 356r46
+. 363r32 364r33 367r37 374r18 376r19 388r40 399r42 408r40 417r29 444r40 455r20
+. 456r21 458r40 477r39 478r39 479r30 520r11 520r44
+92i10 Y{56I12} 98r56 99r56 100r56 101r31 102r39 105r54 106r54 108r38 12|274b10
+. 279r35 291r59 302r33 302r54 304r59 305r59 306r59 307r34 316r52 318r45 319r45
+. 320r45 327r33 327r55 329r59 330r59 331r59 332r34 341r42 342r43 344r44 356r56
+. 363r42 364r43 367r47 374r29 376r30 388r49 399r52 408r49 417r39 444r49 455r30
+. 456r31 458r50 477r49 478r49 480r30 520r27 520r59
+92i13 Z{56I12} 96r14 98r65 99r66 100r68 101r41 102r51 105r63 106r64 108r48
+. 12|274b13 280r35 301r17 304r68 305r69 306r71 307r44 309r16 315r17 315r69
+. 316r62 318r54 319r55 320r57 326r17 329r68 330r69 331r71 332r44 334r16 340r17
+. 341r52 342r55 344r53 346r47 356r17 356r68 362r17 363r52 364r55 367r56 376r42
+. 397r57 398r33 399r61 417r48 428r46 451r10 455r40 456r43 458r59 477r58 478r58
+. 481r30 488r49 524r19 532r19
+93i7 Q{56I12} 105r18 108r18 12|275b7 375r20 378r47 524m10 532m10
+93i10 R{56I12} 102r19 106r73 12|275b10 373r20 378r22 523m10 531m10
+94b7 Round{boolean} 98r14 104r14 12|276b7 304r17 329r17 366r17 457r10 492r10
+X 12 s-arit32.adb
+54M12 Uns32{9|81M9} 59r53 61r68 63r24 77r11 80r11 92r38 94r12 95r12 99r35
+. 99r45 102r35 102r45 105r29 114r29 133r35 164r43 170r50 222r43 251r50 278r22
+. 279r22 280r22 285r12 286r12 315r58 346r36 348r26 348r39 397r46 474r13 475r13
+. 488r38 495r24 495r37 501r21 507r24 542r29 559r29
+55M12 Uns64{9|84M9} 67r71 69r24 83r11 99r21 102r21 152r44 170r32 176r48 207r44
+. 220r44 223r48 228r44 251r32 253r22 253r41 254r22 282r13 442r12 442r25 474r24
+. 475r26 482r31 482r43 483r33 484r33
+59V13 To_Int[8|20]{9|54I9} 544s46 560s29
+92V14 "abs"{54M12} 92>20 133s42 278s31 279s31 280s31 315s65 346s43 397s53
+. 488s45
+92i20 X{11|56I12} 93r10 95r30
+99V13 Lo{54M12} 99>17 173s38 446s31 447s61
+99m17 A{55M12} 99r52
+102V13 Hi{54M12} 102>17 173s20 446s23 447s46 465s10 466s32
+102m17 A{55M12} 102r65
+105V13 To_Neg_Int{11|56I12} 105>25 108r19 374s63 377s19 524s51 531s15 532s30
+. 542b13 553l8 553t18
+105m25 A{54M12} 107r36 108r46 542b25 544r13 544r54
+114V13 To_Pos_Int{11|56I12} 114>25 117r19 374s42 376s55 523s15 524s30 532s51
+. 559b13 567l8 567t18
+114m25 A{54M12} 116r35 117r45 559b25 560r37
+122U14 Raise_Error 123r22 261b14 267l8 267t19 452s10 469s10 504s16 551s10
+. 565s10
+202U14 Lemma_Not_In_Range_Big2xx32 503s16
+227U14 Lemma_Not_In_Range_Big2xx32
+278m7 Xu{54M12} 442r19 482r38
+279m7 Yu{54M12} 442r32 482r50
+280m7 Zu{54M12} 346r25 348r21 465r20 466r40 467r50 474r31 475r33 483r40 484r40
+. 488r27 495r19
+282m7 D{55M12} 442m7 445r34 446r20 446r27 446r35 447r50 447r65 465r14 466r36
+. 474r20 475r20 482r55 483r30 484r30
+285m7 Qu{54M12} 370r25 376r67 377r31 474m7 487r27 496r45 501r16 507m13 507r19
+. 512r27 524r42 524r63 532r42 532r63
+286m7 Ru{54M12} 345r25 348r15 369r25 374r54 374r75 475m7 486r27 495r13 513r27
+. 523r27 531r27
+543i7 R{11|56I12} 548r10 549r17
+560i7 R{11|56I12} 562r10 563r17
+

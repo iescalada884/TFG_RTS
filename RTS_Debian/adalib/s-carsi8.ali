@@ -1,0 +1,100 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/RTS_Debian/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_UNCHECKED_CONVERSION
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.compare_array_signed_8%b  s-carsi8.adb	a301f171 NE OL PK
+W ada%s			ada.ads			ada.ali
+W ada.unchecked_conversion%s
+W system%s		system.ads		system.ali
+W system.address_operations%s  s-addope.adb	s-addope.ali
+W system.storage_elements%s  s-stoele.ads	s-stoele.ali
+N A62:4 gnatcheck exempt_on "Improper_Returns" "early returns for performance"
+N A154:4 gnatcheck exempt_off "Improper_Returns"
+
+U system.compare_array_signed_8%s  s-carsi8.ads	2fe3715f NE OL PK
+W system%s		system.ads		system.ali
+
+D ada.ads		20240801081713 76789da1 ada%s
+D a-unccon.ads		20240801081713 0e9b276f ada.unchecked_conversion%s
+D system.ads		20240801081714 d0bef732 system%s
+D s-addope.ads		20240801081713 7e342ca0 system.address_operations%s
+D s-addope.adb		20240801081713 044c5324 system.address_operations%b
+D s-carsi8.ads		20240801081713 ff5d866d system.compare_array_signed_8%s
+D s-carsi8.adb		20240801081713 e02da83b system.compare_array_signed_8%b
+D s-stoele.ads		20240801081713 ccded4e8 system.storage_elements%s
+G a e
+G c Z s b [compare_array_s8 system__compare_array_signed_8 41 13 none]
+G c Z s b [compare_array_s8_unaligned system__compare_array_signed_8 53 13 none]
+G c Z b b [to_big_words system__compare_array_signed_8 56 13 none]
+G c Z b b [to_big_bytes system__compare_array_signed_8 59 13 none]
+G c Z b b [Tbig_wordsBIP system__compare_array_signed_8 42 4 none]
+G c Z b b [Tbig_bytesBIP system__compare_array_signed_8 51 4 none]
+X 1 ada.ads
+16K9*Ada 20e8 7|35r6 57r6 60r6
+X 2 a-unccon.ads
+20v14*Unchecked_Conversion 7|35w10 57r10 60r10
+X 3 system.ads
+37K9*System 156e11 6|35r9 42r19 43r19 54r19 55r19 62r5 7|32r6 32r37 33r6
+. 33r37 37r14 57r32 60r32 70r19 71r19 124r19 125r19 155r5
+67M9*Address 6|42r26 43r26 54r26 55r26 7|57r39 60r39 70r26 71r26 124r26 125r26
+81V14*"="{boolean} 7|80r38
+X 4 s-addope.ads
+43K16*Address_Operations 85e30 7|32w13 32r44
+67V13*ModA{3|67M9} 7|80s10
+75V13*OrA{3|67M9} 7|80s16
+X 6 s-carsi8.ads
+35K16*Compare_Array_Signed_8 3|37k9 6|62l12 62e34 7|37b21 155l12 155t34
+41V13*Compare_Array_S8{integer} 42>7 43>7 44>7 45>7 7|69b13 117l8 117t24
+42m7 Left{3|67M9} 7|70b7 80r21 81r45 88r52 98r26 112r26
+43m7 Right{3|67M9} 7|71b7 80r27 81r51 90r52 99r26 113r26
+44i7 Left_Len{natural} 7|72b7 75r54 81r58 104r25 114r20
+45i7 Right_Len{natural} 7|73b7 75r64 81r68 105r25 115r20
+53V13*Compare_Array_S8_Unaligned{integer} 54>7 55>7 56>7 57>7 7|81s17 97s23
+. 111s17 123b13 152l8 152t34
+54m7 Left{3|67M9} 7|124b7 131r56
+55m7 Right{3|67M9} 7|125b7 132r56
+56i7 Left_Len{natural} 7|126b7 129r54 145r10 147r13
+57i7 Right_Len{natural} 7|127b7 129r64 145r21 147r24
+X 7 s-carsi8.adb
+39M9 Word 42r41
+42A9 Big_Words(39M9)<integer> 43r33
+43P9 Big_Words_Ptr(42A9) 44r8 57r48 87r45 89r45
+47I9 Byte<short_short_integer> 48r8 51r41
+51A9 Big_Bytes(47I9)<integer> 52r33
+52P9 Big_Bytes_Ptr(51A9) 53r8 60r48 131r25 132r25
+56V13 To_Big_Words[2|20]{43P9} 88s38 90s38
+59V13 To_Big_Bytes[2|20]{52P9} 131s42 132s42
+75i7 Compare_Len{natural} 80r51 91r56
+87p10 LeftP{43P9} 96r16
+89p10 RightP{43P9} 96r29
+91i10 Words_To_Compare{natural} 92r56 95r24
+92i10 Bytes_Compared_As_Words{natural} 104r37 105r38 112r50 113r50 114r32
+. 115r32
+95i14 J{integer} 96r23 96r37 98r54 99r54
+129i7 Compare_Len{natural} 135r21
+131p7 LeftP{52P9} 136r13 137r16
+132p7 RightP{52P9} 136r26 137r28
+135i11 J{integer} 136r20 136r34 137r23 137r36
+X 8 s-stoele.ads
+40K16*Storage_Elements 7|33w13 33r44 8|90e28
+51I9*Storage_Offset<integer> 7|98r34 99r34 112r34 113r34
+67V14*"+"{3|67M9} 7|98r32 99r32 112r32 113r32
+
