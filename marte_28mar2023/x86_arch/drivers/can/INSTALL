@@ -1,0 +1,44 @@
+
+                        INSTALL
+                        =======
+
+This are the CAN driver installation instructions for MaRTE OS:
+
+   - At "x86_arch/arch_dependent_files/marte-configuration_parameters.ads"
+     check that there is enough room in the table for adding a new driver.
+
+        Devices_Files_Mx : constant := 19;
+        Devices_Mx : constant := 14;
+
+   - Modify the file "x86_arch/arch_dependent_files/marte-devices_table.ads"
+     in order to include the CAN driver.
+
+     ...
+     with CAN_Driver_Import;
+     ...
+     package MaRTE.Kernel.Devices_Table is
+     ...
+     --  CAN driver
+     14 => (Name   => "CAN driver      ",
+            Create => CAN_Driver_Import.Create_Ac,
+            Remove => CAN_Driver_Import.Remove_Ac,
+            Open   => CAN_Driver_Import.Open_Ac,
+            Close  => CAN_Driver_Import.Close_Ac,
+            Read   => CAN_Driver_Import.Read_Ac,
+            Write  => CAN_Driver_Import.Write_Ac,
+            Ioctl  => CAN_Driver_Import.Ioctl_Ac,
+            Delete => null,
+            Lseek  => null),
+     ...
+     18 => ("/dev/can0       ", 14, 0, True, Device, False, 0),
+     19 => ("/dev/can1       ", 14, 1, True, Device, False, 0),
+
+   - Now that the driver is inserted in MaRTE OS, we have to (re)install it
+
+     $ ./minstall
+
+     Select the x86 architecture.
+
+If you are improving or modifying the CAN driver, you don't need to recompile
+the whole MaRTE OS kernel, only the drivers. To do so you can call "mkdrivers"
+

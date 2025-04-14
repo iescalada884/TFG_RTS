@@ -1,0 +1,153 @@
+abstract project Libgnat_Sources is
+
+   Gnat_Dirs := ();
+   Gnat_Langs := ("Ada");
+
+   type Use_Semihosting_IO_Type is ("no", "yes", "undefined");
+   Use_Semihosting_IO : Use_Semihosting_IO_Type := external ("Use_Semihosting_IO", "undefined");
+
+   type Has_FPU_Type is ("no", "yes", "undefined");
+   Has_FPU : Has_FPU_Type := external ("Has_FPU", "undefined");
+
+   type Add_Memory_Operations_Type is ("no", "yes", "undefined");
+   Add_Memory_Operations : Add_Memory_Operations_Type := external ("Add_Memory_Operations", "undefined");
+
+   type Add_C_Support_Type is ("no", "ada_clib", "newlib", "undefined");
+   Add_C_Support : Add_C_Support_Type := external ("Add_C_Support", "undefined");
+
+   type Add_Math_Lib_Type is ("no", "softfloat", "hardfloat", "hardfloat_dp", "hardfloat_sp", "undefined");
+   Add_Math_Lib : Add_Math_Lib_Type := external ("Add_Math_Lib", "undefined");
+
+   type RTS_Profile_Type is ("zfp", "ravenscar-sfp", "ravenscar-full", "marte", "undefined");
+   RTS_Profile : RTS_Profile_Type := external ("RTS_Profile", "undefined");
+
+   type CPU_Family_Type is ("arm", "aarch64", "leon", "powerpc", "x86", "undefined");
+   CPU_Family : CPU_Family_Type := external ("CPU_Family", "undefined");
+
+   Gnat_Dirs := Gnat_Dirs &
+     (Project'Project_Dir & "../../include/rts-sources/common");
+
+   case Add_C_Support is
+      when "ada_clib" =>
+         Gnat_Dirs := Gnat_Dirs &
+           (Project'Project_Dir & "../../include/rts-sources/libc");
+      when "newlib" =>
+         Gnat_Dirs := Gnat_Dirs &
+           (Project'Project_Dir & "../../include/rts-sources/newlib");
+         Gnat_Langs := Gnat_Langs & ("C");
+      when "undefined" =>
+      when others =>
+   end case;
+
+   case Add_Math_Lib is
+      when "softfloat" =>
+         Gnat_Dirs := Gnat_Dirs &
+           (Project'Project_Dir & "../../include/rts-sources/math",
+            Project'Project_Dir & "../../include/rts-sources/math/softsp",
+            Project'Project_Dir & "../../include/rts-sources/math/softdp");
+      when "hardfloat" =>
+         Gnat_Dirs := Gnat_Dirs &
+           (Project'Project_Dir & "../../include/rts-sources/math",
+            Project'Project_Dir & "../../include/rts-sources/math/hardsp",
+            Project'Project_Dir & "../../include/rts-sources/math/harddp");
+      when "hardfloat_dp" =>
+         Gnat_Dirs := Gnat_Dirs &
+           (Project'Project_Dir & "../../include/rts-sources/math",
+            Project'Project_Dir & "../../include/rts-sources/math/softsp",
+            Project'Project_Dir & "../../include/rts-sources/math/harddp");
+      when "hardfloat_sp" =>
+         Gnat_Dirs := Gnat_Dirs &
+           (Project'Project_Dir & "../../include/rts-sources/math",
+            Project'Project_Dir & "../../include/rts-sources/math/softdp",
+            Project'Project_Dir & "../../include/rts-sources/math/hardsp");
+      when "undefined" =>
+      when others =>
+   end case;
+
+   case Add_Memory_Operations is
+      when "yes" =>
+         Gnat_Dirs := Gnat_Dirs &
+           (Project'Project_Dir & "../../include/rts-sources/mem");
+      when "undefined" =>
+      when others =>
+   end case;
+
+   case Has_FPU is
+      when "yes" =>
+         Gnat_Dirs := Gnat_Dirs &
+           (Project'Project_Dir & "../../include/rts-sources/fpu");
+      when "undefined" =>
+      when others =>
+   end case;
+
+   case RTS_Profile is
+      when "zfp" =>
+         Gnat_Dirs := Gnat_Dirs &
+           (Project'Project_Dir & "../../include/rts-sources/zfp");
+      when "ravenscar-sfp" =>
+         Gnat_Dirs := Gnat_Dirs &
+           (Project'Project_Dir & "../../include/rts-sources/zfp");
+      when "ravenscar-full" | "marte" =>
+         Gnat_Dirs :=
+	 (Project'Project_Dir & "../../BSPs/cortex-m/stm32/stm32f4/marte/arch/gnat_src") &
+	 Gnat_Dirs &
+           (Project'Project_Dir & "../../include/rts-sources/full",
+            Project'Project_Dir & "../../include/rts-sources/containers");
+         Gnat_Langs := Gnat_Langs & ("C");
+
+         case Add_Math_Lib is
+            when "softfloat" =>
+               Gnat_Dirs := Gnat_Dirs &
+                 (Project'Project_Dir & "../../include/rts-sources/math/full");
+            when "hardfloat" =>
+               Gnat_Dirs := Gnat_Dirs &
+                 (Project'Project_Dir & "../../include/rts-sources/math/full");
+            when "hardfloat_dp" =>
+               Gnat_Dirs := Gnat_Dirs &
+                 (Project'Project_Dir & "../../include/rts-sources/math/full");
+            when "hardfloat_sp" =>
+               Gnat_Dirs := Gnat_Dirs &
+                 (Project'Project_Dir & "../../include/rts-sources/math/full");
+            when "undefined" =>
+            when others =>
+         end case;
+
+         case CPU_Family is
+            when "arm" =>
+               Gnat_Dirs := Gnat_Dirs &
+                 (Project'Project_Dir & "../../include/rts-sources/full/zcx-arm");
+            when "aarch64" =>
+               Gnat_Dirs := Gnat_Dirs &
+                 (Project'Project_Dir & "../../include/rts-sources/full/zcx-dw2",
+                  Project'Project_Dir & "../../include/rts-sources/full/zcx-aarch64");
+               Gnat_Langs := Gnat_Langs & ("C");
+            when "leon" =>
+               Gnat_Dirs := Gnat_Dirs &
+                 (Project'Project_Dir & "../../include/rts-sources/full/zcx-dw2",
+                  Project'Project_Dir & "../../include/rts-sources/full/zcx-leon");
+               Gnat_Langs := Gnat_Langs & ("C");
+            when "powerpc" =>
+               Gnat_Dirs := Gnat_Dirs &
+                 (Project'Project_Dir & "../../include/rts-sources/full/zcx-dw2",
+                  Project'Project_Dir & "../../include/rts-sources/full/zcx-ppc");
+               Gnat_Langs := Gnat_Langs & ("C");
+            when "x86" =>
+               Gnat_Dirs := Gnat_Dirs &
+                 (Project'Project_Dir & "../../include/rts-sources/full/zcx-dw2",
+                  Project'Project_Dir & "../../include/rts-sources/full/zcx-x86");
+               Gnat_Langs := Gnat_Langs & ("C");
+            when "undefined" =>
+         end case;
+      when "undefined" =>
+   end case;
+
+   case Use_Semihosting_IO is
+      when "no" =>
+         Gnat_Dirs := Gnat_Dirs &
+           (Project'Project_Dir & "../../include/rts-sources/system_io");
+      when "yes" =>
+         Gnat_Dirs := Gnat_Dirs &
+           (Project'Project_Dir & "../../include/rts-sources/semihost");
+      when "undefined" =>
+   end case;
+end Libgnat_Sources;

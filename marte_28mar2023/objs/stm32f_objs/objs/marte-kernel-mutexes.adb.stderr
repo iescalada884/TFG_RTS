@@ -1,0 +1,17 @@
+marte-kernel-mutexes.adb:280:30: warning: "Memory_Copy.From" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.adb:281:30: warning: "Memory_Copy.To" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:151:07: warning: "Pthread_Mutexattr_Setappscheduler.Scheduler" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:176:33: warning: "Pthread_Mutex_Init.M" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:188:36: warning: "Pthread_Mutex_Destroy.M" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:195:07: warning: "Pthread_Mutex_Setprioceiling.M" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:201:07: warning: "Pthread_Mutex_Getprioceiling.M" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:206:07: warning: "Pthread_Mutex_Setprioceiling_Locked.M" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:215:07: warning: "Pthread_Mutex_Setappschedparam.M" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:222:07: warning: "Pthread_Mutex_Getappschedparam.M" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:232:44: warning: "Pthread_Mutex_Getappscheduler.M" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:241:07: warning: "Posix_Appsched_Mutex_Setspecific.M" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:246:07: warning: "Posix_Appsched_Mutex_Getspecific.M" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:254:33: warning: "Pthread_Mutex_Lock.M" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:257:07: warning: "Pthread_Mutex_Timedlock.M" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:261:36: warning: "Pthread_Mutex_Trylock.M" involves a tagged type which does not correspond to any C type
+marte-kernel-mutexes.ads:263:35: warning: "Pthread_Mutex_Unlock.M" involves a tagged type which does not correspond to any C type

@@ -1,0 +1,216 @@
+V "GNAT Lib v2019"
+A -gnatA
+A --RTS=/home/ubuntfg/opt/GNAT/2019-arm-elf/arm-eabi/lib/gnat/zfp-stm32f4/
+A -mlittle-endian
+A -mfloat-abi=hard
+A -mcpu=cortex-m4
+A -mfpu=fpv4-sp-d16
+A -mthumb
+A -ffunction-sections
+A -fdata-sections
+A -gnateDDEF_MARTE_ARCH=STM32F
+A -gnateDMARTE_BOARD=stm32f4
+P SL ZX
+
+RN
+RV NO_UNCHECKED_CONVERSION
+RV NO_DEFAULT_INITIALIZATION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_IMPLICIT_LOOPS
+RV NO_ELABORATION_CODE
+RV SPARK_05
+
+U marte.kernel.signals.pending%b  marte-kernel-signals-pending.adb  781a4785 OO PK IU
+Z ada.tags%s		a-tags.adb		a-tags.ali
+Z interfaces%s		interfac.ads		interfac.ali
+W marte%s		marte.ads		marte.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+W marte.kernel.signals%s  marte-kernel-signals.ads  marte-kernel-signals.ali
+W marte.kernel.signals.internals%s  marte-kernel-signals-internals.adb  marte-kernel-signals-internals.ali
+W marte.sll%s		marte-sll.adb		marte-sll.ali
+W marte.sll.order_advanced%s  marte-sll-order_advanced.adb  marte-sll-order_advanced.ali  EA
+Z system%s		system.ads		system.ali
+
+U marte.kernel.signals.pending%s  marte-kernel-signals-pending.ads  da9739b9 EE NE OO PK
+W marte%s		marte.ads		marte.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+W marte.kernel.signals%s  marte-kernel-signals.ads  marte-kernel-signals.ali
+W marte.kernel.signals.global%s  marte-kernel-signals-global.ads  marte-kernel-signals-global.ali
+
+D ada.ads		20190518110050 76789da1 ada%s
+D a-tags.ads		20190518110050 2dde273c ada.tags%s
+D a-unccon.ads		20190518110050 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20190518110050 5ab55268 interfaces%s
+D i-c.ads		20190518110050 ef84921c interfaces.c%s
+D i-stm32.ads		20190518110049 4d2e1e9b interfaces.stm32%s
+D i-stm32-pwr.ads	20190518110049 10ed2a13 interfaces.stm32.pwr%s
+D marte.ads		20230328142408 99bc4a3f marte%s
+D marte-configuration_parameters.ads  20230328142416 381ea921 marte.configuration_parameters%s
+D marte-hal.ads		20230328142416 b82c62f8 marte.hal%s
+D marte-integer_types.ads  20230328142407 2e806981 marte.integer_types%s
+D marte-kernel.ads	20230328142408 dd02ee52 marte.kernel%s
+D marte-kernel-signals.ads  20230328142407 c9be4286 marte.kernel.signals%s
+D marte-kernel-signals-global.ads  20230328142407 cdf191c8 marte.kernel.signals.global%s
+D marte-kernel-signals-internals.ads  20230328142407 b2a2b29e marte.kernel.signals.internals%s
+D marte-kernel-signals-pending.ads  20230328142407 ded8eaf7 marte.kernel.signals.pending%s
+D marte-kernel-signals-pending.adb  20230328142408 31de6652 marte.kernel.signals.pending%b
+D marte-posix_constants.ads  20230328142408 8d4a4132 marte.posix_constants%s
+D marte-sll.ads		20230328142436 f705b9d6 marte.sll%s
+D marte-sll-advanced.ads  20230328142436 2ff94b17 marte.sll.advanced%s
+D marte-sll-map.ads	20230328142436 71679a5f marte.sll.map%s
+D marte-sll-order.ads	20230328142436 45a1562e marte.sll.order%s
+D marte-sll-order_advanced.ads  20230328142436 25be79be marte.sll.order_advanced%s
+D marte-sll-order_advanced.adb  20230328142436 50fcfc21 marte.sll.order_advanced%b
+D marte-sll-resources.ads  20230328142436 3fc24e72 marte.sll.resources%s
+D marte-stacks_management.ads  20230328142408 745cf584 marte.stacks_management%s
+D system.ads		20190518110049 e69b74bd system%s
+D s-bb.ads		20190518110050 09e072ae system.bb%s
+D s-bbbopa.ads		20190518110049 95d97b26 system.bb.board_parameters%s
+D s-bbmcpa.ads		20190518110049 c4c55388 system.bb.mcu_parameters%s
+D s-bbpara.ads		20190518110049 431abc17 system.bb.parameters%s
+D s-stm32.ads		20190518110049 e898dba2 system.stm32%s
+D s-stoele.ads		20190518110050 2dc34a04 system.storage_elements%s
+D s-stoele.adb		20190518110050 ed88f8fb system.storage_elements%b
+D s-unstyp.ads		20190518110050 34867c83 system.unsigned_types%s
+G a e
+G c b b b [b marte__kernel__signals__pending 52 1 none]
+G c Z s b [discard_pending_instances marte__kernel__signals__pending 53 14 none]
+G c Z s b [is_signal_pending marte__kernel__signals__pending 57 13 none]
+G c Z s b [first_signal_instance_accepted marte__kernel__signals__pending 62 13 none]
+G c Z s b [accept_all_pending_signal_instances marte__kernel__signals__pending 70 13 none]
+G c Z s b [signal_instance_generated_for_process marte__kernel__signals__pending 81 14 none]
+G c Z s b [signal_instance_generated_for_task marte__kernel__signals__pending 86 14 none]
+G c Z s b [extract_head_instace_from_handler_q marte__kernel__signals__pending 91 13 none]
+G c Z s b [add_signal_instaces_to_handler_q marte__kernel__signals__pending 97 14 none]
+G c Z b b [Olt marte__kernel__signals__pending 193 13 none]
+G c Z b b [insert_monopriority_list marte__kernel__signals__pending__signal_instances_lists_order_advanced 47 14 200_4]
+G r i none [b marte__kernel__signals__pending 52 1 none] [order_advanced marte__sll 45 19 none]
+G r c none [discard_pending_instances marte__kernel__signals__pending 53 14 none] [head marte__kernel__signals__global__sig_data_lists 75 13 118_4]
+G r c none [discard_pending_instances marte__kernel__signals__pending 53 14 none] [head marte__kernel__signals__global__signal_instances_lists 75 13 92_4]
+G r c none [discard_pending_instances marte__kernel__signals__pending 53 14 none] [dequeue_head marte__kernel__signals__global__signal_instances_lists 72 14 92_4]
+G r c none [discard_pending_instances marte__kernel__signals__pending 53 14 none] [release_signal_instance marte__kernel__signals__internals 56 14 none]
+G r c none [discard_pending_instances marte__kernel__signals__pending 53 14 none] [next marte__kernel__signals__global__sig_data_lists 86 13 118_4]
+G r c none [is_signal_pending marte__kernel__signals__pending 57 13 none] [is_empty marte__kernel__signals__global__signal_instances_lists 83 13 92_4]
+G r c none [first_signal_instance_accepted marte__kernel__signals__pending 62 13 none] [is_empty marte__kernel__signals__global__signal_instances_lists 83 13 92_4]
+G r c none [first_signal_instance_accepted marte__kernel__signals__pending 62 13 none] [head marte__kernel__signals__global__signal_instances_lists 75 13 92_4]
+G r c none [first_signal_instance_accepted marte__kernel__signals__pending 62 13 none] [dequeue_head marte__kernel__signals__global__signal_instances_lists 72 14 92_4]
+G r c none [accept_all_pending_signal_instances marte__kernel__signals__pending 70 13 none] [append_list_to_tail marte__kernel__signals__global__signal_instances_lists_advanced 47 14 93_4]
+G r c none [signal_instance_generated_for_process marte__kernel__signals__pending 81 14 none] [enqueue_tail marte__kernel__signals__global__signal_instances_lists 68 14 92_4]
+G r c none [signal_instance_generated_for_task marte__kernel__signals__pending 86 14 none] [enqueue_tail marte__kernel__signals__global__signal_instances_lists 68 14 92_4]
+G r c none [extract_head_instace_from_handler_q marte__kernel__signals__pending 91 13 none] [head marte__kernel__signals__global__signal_instances_lists 75 13 92_4]
+G r c none [extract_head_instace_from_handler_q marte__kernel__signals__pending 91 13 none] [dequeue_head marte__kernel__signals__global__signal_instances_lists 72 14 92_4]
+G r c none [add_signal_instaces_to_handler_q marte__kernel__signals__pending 97 14 none] [head marte__kernel__signals__global__signal_instances_lists 75 13 92_4]
+G r c none [add_signal_instaces_to_handler_q marte__kernel__signals__pending 97 14 none] [next marte__kernel__signals__global__signal_instances_lists 86 13 92_4]
+X 5 i-c.ads
+53I9*int<integer>
+X 8 marte.ads
+43K9*MaRTE 45e10 16|47r6 47r39 49r9 51r22 102r5 17|48r6 49r6 52r14 249r5
+X 10 marte-hal.ads
+137U14*Disable_Interrupts 138i<c,marte__hal__disable_interrupts>22
+141U14*Enable_Interrupts 142i<c,marte__hal__enable_interrupts>22
+X 12 marte-kernel.ads
+64K15*Kernel 8|43k9 12|767e17 16|47r12 47r45 49r15 51r28 102r11 17|48r12
+. 52r20 249r11
+105U14*Enter_Critic_Section 106i<c,kernel_enter_critic_section>22
+118U14*Leave_Critic_Section 119i<c,kernel_leave_critic_section>22
+172P9*Sig_Data_Base_Ac(171R9)
+420R9*TCB
+607p7*Sig_Data{172P9} 17|182r30
+693P12*Task_Id{19|55P9[668]}
+X 13 marte-kernel-signals.ads
+50K22*Signals 12|64k15 13|197e25 16|47r19 47r52 49r22 102r18 17|48r19 52r27
+. 81r12 91r15 249r18
+58I9*Signal<5|53I9> 16|53r50 57r45 62r58 97r64 17|71r50 103r45 117r58 228r64
+60I12*Signal_Set_Range{58I9} 17|146r16
+134A9*Signal_Set(boolean)
+136P9*Signal_Set_Ac_Const(134A9) 16|72r23 17|143r23
+X 14 marte-kernel-signals-global.ads
+50K30*Global 136e32 16|47w27 47r60 73r14 17|54r27 55r28 56r8 57r8 62r33 63r17
+. 72r20 74r9 74r37 119r52 120r20 165r20 181r10 213r20 230r20
+85i7*Signo{13|58I9} 17|168r66 182r68 198r19 198r33
+88p7*To_Task{12|693P12} 17|182r22 236m21
+92K12*Signal_Instances_Lists[19|49] 16|73r21 17|54r34 56r15 63r24 201r10
+93K12*Signal_Instances_Lists_Advanced[20|45] 17|55r35
+95P12*Signal_Instance_Ac{19|55P9[92]} 16|64r52 82r23 87r23 91r56 17|72r27
+. 119r59 120r27 165r27 177r23 212r56 213r27 230r27
+100A9*Pending_Signals_List(19|57P9[92])<13|58I9> 17|62r40
+112a7*Pending_Signals{100A9} 17|88r47 90m41 107r43 122r38 124r44 125m38 149m60
+. 182m40 245m29
+116p7*Owner{12|693P12} 17|236r43
+118K12*Sig_Data_Lists[19|49] 17|57r15 74r16
+119P12*Sig_Data_Ac{19|55P9[118]} 16|58r45 63r58 71r23 98r64 17|73r17 104r45
+. 118r58 142r23 181r17 229r64
+128p4*Sig_Data_Blocks_Used{19|57P9[118]} 17|74r44
+X 15 marte-kernel-signals-internals.ads
+47K30*Internals 89e35 17|48w27 81r20 91r23
+56U14*Release_Signal_Instance 17|81s30 91s33
+X 16 marte-kernel-signals-pending.ads
+49K30*Pending 13|50k22 16|102l26 102e33 17|52b35 249l26 249t33
+51K12*K=51:28 17|81r10 91r13
+53U14*Discard_Pending_Instances 53>41 17|71b14 95l8 95t33
+53i41 Sig{13|58I9} 17|71b41 78r64 80r58 88r64 90r58
+57V13*Is_Signal_Pending{boolean} 57>32 58>32 17|103b13 108l8 108t25
+57i32 Sig{13|58I9} 17|103b32 106r63 107r60
+58p32 Sigdata{14|119P12} 17|104b32 107r35
+62V13*First_Signal_Instance_Accepted{14|95P12} 62>45 63>45 17|117b13 136l8
+. 136t38
+62i45 Sig{13|58I9} 17|117b45 122r55 124r61 125r55 127r61 129r64 130r58
+63p45 Sigdata{14|119P12} 17|118b45 122r30 124r36 125r30
+70V13*Accept_All_Pending_Signal_Instances{19|57P9[14|92]} 71>7 72>7 17|141b13
+. 157l8 157t43
+71p7 Sigdata_Ac{14|119P12} 17|142b7 149r49
+72p7 Set{13|136P9} 17|143b7 147r13
+81U14*Signal_Instance_Generated_For_Process 82>7 17|164b14 169l8 169t45
+82p7 Siginst_Ac{14|95P12} 17|165b7 167r27 168r55
+86U14*Signal_Instance_Generated_For_Task 87>7 17|176b14 183l8 183t42
+87p7 Siginst_Ac{14|95P12} 17|177b7 180r10 182r11 182r57
+91V13*Extract_Head_Instace_From_Handler_Q{14|95P12} 17|212b13 220l8 220t43
+97U14*Add_Signal_Instaces_To_Handler_Q 97>48 98>48 17|228b14 247l8 247t40
+97i48 Sig{13|58I9} 17|228b48 234r49 242r46 245r46
+98p48 Sigdata_Ac{14|119P12} 17|229b48 236r32 245r18
+X 17 marte-kernel-signals-pending.adb
+54K12 SILST=54:34 78r24 80r10 88r27 90r13 106r19 107r19 122r14 124r24 125r10
+. 127r17 129r24 130r10 143r51 144r18 144r32 167r7 179r7 192r33 192r47 193r35
+. 195r35 215r21 217r10 234r9 237r24
+55K12 SILSTA=55:35 149r13 152r13
+62a4 Signals_Pending_On_Process{14|100A9} 78r36 80m30 80r30 106r35 127r33
+. 129r36 130m30 130r30 152m49 152r49 168m27 168r27 234r21 242m18 242r18
+72p7 Siginst_Ac{14|95P12} 78m10 79r20 81r55 88m13 89r23 91r58
+73p7 Sigdata{14|119P12} 85r13 88r39 90r33 93m10 93r27
+120p7 Siginst_Ac{14|95P12} 124m10 129m10 133r22 135r14
+144p7 Tmp_List{19|57P9[14|92]} 150m49 150r49 153m49 153r49 156r14
+146i11 S{13|60I12} 147r18 149r77 152r77
+192p4 Signal_Instances_Handler_Q{19|57P9[14|92]} 215r33 217m30 217r30 243m18
+. 243r18 246m18 246r18
+193V14 "<"{boolean} 193>18 193>24 195b14 199l9 199t11 201r57
+193p18 Left{19|55P9[14|92]} 195b18 198r14
+193p24 Right{19|55P9[14|92]} 195b24 198r27
+200K12 Signal_Instances_Lists_Order_Advanced[23|45] 241r7 244r7
+213p7 Siginst_Ac{14|95P12} 215m7 216r10 219r14
+230p7 Siginst_Ac{14|95P12} 233m7 235r13 236r10 237m10 237r36
+X 19 marte-sll.ads
+48R9 Basic
+49k15*SLL 17|49r12 19|116e14
+53R9*Element<12|209R9>
+55P9*Element_Ac(53R9[14|118]) 17|193r41[14|92] 195r41[14|92]
+57P9*List 16|73r44[14|92] 17|143r57[14|92] 144r24[14|92] 192r39[14|92]
+59p4*Null_List{57P9[14|92]} 17|63r47[14|92] 144r38[14|92] 192r53[14|92]
+68U14*Enqueue_Tail 17|167s13[14|92] 179s13[14|92]
+72U14*Dequeue_Head 17|80s16[14|92] 90s19[14|92] 125s16[14|92] 130s16[14|92]
+. 217s16[14|92]
+75V13*Head{55P9[14|118]} 17|74s31[14|118] 78s30[14|92] 88s33[14|92] 124s30[14|92]
+. 129s30[14|92] 215s27[14|92] 234s15[14|92]
+83V13*Is_Empty{boolean} 17|106s25[14|92] 107s25[14|92] 122s20[14|92] 127s23[14|92]
+86V13*Next{55P9[14|118]} 17|93s21[14|118] 237s30[14|92]
+X 20 marte-sll-advanced.ads
+47U14*Append_List_To_Tail 17|149s20[14|93] 152s20[14|93]
+47p35 From{19|57P9[14|92]} 17|149r41[14|93] 152r41[14|93]
+48p35 To{19|57P9[14|92]} 17|150r41[14|93] 153r41[14|93]
+X 23 marte-sll-order_advanced.ads
+44V19 ">"{boolean} 17|201r50
+45k19 Order_Advanced 17|49w16 50r33 23|55e29
+47U14*Insert_Monopriority_List 17|241s45[200] 244s45[200]
+47p40 Org{19|57P9[14|92]} 17|242r10[200] 245r10[200]
+48p40 Dest{19|57P9[14|92]} 17|243r10[200] 246r10[200]
+

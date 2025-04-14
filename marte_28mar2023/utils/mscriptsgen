@@ -1,0 +1,28 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+# get MaRTE utils directory 
+use File::Basename;
+use File::Spec;
+my $UTILS_PATH;
+BEGIN {
+    $UTILS_PATH= dirname(File::Spec->rel2abs( __FILE__ ));
+}
+
+# Require local_config.pl
+require "$UTILS_PATH/local_config.pl";
+use vars qw($MPATH);
+
+# Require current_arch.pl
+require "$UTILS_PATH/current_arch.pl";
+use vars qw($CURRENT_ARCH);
+
+# Require globals.pl
+require "$UTILS_PATH/globals.pl";
+use vars qw(&exec_command);
+
+exec_command
+    "$MPATH/utils/minstall_scripts $MPATH GNAT_PATH gnatmake_bin_path " .
+    "PENTIUM_TARGET P6_TARGET gnat_version " .
+    "VIRTUAL_TIMER";

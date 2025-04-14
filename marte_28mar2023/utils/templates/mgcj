@@ -1,0 +1,114 @@
+#!/usr/bin/perl -w
+
+# MaRTE OS. MaRTE gcj wrapper.
+
+require "root_instalation_path/utils/globals.pl";
+
+# Constants in 'globals.pl'
+$JRATE_PATH = $JRATE_PATH;
+$MPATH      = $MPATH;
+$LIBS_PATH  = $LIBS_PATH;
+
+
+$JRATE_LIBS_PATH = "$JRATE_PATH/jRate/lib";
+# Directory that contains 'libjRateRT.a', 'libjRate.a' and 'libjRateCore.a'
+
+$GCC_LIBS_PATH = "$JRATE_PATH/jRate-gcc/lib";
+# Directory that contains 'libstdc++.a' and 'libgcj.a'.
+
+$DEVEL_LIBGCJ_PATH = "$JRATE_PATH/GNU/jRateGCC/jRateGCCBuild/" .
+    "i686-pc-linux-gnu/libjava/.libs";
+# Last 'libgcj.a' is here when modifiying jRate
+
+$LIBGCC_EH_PATH = "$JRATE_PATH/jRate-gcc/lib/gcc-lib/i686-pc-linux-gnu/3.3.1";
+# Directory that contains 'libgcc_eh.a'.
+
+$LIBGCJ_PATH = "";
+# Directory that contains 'libgcj.a': can be $DEVEL_LIBGCJ_PATH or
+# $GCC_LIBS_PATH;
+
+if (-e "$DEVEL_LIBGCJ_PATH/libgcj.a") {
+    $LIBGCJ_PATH = $DEVEL_LIBGCJ_PATH;
+} else {
+    $LIBGCJ_PATH = $GCC_LIBS_PATH;
+}
+
+# process arguments
+$do_link = 1;
+$extra_objs = "";
+$cflags = "";  # compiler flags
+$nlflags = ""; # compiler flags but not linker flags
+$java_files = "";
+$main_option = "";
+$debug = 0;
+    
+foreach $arg (@ARGV) {
+    if ($arg =~ /--main=/) {
+	$main_option = $arg; next;
+    }
+    if ($arg eq "-c") { 
+	$do_link = 0; next; 
+    }
+    if ($arg =~ /\.o$/ || $arg =~ /\.a$/ || $arg =~ /^-l/) { 
+	$extra_objs .= " " . $arg; next; 
+    }
+    if ($arg =~ /\.java$/) { 
+	$java_files .= " " . $arg; next; 
+    }
+    if ($arg eq "-g") { 
+	$debug = 1;
+    }
+    if (($arg eq "-Wall") || ($arg =~ /^-I/)) { 
+	$nlflags .= " " . $arg; next; 
+    }
+    $cflags .= " " . $arg;
+}
+$obj_java_files = $java_files;
+$obj_java_files =~ s/\.java/\.o/g;
+$main_file_name = $main_option;
+$main_file_name =~ s/--main=//;
+$main_file_name = $main_file_name . "main";
+
+# Compile
+print "Compiling...\n";
+$cmd = "$JRATE_PATH/jRate-gcc/bin/jRate-gcj -save-temps " .
+    "-spec=$JRATE_PATH/jRate-gcc/lib/gcc-lib/i686-pc-linux-gnu/3.3.1/specs " .
+    "-c $cflags $nlflags $java_files -I$JRATE_PATH/jRate/src";
+printf "$cmd\n";
+system("$cmd") == 0 or die "\n";
+
+# Create main program for main class
+print "Generating main program for main class...\n";
+$cmd = "mjvgenmain $main_file_name $main_file_name.i";
+printf "$cmd\n";
+system("$cmd") == 0 or die "\n";
+
+# link
+if ($do_link) {
+    print "Linking...\n";
+    $cmd = "gcc $cflags -o mprogram $obj_java_files" .
+	"$extra_objs $main_file_name.o " .
+	"$MPATH/arch/call_main/wrapper_main_c.o $LIBS_PATH -lmarte " .
+	"$LIBGCJ_PATH/libgcj.a -lmarte $JRATE_LIBS_PATH/libjRateRT.a " .
+	"$JRATE_LIBS_PATH/libjRate.a $JRATE_LIBS_PATH/libjRateCore.a " .
+	"$JRATE_LIBS_PATH/libjRateRT.a $JRATE_LIBS_PATH/libjRate.a " .
+	"$JRATE_LIBS_PATH/libjRateCore.a $GCC_LIBS_PATH/libstdc++.a " .
+	"-lmc -llinux -lsyscalls $GNAT_PATH/$ADALIB/libgnat.a -lmc " .
+	"$GNAT_PATH/libgcc.a $LIBGCC_EH_PATH/libgcc_eh.a -lmarte ";
+    printf "$cmd\n";
+    system("$cmd") == 0 or die "\n";
+}
+	
+# Remove unneeded
+if ($debug eq "") {
+    printf "$RM_UNNEEDED\n";
+    system("$RM_UNNEEDED");
+}
+
+# Copy Program
+if ($CP_PROGRAM ne "") {
+    print "$CP_PROGRAM\n";
+    system("$CP_PROGRAM") == 0 or die "Error while copying the program ";
+}
+
+printf "Work done :-)\n";

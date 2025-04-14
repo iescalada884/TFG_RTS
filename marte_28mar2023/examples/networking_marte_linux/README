@@ -1,0 +1,67 @@
+---------------------------------------------------------
+Networking examples for MaRTE OS - Linux communications 
+---------------------------------------------------------
+
+*************
+1. Ethernet *
+*************
+This example just sends data from MaRTE OS to a adhoc logger built for Linux. This example only uses the Ethernet layer so no TCP/IP nor UDPIP is involved.
+
+Caveats:
+The logger looks for a byte between the header and the payload to know whether padding has been used. Furthermore, it waits for a specific and private ETHTYPE. Other ETHTYPEs are filtered.
+As a result, this logger cannot be used "as is" for regular ethernet applications. 
+
+To execute this test, please:
+ - Set MaRTE OS utils in $PATH
+ - Configure the Makefile with your appropriate info
+ - Configure the app with your networking info
+ - >> make
+ - sudo bin/linux_logger
+ - run MaRTE OS app
+
+ 
+************* 
+2. LWIP-UDP *
+*************
+This example exchanges messages with a general Linux UDP server. For instance, you can use the Packet Sender tool (https://packetsender.com/) to quickly exchange data with MaRTE OS.
+
+Caveats:
+The compiltation process of lwip builds the library in the current test dir.
+ 
+
+To execute this test, please:
+ - Set MaRTE OS utils in $PATH
+ - Configure the Makefile with your appropriate info
+ - Configure the app with your networking info
+ - >> make
+ - ./PacketSender_Linux_x64_v5_6_1.AppImage
+ - run MaRTE OS app
+ 
+ 
+*************
+3. LWIP-TCP *
+*************
+This example establish a TCP connection with a general Linux TCP server in order to exchange data. For instance, you can use the Packet Sender tool (https://packetsender.com/) to quickly exchange data with MaRTE OS.
+
+Caveats:
+The compiltation process of lwip builds the library in the current test dir.
+ 
+
+To execute this test, please:
+ - Set MaRTE OS utils in $PATH
+ - Configure the Makefile with your appropriate info
+ - Configure the app with your networking info
+ - >> make
+ - ./PacketSender_Linux_x64_v5_6_1.AppImage
+ - run MaRTE OS app
+
+
+**************
+4. TODO LIST *
+**************
+- Ada layer to use sockets
+- Integrate the lwIP library into the compilation process of MaRTE OS
+- Enhance real-time features of lwIP
+- Exhaustive testing
+
+ 

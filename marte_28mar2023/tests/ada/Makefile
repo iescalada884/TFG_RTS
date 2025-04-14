@@ -1,0 +1,23 @@
+# include MaRTE configuration (architecture) 
+include ../../utils/Makefile_marte.cfg
+
+GNATFLAGS += -gnat05 -Ireports/ -I../../misc -aI../../kernel -aO../../lib
+
+ifneq ($(CURRENT_ARCH),xtratum)
+# any architecture but "xtratum"
+
+include ../config.mk
+include ../rules.mk
+
+else
+# xtratum architecture
+
+ADA_MAIN=1
+ADAFLAGS=-g
+include ../../arch/l0x1-config/Makefile
+
+previous:
+	ln -sf ../../arch/l0x1-config/p1.cfg
+	ln -sf ../../arch/l0x1-config/xm_cf.ia32.xml
+
+endif

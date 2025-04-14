@@ -1,0 +1,178 @@
+V "GNAT Lib v2019"
+A -gnatA
+A --RTS=/home/ubuntfg/opt/GNAT/2019-arm-elf/arm-eabi/lib/gnat/zfp-stm32f4/
+A -mlittle-endian
+A -mfloat-abi=hard
+A -mcpu=cortex-m4
+A -mfpu=fpv4-sp-d16
+A -mthumb
+A -ffunction-sections
+A -fdata-sections
+A -gnateDDEF_MARTE_ARCH=STM32F
+A -gnateDMARTE_BOARD=stm32f4
+P SL ZX
+
+RN
+RV NO_UNCHECKED_CONVERSION
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK_05
+
+U marte.kernel.signals.debug%b  marte-kernel-signals-debug.adb  e65711fc NE OO PK IU
+W marte%s		marte.ads		marte.ali
+W marte.debug_messages%s  marte-debug_messages.ads  marte-debug_messages.ali
+W marte.direct_io%s	marte-direct_io.adb	marte-direct_io.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+W marte.kernel.scheduler%s  marte-kernel-scheduler.adb  marte-kernel-scheduler.ali
+W marte.kernel.signals%s  marte-kernel-signals.ads  marte-kernel-signals.ali
+W marte.kernel.signals.global%s  marte-kernel-signals-global.ads  marte-kernel-signals-global.ali
+
+U marte.kernel.signals.debug%s  marte-kernel-signals-debug.ads  a7f9a6bf EB NE OO PK
+W marte.kernel.signals%s  marte-kernel-signals.ads  marte-kernel-signals.ali
+
+D ada.ads		20190518110050 76789da1 ada%s
+D a-tags.ads		20190518110050 2dde273c ada.tags%s
+D a-unccon.ads		20190518110050 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20190518110050 5ab55268 interfaces%s
+D i-c.ads		20190518110050 ef84921c interfaces.c%s
+D i-stm32.ads		20190518110049 4d2e1e9b interfaces.stm32%s
+D i-stm32-pwr.ads	20190518110049 10ed2a13 interfaces.stm32.pwr%s
+D marte.ads		20230328142408 99bc4a3f marte%s
+D marte-configuration_parameters.ads  20230328142416 381ea921 marte.configuration_parameters%s
+D marte-debug_messages.ads  20230328142407 2f5dc2f0 marte.debug_messages%s
+D marte-direct_io.ads	20230328142416 cc1262e4 marte.direct_io%s
+D marte-hal.ads		20230328142416 b82c62f8 marte.hal%s
+D marte-integer_types.ads  20230328142407 2e806981 marte.integer_types%s
+D marte-kernel.ads	20230328142408 dd02ee52 marte.kernel%s
+D marte-kernel-scheduler.ads  20230328142407 464c231a marte.kernel.scheduler%s
+D marte-kernel-signals.ads  20230328142407 c9be4286 marte.kernel.signals%s
+D marte-kernel-signals-debug.ads  20230328142407 6e47e439 marte.kernel.signals.debug%s
+D marte-kernel-signals-debug.adb  20230328142407 e0e2e703 marte.kernel.signals.debug%b
+D marte-kernel-signals-global.ads  20230328142407 cdf191c8 marte.kernel.signals.global%s
+D marte-kernel-tasks_operations.ads  20230328142406 99ad58ad marte.kernel.tasks_operations%s
+D marte-posix_constants.ads  20230328142408 8d4a4132 marte.posix_constants%s
+D marte-sll.ads		20230328142436 f705b9d6 marte.sll%s
+D marte-sll-advanced.ads  20230328142436 2ff94b17 marte.sll.advanced%s
+D marte-sll-map.ads	20230328142436 71679a5f marte.sll.map%s
+D marte-sll-order.ads	20230328142436 45a1562e marte.sll.order%s
+D marte-sll-resources.ads  20230328142436 3fc24e72 marte.sll.resources%s
+D marte-stacks_management.ads  20230328142408 745cf584 marte.stacks_management%s
+D marte-timespec.ads	20230328142408 bf12e031 marte.timespec%s
+D system.ads		20190518110049 e69b74bd system%s
+D s-bb.ads		20190518110050 09e072ae system.bb%s
+D s-bbbopa.ads		20190518110049 95d97b26 system.bb.board_parameters%s
+D s-bbmcpa.ads		20190518110049 c4c55388 system.bb.mcu_parameters%s
+D s-bbpara.ads		20190518110049 431abc17 system.bb.parameters%s
+D s-stm32.ads		20190518110049 e898dba2 system.stm32%s
+D s-stoele.ads		20190518110050 2dc34a04 system.storage_elements%s
+D s-unstyp.ads		20190518110050 34867c83 system.unsigned_types%s
+G a e
+G c Z s b [pthread_sig_mask marte__kernel__signals__debug 55 14 none]
+G c Z s b [sig_action1 marte__kernel__signals__debug 60 14 none]
+G c Z s b [sig_wait marte__kernel__signals__debug 66 14 none]
+G c Z s b [pthread_kill marte__kernel__signals__debug 71 14 none]
+G c Z s b [kill marte__kernel__signals__debug 76 14 none]
+G c Z s b [signal_catching1 marte__kernel__signals__debug 81 14 none]
+G c Z s b [add_self_to_the_waiting_for_signals_list marte__kernel__signals__debug 86 14 none]
+G c Z b b [show_set marte__kernel__signals__debug 57 14 none]
+X 5 i-c.ads
+53I9*int<integer>
+X 8 marte.ads
+43K9*MaRTE 45e10 17|46r9 50r22 88r5 18|45r6 46r6 47r6 47r27 48r6 48r32 50r14
+. 162r5
+X 10 marte-debug_messages.ads
+46K15*Debug_Messages 122e25 18|48w12 48r38
+64b4*Signals_Debug_Messages{boolean} 18|60r10 76r10 94r10 105r10 117r10 130r10
+. 142r10 155r10
+X 11 marte-direct_io.ads
+82K15*Direct_IO 325e20 18|47w12 47r33
+105U14*Put 18|64s27 77s26 79s40 96s28 106s26 118s25 119s32 120s25 131s26
+. 132s32 143s37 144s36 156s26
+117U14*Put 18|95s50
+119U14*Put 18|61s10 64s16 67s10 77s10 79s10 95s10 96s10 106s10 107s10 118s10
+. 119s10 120s10 121s10 131s10 132s10 133s10 143s10 144s10 145s10 156s10 157s10
+130U14*Basic_Stdout_Initialization 131i<c,basic_stdout_initialization>22
+142U14*Basic_Stderr_Initialization 143i<c,basic_stderr_initialization>22
+153U14*Direct_Write_On_Stdout 156i<c,direct_write_on_stdout>22
+161U14*Direct_Write_On_Stderr 164i<c,direct_write_on_stderr>22
+169V13*Direct_Read_From_Stdin{13|59M9} 170i<c,direct_read_from_stdin>22
+X 12 marte-hal.ads
+137U14*Disable_Interrupts 138i<c,marte__hal__disable_interrupts>22
+141U14*Enable_Interrupts 142i<c,marte__hal__enable_interrupts>22
+X 13 marte-integer_types.ads
+59M9*Unsigned_8
+73I12*Int{5|53I9} 17|55r41 18|74r41
+X 14 marte-kernel.ads
+64K15*Kernel 8|43k9 14|767e17 17|46r15 50r28 88r11 18|45r12 46r12 50r20 162r11
+105U14*Enter_Critic_Section 106i<c,kernel_enter_critic_section>22
+118U14*Leave_Critic_Section 119i<c,kernel_leave_critic_section>22
+172P9*Sig_Data_Base_Ac(171R9)
+420R9*TCB
+433i7*Id{integer} 18|77r50 106r50 118r49 120r41 131r50 144r52 156r50
+607p7*Sig_Data{172P9} 18|158r43
+693P12*Task_Id{22|55P9[668]} 17|71r35 81r39 18|115r35 140r39
+X 15 marte-kernel-scheduler.ads
+48K22*Scheduler 182e27 18|45w19 52r27
+58V13*Self{14|693P12} 59i<c,pthread_self>22 18|77s45 106s45 118s44 131s45
+. 156s45 158s38
+144U14*Do_Scheduling 145i<c,do_scheduling>22
+156U14*Start_Interrupt 157i<c,scheduler__start_interrupt>22
+164U14*End_Interrupt 165i<c,scheduler__end_interrupt>22
+172U14*Before_ATC 173i<c,scheduler__before_atc>22
+X 16 marte-kernel-signals.ads
+50K22*Signals 14|64k15 16|197e25 17|46r22 88r18 18|46r19 50r27 153r13 162r18
+58I9*Signal<5|53I9> 17|61r36 71r53 76r29 81r57 18|92r36 115r53 128r29 140r57
+60I12*Signal_Set_Range{58I9} 18|62r19
+134A9*Signal_Set(boolean) 18|57r33 58r33
+136P9*Signal_Set_Ac_Const(134A9) 17|66r33 18|103r33
+154m7*Sa_Handler{29|90M9} 18|95r59
+163P9*Struct_Sig_Action_Ac_Const(153R9) 17|60r36 18|91r36
+X 17 marte-kernel-signals-debug.ads
+46K30*Debug 16|50k22 17|88l26 88e31 18|50b35 162l26 162t31
+50K12*K=50:28 18|52r25 153r11
+55U14*Pthread_Sig_Mask 55>32 18|74b14 86l8 86t24
+55i32 How{13|73I12} 18|74b32 79r54
+60U14*Sig_Action1 60>27 61>27 18|91b14 98l8 98t19
+60p27 Act{16|163P9} 18|91b27 95r55
+61i27 Sig{16|58I9} 18|92b27 96r42
+66U14*Sig_Wait 66>24 18|103b14 110l8 110t16
+66p24 Set{16|136P9} 18|103b24 108r20
+71U14*Pthread_Kill 71>28 71>44 18|115b14 123l8 123t20
+71p28 T{14|693P12} 18|115b28 120r39
+71i44 Sig{16|58I9} 18|115b44 119r46
+76U14*Kill 76>20 18|128b14 135l8 135t12
+76i20 Sig{16|58I9} 18|128b20 132r46
+81U14*Signal_Catching1 81>32 81>48 18|140b14 147l8 147t24
+81p32 T{14|693P12} 18|140b32 144r50
+81i48 Sig{16|58I9} 18|140b48 143r51
+86U14*Add_Self_To_The_Waiting_For_Signals_List 18|152b14 160l8 160t48
+X 18 marte-kernel-signals-debug.adb
+52K12 SCHD=52:27 77r40 106r40 118r39 131r40 156r40 158r33
+57U14 Show_Set 57>24 58b14 69l8 69t16 108s10 158s10
+57a24 Set{16|134A9} 58b24 63r16
+62i14 S{16|60I12} 63r21 64r41
+X 19 marte-kernel-signals-global.ads
+50K30*Global 18|46w27 153r21 19|136e32
+113a7*Waited_Signals{16|134A9} 18|158r53
+119P12*Sig_Data_Ac{22|55P9[118]} 18|158r20
+X 20 marte-kernel-tasks_operations.ads
+173V13*Pthread_Setschedparam{13|73I12} 176i<c,pthread_setschedparam>22
+181V13*Pthread_Setschedprio{13|73I12} 184i<c,pthread_setschedprio>22
+190V13*Pthread_Setdeadline{13|73I12} 195i<c,pthread_setdeadline>22
+206V13*Pthread_Getdeadline{13|73I12} 209i<c,pthread_getdeadline>22
+219V13*Pthread_Setpreemptionlevel{13|73I12} 222i<c,pthread_setpreemptionlevel>22
+232V13*Pthread_Getpreemptionlevel{13|73I12} 235i<c,pthread_getpreemptionlevel>22
+244V13*Pthread_Getschedparam{13|73I12} 248i<c,pthread_getschedparam>22
+254V13*Pthread_Create{13|73I12} 258i<c,pthread_create>22
+265V13*Pthread_Join{13|73I12} 267i<c,pthread_join>22
+273V13*Pthread_Detach{13|73I12} 274i<c,pthread_detach>22
+280U14*Pthread_Exit 281i<c,pthread_exit>22
+287V13*Sched_Yield{13|73I12} 289i<c,sched_yield>22
+299V13*MaRTE_Enable_RR_Quantum{13|73I12} 300i<c,marte_enable_rr_quantum>22
+308V13*MaRTE_Disable_RR_Quantum{13|73I12} 309i<c,marte_disable_rr_quantum>22
+X 22 marte-sll.ads
+48R9 Basic
+53R9*Element<14|209R9>
+55P9*Element_Ac(53R9[14|668])
+X 29 system.ads
+90M9*Address
+

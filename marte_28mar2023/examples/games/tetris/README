@@ -1,0 +1,5 @@
+Tetris game demo for MaRTE OS, by Pedro Espeso
+
+For x86 arch just call:  $ make tetris.exe
+
+For linux_lib version you have to link with console_management_c.o which is in misc

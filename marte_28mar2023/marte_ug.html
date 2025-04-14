@@ -1,0 +1,680 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+
+
+
+                            
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+                            
+  <meta name="GENERATOR" content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]"><title>MaRTE OS User's Guide</title></head><body>
+       &nbsp;       
+<center>       
+<h1> <font color="#ff0000">MaRTE OS</font></h1>
+      </center>
+              
+<center>Minimal Real Time Operating System for Embedded Applications &nbsp;<br>
+      Copyright (C) 2000-2017 Universidad de Cantabria, SPAIN</center>
+              
+<center>      
+<table nosave="" border="1">
+       <tbody>
+          <tr nosave="">
+       <td nosave="" width="50">Authors:&nbsp;</td>
+        <td nosave="" width="150">Mario Aldea Rivas</td>
+        <td nosave="" width="100"><a href="mailto:aldeam@unican.es">aldeam@unican.es</a></td>
+       </tr>
+        <tr>
+       <td><br>
+            </td>
+        <td>Michael González Harbour</td>
+        <td><a href="mailto:mgh@unican.es">mgh@unican.es</a></td>
+       </tr>
+                         
+  </tbody>      
+</table>
+      </center>
+              
+<center>       
+<h1> <u>User's Guide</u></h1><div style="text-align: right;"><span style="font-family: monospace;">(Last updated for&nbsp;MaRTE OS version 1.9_06Jun2011)</span>
+      </div></center>
+              
+<center>       
+<hr width="100%"></center>
+              
+<h2> Contents of this Guide</h2>
+              
+<ol>
+       <li> <a href="#making_applications">Making Applications</a></li><li><a href="marte_ug.html#debugging_applications">Cross development environment (architecture x86)</a></li>
+        <li> <a href="#debugging_applications">Debugging Applications</a></li><li> <a href="#stand-alone_target">Configuring a Stand-Alone Target</a></li>
+        <li> <a href="#compiling_kernel">Compiling MaRTE Kernel and Libraries</a></li>
+        <li> <a href="#optimizing_kernel">Optimizing MaRTE Kernel for Speed 
+ and  Size</a></li>
+        <li> <a href="#debug_checks">Enabling Debug Checks and Messages in
+ the   Kernel</a></li>
+        <li><a href="#Devices">MaRTE OS device drivers</a><br>
+        </li>
+        <li> <a href="#task_inspector">Using the 'tasks_inspector' Tool</a></li>
+        <li> <a href="#configuration">Changing MaRTE OS Configuration Parameters</a></li>
+        <li> <a href="#miscellany">Miscellany of Utilities</a></li>
+             
+</ol>
+              
+<hr width="100%">       
+<h2> <a name="making_applications"></a>1.- Making Applications</h2>
+       Applications are made using the scripts <tt><b>mgcc</b></tt> and <tt><b>mgnatmake.</b></tt>
+ They are invoked   in almost the same way that <tt><b>gcc</b></tt> and <tt><b>gnatmake</b></tt>.
+ They link the user's application   with the <font color="#ff0000">MaRTE
+OS</font>  libraries.    
+   
+<p>Examples of use: </p>
+           
+<p><tt>$ mgcc -g -O2 extra_obj.o my_program.c</tt> </p>
+           
+<p><tt>$ mgcc use_math.c -lm</tt> </p>
+           
+<p><tt>$ mgnatmake -gnato my_program.adb</tt> </p><p>For Ada programs also <tt><b>mgnatbind</b></tt> is provided.</p><h4>Including MaRTE OS source directories</h4>In
+order to use MaRTE Ada packages in a user's Ada application it is
+necessary to include in the compilation command the directories where
+MaRTE sources are located. It can be done very easily by including a
+MaRTE specific flag for mgnatmake: <span style="font-family: monospace;">-Imarte_src_dirs<br></span><p><span style="font-family: monospace;">$ mgnatmake -gnata -</span><span style="font-family: monospace;">Imarte_src_dirs my_program.adb</span></p><p>(using <span style="font-family: monospace;">-Imarte_src_dirs </span><span style="cursor: pointer;" onclick='dr4sdgryt(event,"Ox")'><span class="qcon">is equivalent <span class="sc">to</span> </span></span><span style="font-family: monospace;">-aI$MPATH/kernel
+-aI$MPATH/sll&nbsp;-aI$MPATH/arch/hwi
+-aI$MPATH/misc&nbsp;-aI$MPATH/posix5 -aIall_the_drivers_directories
+-aO$MPATH/lib</span>)</p><hr width="100%">       
+<h2> <a name="debugging_applications"></a>2.- Cross development environment (architecture x86)</h2><p>A cross development environment uses two computers: the <span style="font-weight: bold;">host</span> and the <span style="font-weight: bold;">target</span>.
+The host computer is a PC with Linux, GNAT and MaRTE_OS, where we write
+and make the application. The target is the computer where the
+application will be executed. As target MaRTE OS only requires a PC
+with a 386 processor or above and a boot device: floppy, hard disk,
+Flash-RAM, PXE, ...</p><p>Usualy the application will be transferred from
+the host to the target&nbsp;across Ethernet. Probably the easiest way of
+doing it is using a floppy disk and "<a href="#Etherboot">Etherboot</a>"&nbsp;(for more information visit "<a href="marte_ug.html#boot_process_tut">MaRTE OS Boot process (x86 architecture)</a>" it also describes&nbsp;other booting alternatives involving hard disk, Flash-RAM, PXE, etc.).</p><p>It can also be used and emulator to emulate a real target computer. More information about this topic in the <a href="http://marte.unican.es/documentation.htm">documentation</a> section of the MaRTE OS web page.</p>
+    <p><br><a name="Etherboot"></a>[Note] "Etherboot": <a href="http://www.etherboot.org/">http://www.etherboot.org/</a>. An Etherboot image can be created at <a href="http://rom-o-matic.net/" target="_top">http://rom-o-matic.net/</a>
+  as explained in the installation guide "INSTALL".</p>
+    <p><a name="boot_process_tut"></a>[Note] "MaRTE OS Boot process (x86 architecture)": <a href="http://marte.unican.es/documentation/tutorials/booting-marte-howto.pdf">MaRTE OS Boot process (x86 architecture)</a> in the <a href="http://marte.unican.es/documentation.htm">documentation</a> section of the MaRTE OS web page.</p><p><a name="emulator"></a>[Note] "Hello MaRTE OS using an emulator":&nbsp;<a href="http://marte.unican.es/documentation/tutorials/hello-marte-howto.pdf">Hello MaRTE OS using an emulator</a> in the <a href="http://marte.unican.es/documentation.htm">documentation</a> section of the MaRTE OS web page.</p><br>
+           
+<hr width="100%">       
+<h2> <a name="debugging_applications"></a>3.- Debugging Applications</h2><h4>Architecture x86</h4>For the x86 architecture if you are using a target PC you can debug it using a serial line (RS-232) connecting 
+   host and target.       
+<p>In order to debug an application it should be compiled with the -g flag. 
+   To synchronize the execution with the remote debugger running in the host 
+   is necessary to add these lines to the application code (possibly at the 
+  very beginning of your program): <br>
+      &nbsp;       
+<table nosave="" border="1" cols="1" width="100%">
+       <tbody>
+          <tr>
+       <td><b>Ada program:</b></td>
+       </tr>
+        <tr>
+       <td><tt>...</tt> <br>
+            <tt>with Debug_Marte; use Debug_Marte;</tt> <br>
+            <tt>...</tt> <br>
+            <tt>procedure My_Proc is</tt> <br>
+            <tt>begin</tt> <br>
+            <tt>&nbsp; ...</tt> <br>
+            <tt>&nbsp; Debug_Marte.Init_Serial_Communication_With_Gdb (Serial_Port_1);</tt> 
+         <br>
+            <tt>&nbsp; Debug_Marte.Set_Break_Point_Here;</tt>           
+                               
+      <p><tt>&nbsp; Application's code;</tt> <br>
+            <tt>end My_Proc;</tt></p>
+            </td>
+       </tr>
+                         
+  </tbody>      
+</table>
+        <br>
+      &nbsp;       
+<table nosave="" border="1" cols="1" width="100%">
+       <tbody>
+          <tr>
+       <td><b>C program:</b></td>
+       </tr>
+        <tr>
+       <td><tt>...</tt> <br>
+            <tt>#include &lt;debug_marte.h&gt;</tt> <br>
+            <tt>...</tt> <br>
+            <tt>int main()</tt> <br>
+            <tt>{</tt> <br>
+            <tt>&nbsp; ...</tt> <br>
+            <tt>&nbsp; init_serial_communication_with_gdb (SERIAL_PORT_1);</tt> 
+         <br>
+            <tt>&nbsp; set_break_point_here;</tt>                       
+                   
+      <p><tt>&nbsp; Application's code;</tt> <br>
+            <tt>}</tt></p>
+            </td>
+       </tr>
+                         
+  </tbody>      
+</table>
+        </p>
+           
+<p>The application executes until the first <tt><b>Debug_Marte.Set_Break_Point_Here</b></tt> 
+   or <tt><b>set_break_point_here</b></tt> is reached. At this point the execution
+is stopped   and the target is ready to synchronize with the debugger. </p>
+           
+<p>At the MaRTE installation path run <tt><b>gdb</b></tt>: </p>
+           
+<p><tt>$ gdb mprogram</tt> </p>
+           
+<p>The connection with the target is performed by executing the following 
+   "gdb" command: </p>
+           
+<p><tt>(gdb) target remote /dev/ttyS0</tt> </p>
+           
+<p>Where '/dev/ttyS0' is the device file for the serial port 1. After this 
+   you should get a message like this: </p>
+           
+<p><tt>Remote debugging using /dev/ttyS0</tt> <br>
+      <tt>main () at hello_world.c:25</tt> <br>
+      <tt>25 printf("\nHello, I'm a C program running on the MaRTE OS.\n\n");</tt> 
+   </p>
+           
+<p>All these steps can be performed at once executing: </p>
+           
+<p><tt>$ gdb -x /installation/path/marte/utils/marte_db</tt> </p>
+           
+<p>When executing gdb as above it is possible to reconnect with the target 
+   using the macro connect: </p>
+           
+<p><tt>(gdb) connect</tt></p><h4>Architecture x86 using the QEMU emulator</h4><p>For
+the x86 architecture if you are using the QEMU emulator as a target PC
+you can use its built-in debugging capabilities. (More in the tutorials
+section):<br><br></p><p style="font-family: monospace;">$ qemu -kernel marte_program -s -S &amp;</p><p style="font-family: monospace;">$ ddd &amp;</p><p style="font-family: monospace;">(gdb) target remote localhost:1234</p><p style="font-family: monospace;">(gdb)         break main</p><p style="font-family: monospace;">(gdb)         cont</p>
+           
+<h4> Architectures Linux and Linux_Lib</h4>If you have chosen Linux or Linux_lib as your architecture you can debug the program as any other Linux application:<br><br><p style="font-family: monospace;">        $ cd $HOME/marte</p><p style="font-family: monospace;">        $ mgnatmake -g hello_world.adb -o mprogram</p>or<br><p style="font-family: monospace;">        $ mgcc -g hello_world_c.c -o mprogram</p><p style="font-family: monospace;">        $ gdb mprogram</p><hr width="100%">       
+<h2> <a name="stand-alone_target"></a>4.- Configuring a stand-alone target</h2>The netbooting of user's applications is a very suitable method for
+ the  developing stage, but if you prefer it, the application can be executed 
+ in  a target completely disconnected from any other computer. For this configuration 
+  neither the RS-232 nor the Ethernet are necessary for the target computer, 
+  only a boot device (floppy, hard disk, Flash-RAM) is required.<span style="font-family: monospace;"><br></span>       
+<p>A very easy way of doing this is using the "<a href="http://marte.unican.es/downloads/grubfloppy.img.tgz">grup-floppy image</a>" provided in the <a href="http://marte.unican.es/downloads.htm">download</a> section of the MaRTE OS web page. In order to create a grup floppy, untar the file and copy the disk image to a floppy:<span style="font-family: monospace;"></span></p><p style="font-family: monospace;">$ tar zxf grubfloppy.img.tgz</p><p><span style="font-family: monospace;">$ dd if=grubfloppy.img of=/dev/fd0</span></p><p>Then, every time you want to run a MaRTE OS application copy the <span style="font-family: monospace;">mprogram</span> to the floppy:</p><p><tt>$ mcopy my_program a:mprogram</tt></p><p>Finally insert the floppy in your target computer and reset it. </p><p>Remember the MaRTE application (mprogram) must fit in the disk (&lt; 1.4 Mb).&nbsp;</p><p>Information about how to use other boot devices in: "MaRTE OS Boot process (x86 architecture)": <a href="http://marte.unican.es/documentation/tutorials/booting-marte-howto.pdf">MaRTE OS Boot process (x86 architecture)</a> in the <a href="http://marte.unican.es/documentation.htm">documentation</a> section of the MaRTE OS web page. </p>
+           
+<h2>        
+<hr width="100%"></h2>
+              
+<h2> <a name="compiling_kernel"></a>5.- Compiling MaRTE kernel and libraries</h2>
+       The kernel and libraries are compiled using full optimization options
+  during  the installation stage, so if you are planning to use MaRTE OS
+"as   is" to  build your applications, just skip the rest of this chapter.
+      
+<p>But there are some reasons why you can be interested on recompile <font color="#ff0000">MaRTE OS</font>: </p>
+           
+<ul>
+       <li> In case you are making some modifications to<font color="#ff0000">  MaRTE OS</font> or adding some new functionality.</li>
+        <li> If you want to compile the kernel with some compiler switches
+ different   than the default ones.</li>
+        <li> If you want to enable some debug checks in the kernel (see chapter
+   "<a href="#debug_checks">Enabling Debug Checks and Messages in the Kernel</a>").</li>
+       <li>If you are installing a new device driver in the system (see chapter 
+  "<a href="#Devices">MaRTE OS Devices</a>").<br>
+       </li>
+        <li> If you want to use the 'tasks_inspector' tool (see chapter "<a href="#task_inspector">Using the 'tasks_inspector' Tool</a>").</li>
+        <li> In order to change the maximum number of resources allowed in
+ a  MaRTE  application (see chapter&nbsp; "<a href="#configuration">Changing
+ MaRTE OS Configuration  Parameters</a>").</li>
+             
+</ul>
+       There are some scripts in the 'utils/' directory that allow you to 
+recompile    the kernel and/or the libraries:<br><h4>msetcurrentarch:</h4>When used without parameters, <span style="font-family: monospace;">msetcurrentarch</span> returns the current architecture. &nbsp;That is, the architecture for which <span style="font-family: monospace;">mgcc</span> and <span style="font-family: monospace;">mgnatmake</span> are currently configured to generate the executable.<br><br><p>This script can also be used to change the current architecture:</p><p style="font-family: monospace;">&nbsp; $ msetcurrentarch linux</p><p>or</p><p style="font-family: monospace;">&nbsp; $ msetcurrentarch linux_lib</p><p>or</p><p style="font-family: monospace;">&nbsp; $ msetcurrentarch x86 [i386 | pi | pii]</p><p>The "processor" flag <span style="font-family: monospace;"></span>allows to specify the processor to be used in the x86 architecture:</p><ul><li><span style="font-family: monospace;">i386</span>: Intel x86 processor. PIT is used as timer and clock.</li><li><span style="font-family: monospace;">pi</span>: Pentium I. PIT is used as timer and TSC as clock.</li><li><span style="font-family: monospace;">pii</span>: Pentium II or above. LocalAPIC timer used as timer&nbsp; and TSC as clock.</li></ul>       
+<h4> mkmarte:</h4>
+       Compiles the kernel and drivers (calling 'mkdrivers'). It accepts
+gnat   and/or gcc options, so if you want a kernel optimized for speed execute: 
+       
+<p><tt>$ mkkernel -gnatn -O3 -gnatp</tt> </p>
+           
+<p>The "-f" flag can be added to force the recompilation of all the kernel, 
+   otherwise only modified and related packages will be compiled.&nbsp;</p><p>The <span style="font-family: monospace;">-compile_only_kernel</span> flag can be added to speed up compilation process when you don't need to compile the drivers nor the <span style="font-family: monospace;">libmc.a</span>.&nbsp; </p>
+           
+<h4> mklibmc:</h4>
+       Generates the <font color="#ff0000">MaRTE OS</font> version of the 
+libc   C standard library ('lib/libmc.a'). For full optimized library execute:
+       
+<p><tt>$ mklibmc -O3</tt> 
+       </p><h4>mkdrivers:</h4>
+         
+<p>Automatically run 'make' in each driver directory containing a 'GNUmakefile'. 
+  After that, all the objects files found in drivers directories are moved 
+  to the objects library&nbsp;<span style="font-family: monospace;">lib/</span>. (See also chapter &nbsp;"<a href="#Devices">MaRTE OS devices</a>").</p><h4> mkrtsmarteuc:</h4>
+       Makes the GNAT run-time system for the current architecture.       
+<p><tt>$ mkrtsmarteuc -gnato -g<br>
+     </tt></p><hr width="100%">       
+<h2> <a name="optimizing_kernel"></a>6.- Optimizing MaRTE kernel for speed
+   and size</h2>
+       By default the kernel is optimized for speed (compiled with flags
+"-gnatn    -gnatp -O3") and without any pragma "restrictions". If you desire
+to impose    some restrictions to your application or use a simplified version
+of the   run time with the use of "pragma Restricted_Run_Time" or "pragma
+Ravenscar"   just put a 'gnat.adc' file with the desired pragmas in the <span style="font-family: monospace;">kernel/</span> 
+directory   and force recompilation of everything (flag "<span style="font-family: monospace;">-f</span>").       
+<p>For example, for a minimum size kernel a '<span style="font-family: monospace;">gnat.adc</span>' file with the following 
+   pragmas can be used: </p>
+           
+<p><tt>pragma Ravenscar;</tt> <br>
+      <tt>pragma Restrictions (Max_Tasks =&gt; 2); -- Or the number of tasks
+  of  your application</tt> </p>
+           
+<p>And then recompile MaRTE kernel with the command: </p>
+           
+<p><tt>$ mkmarte -gnatp -O3</tt>&nbsp;</p><p>The size of the final
+executable can be reduced by stripping all symbols that are not needed
+for relocation processing using the command:</p><p><span style="font-family: monospace;">
+      &nbsp;$ objcopy -O elf32-i386 --strip-unneeded mprogram</span><br> </p>
+           
+<h2>        
+<hr width="100%"></h2>
+              
+<h2> <a name="debug_checks"></a>7.- Enabling Debug Checks and Messages in
+   the Kernel</h2>
+       Some debugging checks are included in the kernel in the form of "Assert" 
+   pragmas. They can be used to detect internal errors inside the kernel before
+   they cause any unexpected behaviour impossible to analyse. To enable these
+   checks the kernel have to be recompiled with the '-gnata' flag:       
+<p><tt>$ mkmarte -gnata -a -f ("-f" force recompilations)</tt> </p>
+           
+<p>Enabling "Assert" pragmas can be useful if you are modifying MaRTE OS to
+check the consistency of your changes. </p>
+           
+<p>The kernel also can be configured to display some (lot) debugging messages 
+   on console. They can report all relevant events about context switches, 
+ mutexes, signals, timed events, etc. This functionality can be useful for 
+ kernel developers in some specific situations. In the general case the number 
+ of messages displayed is too huge to be analysed, and the use of the debugger 
+ will be preferred. To enable the debugging messages edit the file '<span style="font-family: monospace;">kernel/marte-debug_messages.ads</span>',
+   set to true some (or all) the boolean constants below the label "General
+  Messages" and recompile the kernel with assertions enabled: </p>
+           
+<p><tt>$ mkmarte -gnata<br>
+      </tt></p>
+           
+<hr size="2" width="100%">      
+<h2><a name="Devices"></a>8.- MaRTE OS Devices</h2>
+           
+<p><font color="#ff0000">MaRTE OS </font>provides a standard method for installing
+   and using device drivers. This method allow programmers to share their
+drivers   with other people in a simple way.</p>
+           
+<p>The implemented model is similar what is used in most UNIX-like operating
+   systems. Applications access devices through "device files" using standard
+   file operations (open, close, write, read, ioctl).</p>
+           
+<p>The drivers installation in <font color="#ff0000">MaRTE OS</font> is explained
+   bellow. The best way of understanding that process is looking at drivers
+  included in<font color="#ff0000"> MaRTE OS</font> distribution. The simpler
+  examples are "Demo_Driver_C" and "Demo_Driver_Ada".</p>
+           
+<h4>Driver code</h4>
+           
+<p>A driver can be written using both Ada or C programming languages. The
+   code file(s) must be included in a subdirectory of 'drivers/'.</p>
+           
+<p>An Ada driver can provide some the following functions (usually all the
+   functions will be provided):</p>
+           
+<blockquote><tt>function My_Driver_Create return Int;</tt><br>
+        <br>
+        <tt>function My_Driver_Remove return Int;</tt><br>
+        <br>
+        <tt>function My_Driver_Open (Fd &nbsp; : in File_Descriptor; <br>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp;  &nbsp; &nbsp;Mode : in File_Access_Mode)<br>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp;  &nbsp; return Int;</tt><br>
+        <br>
+        <tt>function My_Driver_Close (Fd : in File_Descriptor) return Int;</tt><br>
+        <br>
+        <tt>function My_Driver_Read (Fd &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+ &nbsp;:   in File_Descriptor;<br>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp;  &nbsp;&nbsp; Buffer_Ptr &nbsp; &nbsp;: in Buffer_Ac;<br>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp;  &nbsp; &nbsp;Bytes_To_Read : in Unsigned_32)<br>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp;  &nbsp; return Int;</tt><br>
+        <br>
+        <tt>function My_Driver_Write (Fd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   : in File_Descriptor;<br>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp;  &nbsp; &nbsp; Buffer_Ptr&nbsp;&nbsp;&nbsp;&nbsp; : in Buffer_Ac;<br>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp;  &nbsp; &nbsp; Bytes_To_Write : in Unsigned_32)<br>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp;  &nbsp; &nbsp;return Int;</tt><br>
+        <br>
+        <tt>function My_Driver_Ioctl (Fd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   : in File_Descriptor;<br>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp;  &nbsp; &nbsp; Request&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :
+ in Ioctl_Option_Value;<br>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp;  &nbsp; &nbsp; Ioctl_Data_Ptr : in Buffer_Ac)<br>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+ &nbsp;  &nbsp; &nbsp;return Int;</tt></blockquote>
+           
+<p>For a C driver the function prototypes are:<br>
+      </p>
+           
+<blockquote><tt>int my_driver_create (int arg);</tt><br>
+        <br>
+        <tt>int my_driver_remove ();</tt><br>
+        <br>
+        <tt>int my_driver_open (int file_descriptor, int file_access_mode);</tt><br>
+        <br>
+        <tt>int my_driver_close (int file_descriptor);</tt><br>
+        <br>
+        <tt>ssize_t my_driver_read (int file_descriptor, void *buffer, size_t 
+  bytes);</tt><br>
+        <br>
+        <tt>ssize_t my_driver_write (int file_descriptor, void *buffer, size_t
+   bytes);</tt><br>
+        <br>
+        <tt>int my_driver_ioctl (int file_descriptor, int request, void*
+argp);</tt></blockquote>
+           
+<p>For C drivers a specification Ada file must be written to make accessible
+   the C functions to MaRTE kernel. To write that file you can use <tt><b>drivers/demo_driver_c/demo_driver_c_import.ads</b></tt>
+   as a template. Also a <tt><b>GNUmakefile</b></tt> file should be included
+ in driver's directory since <tt><b>mkdrivers</b></tt> will automatically
+run <tt><b>make</b></tt> in each driver directory containing a <tt><b>GNUmakefile</b></tt>. 
+  After that, all the objects files found in drivers directories are copied 
+  to the drivers library <tt><b>lib/libdrivers.o</b></tt>. <br>
+      </p>
+           
+<h4>Installing device drivers</h4>
+           
+<p>Drivers and device files included in the system are registered in <tt><b>kernel/k-devices_table.ads</b></tt>
+   file. In this file there are two tables:<br>
+      </p>
+           
+<ul>
+    <li><b><tt>The_Driver_Table</tt></b>: device drivers included in the
+system.  This table  associates major numbers with device drivers.</li>
+    <li><b><tt>The_Device_Files_Table</tt></b>: device files defined in the
+ RAM file system.</li>
+   
+</ul>
+                         
+<p>In order to include a new driver add and entry to <tt><b>The_Driver_Table</b></tt>,
+ choosing an unused number. That number will be the major number that identifies
+ your driver in the system. (You can take as example the commented entry
+for  "Demo_Driver_Ada" or "Demo_Driver_C").</p>
+           
+<p>Now you must add unless one device file in <tt><b>The_Device_Files_Table</b></tt>.
+ The   name of your device file can be whatever you want ("/dev" prefix is
+ recommended   for analogy with UNIX systems).</p>
+           
+<p>As mayor number should be chosen the one previously associated with your
+   driver. As minor number can be used whatever you want, this number is
+useful    to distinguish between different files associated with the same
+major number.</p>
+           
+<p>In the field <tt><b>Ceiling</b></tt> you can put any value within the
+priorities range   used in the system (usually between 0 and 31). To know
+more about this field   read "Mutual exclusion among threads using the same
+file descriptor".<br>
+  </p>
+   
+<h4>Installing device drivers for the standard input, output and error</h4>
+   
+<p>A few special things is necessary to do in case you want to change one
+ of the standard input, output or error devices.</p>
+   
+<p>Since we want to use these devices from the very beginning of an application
+ execution, even before the file system has been properly setup, some direct
+ hooks to basic functions of these devices have to be provided in file <tt><b>kernel/kernel_console.ads</b></tt>.</p>
+   
+<p>If you are changing the standard input device, you should modify the following
+ "hook" in&nbsp;<tt><b>kernel/kernel_console.ads</b></tt>:</p>
+   
+<ul>
+    <li><tt><b>Stdin_Direct_Read</b></tt>: basic function used to read a
+character  from standard input. It is used to wait a key in order to reboot
+target computer  after application finishes.</li>
+   
+</ul>
+   
+<p>If you are changing the standard output device, you should modify the
+following "hooks" in&nbsp;<tt><b>kernel/kernel_console.ads</b></tt>:</p>
+   
+<ul>
+    <li><tt><b>Stdout_Basic_Init</b></tt>: function called by <font color="#ff0000">MaRTE OS</font> as application start execution. It can be
+ used to perform a basic initialization of stdout device, just enough to
+allow      <tt><b>Stdout_Direct_Write</b></tt> to work (see below). This
+basic initialization  should not do complex things (as installing interrupt
+handlers, use semaphores,  etc.), that complex stuff should be done in the
+regular <tt><b>Create</b></tt>  function included in <tt><b>The_Driver_Table</b></tt>.</li>
+    <li><b><tt>Stdout_Direct_Write</tt></b>: basic function used to write 
+on standard output at the very beginning of execution, before the file system
+ has been properly setup. If no function is provided <font color="#ff0000">MaRTE OS</font> initialization messages will not be displayed.
+ It is also used by <tt><b>printc</b></tt> to display messages directly to
+ console without passing through the file system.</li>
+    <li><tt><b>Stdout_End_Of_Kernel_Initialization</b></tt>: to be called 
+by     <font color="#ff0000">MaRTE OS</font> at the end of messages corresponding
+ to kernel and devices initialization. It can be used by stdout device to
+filter out those messages or to display they in a different way (i.e. using
+a different color).</li>
+   
+</ul>
+   
+<p>If you are changing the standard error device, you should modify the following
+ "hooks" in&nbsp;<tt><b>kernel/kernel_console.ads</b></tt>:</p>
+   
+<ul>
+    <li><tt><b>Stderr_Basic_Init</b></tt>: function called by <font color="#ff0000">MaRTE OS</font> as applications start execution. It can
+be used to perform a basic initialization of stderr device, just enough to
+allow     <tt><b>Stderr_Direct_Write</b></tt> to work (see below). This basic
+initialization should not do complex things (as installing interrupt handlers,
+use semaphores, etc.), that complex stuff should be done in the regular <tt><b>Create</b></tt>
+ function included in <tt><b>The_Driver_Table</b></tt>.</li>
+    <li><b><tt>Stderr_Direct_Write</tt></b>: basic function used to write 
+on standard error from the very beginning of execution, before the file system
+ has been properly setup. This function is also used by <font color="#ff0000">MaRTE OS </font>kernel and <font color="#000000"><tt><b>printe</b></tt></font>
+ function to print error messages. Its use is more direct and less error
+prone  than using the standard <tt><b>write</b></tt> function, so, it is
+more likely  to work after fatal errors.</li>
+   
+</ul>
+   
+<h4>Restrictions for drivers and interrupt handlers code</h4>
+   
+<p>There is an important restriction for interrupt handlers code: "they should
+ not call any potentially blocking operation". This includes writing directly
+ to <tt><b>stderr</b></tt> or <tt><b>stdout</b></tt> devices because a mutex
+ is used to protect every driver in <font color="#ff0000">MaRTE OS</font>.
+ So, interrupt handlers are not allowed to use standard input/output functions
+ as <tt><b>printf</b></tt> or the package <b><tt>Ada.Text_IO</tt></b>.</p>
+   
+<p>As alternative, C interrupt handlers must use <tt><b>printc</b></tt> (to
+ write on console) and <tt><b>printe</b></tt> (to write on standard error).
+ These functions write directly in the devices without passing through the
+ file system. For Ada drivers package <tt><b>Kernel_Console</b></tt> must
+be used instead of <tt><b>Ada.Text_IO</b></tt>.</p>
+   
+<p>Apart from the explained before for interrupt handlers, there is no restrictions
+ for code to be used inside drivers, so they could use any standard POSIX
+or Ada interfaces. Anyway, it is recommended for Ada drivers not to use the
+"POSIX.Ada" interface. There are two reasons for that:</p>
+   
+<ul>
+    <li>A driver that use this interface will introduce dependency to the 
+interface even for C applications or Ada applications that do not uses POSIX 
+by themselves. Then footprint is unnecessarily incremented in those cases.</li>
+    <li>"POSIX.Ada" interface uses exceptions, so it is not possible to write
+ a exceptions free kernel when using that driver (what could be desirable
+in some environments).</li>
+   
+</ul>
+   
+<p>To avoid this dependency <font color="#ff0000">MaRTE OS</font> provides
+ two packages: <tt><b>Marte_Hardware_Interrupts</b></tt> and <tt><b>Marte_Semaphores</b></tt>
+ to be used inside drivers instead of their POSIX equivalents (<tt><b>POSIX_Hardware_Interrupts</b></tt>
+ and <tt><b>POSIX_Semaphores</b></tt>).</p>
+           
+<h4>Compiling kernel and drivers</h4>
+             
+<p>Each driver with files not written in Ada should include in its directory 
+  a 'GNUmakefile' with the rules to compile those files.</p>
+         
+<p>MaRTE utilities 'mkkernel' and 'mkdrivers' automatically run 'make' in 
+  each driver directory containing a 'GNUmakefile'. After that, all the objects 
+  files found in drivers directories are copied to the drivers library 'lib/libdrivers.a'. 
+  </p>
+         
+<p>'mkkernel', apart from calling 'mkdrivers', makes all <font color="#ff0000">MaRTE OS</font> kernel. Then it must be executed after changing 
+  drivers and device files definition tables in 'kernel/marte-kernel-devices_table.ads'.</p>
+         
+<p>So, the general way of keeping everything updated after a change in device 
+  drivers code or definition tables is executing '<span style="font-family: monospace;">mkmarte</span>' (see also chapter 
+  "<a href="#compiling_kernel">Compiling MaRTE kernel and libraries</a>"). 
+ However, if you have only changed your driver code (without touching 'kernel/k-devices_table.ads') 
+  running '<span style="font-family: monospace;">mkdrivers</span>' would be enough.</p>
+         
+<p>It is important to notice that, when using Ada drivers from Ada applications, 
+  'mgnatmake' will do all the work (it is not necessary to execute 'mkmarte' 
+  nor 'mkdrivers'). This is because all dependencies in an Ada application 
+ are known at compilation time (the Ada library records that information), 
+ and then, necessary compilations will be performed assuring the application 
+ consistency.</p>
+           
+<h4>Mutual exclusion among threads using the same file descriptor</h4><p>It
+is important to notice that, by default, there is no mutual exclusion
+among threads using the same device. This fact can be useful, for
+example, in devices that allows simultaneous write and read operations
+without any kind of synchronization between them.</p>
+           
+<h4>Operations available for drivers </h4>
+           
+<p><font color="#ff0000">MaRTE OS</font> provides some operations to be specifically
+   used inside drivers:</p><ul><li>Get the major and minor numbers</li><li>Get the Path associated to a file descriptor</li><li>Set and reset the POSIX error for a driver operation</li><li>Set and get specific data associated to a file descriptor</li><li>Get file access mode for the file descriptor</li></ul><p> These operations are provided by Ada package 'Drivers_Marte'. For more information about that functions read the source file <span style="font-family: monospace;">misc/divers_marte.ads</span>.</p><p>For drivers written in C exists the headers file&nbsp;<span style="font-family: monospace;">include/drivers/drivers_marte.h</span>.</p><hr width="100%">       
+<h2> <a name="task_inspector"></a>9.- Using the 'tasks_inspector' Tool</h2><p>
+       This tool<span style="font-family: monospace;"> </span>(in
+experimental phase) allows analysing the execution flow of an
+application. The relevant scheduling information can be stored or sent
+from the target to the host computer, to be analysed after the
+application execution finishes.</p>        
+<p>The scheduling information is parsed and transformed into a set of files 
+   that can serve as input for 'gnuplot', a plotting program with which the 
+  information is displayed graphically. </p>
+           
+<p>In order to use the 'tasks_inspector' tool first the boolean constant 'Tasks_Inspector_Messages' must be set to
+'True'   (file 'kernel/marte-debug_messages.ads') and then the kernel have to be
+   recompiled: 
+           
+</p><p><tt>&nbsp; $ mkmarte -gnata</tt> </p><p>In Linux_Lib
+architecture, the scheduling information always is stored in the file
+'trace_marte.dat', but in x86 architecture it can be chossen between
+differnt mechanisms to send the information from the target to the host:</p><ul><li>LOG_CONSOLE: trace data is written in the standard console</li><li>LOG_ETHERNET:
+trace data is sent as a set of Ethernet frames with a broadcast address
+and a certain protocol number not allocated for other protocols. This
+data can be read with a Linux program that uses raw sockets to receive
+those frames and write them to a log file (<span style="font-family: monospace;">examples/logger/Linux_eth_receive_log.c</span>).</li><li>LOG_DISK:
+trace data is written in a file. The name of the file is '/fat/log' in
+architecture x86 or 'trace_marte.dat' (created in the working
+directory) in the architecture Linux_Lib</li></ul><p>In  x86 architecture also the logger mechanism can be specified:</p><ul><li>DIRECT, data is directly written on the log device.</li><li>USE_LOGGER_TASK data is stored in a memory buffer and is written in the log device by an auxiliary task.</li></ul>Once the scheduling information is available in your host computer, the data can be displayed with 'gnuplot':<br><span style="font-family: monospace;">&nbsp; $ .../tasks_inspector/tasks_inspector.pl trace_marte.dat</span><hr width="100%">       
+<h2> <a name="configuration"></a>10.- Changing MaRTE OS Configuration Parameters</h2>
+      <font color="#ff0000"> MaRTE OS</font> (if using "Preallocated Resources") is a static system in which
+the   maximum number of resources (i.e., threads, mutexes, thread stacks,
+number   of priority levels, timers, etc.) is set at compilation time.<br><p>Also some specific services can be enabled or disabled to improve kernel performance or footprint.  If you
+want to  change the default values the kernel have to be recompiled with
+the new ones.</p>        
+<p>The configuration parameters are defined as constants in the file <tt><b>kernel/marte-configuration_parameters.ads</b></tt>. 
+   Below each parameter there is a short description of its meaning.</p>
+   
+
+           
+<p>For example the maximum number of tasks (or threads) that is possible
+to create is set by constant&nbsp;<tt><b>Num_User_Tasks_Mx</b></tt> (20 by
+default in x86 architecture). If you want to create more tasks just change this value and recompile
+the kernel using the <span style="font-family: monospace;">mkmarte</span> script:<br>
+  <br>
+  <tt>$ mkmarte -gnatn -gnatp -O3</tt> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (or whatever other compiler options you want) <br>
+  <br></p><hr width="100%">       
+<h2> <a name="miscellany"></a>11.- Miscellany of Utilities</h2>
+              
+<p><br>
+      In the directories 'misc/' and 'include/misc/' there are some extra 
+utilities   that although they do not belong to the kernel or the POSIX interface 
+can   be useful for some applications: <br>
+      &nbsp; </p>
+           
+<h4>Console Management</h4>
+  Complete set of operations for the text console. They allow changing  
+the  text attributes, positioning the cursor and cleaning the screen. It
+also allows changing keyboard behaviour between to modes:<br>
+   
+<ul>
+    <li>"Cooked Mode": in this mode line editing is allowed, the textual
+unit  of input is an entire "line" of text, where a "line" is a sequence
+of characters  terminated by the line termination character CR. Thus, characters
+typed in  this mode are not immediately made available to the calling program.
+They  are first buffered to allow the user to perform line editing (erase
+characters)  on them.</li>
+    <li>"Raw Mode": every character is made available to the calling program
+ as soon as it is typed, so no line editing is available in this mode.changing 
+ the  console input configuration.     </li>
+   
+</ul>
+   
+<p>Files 'misc/console_management.ads', 'misc/console_management.adb'   and
+ 'include/misc/console_management.h'. <br>
+      &nbsp; </p>
+           
+<h4> Execution Load</h4>
+       Allows applications to consume CPU for a given amount of time. Useful
+  in  examples that do nothing but show the scheduling of tasks and resources. 
+        
+<p>In Ada there are two versions of this package:</p><ul><li>Execution_Load_Loop: CPU time consumption is achieved by executing the appropriate number of loop iterations.</li><li>Execution_Load: CPU time consumption is based on CPU time clocks.</li></ul><p>Files
+'misc/execution_load_loop.ads', 'misc/execution_load_loop.adb',
+'misc/execution_load.ads', 'misc/execution_load.adb', 'misc/load.c' and
+'include/misc/load.h'. <br>
+      &nbsp; </p>
+           
+<h4> Console Switcher</h4><p>
+       Allows applications to change the output system console between the
+ monitor   and the serial line.</p><p>If
+you are using QEMU emulator you can redirect again the serial port to
+stdio to read the messages in the terminal (with scrolling!) with the
+followin flag: "-serial stdio"</p><p style="font-family: monospace;">&nbsp; &nbsp;$ qemu -kernel marte_program -serial stdio</p>       
+<p>Files 'misc/console_switcher.ads' and 'include/drivers/console_switcher.h'. 
+   <br>
+      &nbsp; </p>
+           
+<p> </p>
+           
+<hr width="100%">       
+<table nosave="" cols="2" width="100%">
+       <tbody>
+          <tr nosave="">
+       <td nosave="">                                           
+      <center><b>Contact Address:</b></center>
+       </td>
+        <td>                                           
+      <center><b>MaRTE OS internet site:</b></center>
+       </td>
+       </tr>
+        <tr>
+       <td>                                           
+      <center><a href="mailto:aldeam@unican.es">aldeam@unican.es</a></center>
+       </td>
+        <td>                                           
+      <center><a href="http://marte.unican.es" target="_top">http://marte.unican.es</a></center>
+       </td>
+       </tr>
+                         
+  </tbody>      
+</table>
+              
+<center><b>Department of Electrónica y Computadores</b> <br>
+      <b>Group of Computadores y Tiempo Real</b> <br>
+      <b>University of Cantabria</b> <br>
+             
+<hr width="100%"></center>
+        <br>
+      <br>
+     <br>
+    <br>
+   <br>
+  <br>
+ <br>
+</body></html>

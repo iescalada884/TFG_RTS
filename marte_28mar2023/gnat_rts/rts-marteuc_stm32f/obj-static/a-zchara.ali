@@ -1,0 +1,31 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U ada.wide_wide_characters%s  a-zchara.ads	57b06f13 NE OL PU PK
+W ada%s			ada.ads			ada.ali
+
+D ada.ads		20250318185043 76789da1 ada%s
+D a-zchara.ads		20250318185043 21c8f2b2 ada.wide_wide_characters%s
+D system.ads		20250318185043 14286b0f system%s
+G a e
+X 1 ada.ads
+16K9*Ada 20e8 2|16r9 18r5
+X 2 a-zchara.ads
+16K13*Wide_Wide_Characters 1|16k9 2|18l9 18e29
+

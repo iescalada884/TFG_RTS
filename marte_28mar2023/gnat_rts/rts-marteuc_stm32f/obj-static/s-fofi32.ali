@@ -1,0 +1,71 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.fore_fixed_32%s  s-fofi32.ads		2ba0da0d NE OL PU PK
+W interfaces%s		interfac.ads		interfac.ali
+W system%s		system.ads		system.ali
+W system.arith_32%s	s-arit32.adb		s-arit32.ali
+Z system.exn_int%s	s-exnint.ads		s-exnint.ali
+W system.fore_f%s
+
+D ada.ads		20250318185043 76789da1 ada%s
+D a-assert.ads		20250318185043 ba465f5c ada.assertions%s
+D a-except.ads		20250318185043 e7970cd9 ada.exceptions%s
+D a-numeri.ads		20250318185043 84bea7a3 ada.numerics%s
+D a-nubinu.ads		20250318185043 93f1f3d1 ada.numerics.big_numbers%s
+D a-nbnbig.ads		20250318185043 31ff4aa1 ada.numerics.big_numbers.big_integers_ghost%s
+D a-unccon.ads		20250318185043 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20250318185043 9111f9c1 interfaces%s
+D system.ads		20250318185043 14286b0f system%s
+D s-arit32.ads		20250318185043 e8522a76 system.arith_32%s
+D s-assert.ads		20250318185044 9c4520c7 system.assertions%s
+D s-exctab.ads		20250318185043 91bef6ef system.exception_table%s
+D s-exnint.ads		20250318185044 3d33a4e5 system.exn_int%s
+D s-exponn.ads		20250318185044 99b98823 system.exponn%s
+D s-fore_f.ads		20250318185044 5b88f089 system.fore_f%s
+D s-fore_f.adb		20250318185044 1df060cf system.fore_f%b
+D s-fofi32.ads		20250318185043 1d43923c system.fore_fixed_32%s
+D s-parame.ads		20250318185044 3597fc11 system.parameters%s
+D s-stalib.ads		20250318185044 1c9580f6 system.standard_library%s
+D s-traent.ads		20250318185043 c81cbf8c system.traceback_entries%s
+G a e
+G c Z s s [fore_fixed system__fore_fixed_32__impl 47 13 44_4]
+X 8 interfac.ads
+38K9*Interfaces 233e15 17|35w6 42r21
+54I9*Integer_32<integer> 17|42r32
+X 9 system.ads
+37K9*System 155e11 17|36r6 37r6 39r9 50r5
+X 10 s-arit32.ads
+50K16*Arith_32 117e20 17|36w13 44r39
+91U14*Scaled_Divide32 17|44r48
+X 15 s-fore_f.ads
+44k16*Fore_F 54e18 17|37w13 44r24
+47V13*Fore_Fixed{natural} 17|48r19[44]
+X 17 s-fofi32.ads
+39K16*Fore_Fixed_32 9|37k9 17|50l12 50e25
+42I12*Int32{8|54I9} 44r32 47r26
+44K12*Impl[15|44] 48r14
+46V13*Fore_Fixed32=48:19{natural}
+47i7 Lo{8|54I9}
+47i11 Hi{8|54I9}
+47i15 Num{8|54I9}
+47i20 Den{8|54I9}
+47i33 Scale{integer}
+

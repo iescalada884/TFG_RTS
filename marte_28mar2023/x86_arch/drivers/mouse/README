@@ -1,0 +1,20 @@
+
+                     PS/2 mouse driver for MaRTE OS
+                     ==============================
+
+This driver has developed by Angel Muñoz Cantera during his degree thesis
+"Graphical Interface Library for Embedded Control Systems.
+Case study: teleoperated arm" (University of Cantabria).
+You can find the documents of the thesis including a desciption of the
+architecture in MaRTE OS website (http://marte.unican.es/projects.htm#gui)
+
+1) Installation
+===============
+
+In order to install the driver uncomment the necessary lines at
+'marte/x86_arch/arch_dependent_files/marte-kernel-devices_table.ads' to
+include the driver in the drivers table and create the device /dev/ps2mouse.
+
+Then, you can test the driver with the example provided:
+
+   $ mgnatmake test_mouse.adb

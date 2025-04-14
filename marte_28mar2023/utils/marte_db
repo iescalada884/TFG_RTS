@@ -1,0 +1,3 @@
+file /home/ubuntfg/Documents/marte_28mar2023/mprogram
+source /home/ubuntfg/Documents/marte_28mar2023/utils/gdb_commands
+connect

@@ -1,0 +1,293 @@
+V "GNAT Lib v2019"
+A -gnatA
+A --RTS=/home/ubuntfg/opt/GNAT/2019-arm-elf/arm-eabi/lib/gnat/zfp-stm32f4/
+A -mlittle-endian
+A -mfloat-abi=hard
+A -mcpu=cortex-m4
+A -mfpu=fpv4-sp-d16
+A -mthumb
+A -ffunction-sections
+A -fdata-sections
+A -gnateDDEF_MARTE_ARCH=STM32F
+A -gnateDMARTE_BOARD=stm32f4
+P SL ZX
+
+RN
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_UNCHECKED_CONVERSION
+RV NO_DEFAULT_INITIALIZATION
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_IMPLICIT_LOOPS
+RV NO_ELABORATION_CODE
+RV SPARK_05
+
+U marte.stacks_management%b  marte-stacks_management.adb  5912d74e OO PK IU
+W ada%s			ada.ads			ada.ali
+Z ada.tags%s		a-tags.adb		a-tags.ali
+W ada.unchecked_conversion%s
+Z interfaces%s		interfac.ads		interfac.ali
+W marte%s		marte.ads		marte.ali
+W marte.configuration_parameters%s  marte-configuration_parameters.ads  marte-configuration_parameters.ali
+W marte.hal%s		marte-hal.adb		marte-hal.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+W marte.kernel.debug%s	marte-kernel-debug.adb	marte-kernel-debug.ali
+W marte.stacks_management%s  marte-stacks_management.adb  marte-stacks_management.ali
+W marte.stacks_management.debug%s  marte-stacks_management-debug.adb  marte-stacks_management-debug.ali
+W system%s		system.ads		system.ali
+
+U marte.stacks_management%s  marte-stacks_management.ads  d522fc02 EE NE OO PK
+W ada%s			ada.ads			ada.ali
+Z ada.tags%s		a-tags.adb		a-tags.ali
+Z ada.unchecked_conversion%s
+W marte%s		marte.ads		marte.ali
+W marte.configuration_parameters%s  marte-configuration_parameters.ads  marte-configuration_parameters.ali
+W marte.integer_types%s	marte-integer_types.ads	marte-integer_types.ali
+W marte.sll%s		marte-sll.adb		marte-sll.ali
+W marte.sll.resources%s	marte-sll-resources.adb	marte-sll-resources.ali  EA
+W system%s		system.ads		system.ali
+Z system.storage_elements%s  s-stoele.adb	s-stoele.ali
+
+D ada.ads		20190518110050 76789da1 ada%s
+D a-tags.ads		20190518110050 2dde273c ada.tags%s
+D a-unccon.ads		20190518110050 0e9b276f ada.unchecked_conversion%s
+D gnat.ads		20190518110050 b5988c27 gnat%s
+D g-souinf.ads		20190518110050 291df751 gnat.source_info%s
+D interfac.ads		20190518110050 5ab55268 interfaces%s
+D i-c.ads		20190518110050 ef84921c interfaces.c%s
+D i-stm32.ads		20190518110049 4d2e1e9b interfaces.stm32%s
+D i-stm32-pwr.ads	20190518110049 10ed2a13 interfaces.stm32.pwr%s
+D marte.ads		20230328142408 99bc4a3f marte%s
+D marte-configuration_parameters.ads  20230328142416 381ea921 marte.configuration_parameters%s
+D marte-hal.ads		20230328142416 b82c62f8 marte.hal%s
+D marte-integer_types.ads  20230328142407 2e806981 marte.integer_types%s
+D marte-kernel.ads	20230328142408 dd02ee52 marte.kernel%s
+D marte-kernel-debug.ads  20230328142408 c0acd07a marte.kernel.debug%s
+D marte-posix_constants.ads  20230328142408 8d4a4132 marte.posix_constants%s
+D marte-sll.ads		20230328142436 f705b9d6 marte.sll%s
+D marte-sll.adb		20230328142436 958c7c1e marte.sll%b
+D marte-sll-advanced.ads  20230328142436 2ff94b17 marte.sll.advanced%s
+D marte-sll-map.ads	20230328142436 71679a5f marte.sll.map%s
+D marte-sll-order.ads	20230328142436 45a1562e marte.sll.order%s
+D marte-sll-resources.ads  20230328142436 3fc24e72 marte.sll.resources%s
+D marte-sll-resources.adb  20230328142436 8cbfa9e4 marte.sll.resources%b
+D marte-stacks_management.ads  20230328142408 745cf584 marte.stacks_management%s
+D marte-stacks_management.adb  20230328142407 b50db1e4 marte.stacks_management%b
+D marte-stacks_management-debug.ads  20230328142408 30dddb5f marte.stacks_management.debug%s
+D system.ads		20190518110049 e69b74bd system%s
+D s-bb.ads		20190518110050 09e072ae system.bb%s
+D s-bbbopa.ads		20190518110049 95d97b26 system.bb.board_parameters%s
+D s-bbmcpa.ads		20190518110049 c4c55388 system.bb.mcu_parameters%s
+D s-bbpara.ads		20190518110049 431abc17 system.bb.parameters%s
+D s-stm32.ads		20190518110049 e898dba2 system.stm32%s
+D s-stoele.ads		20190518110050 2dc34a04 system.storage_elements%s
+D s-unstyp.ads		20190518110050 34867c83 system.unsigned_types%s
+G a e
+G c s s s [s marte__stacks_management 53 1 none]
+G c Z s b [request_stack marte__stacks_management 63 13 none]
+G c Z s b [get_main_task_stack marte__stacks_management 64 13 none]
+G c Z s b [release_stack marte__stacks_management 66 14 none]
+G c Z s b [get_stack_base_address marte__stacks_management 68 13 none]
+G c Z s b [get_stack_top_address marte__stacks_management 71 13 none]
+G c Z s b [dword_in_stack_address marte__stacks_management 74 13 none]
+G c Z s b [write_in_stack marte__stacks_management 78 14 none]
+G c Z s b [write_in_stack marte__stacks_management 82 14 none]
+G c Z s b [stack_ok marte__stacks_management 86 13 none]
+G c Z s b [configure_main_task_stack marte__stacks_management 89 14 none]
+G c Z s b [get_stack_size_in_bytes marte__stacks_management 91 13 none]
+G c Z s b [initialize_pool marte__stacks_management 97 14 none]
+G c Z s s [Tmagic_checkBIP marte__stacks_management 103 4 none]
+G c Z s s [stack_data_baseIP marte__stacks_management 118 9 none]
+G c Z s s [initialize marte__stacks_management__stack_data_lists 61 14 124_4]
+G c Z s s [enqueue_head marte__stacks_management__stack_data_lists 64 14 124_4]
+G c Z s s [enqueue_tail marte__stacks_management__stack_data_lists 68 14 124_4]
+G c Z s s [dequeue_head marte__stacks_management__stack_data_lists 72 14 124_4]
+G c Z s s [head marte__stacks_management__stack_data_lists 75 13 124_4]
+G c Z s s [dequeue marte__stacks_management__stack_data_lists 78 14 124_4]
+G c Z s s [is_empty marte__stacks_management__stack_data_lists 83 13 124_4]
+G c Z s s [next marte__stacks_management__stack_data_lists 86 13 124_4]
+G c Z s s [is_the_head marte__stacks_management__stack_data_lists 89 13 124_4]
+G c Z s s [is_the_tail marte__stacks_management__stack_data_lists 92 13 124_4]
+G c Z s s [is_in_the_list marte__stacks_management__stack_data_lists 95 13 124_4]
+G c Z s s [to_element_ac marte__stacks_management__stack_data_lists 112 13 124_4]
+G c Z s s [to_list marte__stacks_management__stack_data_lists 114 13 124_4]
+G c Z s s [elementIP marte__stacks_management__stack_data_lists 105 9 124_4]
+G c Z s s [release marte__stacks_management__stack_data_pool_management 47 14 125_4]
+G c Z s s [request marte__stacks_management__stack_data_pool_management 50 13 125_4]
+G c Z s s [resources_left marte__stacks_management__stack_data_pool_management 53 13 125_4]
+G c Z s s [malloc marte__stacks_management__stack_data_pool_management 50 13 125_4]
+G c Z s s [free marte__stacks_management__stack_data_pool_management 52 14 125_4]
+G c Z s s [Tstack_memory_areaBIP marte__stacks_management 114 4 none]
+G c Z b b [Tstack_data_poolBIP marte__stacks_management 149 4 none]
+G c Z b b [to_stack_pos marte__stacks_management 157 13 none]
+G c Z b b [Tstack_fix_sizeBIP marte__stacks_management 173 4 none]
+G c Z b b [Tstack_poolBIP marte__stacks_management 177 4 none]
+G c Z b b [uc marte__stacks_management 189 13 none]
+G c Z b b [initialize_stack marte__stacks_management 195 14 none]
+G r i none [s marte__stacks_management 53 1 none] [sll marte 49 15 none]
+G r i none [s marte__stacks_management 53 1 none] [resources marte__sll 45 19 none]
+G r c none [configure_main_task_stack marte__stacks_management 89 14 none] [main_task_stack_base marte__hal 321 13 none]
+G r c none [configure_main_task_stack marte__stacks_management 89 14 none] [main_task_stack_top_limit marte__hal 319 13 none]
+X 1 ada.ads
+16K9*Ada 20e8 25|116r6 189r23 420r26 422r26 458r13
+X 3 a-unccon.ads
+20v14*Unchecked_Conversion 25|116w10 189r27 420r30 422r30 458r17
+X 7 i-c.ads
+73M9*size_t
+X 10 marte.ads
+43K9*MaRTE 45e10 24|46r6 47r6 49r6 50r6 53r9 69r44 72r42 76r44 82r36 86r40
+. 115r6 124r36 133r5 25|118r6 119r6 121r6 122r6 125r14 127r8 128r24 129r24
+. 130r30 477r5
+X 11 marte-configuration_parameters.ads
+52K15*Configuration_Parameters 409e35 24|47w12 25|118w12 128r30
+68B12*Preallocated_Resources{boolean} 25|240r17 294r17 373r45 461r13
+101N4*Num_MaRTE_Tasks_Mx 25|149r37
+140N4*Stack_Size_In_Bytes 25|174r21 266r47
+144N4*Main_Stack_Size_In_Bytes 25|431r52
+X 12 marte-hal.ads
+57K15*HAL 352e14 25|119w12 216r39 307r33 317r33 328r33 340r33 352r33 365r22
+. 427r10 428r22 429r22
+137U14*Disable_Interrupts 138i<c,marte__hal__disable_interrupts>22
+141U14*Enable_Interrupts 142i<c,marte__hal__enable_interrupts>22
+317b4*Main_Task_Stack_Limits_Available{boolean} 25|216r43 307r37 317r37 328r37
+. 340r37 352r37 365r26 427r14
+319V13*Main_Task_Stack_Top_Limit{27|90M9} 25|429s26
+321V13*Main_Task_Stack_Base{27|90M9} 25|428s26
+X 13 marte-integer_types.ads
+44K15*Integer_Types 201e24 24|46w12 69r50 72r48 76r50 82r42 86r46 115r12
+. 25|127r14
+65M9*Unsigned_32 24|69r64 72r62 76r64 82r56 86r60 115r26 25|174r49 189r65
+. 268r25 305r61 315r60 326r61 348r39 360r43 393r9 410r22
+91M12*Size_T{7|73M9} 25|230r31 249r32
+X 14 marte-kernel.ads
+64K15*Kernel 767e17 25|121r12 129r30
+105U14*Enter_Critic_Section 106i<c,kernel_enter_critic_section>22
+118U14*Leave_Critic_Section 119i<c,kernel_leave_critic_section>22
+X 15 marte-kernel-debug.ads
+49K22*Debug 89e23 25|121w19 129r37
+80U14*Assert 25|235s25 236s25 244s31 263s17 266s17 268s17 270s28 291s25 292s25
+. 293s25 307s25 317s25 328s25 340s25 352s25 377s28 379s28 381s28 400s14 402s14
+. 404s14 406s14 408s14 410s14 430s28 431s28 460s25
+X 17 marte-sll.ads
+48R9 Basic
+49k15*SLL 116e14 24|49w12 50r12 124r42
+53R9*Element<14|209R9> 24|126r56[124] 127r43[124]
+55P9*Element_Ac(53R9[24|124]) 25|252r36[24|124] 299r27[24|124]
+X 22 marte-sll-resources.ads
+45k19 Resources 56e24 24|50w16 51r33
+47U14*Release 25|251s43[24|125] 298s34[24|125] 470s40[24|125]
+50V13*Request{17|55P9[24|124]} 25|233s60[24|125]
+X 24 marte-stacks_management.ads
+53K15*Stacks_Management 10|43k9 24|103E9 133l11 133e28 25|122r12 125b20 130r36
+. 477l11 477t28
+55P9*Stack_Id 57r29 63r54 64r40 66r33 68r41 71r40 75r41 80r37 84r36 87r40
+. 91r42 129c9 131r29 25|158r34 160r34 229r57 233r11 233r23 279r40 287r36
+. 305r44 315r43 326r44 338r40 350r39 361r43 447r45
+57p4*Null_Stack_Id{55P9} 131c4
+62I9*Stack_Size<integer> 63r35 92r45 25|229r38 242r20 448r45 450r14
+63V13*Request_Stack{55P9} 63>28 25|229b13 242r34 274l8 274t21
+63i28 Size{62I9} 25|229b28 242r48
+64V13*Get_Main_Task_Stack{55P9} 25|279b13 282l8 282t27
+66U14*Release_Stack 66>29 25|287b14 300l8 300t21
+66p29 S{55P9} 25|287b29 292r33 293r33 295r16 297r7 299r39
+68V13*Get_Stack_Base_Address{13|65M9} 68>37 25|269s21 305b13 310l8 310t30
+. 381s36 392s27 394s9 408s40 411s18
+68p37 S{55P9} 25|305b37 308r41 309r18 309r27
+71V13*Get_Stack_Top_Address{13|65M9} 71>36 25|269s50 315b13 320l8 320t29
+. 377s36 379s36 391s27 394s38 406s40 411s47
+71p36 S{55P9} 25|315b36 318r41 319r18
+74V13*DWord_In_Stack_Address{13|65M9} 74>37 75>37 25|325b13 331l8 331t30
+74i37 P{positive} 25|325b37 330r41
+75p37 S{55P9} 25|326b37 329r41 330r18 330r44
+78U14*Write_In_Stack 78>30 79>30 80>30 25|336b14 343l8 343t22
+78m30 Addr{27|90M9} 25|336b30 342r44
+79i30 P{positive} 25|337b30 342r30
+80p30 S{55P9} 25|338b30 341r41 342r7 342r33
+82U14*Write_In_Stack 82>30 83>30 84>30 25|348b14 355l8 355t22
+82m30 Int{13|65M9} 25|348b30 354r40
+83i30 P{positive} 25|349b30 354r30
+84p30 S{55P9} 25|350b30 353r41 354r7 354r33
+86V13*Stack_OK{boolean} 86>23 87>23 25|360b13 414l8 414t16
+86m23 Task_Stack_Top{13|65M9} 25|360b23 391r9 392r9 397r21 406r22 408r22
+87p23 S{55P9} 25|361b23 364r10 370r17 373r10 377r59 379r59 381r60 388r9 389r9
+. 390r9 391r50 392r51 393r22 394r33 394r61 396r43 400r22 402r22 404r22 406r63
+. 408r64 410r35 411r42 411r70
+89U14*Configure_Main_Task_Stack 25|419b14 442l8 442t33
+91V13*Get_Stack_Size_In_Bytes{62I9} 91>38 25|447b13 451l8 451t31
+91p38 S{55P9} 25|447b38 450r26
+97U14*Initialize_Pool 25|456b14 475l8 475t23
+103A9 Magic_Check(character)<integer> 104r17 105r26 106r26 119r24 25|196r53
+. 200r53
+105a4 STACK_FREE{103A9} 25|270r46 297r18 466r34
+106a4 STACK_USED{103A9} 25|236r44 256r49 271r21 293r43 370r27 388r19 400r32
+. 439r43
+111I9 Stack_Pos<integer> 112r8 114r37 121r24 25|158r51 160r51 164r34 198r53
+. 202r52 258r49 420r52 422r68 424r14 425r14 468r34
+114A9 Stack_Memory_Area(13|65M9)<111I9> 116r17 117r44 25|220r19 221r19 263r34
+. 264r30 319r27 389r18 390r18 402r31 404r31
+117P9 Stack_Memory_Area_Ac(114A9) 120r24 25|197r53 201r52 230r46 288r27 421r52
+. 458r58
+118R9 Stack_Data_Base 123e14 124r47 25|208m7
+119a7*Magic{103A9} 25|208m31 236r35 270r38 271m12 293r35 297m9 370r19 388r11
+. 400r24
+120p7*Stack{117P9} 25|209m31 220r12 221r12 249m15 250r18 257r51 263r26 263r27
+. 264r22 264r23 295r18 309r20 319r20 330r20 342r9 354r9 389r11 390r11 402r23
+. 402r24 404r23 404r24
+121i7*Size_In_DWords{111I9} 25|164r17 210m31 266r27 268r40 309r29 393r24
+. 410r37 450r28
+122i7*Id{natural} 25|211m31
+124K12 Stack_Data_Lists[17|49] 126r11 126r39 127r26 25|252r19 299r10
+125K12 Stack_Data_Pool_Management[22|45] 25|233r33 251r16 298r7 470r13
+127R12*Stack_Data{17|53R9[124]} 129r32 25|150r17 182r30 195r53 199r53 203r16
+X 25 marte-stacks_management.adb
+128K12 CP=128:30 149r34 174r18 240r14 266r44 294r14 373r42 431r49 461r10
+129K12 DBG=129:37 235r21 236r21 244r27 263r13 266r13 268r13 270r24 291r21
+. 292r21 293r21 307r21 317r21 328r21 340r21 352r21 377r24 379r24 381r24 400r10
+. 402r10 404r10 406r10 408r10 410r10 430r24 431r24 460r21
+130K12 STACK_DBG=130:54 206r10 396r21
+132b4 Pool_Initialized{boolean} 235r33 291r33 460r37 474m7
+134i4 Id_Count{natural} 206r38 211r49 212m7 212r19
+143N4 MAGIC_LABEL_EOS 220r51 221r51 263r61 264r61 389r49 390r49 402r58 404r62
+149a4 Stack_Data_Pool(24|127R12) 177r24 463r19 465m16 465r16 470m49 470r49
+157V13 To_Stack_Pos{24|111I9} 157>27 158>27 159b13 165l8 165t20 330s27 342s16
+. 354s16
+157i27 P{positive} 159b27 164r45
+158p27 S{24|55P9} 160b27 164r15
+173A9 Stack_Fix_Size(13|65M9)<integer> 175r17 176r41 177r58
+176P9 Stack_Fix_Size_Ac(173A9) 458r39
+177a4 Stack_Pool(173A9) 378m36 378r36 378r48 380m36 380r36 380r48 382m36
+. 382r36 382r48 467m38 467r38 468r45
+182r4 Main_Task_Stack{24|127R12} 216r15 281m14 281r14 292m38 292r38 308m46
+. 308r46 318m46 318r46 329m46 329r46 341m46 341r46 353m46 353r46 364m14 364r14
+. 373m15 373r15 438m25
+189V13 UC[3|20]{13|65M9} 309s14 319s14 330s14 342s40 378s32 380s32 382s32
+195U14 Initialize_Stack 195<32 196>32 197>32 198>32 199b14 224l8 224t24 255s13
+. 438s7 464s13
+195r32 S{24|127R12} 199b32 208m24 208r24 216r10 220r10 221r10
+196a32 Status{24|103A9} 200b32 208r49 256r31 439r25 466r16
+197p32 Stack_Top{24|117P9} 201b32 206r48 209r49 257r31 440r25 467r16
+198i32 Size_In_DWords{24|111I9} 202b32 206r59 210r49 258r31 441r25 468r16
+230V16*Malloc{24|117P9} 230>24 231b<c,malloc>25 249s24
+230m24 Size{13|91M12}
+233p7 S{24|55P9} 236r33 237r10 249r13 250r16 252r48 255r31 257r49 263r25
+. 264r21 266r25 268r38 269r45 269r73 270r36 271r10 273r14
+242i13 Size{24|62I9} 244r39 245r16 247m16 247r25 247r32 249r40 258r60
+288U17*Free 288>23 289b<c,free>25 295s10
+288p23 E{24|117P9}
+362b7 Is_OK{boolean} 387m7 396r46 413r14
+420V16 UC[3|20]{24|117P9} 440s43
+422V16 UC[3|20]{24|111I9} 428s18 429s18
+424i7 Base{24|111I9} 428m10 430r36 431r36 434m10 441r44
+425i7 Top{24|111I9} 429m10 430r43 431r43 435m10 440r47 441r51
+457V16 UC[3|20]{24|117P9} 467s34
+463i14 I{integer} 465r33 467r50 468r57 470r66
+X 26 marte-stacks_management-debug.ads
+48K41*Debug 25|122w30 130r54 26|61e34
+52U14*Initialize_Stack 25|206s20
+56U14*Show_Stack 25|396s31
+59b26 Use_Task_Stack_Top{boolean} 25|397r37
+X 27 system.ads
+60K9*System 24|45w6 78r37 25|115w6 189r49 336r40 422r52 423r16 27|172e11
+90M9*Address 24|78r44 25|189r56 336r47 422r59 423r23
+

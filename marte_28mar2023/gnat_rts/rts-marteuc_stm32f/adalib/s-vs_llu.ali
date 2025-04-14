@@ -1,0 +1,76 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_EXCEPTIONS
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_ASPECT_SPECIFICATIONS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+
+U system.vs_llu%s	s-vs_llu.ads		e811b936 EE OL PR
+W system%s		system.ads		system.ali
+W system.unsigned_types%s  s-unstyp.ads		s-unstyp.ali
+
+D system.ads		20250318185043 14286b0f system%s
+D s-unstyp.ads		20250318185043 fa2a7f59 system.unsigned_types%s
+D s-valspe.ads		20250318185043 b0fcd073 system.val_spec%s
+D s-vauspe.ads		20250318185043 89269ba5 system.value_u_spec%s
+D s-vauspe.adb		20250318185044 8524adb4 system.value_u_spec%b
+D s-vs_llu.ads		20250318185043 8f3536c5 system.vs_llu%s
+G a e
+G c Z s s [max_log10 system__vs_llu__spec 61 13 56_4]
+G c Z s s [wrap_option system__vs_llu__spec 83 13 56_4]
+G c Z s s [only_decimal_ghost system__vs_llu__spec 86 13 56_4]
+G c Z s s [only_hexa_ghost system__vs_llu__spec 97 13 56_4]
+G c Z s s [last_hexa_ghost system__vs_llu__spec 106 13 56_4]
+G c Z s s [is_based_format_ghost system__vs_llu__spec 119 13 56_4]
+G c Z s s [hexa_to_unsigned_ghost system__vs_llu__spec 134 13 56_4]
+G c Z s s [scan_overflows_ghost system__vs_llu__spec 145 13 56_4]
+G c Z s s [scan_based_number_ghost system__vs_llu__spec 157 13 56_4]
+G c Z s s [lemma_scan_based_number_ghost_base system__vs_llu__spec 174 14 56_4]
+G c Z s s [lemma_scan_based_number_ghost_underscore system__vs_llu__spec 191 14 56_4]
+G c Z s s [lemma_scan_based_number_ghost_overflow system__vs_llu__spec 208 14 56_4]
+G c Z s s [lemma_scan_based_number_ghost_step system__vs_llu__spec 228 14 56_4]
+G c Z s s [exponent_unsigned_ghost system__vs_llu__spec 250 13 56_4]
+G c Z s s [lemma_exponent_unsigned_ghost_base system__vs_llu__spec 260 14 56_4]
+G c Z s s [lemma_exponent_unsigned_ghost_overflow system__vs_llu__spec 271 14 56_4]
+G c Z s s [lemma_exponent_unsigned_ghost_step system__vs_llu__spec 283 14 56_4]
+G c Z s s [raw_unsigned_starts_as_based_ghost system__vs_llu__spec 296 13 56_4]
+G c Z s s [raw_unsigned_is_based_ghost system__vs_llu__spec 310 13 56_4]
+G c Z s s [is_raw_unsigned_format_ghost system__vs_llu__spec 326 13 56_4]
+G c Z s s [scan_split_no_overflow_ghost system__vs_llu__spec 362 13 56_4]
+G c Z s s [scan_split_value_ghost system__vs_llu__spec 407 13 56_4]
+G c Z s s [raw_unsigned_no_overflow_ghost system__vs_llu__spec 453 13 56_4]
+G c Z s s [scan_raw_unsigned_ghost system__vs_llu__spec 476 13 56_4]
+G c Z s s [raw_unsigned_last_ghost system__vs_llu__spec 494 13 56_4]
+G c Z s s [slide_to_1 system__vs_llu__spec 527 13 56_4]
+G c Z s s [slide_if_necessary system__vs_llu__spec 535 13 56_4]
+G c Z s s [is_unsigned_ghost system__vs_llu__spec 539 13 56_4]
+G c Z s s [is_value_unsigned_ghost system__vs_llu__spec 558 13 56_4]
+G c Z s s [prove_scan_based_number_ghost_eq system__vs_llu__spec 573 14 56_4]
+G c Z s s [prove_scan_only_decimal_ghost system__vs_llu__spec 594 14 56_4]
+G c Z s s [uns_optionIP system__vs_llu__spec 73 9 56_4]
+G c Z s s [split_value_ghostIP system__vs_llu__spec 356 9 56_4]
+X 1 system.ads
+37K9*System 155e11 6|48r6 49r6 51r9 56r24 58r5
+X 2 s-unstyp.ads
+38K16*Unsigned_Types 249e26 6|48w13 54r34
+46M9*Long_Long_Unsigned 6|54r49
+

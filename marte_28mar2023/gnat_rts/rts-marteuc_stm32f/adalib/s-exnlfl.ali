@@ -1,0 +1,47 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_EXCEPTIONS
+RV NO_FLOATING_POINT
+RV NO_RECURSION
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.exn_lflt%s	s-exnlfl.ads		0f79a52f NE OL PK
+Z interfaces%s		interfac.ads		interfac.ali
+W system%s		system.ads		system.ali
+Z system.double_real%s
+W system.exponr%s
+
+D interfac.ads		20250318185043 9111f9c1 interfaces%s
+D system.ads		20250318185043 14286b0f system%s
+D s-dourea.ads		20250318185043 8a0ecf55 system.double_real%s
+D s-dourea.adb		20250318185044 be38c14a system.double_real%b
+D s-dorepr.adb		20250318185043 e195a66d system.double_real.product
+D s-exnlfl.ads		20250318185043 3a76fe2b system.exn_lflt%s
+D s-exponr.ads		20250318185044 2127300b system.exponr%s
+D s-exponr.adb		20250318185044 7c6b8c30 system.exponr%b
+G a e
+G c Z s s [exn_long_floatR system__exn_lflt__exn_long_floatGP2476 38 13 none]
+G c Z s s [exn_long_float system__exn_lflt 38 13 none]
+X 2 system.ads
+37K9*System 155e11 6|34r6 36r9 41r5
+X 6 s-exnlfl.ads
+36K16*Exn_LFlt 2|37k9 6|41l12 41e20
+38V13*Exn_Long_Float[7|38]{long_float} 39r26 8|52b17
+X 7 s-exponr.ads
+38v17*Exponr 2|37k9 6|34w13 38r35
+

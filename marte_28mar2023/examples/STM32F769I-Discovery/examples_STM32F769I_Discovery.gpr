@@ -1,0 +1,33 @@
+with "../../stm32f_shared_switches.gpr";
+--with "../../marte_stm32f.gpr";
+--with "../../stm32f_arch/hwi/stm32cube_stm32f769disco/stm32cube_fw_f7.gpr";
+
+project Examples_STM32F769I_Discovery is
+
+   for Languages use ("C");
+
+   for Source_Dirs use (".");
+   for Object_Dir use "obj";
+   for Main use ("blink.c",
+                 "delays_stm32duino.c",
+                 "hello_in_lcd.c",
+                 "hit_the_spot.c",
+                 "servo_demo.c",
+                 "touch_demo.c",
+                 "ultrasonic_demo.c",
+                 "use_leds.c");
+   for Create_Missing_Dirs use "True";
+
+   for Runtime ("ada") use Stm32F_Shared_Switches.Runtime;
+   for Target use Stm32F_Shared_Switches.Target;
+
+   package Compiler renames Stm32F_Shared_Switches.Compiler;
+
+   package Linker renames Stm32F_Shared_Switches.Linker;
+
+   package Ide renames Stm32F_Shared_Switches.Ide;
+
+   package Emulator renames Stm32F_Shared_Switches.Emulator;
+
+end Examples_STM32F769I_Discovery;
+

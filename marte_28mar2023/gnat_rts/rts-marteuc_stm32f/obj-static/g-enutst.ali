@@ -1,0 +1,80 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P SS ZX
+
+RN
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTIONS
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U gnat.encode_utf8_string%b  g-enutst.ads	d005f14c NE OL PK
+Z ada.exceptions%s	a-except.adb		a-except.ali
+W gnat%s		gnat.ads		gnat.ali
+W gnat.encode_string%s
+Z interfaces%s		interfac.ads		interfac.ali
+W system%s		system.ads		system.ali
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+Z system.wch_cnv%s	s-wchcnv.adb		s-wchcnv.ali
+W system.wch_con%s	s-wchcon.adb		s-wchcon.ali
+
+U gnat.encode_utf8_string%s  g-enutst.ads	3e291673 EB NE OL PK
+W gnat%s		gnat.ads		gnat.ali
+W gnat.encode_string%s
+W system%s		system.ads		system.ali
+W system.wch_con%s	s-wchcon.adb		s-wchcon.ali
+
+D ada.ads		20250318185043 76789da1 ada%s
+D a-except.ads		20250318185043 e7970cd9 ada.exceptions%s
+D a-unccon.ads		20250318185043 0e9b276f ada.unchecked_conversion%s
+D gnat.ads		20250318185044 b5988c27 gnat%s
+D g-encstr.ads		20250318185043 82b7487b gnat.encode_string%s
+D g-encstr.adb		20250318185043 2d6fcb69 gnat.encode_string%b
+D g-enutst.ads		20250318185043 d005f14c gnat.encode_utf8_string%s
+D g-enutst.ads		20250318185043 d005f14c gnat.encode_utf8_string%b
+D interfac.ads		20250318185043 9111f9c1 interfaces%s
+D system.ads		20250318185043 14286b0f system%s
+D s-exctab.ads		20250318185043 91bef6ef system.exception_table%s
+D s-parame.ads		20250318185044 3597fc11 system.parameters%s
+D s-secsta.ads		20250318185043 578279f5 system.secondary_stack%s
+D s-stalib.ads		20250318185044 1c9580f6 system.standard_library%s
+D s-stoele.ads		20250318185043 ccded4e8 system.storage_elements%s
+D s-traent.ads		20250318185043 c81cbf8c system.traceback_entries%s
+D s-wchcnv.ads		20250318185044 06c0ca70 system.wch_cnv%s
+D s-wchcon.ads		20250318185043 d9032363 system.wch_con%s
+G a e
+G c Z s s [encode_wide_string gnat__encode_utf8_string 63 13 42_1]
+G c Z s s [encode_wide_string gnat__encode_utf8_string 69 14 42_1]
+G c Z s s [encode_wide_wide_string gnat__encode_utf8_string 81 13 42_1]
+G c Z s s [encode_wide_wide_string gnat__encode_utf8_string 85 14 42_1]
+G c Z s s [encode_wide_character gnat__encode_utf8_string 91 14 42_1]
+G c Z s s [encode_wide_wide_character gnat__encode_utf8_string 103 14 42_1]
+G c Z s s [bad gnat__encode_utf8_string 43 14 42_1]
+G c Z s s [past_end gnat__encode_utf8_string 47 14 42_1]
+X 4 gnat.ads
+37K9*GNAT 60e9 8|38r6 42r9 43r7
+X 5 g-encstr.ads
+60k14*Encode_String 109e23 8|38w11 43r12
+X 8 g-enutst.ads
+42K14*Encode_UTF8_String[5|60] 4|37k9
+X 10 system.ads
+37K9*System 8|40r6 43r27 10|155e11
+X 18 s-wchcon.ads
+39K16*WCh_Con 8|40w13 43r34 18|218e19
+92I9*WC_Encoding_Method<short_short_integer>
+132i4*WCEM_UTF8{92I9} 8|43r42
+

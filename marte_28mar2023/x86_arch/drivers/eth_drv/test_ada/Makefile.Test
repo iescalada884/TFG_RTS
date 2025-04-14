@@ -1,0 +1,5 @@
+clean:
+	rm *.ali *.o
+
+test_ethernet:
+	mgnatmake test_ethernet.adb -Imarte_src_dirs

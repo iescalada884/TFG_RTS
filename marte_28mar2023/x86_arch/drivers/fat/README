@@ -1,0 +1,136 @@
+================================================================================
+                                 FAT
+================================================================================
+                             by Sangorrin
+                        daniel.sangorrin@gmail.com
+================================================================================
+
+1) What this module DOES:
+=========================
+This module provides a means to read/write/create/delete files from a FAT16
+filesystem installed on a disk managed by the IDE module.
+
+2) What this module DOES NOT:
+=============================
+a) It doesn't provide concurrency facilities. If you want to use it from
+different tasks you need to provide mutual exclusion access to the functions.
+b) No FAT12 nor FAT32 support, only FAT16.
+c) Only supports Short filenames (XXXXXXXX.XXX) due to Microsoft (R) software
+patent.
+d) It can not manage multiple FAT16 partitions at a time (but you can make a
+copy of the module to handle another partition)
+
+
+3) ARCHITECTURE of the module:
+==============================
+a) fat.adx:
+-----------
+This module is an implementation of the FAT16 filesystem. The implementation is
+based on the Microsoft (R) FAT16 specification (available on the Web). Its
+interface is very simple:
+
+   - FAT_Create: Initialize the FAT16 structures from a Partition
+   - FAT_Open: Opens a File and store its main information into a variable
+     'FAT_Entry'. Yo can also create the file with O_CREAT flag.
+   - FAT_Read and FAT_Write: Read/Write N bytes from/to a file.
+   - FAT_Delete: Deletes a file.
+   - FAT_Seek: Seeks the RW pointer of the file.
+
+
+b) fat_driver_functions.adx:
+----------------------------
+This package provides the interface so the fat module (fat.adx) can be
+installed in MaRTE OS, and used through a POSIX interface.
+
+4) HOW TO USE IT:
+=================
+You can use the FAT in three ways:
+   a) Directly: in this case all you need is the fat.adx module. You have
+      several examples in the file 'tests_fat.adb'.
+   b) Through a POSIX interface: in this case you have to install the driver
+      functions into MaRTE OS filesystem (see users_guide.html) and then just
+      use the POSIX functions (open, read, write ...). You have several examples
+      in the files 'tests_fat_posix.adb' and 'tests_fat_posix_c.c'.
+   c) Through the Ada.Text_Io package: in this case you also have to install
+      the driver and then use the Ada.Text_Io functions (delete, create, put...)
+      as usual. You have several examples in the file 'tests_fat_ada95_textio.adb'
+The file "tests_fat_automatic.adb" is aimed at checking the correct behavior
+of those three ways of use the driver without interaction.
+
+5) Dependencies of the module:
+==============================
+This module is very easy to port to another operating system because it has
+very few dependencies. The main dependencies are:
+
+   a) The IDE module (and its dependencies), necessary for accesing the disk.
+   b) Some type definitions at Basic_Integer_Types.ads and
+      Kernel.File_System_Data_Types.ads
+   c) Basic_console_io.ads for displaying messages
+   d) Drivers_MaRTE.ads used by fat_driver_functions for installing the FAT
+      module in the MaRTE OS filesystem.
+
+6) Troubleshoot:
+=================
+
+   a) Check that the FAT module is configured for the appropiate device (hda,
+      hdb, hdc, hdd) and partition
+   b) If you have problems reading the partition go and check that the IDE
+      driver is working ok (create a example to read a sector for example)
+   c) The IDE driver has some delays inside (of 400ns). In MaRTE OS check that
+      your "Minimum_Suspension_Time" parameter at configuration_parameters.ads
+      is bellow 400ns
+   d) If the IDE is ok then check that FAT is working in the case 4a (Directly).
+      Therefore disable the installation of the driver described in 4b.
+   e) If none of these helps send an e-mail to the MaRTE OS forum.
+   f) If you think that the process of writing or reading is too slow maybe
+      the reason is that you are writing in small chunks. The implementation
+      is synchronous (no buffer, writes directly on the device) so each small
+      operation (read or write) requires access to the disk.
+
+7) HowTo Format a CompactFlash
+==============================
+
+First we have to create a partition on the disk. The name of the disk depends
+on the computer (ie: '/dev/sda'). If the disk is mounted you can see the
+device file name with 'mount' (in that case, use 'umount /media/usbdisk' to
+unmount the volume).
+
+# cfdisk /dev/sda
+
+Through the 'cfdisk' (you can also use 'fdisk') interface create a partition
+and set its type to FAT16.
+
+ 04 FAT16 <32M
+ 06 FAT16
+ 0E W95 FAT16 (LBA)
+
+(Note: there are three options, I usually choose W95 FAT16).
+
+Finally, format that partition with the FAT filesystem.
+
+# mkdosfs -F 16 /dev/sda1
+
+8) How to test it on QEMU
+=========================
+
+Create a FAT image disk as described in the "Hello World with an Emulator"
+tutorial at MaRTE OS website (you can also use the already build image
+music_demo.img which can be downloaded from the same tutorial).
+
+To mount the image on a directory "mfloppy" use:
+
+# losetup -o32256 /dev/loop/0 disk.img &&
+# mount -o loop /dev/loop0  mfloppy
+
+After doing the changes there (create a file, or read one for example..)
+unmount the disk with:
+
+# umount mfloppy &&
+# losetup -d /dev/loop/0
+
+Finally you can run the image with:
+
+# qemu -hda disk.img
+
+NOTE: make sure in fat_driver_functions.ads that you select 'hda' as the
+disk.

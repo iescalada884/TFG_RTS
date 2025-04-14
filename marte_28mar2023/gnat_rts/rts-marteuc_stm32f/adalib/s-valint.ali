@@ -1,0 +1,75 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_RECURSION
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_ASPECT_SPECIFICATIONS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.val_int%s	s-valint.ads		aa0160a2 NE OL PR PK
+W system%s		system.ads		system.ali
+W system.unsigned_types%s  s-unstyp.ads		s-unstyp.ali
+W system.val_uns%s	s-valuns.ads		s-valuns.ali
+Z system.val_util%s	s-valuti.adb		s-valuti.ali
+W system.value_i%s
+
+D system.ads		20250318185043 14286b0f system%s
+D s-casuti.ads		20250318185043 cf13d755 system.case_util%s
+D s-unstyp.ads		20250318185043 fa2a7f59 system.unsigned_types%s
+D s-valint.ads		20250318185043 8bab724f system.val_int%s
+D s-valspe.ads		20250318185043 b0fcd073 system.val_spec%s
+D s-valuns.ads		20250318185043 f7ddb71d system.val_uns%s
+D s-valuti.ads		20250318185044 d396a33d system.val_util%s
+D s-valuei.ads		20250318185043 d9377ca5 system.value_i%s
+D s-valuei.adb		20250318185044 ad459677 system.value_i%b
+D s-vaispe.ads		20250318185043 8280550e system.value_i_spec%s
+D s-valueu.ads		20250318185044 a38d32a6 system.value_u%s
+D s-vauspe.ads		20250318185043 89269ba5 system.value_u_spec%s
+D s-vs_int.ads		20250318185043 06b6b724 system.vs_int%s
+D s-vs_uns.ads		20250318185043 e7f47a27 system.vs_uns%s
+G a e
+G c Z s s [scan_integer system__val_int__impl 67 14 58_4]
+G c Z s s [value_integer system__val_int__impl 133 13 58_4]
+X 1 system.ads
+37K9*System 155e11 4|47r6 48r6 49r6 50r6 51r6 53r9 62r28 63r28 75r5
+X 3 s-unstyp.ads
+38K16*Unsigned_Types 249e26 4|47w13 56r24
+44M9*Unsigned 4|56r39
+X 4 s-valint.ads
+53K16*Val_Int 1|37k9 4|75l12 75e19
+56M12*Unsigned{3|44M9} 60r28
+58K12*Impl[8|64] 70r14 73r14
+65U14*Scan_Integer=70:19
+66a7 Str{string}
+67p7 Ptr(integer)
+68i7 Max{integer}
+69i7 Res{integer}
+72V13*Value_Integer=73:19{integer}
+72a28 Str{string}
+X 6 s-valuns.ads
+51K16*Val_Uns 4|48w13 61r28 6|76e19
+58U14*Scan_Raw_Unsigned=63:19 4|61r36
+X 8 s-valuei.ads
+47I9 Int 4|59r7
+49M9 Uns 4|60r7
+51U19 Scan_Raw_Unsigned 4|61r7
+64k16*Value_I 4|49w13 58r24 8|146e19
+67U14*Scan_Integer 4|70r19[58]
+133V13*Value_Integer{integer} 4|73r19[58]
+

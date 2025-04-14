@@ -1,0 +1,345 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P SS ZX
+
+RN
+RV NO_DISPATCHING_CALLS
+RV NO_EXCEPTIONS
+RV NO_FIXED_POINT
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_LOCAL_ALLOCATORS
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_ELABORATION_CODE
+RV NO_OBSOLESCENT_FEATURES
+
+U gnat.serial_communications%b  g-sercom.adb	fdb62bf2 NE OL PK
+W ada%s			ada.ads			ada.ali
+Z ada.exceptions%s	a-except.adb		a-except.ali
+W ada.streams%s		a-stream.adb		a-stream.ali
+Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
+W gnat%s		gnat.ads		gnat.ali
+W gnat.os_lib%s		g-os_lib.ads		g-os_lib.ali
+W system%s		system.ads		system.ali
+W system.communication%s  s-commun.adb		s-commun.ali
+W system.crtl%s		s-crtl.ads		s-crtl.ali
+Z system.img_int%s	s-imgint.ads		s-imgint.ali
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+
+U gnat.serial_communications%s  g-sercom.ads	51447cb3 BN EE OL PF PK
+W ada%s			ada.ads			ada.ali
+W ada.streams%s		a-stream.adb		a-stream.ali
+Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
+Z ada.tags%s		a-tags.adb		a-tags.ali
+W gnat%s		gnat.ads		gnat.ali
+W interfaces%s		interfac.ads		interfac.ali
+W interfaces.c%s	i-c.adb			i-c.ali
+W system%s		system.ads		system.ali
+Z system.exception_table%s  s-exctab.adb	s-exctab.ali
+W system.os_constants%s	s-oscons.ads		s-oscons.ali
+Z system.put_images%s	s-putima.adb		s-putima.ali
+Z system.soft_links%s	s-soflin.adb		s-soflin.ali
+Z system.standard_library%s  s-stalib.adb	s-stalib.ali
+
+D ada.ads		20250318185043 76789da1 ada%s
+D a-except.ads		20250318185043 e7970cd9 ada.exceptions%s
+D a-stream.ads		20250318185043 119b8fb3 ada.streams%s
+D a-string.ads		20250318185043 90ac6797 ada.strings%s
+D a-sttebu.ads		20250318185043 f1ad67a2 ada.strings.text_buffers%s
+D a-stuten.ads		20250318185043 c6ced0ae ada.strings.utf_encoding%s
+D a-tags.ads		20250318185043 9eaa38c6 ada.tags%s
+D a-unccon.ads		20250318185043 0e9b276f ada.unchecked_conversion%s
+D a-uncdea.ads		20250318185043 c3a8ac65 ada.unchecked_deallocation%s
+D gnat.ads		20250318185044 b5988c27 gnat%s
+D g-os_lib.ads		20250318185043 0db74523 gnat.os_lib%s
+D g-sercom.ads		20250318185043 55997d9d gnat.serial_communications%s
+D g-sercom.adb		20250318185043 18d86d7e gnat.serial_communications%b
+D interfac.ads		20250318185043 9111f9c1 interfaces%s
+D i-c.ads		20250318185044 aac316ce interfaces.c%s
+D system.ads		20250318185043 14286b0f system%s
+D s-commun.ads		20250318185044 06400110 system.communication%s
+D s-crtl.ads		20250318185043 beb39b9e system.crtl%s
+D s-exctab.ads		20250318185043 91bef6ef system.exception_table%s
+D s-imagei.ads		20250318185044 5e131ce0 system.image_i%s
+D s-imgint.ads		20250318185043 67e4edfb system.img_int%s
+D s-oscons.ads		20250318185043 0a1d1474 system.os_constants%s
+D s-os_lib.ads		20250318185043 a2467c22 system.os_lib%s
+D s-parame.ads		20250318185044 3597fc11 system.parameters%s
+D s-putima.ads		20250318185044 17291fe4 system.put_images%s
+D s-secsta.ads		20250318185043 578279f5 system.secondary_stack%s
+D s-soflin.ads		20250318185043 df77073e system.soft_links%s
+D s-stache.ads		20250318185043 0b81c1fe system.stack_checking%s
+D s-stalib.ads		20250318185044 1c9580f6 system.standard_library%s
+D s-stoele.ads		20250318185043 ccded4e8 system.storage_elements%s
+D s-string.ads		20250318185044 582aac7d system.strings%s
+D s-traent.ads		20250318185043 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		20250318185043 fa2a7f59 system.unsigned_types%s
+D s-valspe.ads		20250318185043 b0fcd073 system.val_spec%s
+D s-vaispe.ads		20250318185043 8280550e system.value_i_spec%s
+D s-vauspe.ads		20250318185043 89269ba5 system.value_u_spec%s
+D s-vs_int.ads		20250318185043 06b6b724 system.vs_int%s
+D s-vs_uns.ads		20250318185043 e7f47a27 system.vs_uns%s
+G a e
+G c Z s b [name gnat__serial_communications 96 13 none]
+G c Z s b [open gnat__serial_communications 132 14 none]
+G c Z s b [set gnat__serial_communications 138 14 none]
+G c Z s b [read gnat__serial_communications 160 25 none]
+G c Z s b [write gnat__serial_communications 169 25 none]
+G c Z s b [close gnat__serial_communications 174 14 none]
+G c Z s b [to_ada gnat__serial_communications 177 14 none]
+G c Z s s [to_c gnat__serial_communications 182 13 none]
+G c Z s s [serial_portDF gnat__serial_communications 190 9 none]
+G c Z s s [serial_portIP gnat__serial_communications 190 9 none]
+G c Z b b [fcntl gnat__serial_communications 79 13 none]
+G c Z b b [raise_error gnat__serial_communications 121 14 none]
+X 1 ada.ads
+16K9*Ada 20e8 12|34r6 125r28 162r20 163r20 171r16 190r28 13|61r6 61r32
+X 3 a-stream.ads
+36K13*Streams 87e16 12|34w10 125r32 162r24 163r24 171r20 190r32 13|61w10
+. 61r36
+39H9*Root_Stream_Type 70e64 12|125r40 190r40
+42M9*Stream_Element
+44I9*Stream_Element_Offset<long_long_integer> 12|163r32 13|184r20
+54A9*Stream_Element_Array(42M9)<44I9> 12|162r32 171r28 13|183r20 355r16
+X 10 gnat.ads
+37K9*GNAT 60e9 12|38r9 225r5 13|67r6 67r32 69r14 389r5
+X 11 g-os_lib.ads
+51K14*OS_Lib=51:36 13|67w11 67r37
+X 12 g-sercom.ads
+38K14*Serial_Communications 10|37k9 12|190E9 225l10 225e31 13|69b19 389l10
+. 389t31
+90X4*Serial_Error 13|171r13
+93A9*Port_Name<string>(character)<integer> 96r45 134r14 13|128r45 132r14
+. 141r14
+96V13*Name{93A9} 96>19 13|128b13 133l8 133t12
+96i19 Number{positive} 13|128b19 129r35
+103E9*Data_Rate 110e26 140r19 194r38 13|82r34 209r19
+104n7*B75{103E9} 195r25 13|83r21
+104n12*B110{103E9} 196r25 13|84r21
+104n18*B150{103E9} 197r25 13|85r21
+104n24*B300{103E9} 198r25 13|86r21
+104n30*B600{103E9} 199r25 13|87r21
+104n36*B1200{103E9} 200r25 13|88r21
+105n7*B2400{103E9} 201r25 13|89r21
+105n14*B4800{103E9} 202r25 13|90r21
+105n21*B9600{103E9} 140r39 203r25 13|91r21 209r39
+106n7*B19200{103E9} 204r25 13|92r21
+106n15*B38400{103E9} 205r25 13|93r21
+106n23*B57600{103E9} 206r25 13|94r21
+106n31*B115200{103E9} 207r25 13|95r21
+107n7*B230400{103E9} 208r25 13|96r21
+107n16*B460800{103E9} 209r25 13|97r21
+107n25*B500000{103E9} 210r25 13|98r21
+107n34*B576000{103E9} 211r25 13|99r21
+107n43*B921600{103E9} 212r25 13|100r21
+108n7*B1000000{103E9} 213r25 13|101r21
+108n17*B1152000{103E9} 214r25 13|102r21
+108n27*B1500000{103E9} 215r25 13|103r21
+109n7*B2000000{103E9} 216r25 13|104r21
+109n17*B2500000{103E9} 217r25 13|105r21
+109n27*B3000000{103E9} 218r25 13|106r21
+110n7*B3500000{103E9} 219r25 13|107r21
+110n17*B4000000{103E9} 220r25 13|108r21
+113E9*Data_Bits 113e32 141r19 13|110r34 210r19
+113n23*CS8{113E9} 141r39 13|111r37 210r39
+113n28*CS7{113E9} 13|111r21
+116E9*Stop_Bits_Number 116e39 142r19 13|113r34 211r19
+116n30*One{116E9} 142r39 13|114r21 211r39
+116n35*Two{116E9} 13|114r31
+119E9*Parity_Check 119e42 143r19 13|116r34 212r19
+119n26*None{119E9} 143r39 13|117r21 212r39
+119n32*Even{119E9} 13|119r21
+119n38*Odd{119E9} 13|118r21
+122E9*Flow_Control 122e50 146r19 13|215r19
+122n26*None{122E9} 146r39 13|215r39 281r15
+122n32*RTS_CTS{122E9} 13|284r15
+122n41*Xon_Xoff{122E9} 13|287r15
+125R9*Serial_Port<3|39R9> 132p14 133r18 138p14 139r19 160P25 161r23 169P25
+. 170r23 174p14 174r35 177p14 177r33 182p13 183r14 190c9 192e14 222r26 13|140r18
+. 182r23 208r19 344r33 354r23 378r35
+128I9*Serial_Port_Descriptor<15|59I9> 177r51 183r34 191r11 222r46 13|149r17
+. 344r51
+132U14*Open 133<7 134>7 13|139b14 163l8 163t12
+133r7 Port{125R9} 13|140b7 149m7 152r10 158r26
+134a7 Name{93A9} 13|141b7 145r43
+138U14*Set 139>7 140>7 141>7 142>7 143>7 144>7 145>7 146>7 147>7 13|207b14
+. 338l8 338t11
+139r7 Port{125R9} 13|208b7 257r10 263r30 324r28 325r30 332r29
+140e7 Rate{103E9} 13|209b7 291r44 292r44 310r57 316r57
+141e7 Bits{113E9} 13|210b7 267r34
+142e7 Stop_Bits{116E9} 13|211b7 268r44
+143e7 Parity{119E9} 13|212b7 269r41
+144b7 Block{boolean} 13|213b7 296r10 329r10
+145b7 Local{boolean} 13|214b7 276r10
+146e7 Flow{122E9} 13|215b7 280r12
+147o7 Timeout{duration} 13|216b7 296r25 305r53
+160U25*Read<3|57p14> 161=7 162<7 163<7 13|181b25 201l8 201t12
+161r7 Port{125R9} 13|182b7 190r10 194r29
+162a7 Buffer{3|54A9} 13|183b7 186r32 194m38 194r38 200r27
+163i7 Last{3|44I9} 13|184b7 200m7
+169U25*Write<3|63p14> 170=7 171>7 13|353b25 372l8 372t13
+170r7 Port{125R9} 13|354b7 361r10 365r26
+171a7 Buffer{3|54A9} 13|355b7 357r32 365r35
+174U14*Close 174=21 13|378b14 387l8 387t13
+174r21 Port{125R9} 13|378b21 383r10 384r29 385m10
+177U14*To_Ada 177<22 177>46 13|344b14 347l8 347t14
+177r22 Port{125R9} 13|344b22 346m7
+177i46 Fd{128I9} 13|344b46 346r17
+182V13*To_C{128I9} 183>7 222b13
+183r7 Port{125R9} 223r8
+191i7 H{128I9} 223r13 13|149m12 152r15 158r31 190r15 194r34 257r15 263r35
+. 324r33 325r35 332r34 346m12 361r15 365r31 383r15 384r34 385m15
+194a4 Data_Rate_Value(15|68M9) 13|291r27 292r27
+X 13 g-sercom.adb
+71K12 OSC=71:31 83r33 84r33 85r33 86r33 87r33 88r33 89r33 90r33 91r33 92r33
+. 93r33 94r33 95r33 96r33 97r33 98r33 99r33 100r33 101r33 102r33 103r33 104r33
+. 105r33 106r33 107r33 108r33 111r28 111r44 114r38 118r29 118r43 119r29 143r11
+. 218r11
+75M12 unsigned{15|68M9} 82r48 110r48 113r55 116r51 220r26 223r21 224r21 225r21
+. 226r21
+76E12 char{15|106E9} 298r34 299r34 304r34 305r34
+77M12 unsigned_char{15|73M9} 227r21
+79V13 fcntl{18|51I12} 79>20 79>30 79>41 80b<c,fcntl>22 158s14 332s17
+79i20 fd{18|51I12}
+79i30 cmd{18|51I12}
+79i41 value{18|51I12}
+82a4 C_Data_Rate(75M12) 310r44 316r44
+110a4 C_Bits(75M12) 267r26
+113a4 C_Stop_Bits(75M12) 268r31
+116a4 C_Parity(75M12) 269r31
+121U14 Raise_Error 121>27 121>45 122r22 153s10 161s10 169b14 175l8 175t19
+. 191s10 197s10 258s10 313s10 319s10 336s10 362s10 368s10
+121a27 Message{string} 169b27 171r31
+121i45 Error{integer} 169b45 172r15 173r46
+129i7 N{natural} 130r50
+130a7 N_Img{string} 132r39 132r46 132r65
+145a7 C_Name=145:49{string} 150r11 150r19
+146i7 Res{18|51I12} 158m7 160r10
+186m7 Len{18|58M9} 194r54
+187i7 Res{18|60I9} 194m7 196r10 200r49
+220M15 speed_t{75M12} 229r21 230r21 244r58 247r58
+222R12 termios 231e17 232r29 250r17
+223m10 c_iflag{75M12} 272m15 288m21 288r40
+224m10 c_oflag{75M12} 274m15
+225m10 c_cflag{75M12} 267m15 277m18 277r37 285m21 285r40
+226m10 c_lflag{75M12} 273m15 307m18 307r37
+227m10 c_line{77M12}
+228a10 c_cc{15|121A9} 298m18 299m18 304m18 305m18
+229m10 c_ispeed{220M15} 291m15
+230m10 c_ospeed{220M15} 292m15
+234V16*tcgetattr{18|51I12} 234>27 234>37 235b<c,tcgetattr>25 263s14
+234i27 fd{18|51I12}
+234m37 termios_p{16|67M9}
+237V16*tcsetattr{18|51I12} 238>10 238>20 238>34 239b<c,tcsetattr>25 325s14
+238i10 fd{18|51I12}
+238i20 action{18|51I12}
+238m34 termios_p{16|67M9}
+241V16*tcflush{18|51I12} 241>25 241>35 242b<c,tcflush>25 324s14
+241i25 fd{18|51I12}
+241i35 queue_selector{18|51I12}
+244V16*cfsetospeed{18|51I12} 244>29 244>50 245b<c,cfsetospeed>25 316s14
+244m29 termios_p{16|67M9}
+244m50 speed{220M15}
+247V16*cfsetispeed{18|51I12} 247>29 247>50 248b<c,cfsetispeed>25 310s14
+247m29 termios_p{16|67M9}
+247m50 speed{220M15}
+250r7 Current{222R12} 263m39 263r39 267m7 272m7 273m7 274m7 277m10 277r29
+. 285m13 285r32 288m13 288r32 291m7 292m7 298m10 299m10 304m10 305m10 307m10
+. 307r29 310m27 310r27 316m27 316r27 325m48 325r48
+252i7 Res{18|51I12} 253r29 263m7 310m7 312r10 316m7 318r10 324m7 325m7 332m10
+. 335r10
+357m7 Len{18|58M9} 365r51 371r37
+358i7 Res{18|60I9} 365m7 367r10 371r30
+379i7 Res{18|51I12} 380r28 384m10
+X 14 interfac.ads
+38K9*Interfaces 12|35r6 194r52 13|73r13 75r24 76r20 77r29 228r21 14|233e15
+X 15 i-c.ads
+30K20*C 12|35w17 194r63 13|73r24 75r35 76r31 77r40 228r32 15|598e17
+59I9*int<integer>
+68M9*unsigned 12|194r65 13|73r26 75r37
+73M9*unsigned_char 13|77r42
+106E9*char<character> 13|76r33
+121A9*char_array(106E9)<89M9> 13|228r34
+X 16 system.ads
+37K9*System 12|36r6 129r10 13|63w6 63r32 64r6 64r32 65r6 65r32 71r24 16|155e11
+67M9*Address 13|234r49 238r46 244r41 247r41
+X 17 s-commun.ads
+37K16*Communication 13|64w13 64r39 17|50e25
+40V13*Last_Index{3|44I9} 13|200s15
+X 18 s-crtl.ads
+36K16*CRTL 13|65w13 65r39 18|239e16
+51I12*int{integer} 13|79r25 79r36 79r49 79r61 146r16 150r42 158r21 234r32
+. 234r65 238r15 238r29 238r62 241r30 241r52 241r64 244r74 247r74 252r13 263r25
+. 324r23 325r25 332r24 365r21 379r13 384r24
+58M9*size_t 13|186r22 200r41 357r22 371r22
+60I9*ssize_t<integer> 13|187r13 358r13
+227V13*open{51I12} 13|149s41
+230V13*close{51I12} 13|384s17
+233V13*read{60I9} 13|194s14
+236V13*write{60I9} 13|365s14
+X 22 s-oscons.ads
+44K16*OS_Constants 12|36w13 129r17 13|71r31 22|475e24
+61I12*Serial_Port_Descriptor{15|59I9} 12|129r30
+74N4*O_RDWR 13|150r47
+75N4*O_NOCTTY 13|150r56
+76N4*O_NDELAY 13|150r67
+83N4*F_SETFL 13|158r35 332r38
+155N4*TCSANOW 13|325r39
+156N4*TCIFLUSH 13|324r37
+157N4*IXON 13|288r51
+158N4*CLOCAL 13|277r48
+159N4*CRTSCTS 13|285r51
+160N4*CREAD 13|270r31
+161N4*ICANON 13|307r52
+170N4*CS7 13|111r32
+171N4*CS8 13|111r48
+172N4*CSTOPB 13|114r42
+173N4*PARENB 13|118r33 119r33
+174N4*PARODD 13|118r47
+177N4*B75 13|83r37
+178N4*B110 13|84r37
+180N4*B150 13|85r37
+182N4*B300 13|86r37
+183N4*B600 13|87r37
+184N4*B1200 13|88r37
+186N4*B2400 13|89r37
+187N4*B4800 13|90r37
+188N4*B9600 13|91r37
+189N4*B19200 13|92r37
+190N4*B38400 13|93r37
+191N4*B57600 13|94r37
+192N4*B115200 13|95r37
+193N4*B230400 13|96r37
+194N4*B460800 13|97r37
+195N4*B500000 13|98r37
+196N4*B576000 13|99r37
+197N4*B921600 13|100r37
+198N4*B1000000 13|101r37
+199N4*B1152000 13|102r37
+200N4*B1500000 13|103r37
+201N4*B2000000 13|104r37
+202N4*B2500000 13|105r37
+203N4*B3000000 13|106r37
+204N4*B3500000 13|107r37
+205N4*B4000000 13|108r37
+216N4*VTIME 13|299r24 305r24
+217N4*VMIN 13|298r24 304r24
+X 23 s-os_lib.ads
+1036V13*Errno{integer} 13|121s64 169s64
+1040V13*Errno_Message{string} 13|173s24
+1041i7 Err{integer} 13|173r39
+

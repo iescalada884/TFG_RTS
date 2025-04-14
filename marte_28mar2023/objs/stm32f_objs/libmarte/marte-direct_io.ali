@@ -1,0 +1,204 @@
+V "GNAT Lib v2019"
+A -gnatA
+A --RTS=/home/ubuntfg/opt/GNAT/2019-arm-elf/arm-eabi/lib/gnat/zfp-stm32f4/
+A -mlittle-endian
+A -mfloat-abi=hard
+A -mcpu=cortex-m4
+A -mfpu=fpv4-sp-d16
+A -mthumb
+A -ffunction-sections
+A -fdata-sections
+A -gnateDDEF_MARTE_ARCH=STM32F
+A -gnateDMARTE_BOARD=stm32f4
+P SL ZX
+
+RN
+RV NO_UNCHECKED_CONVERSION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_OBSOLESCENT_FEATURES
+RV SPARK_05
+
+U marte.direct_io%b	marte-direct_io.adb	6747964d NE OO PK
+W ada%s			ada.ads			ada.ali
+W ada.unchecked_conversion%s
+W marte%s		marte.ads		marte.ali
+W marte.integer_types%s	marte-integer_types.ads	marte-integer_types.ali
+Z system%s		system.ads		system.ali
+
+U marte.direct_io%s	marte-direct_io.ads	9db535e7 NE OO PR PK
+W marte%s		marte.ads		marte.ali
+W marte.integer_types%s	marte-integer_types.ads	marte-integer_types.ali
+W system%s		system.ads		system.ali
+
+D ada.ads		20190518110050 76789da1 ada%s
+D a-unccon.ads		20190518110050 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20190518110050 5ab55268 interfaces%s
+D i-c.ads		20190518110050 ef84921c interfaces.c%s
+D marte.ads		20230328142408 99bc4a3f marte%s
+D marte-direct_io.ads	20230328142416 cc1262e4 marte.direct_io%s
+D marte-direct_io.adb	20230328142407 8b4eba47 marte.direct_io%b
+D marte-integer_types.ads  20230328142407 2e806981 marte.integer_types%s
+D system.ads		20190518110049 e69b74bd system%s
+G a e
+G c Z s b [error marte__direct_io 98 14 none]
+G c Z s b [put_error marte__direct_io 99 14 none]
+G c Z s b [put marte__direct_io 105 14 none]
+G c Z s b [put marte__direct_io 107 14 none]
+G c Z s b [put marte__direct_io 109 14 none]
+G c Z s b [put marte__direct_io 111 14 none]
+G c Z s b [put marte__direct_io 113 14 none]
+G c Z s b [put marte__direct_io 115 14 none]
+G c Z s b [put marte__direct_io 117 14 none]
+G c Z s b [put marte__direct_io 119 14 none]
+G c Z s b [new_line marte__direct_io 121 14 none]
+G c Z s b [basic_stdout_initialization marte__direct_io 130 14 none]
+G c Z s b [end_of_kernel_initialization marte__direct_io 137 14 none]
+G c Z s b [basic_stderr_initialization marte__direct_io 142 14 none]
+G c Z s b [direct_write_on_stdout marte__direct_io 153 14 none]
+G c Z s b [direct_write_on_stderr marte__direct_io 161 14 none]
+G c Z s b [direct_read_from_stdin marte__direct_io 169 13 none]
+G c Z s b [null_init marte__direct_io 177 13 none]
+G c Z s b [null_write marte__direct_io 178 13 none]
+G c Z s b [null_read marte__direct_io 182 13 none]
+G c Z s b [null_end_of_kernel_initialization marte__direct_io 183 14 none]
+G c Z s s [stdout_direct_write marte__direct_io 273 13 none]
+G c Z s s [stderr_direct_write marte__direct_io 278 13 none]
+G c Z b b [exit_process marte__direct_io 52 14 none]
+G c Z b b [put_integer marte__direct_io 109 14 none]
+G c Z b b [put_unsigned marte__direct_io 156 14 none]
+G c Z b b [put_base marte__direct_io 191 14 none]
+X 1 ada.ads
+16K9*Ada 20e8 7|43r6 239r14
+X 2 a-unccon.ads
+20v14*Unchecked_Conversion 7|43w10 239r18
+X 4 i-c.ads
+53I9*int<integer>
+73M9*size_t
+X 5 marte.ads
+43K9*MaRTE 45e10 6|79r6 79r31 82r9 155r23 163r23 169r43 177r30 178r41 180r41
+. 181r31 182r30 220r38 238r38 273r50 275r50 276r41 278r50 280r50 281r41 320r38
+. 325r5 7|45r6 45r31 47r14 52r40 76r43 252r13 269r13 283r13 293r13 301r43
+. 309r30 314r41 316r41 317r31 322r30 332r5
+X 6 marte-direct_io.ads
+82K15*Direct_IO 5|43k9 6|177E13 325l11 325e20 7|47b20 332l11 332t20
+98U14*Error 98>21 98>38 7|64b14 69l8 69t13
+98a21 Msg{string} 7|64b21 68r18
+98b38 Fatal{boolean} 7|65b21 68r23
+99U14*Put_Error 99>25 99>42 7|67s7 68s7 74b14 85l8 85t17
+99a25 Msg{string} 7|74b25 79r31 79r52
+99b42 Fatal{boolean} 7|75b25 80r10
+105U14*Put 105>19 105>35 7|205b14 209l8 209t11 213s7 218s7 223s7
+105i19 N{integer} 7|205b19 208r20
+105i35 Base{positive} 7|205b35 207r17 208r23
+107U14*Put 107>19 107>37 7|211b14 214l8 214t11
+107i19 N{8|47I9} 7|211b19 213r21
+107i37 Base{positive} 7|211b37 213r25
+109U14*Put 109>19 109>38 7|216b14 219l8 219t11
+109i19 N{8|53I9} 7|216b19 218r21
+109i38 Base{positive} 7|216b38 218r25
+111U14*Put 111>19 111>38 7|221b14 224l8 224t11
+111m19 N{8|59M9} 7|221b19 223r21
+111i38 Base{positive} 7|221b38 223r25
+113U14*Put 113>19 113>39 7|226b14 229l8 229t11 241s7
+113m19 N{8|65M9} 7|226b19 228r25
+113i39 Base{positive} 7|226b39 228r29
+115U14*Put 115>19 115>39 7|228s7 231b14 235l8 235t11
+115m19 N{8|68M9} 7|231b19 234r21
+115i39 Base{positive} 7|231b39 233r17 234r24
+117U14*Put 117>19 117>42 7|237b14 242l8 242t11
+117m19 N{9|90M9} 7|237b19 241r28
+117i42 Base{positive} 7|237b42 241r32
+119U14*Put 119>19 7|90b14 93l8 93t11 197s10
+119a19 Str{string} 7|90b19 92r31 92r52
+121U14*New_Line 7|99b14 103l8 103t16
+130U14*Basic_Stdout_Initialization 131i<c,basic_stdout_initialization>22
+. 7|251b14 255l8 255t35
+137U14*End_Of_Kernel_Initialization 7|260b14 263l8 263t36
+142U14*Basic_Stderr_Initialization 143i<c,basic_stderr_initialization>22
+. 7|268b14 272l8 272t35
+153U14*Direct_Write_On_Stdout 154>7 155>7 156i<c,direct_write_on_stdout>22
+. 7|92s7 102s7 132s10 143s10 178s10 281b14 286l8 286t30
+154m7 Buffer_Ptr{9|90M9} 7|281b38 285r38
+155m7 Bytes{8|91M12} 7|282b38 285r50
+161U14*Direct_Write_On_Stderr 162>7 163>7 164i<c,direct_write_on_stderr>22
+. 7|79s7 81s10 291b14 296l8 296t30
+162m7 Buffer_Ptr{9|90M9} 7|291b38 295r38
+163m7 Bytes{8|91M12} 7|292b38 295r50
+169V13*Direct_Read_From_Stdin{8|59M9} 170i<c,direct_read_from_stdin>22 7|301b13
+. 304l8 304t30
+177V13 Null_Init{8|73I12} 221r14 239r14 7|309b13 312l8 312t17
+178V13 Null_Write{8|92I12} 178>25 179>25 180>25 7|314b13 320l8 320t18
+178i25 Fd{8|73I12} 7|314b25
+179m25 Buffer_Ptr{9|90M9} 7|315b25
+180m25 Bytes{8|91M12} 7|316b25
+182V13 Null_Read{8|59M9} 321r14 7|322b13 325l8 325t17
+183U14 Null_End_Of_Kernel_Initialization 230r14 7|327b14 330l8 330t41
+220V13 Stdout_Basic_Init=221:14{8|73I12} 7|254s14
+229U14 Stdout_End_Of_Kernel_Initialization=230:14 7|262s7
+238V13 Stderr_Basic_Init=239:14{8|73I12} 7|271s14
+273V13 Stdout_Direct_Write{8|92I12} 273>34 274>34 275>34 284b<c,gnat_io_driver_functions__write>22
+. 7|285s14
+273i34 Fd{8|73I12}
+274m34 Buffer_Ptr{9|90M9}
+275m34 Bytes{8|91M12}
+278V13 Stderr_Direct_Write{8|92I12} 278>34 279>34 280>34 285b<c,gnat_io_driver_functions__write>22
+. 7|295s14
+278i34 Fd{8|73I12}
+279m34 Buffer_Ptr{9|90M9}
+280m34 Bytes{8|91M12}
+320V13 Stdin_Direct_Read=321:14{8|59M9} 7|303s14
+X 7 marte-direct_io.adb
+52U14 Exit_Process 52>28 53b<c,exit>22
+52i28 Status{8|73I12}
+55a4 Str_Internal_Error{string} 67r18
+57a4 Str_Fatal_Error{string} 81r34 82r42
+76U17*Exit_Process 76>31 77b<c,exit>25 83s10
+76i31 Status{8|73I12}
+100e7 C{character} 102m31 102r31
+109U14 Put_Integer 109>27 109>42 111b14 150l8 150t19 196s10 208s7
+109i27 Num{integer} 111b27 118r10 119r22 122r21
+109i42 Base{positive} 111b42 126r30 127r23 148r23
+112e7 C{character} 131m10 132m34 132r34 138m13 140m13 143m34 143r34
+113i7 Mag{positive} 125m7 126r23 127m10 127r17 136r29 145r20 147r39 148m10
+. 148r17
+114i7 Num_Abs{natural} 119m10 122m10 126r13 136r19 147m10 147r21
+115b7 Is_Negative{boolean} 120m10 130r10
+116i7 Digit{natural} 136m10 137r13 138r55 140r55 147r31
+156U14 Put_Unsigned 156>28 156>47 158b14 185l8 185t20 234s7
+156m28 Num{8|68M9} 158b28 162r32
+156i47 Base{positive} 158b47 166r43 167r36 183r36
+159e7 C{character} 173m13 175m13 178m34 178r34
+160m7 Mag{8|68M9} 165m7 166r23 167m10 167r17 171r29 180r20 182r39 183m10
+. 183r17
+161m7 Digit{8|68M9} 171m10 172r13 173r55 175r55 182r31
+162m7 Num_Abs{8|68M9} 166r13 171r19 182m10 182r21
+191U14 Put_Base 191>24 193b14 199l8 199t16 207s7 233s7
+191i24 Base{positive} 193b24 195r10 196r23
+238V16 To_Unsigned_32[2|20]{8|65M9} 241s12
+252i7 Ret{8|73I12} 254m7
+269i7 Ret{8|73I12} 271m7
+283i7 Ret{8|92I12} 285m7
+293i7 Ret{8|92I12} 295m7
+X 8 marte-integer_types.ads
+44K15*Integer_Types 6|79w12 79r37 155r29 163r29 169r49 177r36 178r47 180r47
+. 181r37 182r36 220r44 238r44 273r56 275r56 276r47 278r56 280r56 281r47 320r44
+. 7|45w12 45r37 52r46 76r49 252r19 269r19 283r19 293r19 301r49 309r36 314r47
+. 316r47 317r37 322r36 8|201e24
+47I9*Integer_8<short_short_integer> 6|107r26 7|211r26
+53I9*Integer_32<integer> 6|109r26 7|216r26
+59M9*Unsigned_8 6|111r26 169r63 182r50 320r58 7|221r26 301r63 322r50
+65M9*Unsigned_32 6|113r26 7|226r26 239r56
+68M9*Unsigned_64 6|115r26 7|156r34 158r34 160r13 161r15 162r17 163r16 166r30
+. 167r23 183r23 228r12 231r26
+73I12*Int{4|53I9} 6|177r50 178r61 220r58 238r58 273r70 278r70 7|52r60 76r63
+. 252r33 269r33 309r50 314r61
+91M12*Size_T{4|73M9} 6|155r43 163r43 180r61 275r70 280r70 7|79r44 82r34 92r44
+. 282r54 292r54 316r61
+92I12*Ssize_T{73I12} 6|181r51 276r61 281r61 7|283r33 293r33 317r51
+X 9 system.ads
+60K9*System 6|80w6 117r26 154r23 162r23 179r41 274r50 279r50 7|237r26 239r40
+. 281r54 291r54 315r41 9|172e11
+90M9*Address 6|117r33 154r30 162r30 179r48 274r57 279r57 7|237r33 239r47
+. 281r61 291r61 315r48
+

@@ -1,0 +1,55 @@
+RT-EP Plugin for Wireshark (by daniel.sangorrin@gmail.com)
+==========================================================
+
+This software component is a plug-in that can be inserted in the Wireshark
+network protocol analyzer in order to analyze RT-EP packets.
+
+INSTALL
+=======
+
+These instructions have been checked for the Wireshark SVN revision
+number 23807. For other versions of Wireshark the instructions could change
+(if it does change, read the wireshark documentation for plug-ins in the
+wireshark/doc/README.plugins file)
+
+1) Download the wireshark sources. You have three options here:
+
+   a) Download the latest SVN sources
+
+svn co http://anonsvn.wireshark.org/wireshark/trunk/ wireshark
+
+   b) Download a tar.gz with the sources (go to wireshark website)
+   c) Download the latest SVN revision that the plug-in has been checked with
+
+svn -r 23807 co http://anonsvn.wireshark.org/wireshark/trunk/ wireshark
+
+2) Build Wireshark alone (it will be installed in the prefix path), this can
+   take several minutes to be done.
+
+   NOTE: take care with the MaRTE OS path, this must be build with gcc, not mgcc
+
+        $ ./autogen.sh
+        $ ./configure --prefix=/home/user/app
+        $ make
+        $ make install
+
+3) Copy RT-EP plugin files to /Wireshark_Source/plugins/rtep (create the dir)
+
+4) Add the RT-EP plugin to the Wireshark project following the indications of
+   the file in wireshark/doc/README.plugins. Currently this consists on 
+   modifying the files (see wireshark_config_files/ for examples)
+
+    * wireshark/Makefile.am
+    * wireshark/configure.in
+    * plugins/Makefile.am
+    * plugins/Makefile.nmake
+
+  As an example, look for the "rtnet" in those files and add "rtep" in the 
+  same way.
+
+5) Rebuild Wireshark (it will only need to compile the new files)
+
+        $ ./autogen.sh
+        $ ./configure --prefix=/home/user/app
+        $ make
+        $ make install

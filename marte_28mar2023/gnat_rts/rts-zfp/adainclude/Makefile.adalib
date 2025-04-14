@@ -1,0 +1,42 @@
+CC = arm-eabi-gcc
+AR = arm-eabi-ar
+
+RTS_PATH=$(shell cd ..;pwd)
+ADALIB_PATH = $(RTS_PATH)/adalib
+
+CFLAGS = -O2
+ADAFLAGS = -gnatpgn --RTS=$(RTS_PATH)
+#/home/mario/kk/trunk_marte/gnat_rts/rts-zfp/
+ALL_ADAFLAGS = $(CFLAGS) $(ADAFLAGS) -I-
+
+# Say how to compile Ada programs.
+.SUFFIXES: .ada .adb .ads
+
+.adb.o:
+	$(CC) -c $(ALL_ADAFLAGS) $<
+.ads.o:
+	$(CC) -c $(ALL_ADAFLAGS) $<
+
+# Objets in gnat libraries
+GNAT_OBJS := a-except.o a-tags.o ada.o g-io.o g-souinf.o gnat.o i-c.o interfac.o s-assert.o s-fatflt.o s-fatlfl.o s-fatllf.o s-fatsfl.o s-maccod.o s-secsta.o s-stoele.o s-unstyp.o system.o
+OBJS := $(GNAT_OBJS) $(GNARL_OBJS)
+
+all: libgnat.a
+
+#all: libgnat.a delete_objects
+#	chmod -f 0444 $(ADALIB_PATH)/*.ali $(ADALIB_PATH)/*.a
+
+delete_objs:
+	rm -f *.o *.ali
+
+compile_objs: delete_objs $(GNAT_OBJS)
+
+clear_adalib:
+#	chmod -f 0444 $(ADALIB_PATH)/*.ali $(ADALIB_PATH)/*.a
+	rm -f $(ADALIB_PATH)/*.o $(ADALIB_PATH)/*.ali $(ADALIB_PATH)/*.a
+
+libgnat.a: compile_objs clear_adalib
+	$(AR) r libgnat.a $(GNAT_OBJS)
+	mv *.o *.ali *.a $(ADALIB_PATH)
+
+.PHONY: delete_objects

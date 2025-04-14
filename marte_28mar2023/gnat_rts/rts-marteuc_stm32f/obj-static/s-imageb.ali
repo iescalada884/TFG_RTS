@@ -1,0 +1,61 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.image_b%b	s-imageb.adb		fde7a63c NE OL PK GE
+W system%s		system.ads		system.ali
+
+U system.image_b%s	s-imageb.ads		2d7b8be9 BN NE OL PU PK GE
+W system%s		system.ads		system.ali
+
+D system.ads		20250318185043 14286b0f system%s
+D s-imageb.ads		20250318185044 3953e0e6 system.image_b%s
+D s-imageb.adb		20250318185044 c4b446da system.image_b%b
+G a e
+G c Z s b [image_b system 41 16 none]
+X 1 system.ads
+37K9*System 155e11 2|41r9 75r5 3|32r14 141r5
+X 2 s-imageb.ads
+37I9 Int 45r11 3|39r11
+39M9 Uns 61r11 3|51r36 65r39 85r11 92r24 92r31 94r18 97r11
+41k16*Image_B 1|37k9 2|37z9 39z9 75l12 75e19 3|32b21 141l12 141t19
+44U14*Set_Image_Based_Integer 45>7 46>7 47>7 48<7 49=7 3|38b14 78l8 78t31
+45*7 V{37I9} 3|39b7 50r10 51r41 65r45
+46i7 B{natural} 3|40b7 51r45 65r49
+47i7 W{integer} 3|41b7 51r48 65r52
+48a7 S{string} 3|42b7 51m51 58m10 65m59 71r16 75m10
+49i7 P{natural} 3|43b7 51m54 57m10 57r15 58r13 59r19 65m62
+60U14*Set_Image_Based_Unsigned 61>7 62>7 63>7 64<7 65=7 3|51s10 65s13 84b14
+. 139l8 139t32
+61*7 V{39M9} 3|85b7 97r18 130r12
+62i7 B{natural} 3|86b7 92r36 113r45 118r10
+63i7 W{integer} 3|87b7 113r25
+64a7 S{string} 3|88b7 114m10 119m10 123m7 126m7 132m10 137m7
+65i7 P{natural} 3|89b7 91r35 109m7 113r13 114r13 115m10 115r15 119r13 120m10
+. 120r15 123r10 124m7 124r12 126r10 127m7 127r12 131r24 131r29 136m7 136r12
+. 137r10
+X 3 s-imageb.adb
+45i7 Start{natural} 59m10 71r19 72m13 72r22 75r13
+91i7 Start{natural} 109r12 113r17
+92*7 BU{2|39M9} 104r19 123r21 132r30 133r19
+93a7 Hex(character) 123r16 132r19
+96i7 Nb_Digits{natural} 106m10 106r23 113r29 131r33 136r16
+97*7 T{2|39M9} 104m10 104r15 105r20 130m7 132r24 133m10 133r15
+131i11 J{integer} 132r13
+

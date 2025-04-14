@@ -1,0 +1,52 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_FLOATING_POINT
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.long_long_float_expon%s  s-llflex.ads	09a472e2 NE OL PK
+W ada%s			ada.ads			ada.ali
+W ada.numerics%s	a-numeri.ads		a-numeri.ali
+W ada.numerics.long_long_elementary_functions%s  a-nllefu.ads  a-nllefu.ali
+W system%s		system.ads		system.ali
+
+D ada.ads		20250318185043 76789da1 ada%s
+D a-numeri.ads		20250318185043 84bea7a3 ada.numerics%s
+D a-ngelfu.ads		20250318185043 5506716e ada.numerics.generic_elementary_functions%s
+D a-nllefu.ads		20250318185043 a34f74c3 ada.numerics.long_long_elementary_functions%s
+D a-unccon.ads		20250318185043 0e9b276f ada.unchecked_conversion%s
+D system.ads		20250318185043 14286b0f system%s
+D s-exctab.ads		20250318185043 91bef6ef system.exception_table%s
+D s-llflex.ads		20250318185044 bec36d2e system.long_long_float_expon%s
+D s-stalib.ads		20250318185044 1c9580f6 system.standard_library%s
+G a e
+X 1 ada.ads
+16K9*Ada 20e8 8|35r6 40r14
+X 2 a-numeri.ads
+16K13*Numerics 35e17 8|35r10 40r18
+X 3 a-ngelfu.ads
+87V14*"**"{long_long_float} 8|40r59[4|18]
+X 4 a-nllefu.ads
+18K22*Long_Long_Elementary_Functions[3|39] 8|35w19 40r27
+X 6 system.ads
+37K9*System 155e11 8|37r9 42r5
+X 8 s-llflex.ads
+37K16*Long_Long_Float_Expon 6|37k9 8|42l12 42e33
+39V13*Expon_LLF=40:58{long_long_float}
+39f24 Left{long_long_float}
+39f30 Right{long_long_float}
+

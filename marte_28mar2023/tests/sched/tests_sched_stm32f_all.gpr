@@ -1,0 +1,17 @@
+with "../../global_switches.gpr";
+with "../../stm32f_shared_switches.gpr";
+
+aggregate project Tests_Sched_STM32F_All is
+
+   for Runtime ("ada") use STM32F_Shared_Switches.Runtime;
+   for Target use STM32F_Shared_Switches.Target;
+   for Create_Missing_Dirs use "True";
+
+   for Project_Files use
+     ("tests_sched_stm32f.gpr",
+      "../../marte_stm32f.gpr");
+
+   package Ide renames Stm32F_Shared_Switches.Ide;
+
+end Tests_Sched_STM32F_All;
+

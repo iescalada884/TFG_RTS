@@ -1,0 +1,213 @@
+V "GNAT Lib v2019"
+A -gnatA
+A --RTS=/home/ubuntfg/opt/GNAT/2019-arm-elf/arm-eabi/lib/gnat/zfp-stm32f4/
+A -mlittle-endian
+A -mfloat-abi=hard
+A -mcpu=cortex-m4
+A -mfpu=fpv4-sp-d16
+A -mthumb
+A -ffunction-sections
+A -fdata-sections
+A -gnateDDEF_MARTE_ARCH=STM32F
+A -gnateDMARTE_BOARD=stm32f4
+P ZX
+
+RN
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_UNCHECKED_CONVERSION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK_05
+
+U marte.kernel.tasks_operations.clock_nanosleep%b  marte-kernel-tasks_operations-clock_nanosleep.adb  b5cf1d3f NE OO PK IU
+Z ada.tags%s		a-tags.adb		a-tags.ali
+W marte%s		marte.ads		marte.ali
+W marte.hal%s		marte-hal.adb		marte-hal.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+W marte.kernel.scheduler%s  marte-kernel-scheduler.adb  marte-kernel-scheduler.ali
+W marte.kernel.task_suspension_timed_events%s  marte-kernel-task_suspension_timed_events.adb  marte-kernel-task_suspension_timed_events.ali
+W marte.kernel.tasks_operations%s  marte-kernel-tasks_operations.adb  marte-kernel-tasks_operations.ali
+W marte.kernel.tasks_operations.debug%s  marte-kernel-tasks_operations-debug.adb  marte-kernel-tasks_operations-debug.ali
+W marte.kernel.timers%s	marte-kernel-timers.adb	marte-kernel-timers.ali
+W marte.kernel.timers.internals%s  marte-kernel-timers-internals.adb  marte-kernel-timers-internals.ali
+Z system%s		system.ads		system.ali
+
+U marte.kernel.tasks_operations.clock_nanosleep%s  marte-kernel-tasks_operations-clock_nanosleep.ads  14f9c28c EE NE OO PK
+W marte%s		marte.ads		marte.ali
+W marte.integer_types%s	marte-integer_types.ads	marte-integer_types.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+W marte.kernel.tasks_operations%s  marte-kernel-tasks_operations.adb  marte-kernel-tasks_operations.ali
+W marte.kernel.timers%s	marte-kernel-timers.adb	marte-kernel-timers.ali
+W marte.timespec%s	marte-timespec.adb	marte-timespec.ali
+
+D ada.ads		20190518110050 76789da1 ada%s
+D a-tags.ads		20190518110050 2dde273c ada.tags%s
+D a-unccon.ads		20190518110050 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20190518110050 5ab55268 interfaces%s
+D i-c.ads		20190518110050 ef84921c interfaces.c%s
+D i-stm32.ads		20190518110049 4d2e1e9b interfaces.stm32%s
+D i-stm32-pwr.ads	20190518110049 10ed2a13 interfaces.stm32.pwr%s
+D marte.ads		20230328142408 99bc4a3f marte%s
+D marte-configuration_parameters.ads  20230328142416 381ea921 marte.configuration_parameters%s
+D marte-hal.ads		20230328142416 b82c62f8 marte.hal%s
+D marte-integer_types.ads  20230328142407 2e806981 marte.integer_types%s
+D marte-kernel.ads	20230328142408 dd02ee52 marte.kernel%s
+D marte-kernel-scheduler.ads  20230328142407 464c231a marte.kernel.scheduler%s
+D marte-kernel-signals.ads  20230328142407 c9be4286 marte.kernel.signals%s
+D marte-kernel-signals-global.ads  20230328142407 cdf191c8 marte.kernel.signals.global%s
+D marte-kernel-task_suspension_timed_events.ads  20230328142408 68f1b9e1 marte.kernel.task_suspension_timed_events%s
+D marte-kernel-tasks_operations.ads  20230328142406 99ad58ad marte.kernel.tasks_operations%s
+D marte-kernel-tasks_operations-clock_nanosleep.ads  20230328142407 833f29d8 marte.kernel.tasks_operations.clock_nanosleep%s
+D marte-kernel-tasks_operations-clock_nanosleep.adb  20230328142408 282c6c3f marte.kernel.tasks_operations.clock_nanosleep%b
+D marte-kernel-tasks_operations-debug.ads  20230328142407 39a66540 marte.kernel.tasks_operations.debug%s
+D marte-kernel-timers.ads  20230328142407 9ff93a49 marte.kernel.timers%s
+D marte-kernel-timers-internals.ads  20230328142408 b1ebc59b marte.kernel.timers.internals%s
+D marte-posix_constants.ads  20230328142408 8d4a4132 marte.posix_constants%s
+D marte-sll.ads		20230328142436 f705b9d6 marte.sll%s
+D marte-sll-advanced.ads  20230328142436 2ff94b17 marte.sll.advanced%s
+D marte-sll-map.ads	20230328142436 71679a5f marte.sll.map%s
+D marte-sll-order.ads	20230328142436 45a1562e marte.sll.order%s
+D marte-sll-resources.ads  20230328142436 3fc24e72 marte.sll.resources%s
+D marte-stacks_management.ads  20230328142408 745cf584 marte.stacks_management%s
+D marte-timespec.ads	20230328142408 bf12e031 marte.timespec%s
+D system.ads		20190518110049 e69b74bd system%s
+D s-bb.ads		20190518110050 09e072ae system.bb%s
+D s-bbbopa.ads		20190518110049 95d97b26 system.bb.board_parameters%s
+D s-bbmcpa.ads		20190518110049 c4c55388 system.bb.mcu_parameters%s
+D s-bbpara.ads		20190518110049 431abc17 system.bb.parameters%s
+D s-stm32.ads		20190518110049 e898dba2 system.stm32%s
+D s-stoele.ads		20190518110050 2dc34a04 system.storage_elements%s
+D s-stoele.adb		20190518110050 ed88f8fb system.storage_elements%b
+D s-unstyp.ads		20190518110050 34867c83 system.unsigned_types%s
+G a e
+G c Z s b [clock_nanosleep marte__kernel__tasks_operations__clock_nanosleep 57 13 none]
+G r c none [clock_nanosleep marte__kernel__tasks_operations__clock_nanosleep 57 13 none] [is_cpu_clock_of_self marte__kernel__timers__internals 86 13 none]
+G r c none [clock_nanosleep marte__kernel__tasks_operations__clock_nanosleep 57 13 none] [clock_id_ok marte__kernel__timers__internals 90 13 none]
+G r c none [clock_nanosleep marte__kernel__tasks_operations__clock_nanosleep 57 13 none] [enter_critic_section marte__kernel 105 14 none]
+G r c none [clock_nanosleep marte__kernel__tasks_operations__clock_nanosleep 57 13 none] [get_hwtime marte__hal 243 13 none]
+G r c none [clock_nanosleep marte__kernel__tasks_operations__clock_nanosleep 57 13 none] [self marte__kernel__scheduler 58 13 none]
+G r c none [clock_nanosleep marte__kernel__tasks_operations__clock_nanosleep 57 13 none] [timespec_to_hwtime marte__timespec 65 13 none]
+G r c none [clock_nanosleep marte__kernel__tasks_operations__clock_nanosleep 57 13 none] [realtime_clock_offset marte__kernel__timers 128 13 none]
+G r c none [clock_nanosleep marte__kernel__tasks_operations__clock_nanosleep 57 13 none] [running_task_gets_suspended marte__kernel__scheduler 71 14 none]
+G r c none [clock_nanosleep marte__kernel__tasks_operations__clock_nanosleep 57 13 none] [running_task_yields_cpu marte__kernel__scheduler 141 14 none]
+G r c none [clock_nanosleep marte__kernel__tasks_operations__clock_nanosleep 57 13 none] [do_scheduling marte__kernel__scheduler 144 14 none]
+G r c none [clock_nanosleep marte__kernel__tasks_operations__clock_nanosleep 57 13 none] [leave_critic_section marte__kernel 118 14 none]
+X 4 interfac.ads
+77M9*Unsigned_64
+X 5 i-c.ads
+53I9*int<integer>
+X 8 marte.ads
+43K9*MaRTE 45e10 18|46r6 46r26 47r6 47r31 48r6 50r9 52r22 65r5 19|46r6 47r6
+. 48r6 49r6 50r6 52r14 124r5
+X 10 marte-hal.ads
+57K15*HAL 352e14 19|46w12
+137U14*Disable_Interrupts 138i<c,marte__hal__disable_interrupts>22
+141U14*Enable_Interrupts 142i<c,marte__hal__enable_interrupts>22
+236M9*HWTime<4|77M9> 19|67r20 69r17
+243V13*Get_HWTime{236M9} 19|84s18 103s58
+X 11 marte-integer_types.ads
+44K15*Integer_Types 201e24 18|47w12 47r37
+65M9*Unsigned_32
+73I12*Int{5|53I9} 18|60r63 19|64r63
+X 12 marte-kernel.ads
+64K15*Kernel 8|43k9 12|767e17 18|48r12 50r15 52r28 65r11 19|47r12 48r12 49r12
+. 50r12 52r20 124r11
+69K12*HAL=69:30 19|67r16 69r13 84r14 103r54
+80m4*Suspension_Time_Minimum{10|236M9} 19|102r41
+105U14*Enter_Critic_Section 106i<c,kernel_enter_critic_section>22 19|83s9
+118U14*Leave_Critic_Section 119i<c,kernel_leave_critic_section>22 19|120s9
+184M9*Clock_Id<11|65M9>
+210m7*T{10|236M9} 19|85m34 89r44 91m43 93m43 93r75 99m37 99r69 102r37 114r59
+215P12*Timed_Event_Ac{24|55P9[213]}
+306n8*TIME_SUSPENDED{304E9} 19|109r59
+345I12*Error_Code{23|175I12}
+357i4*INVALID_ARGUMENT{345I12} 19|75r17
+363i4*OPERATION_NOT_SUPPORTED{345I12} 19|80r17
+420R9*TCB
+600p7*Suspension_Event{215P12} 19|85r17 89r27 91r26 93r26 93r58 99r20 99r52
+. 102r20 106r47 114r41 114r42
+693P12*Task_Id{24|55P9[668]}
+X 13 marte-kernel-scheduler.ads
+48K22*Scheduler 182e27 19|48w19 54r27 104r10
+58V13*Self{12|693P12} 59i<c,pthread_self>22 19|85s12 89s22 91s21 93s21 93s53
+. 99s15 99s47 102s15 103s48 106s42 113s37 114s37
+71U14*Running_Task_Gets_Suspended 19|109s15
+71e43 With_Status{12|304E9} 19|109r44
+72m43 At_Time{10|236M9} 19|110r44
+141U14*Running_Task_Yields_CPU 19|104s20
+144U14*Do_Scheduling 145i<c,do_scheduling>22 19|118s12
+156U14*Start_Interrupt 157i<c,scheduler__start_interrupt>22
+164U14*End_Interrupt 165i<c,scheduler__end_interrupt>22
+172U14*Before_ATC 173i<c,scheduler__before_atc>22
+X 16 marte-kernel-task_suspension_timed_events.ads
+47K22*Task_Suspension_Timed_Events 78e46 19|49w19 55r27
+54n31*SUSPENSION{54E9} 19|107r17
+62e9*Reason{54E9} 19|106m65
+68P9*Task_Suspension_TE_Ac(60R9) 19|106r15
+X 17 marte-kernel-tasks_operations.ads
+50K22*Tasks_Operations 12|64k15 17|314e34 18|50r22 65r18 19|50r19 52r27 56r27
+. 124r18
+173V13*Pthread_Setschedparam{11|73I12} 176i<c,pthread_setschedparam>22
+181V13*Pthread_Setschedprio{11|73I12} 184i<c,pthread_setschedprio>22
+190V13*Pthread_Setdeadline{11|73I12} 195i<c,pthread_setdeadline>22
+206V13*Pthread_Getdeadline{11|73I12} 209i<c,pthread_getdeadline>22
+219V13*Pthread_Setpreemptionlevel{11|73I12} 222i<c,pthread_setpreemptionlevel>22
+232V13*Pthread_Getpreemptionlevel{11|73I12} 235i<c,pthread_getpreemptionlevel>22
+244V13*Pthread_Getschedparam{11|73I12} 248i<c,pthread_getschedparam>22
+254V13*Pthread_Create{11|73I12} 258i<c,pthread_create>22
+265V13*Pthread_Join{11|73I12} 267i<c,pthread_join>22
+273V13*Pthread_Detach{11|73I12} 274i<c,pthread_detach>22
+280U14*Pthread_Exit 281i<c,pthread_exit>22
+287V13*Sched_Yield{11|73I12} 289i<c,sched_yield>22
+299V13*MaRTE_Enable_RR_Quantum{11|73I12} 300i<c,marte_enable_rr_quantum>22
+308V13*MaRTE_Disable_RR_Quantum{11|73I12} 309i<c,marte_disable_rr_quantum>22
+X 18 marte-kernel-tasks_operations-clock_nanosleep.ads
+50K39*Clock_Nanosleep 17|50k22 18|65l35 65e50 19|52b44 124l35 124t50
+52K12*K=52:28 57r43 58r43 19|54r25 55r25 56r25 61r43 62r43 65r16 66r16 72r19
+. 73r19 77r20 78r20 83r7 86r11 88r21 90r17 94r20 120r7
+57V13*Clock_Nanosleep{11|73I12} 57>30 58>30 59>30 60>30 61i<c,clock_nanosleep>22
+. 62r28 19|61b13 122l8 122t23
+57m30 Clock{21|61M12} 19|61b30 72r51 73r60 77r11 78r11 88r13
+58m30 Options{21|117M9} 19|62b30 86r39
+59p30 Rqtp{30|58P9} 19|63b30 85r59
+60p30 Rmtp{30|58P9} 19|64b30
+X 19 marte-kernel-tasks_operations-clock_nanosleep.adb
+54K12 SCHD=54:27 85r7 89r17 91r16 93r16 93r48 99r10 99r42 102r10 103r43 106r37
+. 109r10 113r32 114r32 118r7
+55K12 TSTE=55:27 106r10 107r12
+56K12 TO=56:27 103r24 113r13
+68i7 Flags{integer} 83m31 120r31
+69m7 Now{10|236M9} 84m7 99r73 102r67 110r59
+X 20 marte-kernel-tasks_operations-debug.ads
+46K39*Debug 19|50w36 103r27 113r16 20|87e40
+55U14*Suspend1 19|103s33 113s22
+X 21 marte-kernel-timers.ads
+52K22*Timers 18|48w19 57r45 58r45 19|47r19 61r45 62r45 65r18 66r18 72r21
+. 73r21 77r22 78r22 86r13 88r23 90r19 94r22 21|230e24
+61M12*Clock_Id{12|184M9} 18|57r52 19|61r52 65r25
+63m4*CLOCK_REALTIME{61M12} 19|77r29 88r30
+65m4*CLOCK_MONOTONIC{61M12} 19|78r29
+117M9*Timer_Options<11|65M9> 18|58r52 19|62r52 66r25
+119m4*ABSOLUTE_TIMER{117M9} 19|86r20
+128V13*Realtime_Clock_Offset{10|236M9} 19|90s26 94s29
+151V13*Get_RealTime_Clock_Gnat{duration} 152i<c,timers__get_realtime_clock_gnat>22
+164V13*Get_Monotonic_Clock_Gnat{duration} 165i<c,timers__get_monotonic_clock_gnat>22
+176V13*Pthread_Getcpuclockid{11|73I12} 178i<c,pthread_getcpuclockid>22
+189V13*Timer_Delete{11|73I12} 190i<c,timer_delete>22
+220V13*Timer_Getoverrun{11|73I12} 221i<c,timer_getoverrun>22
+X 22 marte-kernel-timers-internals.ads
+44K29*Internals 19|47w26 72r28 73r28 22|158e34
+86V13*Is_CPU_Clock_Of_Self{boolean} 19|73s38
+90V13*Clock_Id_OK{boolean} 19|72s38
+X 23 marte-posix_constants.ads
+175I12*Error_Code{11|73I12}
+X 24 marte-sll.ads
+48R9 Basic
+53R9*Element<12|209R9>
+55P9*Element_Ac(53R9[12|668])
+X 30 marte-timespec.ads
+49K15*Timespec 18|46w12 46r32 30|80e19
+58P9*Timespec_Ac(53R9) 18|59r43 60r43 19|63r43 64r43
+65V13*Timespec_To_HWTime{10|236M9} 19|85s39
+

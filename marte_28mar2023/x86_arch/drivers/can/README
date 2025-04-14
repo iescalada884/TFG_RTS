@@ -1,0 +1,48 @@
+
+                CAN driver for MaRTE OS
+                =======================
+                   by Daniel Sangorrin
+
+1. Introduction
+===============
+
+This driver has been developed to support CAN bus on MaRTE OS. The driver
+is composed of code for each supported board (files with name board_xxx.[h,c]),
+each supported chip (files with name chip_xxxx.[h,c]) and a glue that
+puts them together (example: a pc is composed of several boards and each board
+has several chips). Each type of board and chip has to implement a set of
+interface functions.
+
+This idea has been taken from the Lincan project (also some bits of
+code) but the interface and code is different because we want to provide a
+simple and very thin implementation with prioritized queues to develope
+real-time protocols on top of it. This interface may change a little bit as
+support for more cards and chips is added in the future.
+
+To access the driver you can use the functions:
+
+  - create: searches for any supported board in the node and initializes it
+  - open: initializes a chip (each can bus chip corresponds to a minor number)
+  - write: write a msg in the can prioritized buffers.
+  - read: read a msg from the current can channel buffer (set with ioctl)
+  - ioctl:
+        + SET_CHANNEL = sets the channel that you want to read
+        + SET_ACCEPTANCE_FILTER = changes the acceptance filters
+        + GET_STATUS = gets the status and errors in the bus
+
+2. Supported CARDS
+==================
+
+- Adlink PCI 7841
+
+3. Supported Chipsets
+=====================
+
+- SJA1000 (PeliCAN mode)
+
+4. Support
+==========
+
+The driver does not have official support, it is distributed as it is without
+any warranty and the license is the same as MaRTE OS license. You can ask any
+question in the MaRTE OS Website forum.

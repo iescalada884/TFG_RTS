@@ -1,0 +1,61 @@
+
+        RT-EP user's guide
+        ==================
+
+In the following we will call $(RTEP_PATH) to the path were the directory of
+rt-ep is. For example /home/user/marte/drivers/rt-ep
+
+For using RT-EP you need a x86_arch MaRTE OS installation with the Ethernet
+drivers enabled (go to x86_arch/arch_dependent_files/kernel-devices_table.ads
+and uncomment the necessary lines)
+
+1) clean rt-ep
+
+        $ cd $(RTEP_PATH)
+        $ make clean
+
+2) configure rt-ep
+
+        - Retouch the file 'rtep.ads' to enable DEBUG messages, set the size of
+          the queues, the priorities, activate mutexes or servers, the delays...
+        - Retouch rtep-protocol-stations-ring_spec.ads to put the MAC addresses
+          of your nodes.
+
+3) compile rt-ep
+
+        $ cd $(RTEP_PATH)
+        $ make
+
+4) compile an rt-ep test, for example 'test_rtep_messages_2stations.adb'
+
+        $ cd $(RTEP_PATH)/test
+        $ make test_rtep_messages_2stations.exe
+
+5) compile all the rt-ep tests
+
+        $ cd $(RTEP_PATH)/test
+        $ make tests_compilation
+
+6) execute several nodes in qemu
+
+        - get or do a suitable QEMU image (for example get one from the tutorial
+          "Hello MaRTE OS using an emulator" at
+          http://marte.unican.es/documentation.htm)
+        - install the "mtools" package
+        - configure the QEMU image for mtools by writing something like this in
+          $(HOME)/.mtoolsrc file:
+
+ drive c:
+     file="/home/user/export/disk.img"
+     partition=1
+     mtools_skip_check=1
+
+        - copy your test to the image:
+
+                mcopy -o my_test.exe c:mprogram
+
+        - run several QEMU instances with different values for the MACs
+
+qemu -hda disk.img -net nic,macaddr=00:0E:0C:5B:1D:BD,model=rtl8139 -net socket,mcast=230.0.0.1:1234 &
+sleep 2
+qemu -hda disk.img -net nic,macaddr=00:0E:0C:5B:1E:28,model=rtl8139 -net socket,mcast=230.0.0.1:1234

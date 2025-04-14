@@ -1,0 +1,113 @@
+#!/usr/bin/perl -w
+#
+# MaRTE OS.
+#
+# Call 'gcc' with the appropriate parameters.
+
+use strict;
+
+# get MaRTE utils directory 
+use File::Basename;
+use File::Spec;
+my $UTILS_PATH;
+BEGIN {
+    $UTILS_PATH= dirname(File::Spec->rel2abs( __FILE__ ));
+}
+
+# Require local_config.pl
+require "$UTILS_PATH/local_config.pl";
+use vars qw($MPATH);
+
+# Require current_arch.pl
+require "$UTILS_PATH/current_arch.pl";
+use vars qw($CURRENT_ARCH);
+
+# Require globals.pl
+require "$UTILS_PATH/globals.pl";
+use vars qw(%ARCH_GCC_OPTS %CODE_GEN_OPTS %INCLUDES %WRAPPER_MAIN %COMPILER_PREFIX %ARCH_GCC_LD_OPTS %LIBS_PATH %LIBS_GCC %ENV_VARS_VS_ARCH &exec_command);
+
+# check arguments
+use Getopt::Long;
+Getopt::Long::Configure(qw (pass_through no_auto_abbrev no_ignore_case) );
+
+my $compile_only=0;
+my $dont_change_main_name=0;
+my $lang="";
+my $prog_name="";
+GetOptions("c" => \$compile_only,
+           "dont_change_main_name" => \$dont_change_main_name,
+           "lang=s" => \$lang,
+	   "o=s"  => \$prog_name);
+if ($prog_name eq "") {
+    $prog_name = "a.out";
+}
+
+# flags to compile or compile and link
+my $gcc_args="@ARGV $ARCH_GCC_OPTS{$CURRENT_ARCH} $CODE_GEN_OPTS{$CURRENT_ARCH} ";
+if ($prog_name ne "a.out") {
+    $gcc_args .= "-o $prog_name ";
+}
+if ($compile_only) {
+    $gcc_args .= "-c ";
+}
+
+# Ada file?
+if (!@ARGV || !ada_file_in_arguments(@ARGV)) {
+   # only add C includes if not compiling an Ada file
+   $gcc_args="$INCLUDES{$CURRENT_ARCH} " . $gcc_args;
+} else {
+   $lang = "ada";
+}
+
+# check the language
+if ($lang eq "") {
+    $lang = "c";
+}
+
+# compile only or compile and link?
+if (!$compile_only) {
+   my $wrapper_main = "";
+   if ($CURRENT_ARCH ne "stm32f" && $CURRENT_ARCH ne "ev3") {
+      $wrapper_main = $WRAPPER_MAIN{$lang};
+   }
+   # compile and link
+   $gcc_args = "$gcc_args " .
+        "$wrapper_main $ARCH_GCC_LD_OPTS{$CURRENT_ARCH} " .
+        "$LIBS_PATH{$CURRENT_ARCH} $LIBS_GCC{$CURRENT_ARCH} ";
+}
+
+# change name of main to user_main?
+if ($dont_change_main_name) {
+   # in some architectures %ARCH_GCC_OPTS contains "-Dmain=user_main"
+   # to change the name of the main function. Appending "-Dmain=main"
+   # AT THE END of the command line cancels the name change.
+   $gcc_args = $gcc_args . " -Dmain=main ";
+}
+
+# call gcc
+exec_command "$ENV_VARS_VS_ARCH{$CURRENT_ARCH} " .
+    "$COMPILER_PREFIX{$CURRENT_ARCH}gcc $gcc_args ";
+
+# post-compilation commands (create image, ...)
+if (!$compile_only &&
+    ($CURRENT_ARCH eq "rpi" || $CURRENT_ARCH eq "gnat_arm_bb" ||
+     $CURRENT_ARCH eq "stm32f" || $CURRENT_ARCH eq "ev3")) {
+    exec_command "arm-eabi-objcopy $prog_name -O binary $prog_name.bin";
+    exec_command "arm-eabi-objdump -d $prog_name > $prog_name.list";
+}
+
+exit 0;
+
+
+# Subfunction ada_file_in_arguments
+sub ada_file_in_arguments
+{
+    my @args = shift(@_);
+    my $arg;
+    foreach $arg (@args) {
+	if ($arg =~ /\.adb$/) {
+	    return 1;
+	}
+    }
+    return 0;
+}

@@ -1,0 +1,121 @@
+with "global_switches.gpr";
+with "ev3_shared_switches.gpr";
+
+library project MaRTE_EV3 is
+
+   for Languages use ("ada", "C", "Asm_Cpp");
+   for Source_Dirs use
+     ("kernel",
+      "sll",
+      "ev3_arch/arch_dependent_files",
+      "ev3_arch/call_main",
+      "ev3_arch/drivers/**",
+      "ev3_arch/hwi",
+      "misc");
+
+   for Excluded_Source_Files use ("time_measurement_hwtime.c",
+                                  "console_switcher.ads");
+
+   for Runtime ("ada") use EV3_Shared_Switches.Runtime;
+   for Target use EV3_Shared_Switches.Target;
+
+   for Library_Name use "marte";
+   for Object_Dir use "objs/ev3_objs/objs";
+   for Library_Dir use "objs/ev3_objs/libmarte";
+   for Library_Kind use "static";
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Switches ("Ada") use EV3_Shared_Switches.Compiler'Switches ("ada");
+      for Switches ("c") use EV3_Shared_Switches.Compiler'Switches ("c");
+
+      for Switches ("wrapper_main_c.c") use
+        EV3_Shared_Switches.Compiler'Switches ("c")
+        & ("-Dmain=main");
+   end Compiler;
+
+ for Library_Interface use
+   ("Drivers_MaRTE",
+    "Marte", "Marte.kernel.file_system",
+    "Marte.Pthread_Once",
+    "Marte.POSIX_Constants",
+    "Marte.POSIX_Interrupt_Control", "Marte.POSIX_Pthread",
+    "Marte.POSIX_Sched", "Marte.POSIX_Semaphore",
+    "Marte.POSIX_Signal", "Marte.POSIX_Time", "Marte.POSIX_Unistd",
+    "Marte.integer_Types",
+    "Marte.configuration_Parameters",
+    "Marte.kernel",
+    "Marte.debug_Messages",
+    "Marte.direct_Io",
+    "Marte.kernel.debug",
+    "Marte.hal",
+    "Marte.hal.registers",
+    "Marte.spy",
+    "Marte.sll",
+    "Marte.sll.advanced",
+    "Marte.sll.map",
+    "Marte.sll.order",
+    "Marte.stacks_Management",
+    "Marte.sll.resources",
+    "Marte.kernel.scheduler",
+    "Marte.kernel.application_Scheduler",
+    "Marte.kernel.application_Scheduling_Data",
+    "MaRTE.Kernel.Initialization",
+    "Marte.kernel.mutexes",
+    "Marte.kernel.mutexes.debug",
+    "Marte.kernel.mutexes.internals",
+    "Marte.kernel.mutexes.srp_Ceiling",
+    "Marte.kernel.tasks_Lists_Prio",
+    "Marte.sll.prio",
+    "Marte.kernel.tasks_Operations",
+    "Marte.kernel.pool_Tcbs",
+    "Marte.kernel.pool_Tcbs_Debug",
+    "Marte.kernel.signals",
+    "Marte.kernel.signals.global",
+    "Marte.kernel.signals.pool_Sdbs",
+    "Marte.kernel.task_Suspension_Timed_Events",
+    "Marte.kernel.signals.internals",
+    "Marte.kernel.tasks_Operations.debug",
+    "Marte.kernel.tasks_Operations.Clock_Nanosleep",
+    "Marte.timespec",
+    "Marte.kernel.tasks_Operations.internals",
+    "Marte.kernel.types_sizes",
+    "Marte.kernel.condition_Variables",
+    "Marte.kernel.condition_Variables.debug",
+    "Marte.kernel.condition_Variables.internals",
+    "Marte.kernel.timers",
+    "Marte.kernel.task_Sets",
+    "Marte.kernel.group_Clocks",
+    "Marte.kernel.timed_Handlers",
+    "Marte.kernel.timer_Timed_Events_Pool",
+    "Marte.kernel.timers.internals",
+    "Marte.kernel.timed_Events_And_Timer",
+    "Marte.kernel.timed_Events_And_Timer_Debug",
+    "Marte.kernel.timed_Events_Queue",
+    "Marte.kernel.signals.handler",
+    "Marte.kernel.tasks_Operations.initialize_Tcbs",
+    "MaRTE.Kernel.Mutexes.Attributes_SRP",
+    "Marte.kernel.mutexes.internals_Appsched",
+    "Marte.kernel.hardware_Interrupts",
+    "Marte.kernel.replenishment_Te",
+    "Marte.kernel.scheduler.debug",
+    "Marte.kernel.scheduler_Cdbg",
+    "Marte.kernel.semaphores",
+    "Marte.kernel.semaphores.internals",
+    "Marte.kernel.task_Sets.internals",
+    "Marte.kernel.group_Clocks.internals",
+    "MaRTE.Kernel.Tasks_Operations.Attributes_EDF",
+    "Marte.kernel.tasks_Operations.application_Scheduler",
+    "MaRTE.Kernel.Task_Sets.Operations",
+    "Marte.kernel.application_Scheduler_Task_Body",
+    "Marte.kernel.signals.application_Scheduler",
+    "Marte.kernel.signals.debug",
+    "Marte.kernel.signals.pending",
+    "Marte.kernel.timed_Handlers.internals",
+    "Marte.kernel.signals.posix_Functions",
+    "Marte.kernel.tasks_Operations.attributes",
+    "Marte.kernel.devices_Table",
+    "Marte.kernel.file_System_Data_Types",
+    "UART_Console_Driver_Functions");
+
+end MaRTE_EV3;

@@ -1,0 +1,4 @@
+define connect
+	file /home/ubuntfg/Documents/marte_28mar2023/mprogram
+	target remote /dev/ttyS0
+end

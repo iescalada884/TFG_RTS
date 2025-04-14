@@ -1,0 +1,25 @@
+abstract project Global_Switches is
+   type Mode_Type is ("debug", "default", "optimized");
+   Mode : Mode_Type := external ("mode", "default");
+
+   type MaRTE_Target is ("stm32f4", "stm32f769disco", "ev3");
+   MTarget : MaRTE_Target := external ("mtarget");
+
+   for Source_Files use ();   --  no sources
+
+   Ada_Flags := ();
+   C_Flags  := ();
+
+   case Mode is
+      when "debug" =>
+         Ada_Flags := ("-g", "-gnata", "-gnato", "-gnatVa", "-O0");
+         C_Flags  := ("-g", "-O0");
+      when "default" =>
+         Ada_Flags := ();
+         C_Flags  := ();
+      when "optimized" =>
+         Ada_Flags := ("-O3", "-gnatp");
+         C_Flags  := ("-O3");
+   end case;
+
+end Global_Switches;

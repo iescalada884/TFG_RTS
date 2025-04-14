@@ -1,0 +1,35 @@
+with "../../stm32f_shared_switches.gpr";
+
+project Tests_HAL_Direct_STM32F is
+
+   for Languages use ("C");
+
+   for Source_Dirs use (".");
+   for Object_Dir use "obj";
+   for Main use ("test_context_switch_stm32f.c",
+                 "test_context_switch_from_irq_handler_stm32f.c",
+                 "test_enable_interrupts.c",
+                 "test_hw_irq.c",
+                 "test_time_conversions.c",
+                 "test_timer_and_clock.c");
+   for Excluded_Source_Files use ("test_context_switch.c",
+                                  "test_context_switch_from_irq_handler.c");
+
+   for Runtime ("Ada") use Stm32F_Shared_Switches.Runtime;
+   for Target use Stm32F_Shared_Switches.Target;
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Switches ("Ada") use Stm32F_Shared_Switches.Compiler'Switches ("ada");
+      for Switches ("c") use Stm32F_Shared_Switches.Compiler'Switches ("c")
+        & ("-Werror");
+   end Compiler;
+
+   package Linker renames Stm32F_Shared_Switches.Linker;
+
+   package Ide renames Stm32F_Shared_Switches.Ide;
+
+   package Emulator renames Stm32F_Shared_Switches.Emulator;
+
+end Tests_HAL_Direct_STM32F;
+

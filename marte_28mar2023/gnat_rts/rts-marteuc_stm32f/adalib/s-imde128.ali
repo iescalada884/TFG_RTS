@@ -1,0 +1,72 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.img_decimal_128%s  s-imde128.ads	da5ce756 NE OL PK
+W interfaces%s		interfac.ads		interfac.ali
+W system%s		system.ads		system.ali
+W system.image_d%s
+Z system.img_lli%s	s-imglli.ads		s-imglli.ali
+Z system.img_util%s	s-imguti.adb		s-imguti.ali
+
+D interfac.ads		20250318185043 9111f9c1 interfaces%s
+D system.ads		20250318185043 14286b0f system%s
+D s-imaged.ads		20250318185043 13371993 system.image_d%s
+D s-imaged.adb		20250318185044 613cc81d system.image_d%b
+D s-imagei.ads		20250318185044 5e131ce0 system.image_i%s
+D s-imde128.ads		20250318185044 4c526c0b system.img_decimal_128%s
+D s-imglli.ads		20250318185044 d88f4f3b system.img_lli%s
+D s-imguti.ads		20250318185044 7719a4b9 system.img_util%s
+D s-unstyp.ads		20250318185043 fa2a7f59 system.unsigned_types%s
+D s-valspe.ads		20250318185043 b0fcd073 system.val_spec%s
+D s-vaispe.ads		20250318185043 8280550e system.value_i_spec%s
+D s-vauspe.ads		20250318185043 89269ba5 system.value_u_spec%s
+D s-vs_lli.ads		20250318185043 b945cf7d system.vs_lli%s
+D s-vs_llu.ads		20250318185043 8f3536c5 system.vs_llu%s
+G a e
+G c Z s s [image_decimal system__img_decimal_128__impl 42 14 43_4]
+G c Z s s [set_image_decimal system__img_decimal_128__impl 54 14 43_4]
+X 1 interfac.ads
+38K9*Interfaces 233e15 6|36w6 41r22
+65I9*Integer_128<long_long_long_integer> 6|41r33
+X 2 system.ads
+37K9*System 155e11 6|37r6 39r9 62r5
+X 3 s-imaged.ads
+40k16*Image_D 71e19 6|37w13 43r24
+42U14*Image_Decimal 6|50r19[43]
+54U14*Set_Image_Decimal 6|60r19[43]
+X 6 s-imde128.ads
+39K16*Img_Decimal_128 2|37k9 6|62l12 62e27
+41I12*Int128{1|65I9} 43r33 46r15 53r15
+43K12*Impl[3|40] 50r14 60r14
+45U14*Image_Decimal128=50:19
+46i7 V{1|65I9}
+47a7 S{string}
+48i7 P{natural}
+49i7 Scale{integer}
+52U14*Set_Image_Decimal128=60:19
+53i7 V{1|65I9}
+54a7 S{string}
+55i7 P{natural}
+56i7 Scale{integer}
+57i7 Fore{natural}
+58i7 Aft{natural}
+59i7 Exp{natural}
+

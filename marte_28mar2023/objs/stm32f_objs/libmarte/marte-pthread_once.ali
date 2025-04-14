@@ -1,0 +1,156 @@
+V "GNAT Lib v2019"
+A -gnatA
+A --RTS=/home/ubuntfg/opt/GNAT/2019-arm-elf/arm-eabi/lib/gnat/zfp-stm32f4/
+A -mlittle-endian
+A -mfloat-abi=hard
+A -mcpu=cortex-m4
+A -mfpu=fpv4-sp-d16
+A -mthumb
+A -ffunction-sections
+A -fdata-sections
+A -gnateDDEF_MARTE_ARCH=STM32F
+A -gnateDMARTE_BOARD=stm32f4
+P SL ZX
+
+RN
+RV NO_ACCESS_SUBPROGRAMS
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_UNCHECKED_ACCESS
+RV NO_IMPLEMENTATION_ATTRIBUTES
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_IMPLICIT_ALIASING
+RV SPARK_05
+
+U marte.pthread_once%b	marte-pthread_once.adb	92fd6fc2 NE OO PK
+Z ada.tags%s		a-tags.adb		a-tags.ali
+W marte%s		marte.ads		marte.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+W marte.kernel.mutexes%s  marte-kernel-mutexes.adb  marte-kernel-mutexes.ali
+W marte.kernel.mutexes.internals%s  marte-kernel-mutexes-internals.adb  marte-kernel-mutexes-internals.ali
+
+U marte.pthread_once%s	marte-pthread_once.ads	a12ed07d EE NE OO PK
+W marte%s		marte.ads		marte.ali
+W marte.integer_types%s	marte-integer_types.ads	marte-integer_types.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+W marte.kernel.mutexes%s  marte-kernel-mutexes.adb  marte-kernel-mutexes.ali
+
+D ada.ads		20190518110050 76789da1 ada%s
+D a-tags.ads		20190518110050 2dde273c ada.tags%s
+D a-unccon.ads		20190518110050 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20190518110050 5ab55268 interfaces%s
+D i-c.ads		20190518110050 ef84921c interfaces.c%s
+D i-stm32.ads		20190518110049 4d2e1e9b interfaces.stm32%s
+D i-stm32-pwr.ads	20190518110049 10ed2a13 interfaces.stm32.pwr%s
+D marte.ads		20230328142408 99bc4a3f marte%s
+D marte-configuration_parameters.ads  20230328142416 381ea921 marte.configuration_parameters%s
+D marte-hal.ads		20230328142416 b82c62f8 marte.hal%s
+D marte-integer_types.ads  20230328142407 2e806981 marte.integer_types%s
+D marte-kernel.ads	20230328142408 dd02ee52 marte.kernel%s
+D marte-kernel-mutexes.ads  20230328142407 724d7229 marte.kernel.mutexes%s
+D marte-kernel-mutexes-internals.ads  20230328142408 e4820a85 marte.kernel.mutexes.internals%s
+D marte-posix_constants.ads  20230328142408 8d4a4132 marte.posix_constants%s
+D marte-pthread_once.ads  20230328142407 645f81ea marte.pthread_once%s
+D marte-pthread_once.adb  20230328142407 1220e4ad marte.pthread_once%b
+D marte-sll.ads		20230328142436 f705b9d6 marte.sll%s
+D marte-sll-advanced.ads  20230328142436 2ff94b17 marte.sll.advanced%s
+D marte-sll-map.ads	20230328142436 71679a5f marte.sll.map%s
+D marte-sll-order.ads	20230328142436 45a1562e marte.sll.order%s
+D marte-sll-resources.ads  20230328142436 3fc24e72 marte.sll.resources%s
+D marte-stacks_management.ads  20230328142408 745cf584 marte.stacks_management%s
+D marte-timespec.ads	20230328142408 bf12e031 marte.timespec%s
+D system.ads		20190518110049 e69b74bd system%s
+D s-bb.ads		20190518110050 09e072ae system.bb%s
+D s-bbbopa.ads		20190518110049 95d97b26 system.bb.board_parameters%s
+D s-bbmcpa.ads		20190518110049 c4c55388 system.bb.mcu_parameters%s
+D s-bbpara.ads		20190518110049 431abc17 system.bb.parameters%s
+D s-stm32.ads		20190518110049 e898dba2 system.stm32%s
+D s-stoele.ads		20190518110050 2dc34a04 system.storage_elements%s
+D s-unstyp.ads		20190518110050 34867c83 system.unsigned_types%s
+G a e
+G c Z s b [pthread_once marte__pthread_once 62 13 none]
+G c Z s s [Tmagic_checkBIP marte__pthread_once 72 4 none]
+G c Z s s [pthread_once_tIP marte__pthread_once 83 9 none]
+G r c none [pthread_once marte__pthread_once 62 13 none] [enter_critic_section marte__kernel 105 14 none]
+G r c none [pthread_once marte__pthread_once 62 13 none] [leave_critic_section marte__kernel 118 14 none]
+G r c none [pthread_once marte__pthread_once 62 13 none] [mutex_ok marte__kernel__mutexes__internals 59 13 none]
+G r c none [pthread_once marte__pthread_once 62 13 none] [pthread_mutex_lock marte__kernel__mutexes 254 13 none]
+G r c none [pthread_once marte__pthread_once 62 13 none] [pthread_mutex_unlock marte__kernel__mutexes 263 13 none]
+G r s mutex [pthread_once_tIP marte__pthread_once 83 9 none] [mutexIP marte__kernel__mutexes 336 9 none]
+X 5 i-c.ads
+53I9*int<integer>
+X 8 marte.ads
+43K9*MaRTE 45e10 16|47r6 48r6 50r9 64r33 85r23 90r5 17|47r6 49r14 56r33 57r11
+. 62r16 63r13 71r7 83r7 102r5
+X 10 marte-hal.ads
+137U14*Disable_Interrupts 138i<c,marte__hal__disable_interrupts>22
+141U14*Enable_Interrupts 142i<c,marte__hal__enable_interrupts>22
+X 11 marte-integer_types.ads
+44K15*Integer_Types 201e24 16|47w12 64r39 17|56r39 62r22 63r19
+73I12*Int{5|53I9} 16|64r53 17|56r53 62r36 63r33
+X 12 marte-kernel.ads
+64K15*Kernel 767e17 16|48r12 85r29 17|47r12 57r17 71r13 83r13
+105U14*Enter_Critic_Section 106i<c,kernel_enter_critic_section>22 17|71s20
+118U14*Leave_Critic_Section 119i<c,kernel_leave_critic_section>22 17|83s20
+345I12*Error_Code{15|175I12}
+357i4*INVALID_ARGUMENT{345I12} 17|68r17 87r17
+X 13 marte-kernel-mutexes.ads
+56K22*Mutexes 412e25 16|48w19 85r36 17|47r19 58r45 59r45 77r22 79r22 86r15
+. 90r14 96r14
+68R9*Mutex<18|53R9[12|155]> 388e14 16|85r44 17|58r53 59r53 79r30
+105V13*Pthread_Mutexattr_Init{11|73I12} 107i<c,pthread_mutexattr_init>22
+108V13*Pthread_Mutexattr_Destroy{11|73I12} 110i<c,pthread_mutexattr_destroy>22
+125V13*Pthread_Mutexattr_Setprotocol{11|73I12} 128i<c,pthread_mutexattr_setprotocol>22
+130V13*Pthread_Mutexattr_Getprotocol{11|73I12} 133i<c,pthread_mutexattr_getprotocol>22
+136V13*Pthread_Mutexattr_Setprioceiling{11|73I12} 140i<c,pthread_mutexattr_setprioceiling>22
+142V13*Pthread_Mutexattr_Getprioceiling{11|73I12} 146i<c,pthread_mutexattr_getprioceiling>22
+149V13*Pthread_Mutexattr_Setappscheduler{11|73I12} 152i<c,pthread_mutexattr_setappscheduler>22
+154V13*Pthread_Mutexattr_Getappscheduler{11|73I12} 157i<c,pthread_mutexattr_getappscheduler>22
+160V13*Pthread_Mutexattr_SetappSchedparam{11|73I12} 164i<c,pthread_mutexattr_setappschedparam>22
+166V13*Pthread_Mutexattr_GetappSchedparam{11|73I12} 170i<c,pthread_mutexattr_getappschedparam>22
+176V13*Pthread_Mutex_Init{11|73I12} 178i<c,pthread_mutex_init>22
+188V13*Pthread_Mutex_Destroy{11|73I12} 189i<c,pthread_mutex_destroy>22
+194V13*Pthread_Mutex_Setprioceiling{11|73I12} 198i<c,pthread_mutex_setprioceiling>22
+200V13*Pthread_Mutex_Getprioceiling{11|73I12} 203i<c,pthread_mutex_getprioceiling>22
+205V13*Pthread_Mutex_Setprioceiling_Locked{11|73I12} 208i<c,pthread_mutex_setprioceiling_locked>22
+214V13*Pthread_Mutex_Setappschedparam{11|73I12} 219i<c,pthread_mutex_setappschedparam>22
+221V13*Pthread_Mutex_Getappschedparam{11|73I12} 226i<c,pthread_mutex_getappschedparam>22
+232V13*Pthread_Mutex_Getappscheduler{11|73I12} 234i<c,pthread_mutex_getappscheduler>22
+240V13*Posix_Appsched_Mutex_Setspecific{11|73I12} 243i<c,posix_appsched_mutex_setspecific>22
+245V13*Posix_Appsched_Mutex_Getspecific{11|73I12} 248i<c,posix_appsched_mutex_getspecific>22
+254V13*Pthread_Mutex_Lock{11|73I12} 255i<c,pthread_mutex_lock>22 17|90s22
+256V13*Pthread_Mutex_Timedlock{11|73I12} 260i<c,pthread_mutex_timedlock>22
+261V13*Pthread_Mutex_Trylock{11|73I12} 262i<c,pthread_mutex_trylock>22
+263V13*Pthread_Mutex_Unlock{11|73I12} 264i<c,pthread_mutex_unlock>22 17|96s22
+269r4*PTHREAD_MUTEX_INITIALIZER{68R9} 17|77r30
+X 14 marte-kernel-mutexes-internals.ads
+47K30*Internals 178e35 17|47w27 86r23
+59V13*Mutex_OK{boolean} 17|86s33
+X 15 marte-posix_constants.ads
+175I12*Error_Code{11|73I12}
+X 16 marte-pthread_once.ads
+50K15*Pthread_Once 8|43k9 16|72E9 90l11 90e23 17|49b20 102l11 102t23
+55R9*Pthread_Once_T 56r39 83c9 87e14 88r26
+56P9*Pthread_Once_Ac(55R9) 62r45 17|54r45
+61P9*Init_Routine 63r45 17|55r45
+62V13*Pthread_Once{11|73I12} 62>27 63>27 65i<c,pthread_once>22 17|54b13 100l8
+. 100t20
+62p27 Once_Control{56P9} 17|54b27 66r11 72r10 78r22 80r10 81r10 85r11 86r43
+. 90r42 92r14 94r10 96r44
+63p27 Routine{61P9} 17|55b27 67r11 93r10
+72A9 Magic_Check(character)<integer> 73r17 74r31 75r31 84r15
+74a4 INITIALIZED{72A9} 17|81r32 85r33
+75a4 NOT_INITIALIZED{72A9} 17|72r31
+84a7*Magic{72A9} 17|72r23 81m23 85r24
+85r7*Mutex{13|68R9} 17|78m35 86r56 90m55 96m57
+86b7*Done{boolean} 17|80m23 92r27 94m23
+X 17 marte-pthread_once.adb
+58U17*Memory_Copy 58^30 59^30 60>30 61b<c,memory_copy>25 76s10
+58p30 From(13|68R9) 77r13
+59p30 To(13|68R9) 78r13
+60i30 Bytes{integer} 79r13
+63i7 Ret{11|73I12} 90m7 91r22 96m7 97r22
+64i7 Flags{integer} 71m42 83r42
+X 18 marte-sll.ads
+48R9 Basic
+53R9*Element<12|209R9>
+

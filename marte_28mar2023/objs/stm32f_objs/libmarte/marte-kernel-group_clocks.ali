@@ -1,0 +1,105 @@
+V "GNAT Lib v2019"
+A -gnatA
+A --RTS=/home/ubuntfg/opt/GNAT/2019-arm-elf/arm-eabi/lib/gnat/zfp-stm32f4/
+A -mlittle-endian
+A -mfloat-abi=hard
+A -mcpu=cortex-m4
+A -mfpu=fpv4-sp-d16
+A -mthumb
+A -ffunction-sections
+A -fdata-sections
+A -gnateDDEF_MARTE_ARCH=STM32F
+A -gnateDMARTE_BOARD=stm32f4
+P SL ZX
+
+RN
+RV NO_DISPATCH
+RV NO_UNCHECKED_CONVERSION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK_05
+
+U marte.kernel.group_clocks%b  marte-kernel-group_clocks.adb  90121e64 NE OO PK IU
+Z ada.tags%s		a-tags.adb		a-tags.ali
+W marte%s		marte.ads		marte.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+W marte.kernel.timed_handlers%s  marte-kernel-timed_handlers.ads  marte-kernel-timed_handlers.ali
+Z system%s		system.ads		system.ali
+
+U marte.kernel.group_clocks%s  marte-kernel-group_clocks.ads  dbf88db2 BN EE NE OO PK
+W marte%s		marte.ads		marte.ali
+W marte.hal%s		marte-hal.adb		marte-hal.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+
+D ada.ads		20190518110050 76789da1 ada%s
+D a-tags.ads		20190518110050 2dde273c ada.tags%s
+D a-unccon.ads		20190518110050 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20190518110050 5ab55268 interfaces%s
+D i-c.ads		20190518110050 ef84921c interfaces.c%s
+D i-stm32.ads		20190518110049 4d2e1e9b interfaces.stm32%s
+D i-stm32-pwr.ads	20190518110049 10ed2a13 interfaces.stm32.pwr%s
+D marte.ads		20230328142408 99bc4a3f marte%s
+D marte-configuration_parameters.ads  20230328142416 381ea921 marte.configuration_parameters%s
+D marte-hal.ads		20230328142416 b82c62f8 marte.hal%s
+D marte-integer_types.ads  20230328142407 2e806981 marte.integer_types%s
+D marte-kernel.ads	20230328142408 dd02ee52 marte.kernel%s
+D marte-kernel-group_clocks.ads  20230328142408 bed60118 marte.kernel.group_clocks%s
+D marte-kernel-group_clocks.adb  20230328142407 d6a5a149 marte.kernel.group_clocks%b
+D marte-kernel-timed_handlers.ads  20230328142408 f861be35 marte.kernel.timed_handlers%s
+D marte-posix_constants.ads  20230328142408 8d4a4132 marte.posix_constants%s
+D marte-sll.ads		20230328142436 f705b9d6 marte.sll%s
+D marte-sll-advanced.ads  20230328142436 2ff94b17 marte.sll.advanced%s
+D marte-sll-map.ads	20230328142436 71679a5f marte.sll.map%s
+D marte-sll-order.ads	20230328142436 45a1562e marte.sll.order%s
+D marte-sll-resources.ads  20230328142436 3fc24e72 marte.sll.resources%s
+D marte-stacks_management.ads  20230328142408 745cf584 marte.stacks_management%s
+D system.ads		20190518110049 e69b74bd system%s
+D s-bb.ads		20190518110050 09e072ae system.bb%s
+D s-bbbopa.ads		20190518110049 95d97b26 system.bb.board_parameters%s
+D s-bbmcpa.ads		20190518110049 c4c55388 system.bb.mcu_parameters%s
+D s-bbpara.ads		20190518110049 431abc17 system.bb.parameters%s
+D s-stm32.ads		20190518110049 e898dba2 system.stm32%s
+D s-stoele.ads		20190518110050 2dc34a04 system.storage_elements%s
+D s-stoele.adb		20190518110050 ed88f8fb system.storage_elements%b
+D s-unstyp.ads		20190518110050 34867c83 system.unsigned_types%s
+G a e
+G c Z s b [group_te_ok marte__kernel__group_clocks 51 13 none]
+G r c none [group_te_ok marte__kernel__group_clocks 51 13 none] [task_ok marte__kernel 707 13 none]
+X 8 marte.ads
+43K9*MaRTE 45e10 13|45r6 47r9 49r22 56r5 14|45r6 47r14 51r24 76r5
+X 10 marte-hal.ads
+57K15*HAL 352e14 13|45w12
+137U14*Disable_Interrupts 138i<c,marte__hal__disable_interrupts>22
+141U14*Enable_Interrupts 142i<c,marte__hal__enable_interrupts>22
+X 12 marte-kernel.ads
+64K15*Kernel 8|43k9 12|767e17 13|47r15 49r28 56r11 14|45r12 47r20 51r30 76r11
+105U14*Enter_Critic_Section 106i<c,kernel_enter_critic_section>22
+118U14*Leave_Critic_Section 119i<c,kernel_leave_critic_section>22
+204P9*TCB_Ac(420R9)
+231b7*Is_Based_On_Group_Clock{boolean} 14|61r30
+238p7*Task_Where_Queued{204P9} 14|64r24 65r54
+251P12*CPU_Time_Timed_Event_Ac{17|55P9[248]} 13|52r23 14|51r37 57r23
+410A9*Magic_Check(character)<integer>
+415a4*TERMINATED{410A9} 14|66r48
+420R9*TCB
+693P12*Task_Id{17|55P9[668]} 14|51r15 65r33
+707V13*Task_OK{boolean} 14|65s22
+708a22 Extra_Magic{410A9} 14|66r31
+X 13 marte-kernel-group_clocks.ads
+47K22*Group_Clocks 12|64k15 13|56l18 56e30 14|47b27 76l18 76t30
+49K12*K=49:28 52r21 14|49r23 51r13 57r21 65r20 65r31 66r46
+51V13*Group_TE_OK{boolean} 52>7 54r19 14|56b13 74l8 74t19
+52p7 Group_TE_Ac{12|251P12} 14|57b7 60r14 61r18 64r12 65r42 71r17 72r50
+X 14 marte-kernel-group_clocks.adb
+49K12 TH=49:25 51r62 71r36 72r20 73r14
+X 15 marte-kernel-timed_handlers.ads
+52K22*Timed_Handlers 14|45w19 49r25 15|129e32
+79A9*Magic_Check(character)<integer> 14|51r65
+82a4*INITIALIZED{79A9} 14|73r17
+88R9*Timed_Handler_Timed_Event<17|53R9[12|248]> 14|71r39 72r23 15|125e14
+123a7*Magic{79A9} 14|72r67
+X 17 marte-sll.ads
+48R9 Basic
+53R9*Element<12|209R9>
+55P9*Element_Ac(53R9[12|248])
+

@@ -1,0 +1,34 @@
+with "../../stm32f_shared_switches.gpr";
+
+project Tests_POSIX_Extensions_STM32F is
+
+   for Languages use ("C");
+
+   for Source_Dirs use (".");
+   for Object_Dir use "obj";
+   for Exec_Dir use "obj";
+   for Main use ("test_group_clock_timer2.c",
+                 "test_group_clock_timer3.c",
+                 "test_group_clock_timer.c",
+                 "test_interrupt_clock_2.c",
+                 "test_interrupt_clock_and_cpu_timers.c",
+                 "test_interrupt_clock.c",
+                 "test_timed_handlers_for_group_clocks.c");
+
+   for Runtime ("Ada") use Stm32F_Shared_Switches.Runtime;
+   for Target use Stm32F_Shared_Switches.Target;
+
+   package Compiler is
+      for Switches ("Ada") use Stm32F_Shared_Switches.Compiler'Switches ("ada");
+      for Switches ("c") use Stm32F_Shared_Switches.Compiler'Switches ("c")
+        & ("-Werror");
+   end Compiler;
+
+   package Linker renames Stm32F_Shared_Switches.Linker;
+
+   package Ide renames Stm32F_Shared_Switches.Ide;
+
+   package Emulator renames Stm32F_Shared_Switches.Emulator;
+
+end Tests_POSIX_Extensions_STM32F;
+

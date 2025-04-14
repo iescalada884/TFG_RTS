@@ -1,0 +1,13 @@
+marte-kernel-timed_handlers-operations.adb:90:30: warning: "Memory_Copy.From" involves a tagged type which does not correspond to any C type
+marte-kernel-timed_handlers-operations.adb:91:30: warning: "Memory_Copy.To" involves a tagged type which does not correspond to any C type
+marte-kernel-timed_handlers-operations.ads:58:07: warning: "MaRTE_Timed_Handler_Init.TE_Ac" involves a tagged type which does not correspond to any C type
+marte-kernel-timed_handlers-operations.ads:68:42: warning: "MaRTE_Timed_Handler_Destroy.TE_Ac" involves a tagged type which does not correspond to any C type
+marte-kernel-timed_handlers-operations.ads:80:07: warning: "MaRTE_Timed_Handler_Set.TE_Ac" involves a tagged type which does not correspond to any C type
+marte-kernel-timed_handlers-operations.ads:93:07: warning: "MaRTE_Timed_Handler_Set_Interval.TE_Ac" involves a tagged type which does not correspond to any C type
+marte-kernel-timed_handlers-operations.ads:107:07: warning: "MaRTE_Timed_Handler_Set_Handler.TE_Ac" involves a tagged type which does not correspond to any C type
+marte-kernel-timed_handlers-operations.ads:117:42: warning: "MaRTE_Timed_Handler_Disable.TE_Ac" involves a tagged type which does not correspond to any C type
+marte-kernel-timed_handlers-operations.ads:125:41: warning: "MaRTE_Timed_Handler_Enable.TE_Ac" involves a tagged type which does not correspond to any C type
+marte-kernel-timed_handlers-operations.ads:146:46: warning: "MaRTE_Timed_Handler_Get_Overrun.TE_Ac" involves a tagged type which does not correspond to any C type
+marte-kernel-timed_handlers-operations.ads:155:42: warning: "MaRTE_Timed_Handler_Expired.TE_Ac" involves a tagged type which does not correspond to any C type
+marte-kernel-timed_handlers-operations.ads:166:07: warning: "MaRTE_Timed_Handler_Time_To_Expiration.TE_Ac" involves a tagged type which does not correspond to any C type
+marte-kernel-timed_handlers-operations.ads:178:07: warning: "MaRTE_Timed_Handler_Expiration_Time.TE_Ac" involves a tagged type which does not correspond to any C type

@@ -1,0 +1,30 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U unchecked_deallocation%s  unchdeal.ads	214516a4 NE OL GE
+
+D system.ads		20250318185043 14286b0f system%s
+D unchdeal.ads		20250318185043 214516a4 unchecked_deallocation%s
+G a e
+X 2 unchdeal.ads
+17+9 Object 18r24
+18P9 Name(17+9) 20r46
+20u11*Unchecked_Deallocation 20=35 21b27
+20*35 X{18P9}
+

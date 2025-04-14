@@ -1,0 +1,98 @@
+#!/usr/bin/perl -w
+#
+# MaRTE OS.
+#
+# Call 'gnatmake' with the appropriate parameters.
+
+use strict;
+
+use List::Util qw(first);
+
+# get MaRTE utils directory 
+use File::Basename;
+use File::Spec;
+my $UTILS_PATH;
+BEGIN {
+    $UTILS_PATH= dirname(File::Spec->rel2abs( __FILE__ ));
+}
+
+# Require local_config.pl
+require "$UTILS_PATH/local_config.pl";
+use vars qw($MPATH);
+
+# Require current_arch.pl
+require "$UTILS_PATH/current_arch.pl";
+use vars qw($CURRENT_ARCH);
+
+# Require globals.pl
+require "$UTILS_PATH/globals.pl";
+use vars qw($MARTE_ADA_SRC_LOCATIONS %CODE_GEN_OPTS %COMPILER_PREFIX %GNAT_RTS %ARCH_GNATBIND_OPTS %LIBS_PATH %ARCH_GCC_LD_OPTS %LIBS_GCC %WRAPPER_MAIN %ENV_VARS_VS_ARCH &exec_command &drivers_directories);
+
+# Include MaRTE source directories?
+use Getopt::Long;
+Getopt::Long::Configure(qw (pass_through no_auto_abbrev no_ignore_case) );
+
+my $include_marte_src_dirs = 0;
+my $prog_name="";
+GetOptions("Imarte_src_dirs" => \$include_marte_src_dirs,
+	   "o=s"  => \$prog_name);
+
+my $prog_name_option = "";
+if ($prog_name ne "") {
+    $prog_name_option = "-o $prog_name";
+}
+
+my $marte_src_dirs="";
+if ($include_marte_src_dirs) {
+   $marte_src_dirs = $MARTE_ADA_SRC_LOCATIONS .
+                     drivers_directories($CURRENT_ARCH) .
+                     " -aO$MPATH/lib";
+}
+
+
+# Invoke gnatmake
+my $lang = "ada";
+
+exec_command "$ENV_VARS_VS_ARCH{$CURRENT_ARCH} " .
+    "$COMPILER_PREFIX{$CURRENT_ARCH}gnatmake " .
+    "--RTS=$GNAT_RTS{$CURRENT_ARCH} " .
+    "$marte_src_dirs " .
+    "$CODE_GEN_OPTS{$CURRENT_ARCH} $prog_name_option @ARGV " .
+    "-bargs $ARCH_GNATBIND_OPTS{$CURRENT_ARCH} " .
+    "-largs $LIBS_PATH{$CURRENT_ARCH} $ARCH_GCC_LD_OPTS{$CURRENT_ARCH} " .
+    "$LIBS_GCC{$CURRENT_ARCH} " .
+    "$WRAPPER_MAIN{$lang} ";
+# "-lmarte" and "-lgnarl" are needed when compiling an Ada program that
+# doesn't use tasks because in that case only libgnat.a was included
+# automatically by gnatmake (NOTE: "-lgnarl" is needed because some
+# drivers use MaRTE_Semaphores.adx which in turn depends on Ada.Real_Time
+# (which is contained in the gnarl library).
+
+# post-compilation commands (create image, ...)
+if ($CURRENT_ARCH eq "rpi") {
+    my $compile_only = first { $_ eq "-c" } @ARGV;
+    if (!$compile_only) {
+	if ($prog_name eq "") {
+	    # Look for the main program (.adb extension is expected)
+	    $prog_name = first { $_ =~ /\.adb$/ } @ARGV;
+	}
+
+	if ($prog_name) {
+	    $prog_name =~ s/\.adb$//;
+            # Generate the .img and .list files
+	    exec_command "arm-eabi-objcopy $prog_name -O binary $prog_name.img";
+	    exec_command "arm-eabi-objdump -d $prog_name > $prog_name.list";
+
+	} else {
+	    # The name of the main program does not include the .adb extension
+	    # so it is too hard to find it in the arguments of gnatmake.
+	    # Just tell the user to generate the .img and .list manually:
+	    print "\nTo create .img and .list files use:\n";
+	    print "  \$ arm-eabi-objcopy prog_name -O binary prog_name.img\n";
+	    print "  \$ arm-eabi-objdump -d prog_name > prog_name.list\n";
+	}
+    }
+}
+
+
+

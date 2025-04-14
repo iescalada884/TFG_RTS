@@ -1,0 +1,253 @@
+V "GNAT Lib v2019"
+A -gnatA
+A --RTS=/home/ubuntfg/opt/GNAT/2019-arm-elf/arm-eabi/lib/gnat/zfp-stm32f4/
+A -mlittle-endian
+A -mfloat-abi=hard
+A -mcpu=cortex-m4
+A -mfpu=fpv4-sp-d16
+A -mthumb
+A -ffunction-sections
+A -fdata-sections
+A -gnateDDEF_MARTE_ARCH=STM32F
+A -gnateDMARTE_BOARD=stm32f4
+P SL ZX
+
+RN
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK_05
+
+U marte.spy%b		marte-spy.adb		51004724 NE OO PK IU
+Z ada.tags%s		a-tags.adb		a-tags.ali
+W marte%s		marte.ads		marte.ali
+W marte.configuration_parameters%s  marte-configuration_parameters.ads  marte-configuration_parameters.ali
+W marte.debug_messages%s  marte-debug_messages.ads  marte-debug_messages.ali
+W marte.direct_io%s	marte-direct_io.adb	marte-direct_io.ali
+W marte.integer_types%s	marte-integer_types.ads	marte-integer_types.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+W marte.kernel.debug%s	marte-kernel-debug.adb	marte-kernel-debug.ali
+
+U marte.spy%s		marte-spy.ads		16219d8e BN EE NE OO PK
+W marte%s		marte.ads		marte.ali
+W marte.hal%s		marte-hal.adb		marte-hal.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+
+D ada.ads		20190518110050 76789da1 ada%s
+D a-tags.ads		20190518110050 2dde273c ada.tags%s
+D a-unccon.ads		20190518110050 0e9b276f ada.unchecked_conversion%s
+D gnat.ads		20190518110050 b5988c27 gnat%s
+D g-souinf.ads		20190518110050 291df751 gnat.source_info%s
+D interfac.ads		20190518110050 5ab55268 interfaces%s
+D i-c.ads		20190518110050 ef84921c interfaces.c%s
+D i-stm32.ads		20190518110049 4d2e1e9b interfaces.stm32%s
+D i-stm32-pwr.ads	20190518110049 10ed2a13 interfaces.stm32.pwr%s
+D marte.ads		20230328142408 99bc4a3f marte%s
+D marte-configuration_parameters.ads  20230328142416 381ea921 marte.configuration_parameters%s
+D marte-debug_messages.ads  20230328142407 2f5dc2f0 marte.debug_messages%s
+D marte-direct_io.ads	20230328142416 cc1262e4 marte.direct_io%s
+D marte-hal.ads		20230328142416 b82c62f8 marte.hal%s
+D marte-integer_types.ads  20230328142407 2e806981 marte.integer_types%s
+D marte-kernel.ads	20230328142408 dd02ee52 marte.kernel%s
+D marte-kernel-debug.ads  20230328142408 c0acd07a marte.kernel.debug%s
+D marte-posix_constants.ads  20230328142408 8d4a4132 marte.posix_constants%s
+D marte-sll.ads		20230328142436 f705b9d6 marte.sll%s
+D marte-sll-advanced.ads  20230328142436 2ff94b17 marte.sll.advanced%s
+D marte-sll-map.ads	20230328142436 71679a5f marte.sll.map%s
+D marte-sll-order.ads	20230328142436 45a1562e marte.sll.order%s
+D marte-sll-resources.ads  20230328142436 3fc24e72 marte.sll.resources%s
+D marte-spy.ads		20230328142408 eab35b1b marte.spy%s
+D marte-spy.adb		20230328142408 8eceacf1 marte.spy%b
+D marte-stacks_management.ads  20230328142408 745cf584 marte.stacks_management%s
+D system.ads		20190518110049 e69b74bd system%s
+D s-bb.ads		20190518110050 09e072ae system.bb%s
+D s-bbbopa.ads		20190518110049 95d97b26 system.bb.board_parameters%s
+D s-bbmcpa.ads		20190518110049 c4c55388 system.bb.mcu_parameters%s
+D s-bbpara.ads		20190518110049 431abc17 system.bb.parameters%s
+D s-stm32.ads		20190518110049 e898dba2 system.stm32%s
+D s-stoele.ads		20190518110050 2dc34a04 system.storage_elements%s
+D s-unstyp.ads		20190518110050 34867c83 system.unsigned_types%s
+G a e
+G c Z s b [initialize marte__spy 52 14 none]
+G c Z s b [send_event marte__spy 56 14 none]
+G c Z s b [send_event marte__spy 61 14 none]
+G c Z s b [send_event marte__spy 66 14 none]
+G c Z s b [send_event marte__spy 71 14 none]
+G c Z s b [send_event_if_initialized marte__spy 77 14 none]
+G c Z b b [timestamp_ok marte__spy 70 13 none]
+G c Z b b [spy_init marte__spy 82 14 none]
+G c Z b b [spy_send_event_one_object marte__spy 87 14 none]
+G c Z b b [spy_send_event_two_objects marte__spy 95 14 none]
+G c Z b b [spy_send_event_time marte__spy 105 14 none]
+G r c none [initialize marte__spy 52 14 none] [put marte__direct_io 119 14 none]
+G r c none [initialize marte__spy 52 14 none] [are_interrupts_enabled marte__hal 156 13 none]
+G r c none [initialize marte__spy 52 14 none] [enter_critic_section marte__kernel 105 14 none]
+G r c none [initialize marte__spy 52 14 none] [get_hwclock_frequency marte__hal 257 13 none]
+G r c none [initialize marte__spy 52 14 none] [get_hwtime_slow marte__hal 238 13 none]
+G r c none [initialize marte__spy 52 14 none] [new_line marte__direct_io 121 14 none]
+G r c none [initialize marte__spy 52 14 none] [leave_critic_section marte__kernel 118 14 none]
+G r c none [send_event marte__spy 56 14 none] [are_interrupts_enabled marte__hal 156 13 none]
+G r c none [send_event marte__spy 56 14 none] [enter_critic_section marte__kernel 105 14 none]
+G r c none [send_event marte__spy 56 14 none] [leave_critic_section marte__kernel 118 14 none]
+G r c none [send_event marte__spy 61 14 none] [are_interrupts_enabled marte__hal 156 13 none]
+G r c none [send_event marte__spy 61 14 none] [enter_critic_section marte__kernel 105 14 none]
+G r c none [send_event marte__spy 61 14 none] [leave_critic_section marte__kernel 118 14 none]
+G r c none [send_event marte__spy 66 14 none] [are_interrupts_enabled marte__hal 156 13 none]
+G r c none [send_event marte__spy 66 14 none] [enter_critic_section marte__kernel 105 14 none]
+G r c none [send_event marte__spy 66 14 none] [leave_critic_section marte__kernel 118 14 none]
+G r c none [send_event marte__spy 71 14 none] [are_interrupts_enabled marte__hal 156 13 none]
+G r c none [send_event marte__spy 71 14 none] [enter_critic_section marte__kernel 105 14 none]
+G r c none [send_event marte__spy 71 14 none] [leave_critic_section marte__kernel 118 14 none]
+G r c none [send_event_if_initialized marte__spy 77 14 none] [get_hwtime marte__hal 243 13 none]
+G r c none [send_event_if_initialized marte__spy 77 14 none] [are_interrupts_enabled marte__hal 156 13 none]
+G r c none [send_event_if_initialized marte__spy 77 14 none] [enter_critic_section marte__kernel 105 14 none]
+G r c none [send_event_if_initialized marte__spy 77 14 none] [leave_critic_section marte__kernel 118 14 none]
+X 6 interfac.ads
+77M9*Unsigned_64
+X 7 i-c.ads
+53I9*int<integer>
+X 10 marte.ads
+43K9*MaRTE 45e10 24|47r6 48r6 50r9 58r41 59r41 64r41 85r5 25|47r6 47r31 48r6
+. 49r6 50r6 51r6 53r14 55r24 56r24 57r24 58r24 83r20 84r25 126r14 139r10
+. 156r17 157r17 189r10 198r41 199r41 205r14 234r10 238r10 252r10 262r41 264r14
+. 283r14 298r10 308r10 322r14 337r10 347r10 366r5
+X 11 marte-configuration_parameters.ads
+52K15*Configuration_Parameters 409e35 25|49w12 56r30
+58E9*Supported_Architectures 60e59 25|60r16
+58n47*ARCH_LINUX{58E9} 25|130r43 209r43 287r43 326r43
+61E12*MaRTE_Architecture{58E9} 25|130r13 209r13 287r13 326r13
+68B12*Preallocated_Resources{boolean} 25|145r13
+101N4*Num_MaRTE_Tasks_Mx 25|146r29
+108N4*Task_Priority_Mx 25|170r33
+X 12 marte-debug_messages.ads
+46K15*Debug_Messages 122e25 25|48w12 83r26 84r31 126r20 156r23 157r23 205r20
+. 264r20 283r20 322r20
+93b4*Tasks_Inspector_Messages{boolean} 25|126r35 205r35 264r35 283r35 322r35
+96E9*Log_Device 96e60 25|83r41
+99e4*Tasks_Inspector_Log_Device{96E9} 25|156r38
+112E9*Logger_Mechanism 112e54 25|84r46
+115e4*Task_Inspector_Logger_Mechanism{112E9} 25|157r38
+X 13 marte-direct_io.ads
+82K15*Direct_IO 325e20 25|51w12 58r30
+119U14*Put 25|136s11 186s11
+121U14*New_Line 25|186s28
+130U14*Basic_Stdout_Initialization 131i<c,basic_stdout_initialization>22
+142U14*Basic_Stderr_Initialization 143i<c,basic_stderr_initialization>22
+153U14*Direct_Write_On_Stdout 156i<c,direct_write_on_stdout>22
+161U14*Direct_Write_On_Stderr 164i<c,direct_write_on_stderr>22
+169V13*Direct_Read_From_Stdin{15|59M9} 170i<c,direct_read_from_stdin>22
+X 14 marte-hal.ads
+57K15*HAL 352e14 24|47w12 56r41 61r41 66r41 71r41 73r41 25|68r21 70r39 71r16
+. 87r56 95r57 105r50 108r50 124r21 138r10 176r15 180r25 196r41 200r11 233r10
+. 259r41 275r41 279r11 297r10 315r41 317r41 318r11 336r10 363r19
+137U14*Disable_Interrupts 138i<c,marte__hal__disable_interrupts>22
+141U14*Enable_Interrupts 142i<c,marte__hal__enable_interrupts>22
+156V13*Are_Interrupts_Enabled{boolean} 25|138s14 233s14 297s14 336s14
+236M9*HWTime<6|77M9> 24|56r45 61r45 66r45 71r45 73r45 25|68r25 70r43 71r20
+. 87r60 95r61 105r54 108r54 124r25 196r45 259r45 275r45 315r45 317r45
+238V13*Get_HWTime_Slow{236M9} 25|180s29
+243V13*Get_HWTime{236M9} 25|363s23
+257V13*Get_HWClock_Frequency{236M9} 25|176s19
+X 15 marte-integer_types.ads
+44K15*Integer_Types 201e24 25|47w12 47r37
+59M9*Unsigned_8
+73I12*Int{7|53I9} 25|90r56 91r56 98r57 99r57 100r57 101r57 124r16 170r10
+. 176r10 184r13 242r13 242r26 247r13 247r26 248r13 248r26 305r10 305r24
+X 16 marte-kernel.ads
+64K15*Kernel 767e17 24|48w12 52r55 58r47 59r47 64r47 25|50r12 55r30 57r30
+. 120r55 139r16 189r16 198r47 199r47 234r16 238r16 252r16 262r47 298r16 308r16
+. 337r16 347r16
+86I9*Task_Priority<integer> 24|52r62 64r54 25|120r62 262r54
+105U14*Enter_Critic_Section 106i<c,kernel_enter_critic_section>22 25|139s23
+. 234s23 298s23 337s23
+118U14*Leave_Critic_Section 119i<c,kernel_leave_critic_section>22 25|189s23
+. 252s23 308s23 347s23
+269E9*Task_Types 269e77 25|203r18
+269n24*MAIN_TASK{269E9} 25|225r35
+420R9*TCB
+433i7*Id{integer} 25|242r21 247r21 248r21
+436e7*Task_Type{269E9} 25|225r21
+465i7*Active_Prio{86I9} 25|242r34 247r34 248r34
+668K12*Tasks_Lists[19|49] 25|238r23
+693P12*Task_Id{19|55P9[668]} 24|58r54 59r54 25|198r54 199r54 203r32
+X 17 marte-kernel-debug.ads
+49K22*Debug 89e23 25|50w19 57r37
+80U14*Assert 25|132s28 161s25 211s28 231s25 289s28 293s25 328s28 332s25
+X 19 marte-sll.ads
+48R9 Basic
+53R9*Element<16|420R9>
+55P9*Element_Ac(53R9[16|668])
+X 24 marte-spy.ads
+50K15*Spy 10|43k9 24|85l11 85e14 25|53b20 366l11 366t14
+52U14*Initialize 52>26 54r19 25|120b14 191l8 191t18
+52i26 Initital_Prio_Of_Main_Task{16|86I9} 25|120b26 184r18
+56U14*Send_Event 56>26 57>26 58>26 59>26 25|196b14 254l8 254t18
+56m26 Timestamp{14|236M9} 25|196b26 215r36 240r13 245r13
+57a26 Operation{string} 25|197b26 223r18 223r29 224r18 224r29 241r13 241r24
+. 241r42 241r53 246r13 246r24 246r42 246r53
+58p26 T1{16|693P12} 25|198b26 225r18 242r18 242r31 247r18 247r31
+59p26 T2{16|693P12} 25|199b26 226r18 238r40 248r18 248r31
+61U14*Send_Event 61>26 62>26 63>26 64>26 25|259b14 269l8 269t18
+61m26 Timestamp{14|236M9} 25|259b26 268r19
+62a26 Operation{string} 25|260b26 268r30
+63i26 Id{integer} 25|261b26 268r41
+64i26 Prio{16|86I9} 25|262b26 268r54
+66U14*Send_Event 66>26 67>26 68>26 69>26 25|268s7 275b14 310l8 310t18 363s7
+66m26 Timestamp{14|236M9} 25|275b26 295r36 303r10
+67a26 Operation{string} 25|276b26 304r10 304r21 304r39 304r50
+68i26 Param1{integer} 25|277b26 305r15
+69i26 Param2{integer} 25|278b26 305r29
+71U14*Send_Event 71>26 72>26 73>26 25|315b14 349l8 349t18
+71m26 Timestamp{14|236M9} 25|315b26 334r36 342r10
+72a26 Operation{string} 25|316b26 343r10 343r21 343r39 343r50
+73m26 T{14|236M9} 25|317b26 344r10
+77U14*Send_Event_If_Initialized 77>41 78>41 79>41 84r19 25|355b14 364l8 364t33
+77a41 Operation{string} 25|355b41 363r35
+78i41 Param1{integer} 25|356b41 363r46
+79i41 Param2{integer} 25|357b41 363r54
+X 25 marte-spy.adb
+55K12 K=55:30 203r16 203r30 225r33
+56K12 CP=56:30 60r13 130r10 130r40 145r10 146r26 170r30 209r10 209r40 287r10
+. 287r40 326r10 326r40
+57K12 DBG=57:37 132r24 161r21 211r24 231r21 289r24 293r21 328r24 332r21
+58K12 DIO=58:30 136r7 186r7 186r24
+68m4 Last_Timestamp{14|236M9} 74r26 75m7 180m7 183r10
+70V13 Timestamp_OK{boolean} 70b13 70>27 77l8 77t20 215s22 295s22 334s22
+70m27 Timestamp{14|236M9} 74r13 75r25
+72b7 OK{boolean} 74m7 76r14
+82U14 Spy_Init 83>7 84>7 85b<c,_marte_spy_init>22 156s7
+83e7 Log_Device{12|96E9}
+84e7 Use_Logger_Task{12|112E9}
+87U14 Spy_Send_Event_One_Object 87>41 88>41 89>41 90>41 91>41 92b<c,_marte_spy_send_event_one_object>22
+. 168s7 174s7 182s7 239s10 302s7
+87m41 Timestamp{14|236M9}
+88e41 C_Op1{character}
+89e41 C_Op2{character}
+90i41 Id1{15|73I12}
+91i41 Prio1{15|73I12}
+95U14 Spy_Send_Event_Two_Objects 95>42 96>42 97>42 98>42 99>42 100>42 101>42
+. 102b<c,_marte_spy_send_event_two_objects>22 244s10
+95m42 Timestamp{14|236M9}
+96e42 C_Op1{character}
+97e42 C_Op2{character}
+98i42 Id1{15|73I12}
+99i42 Prio1{15|73I12}
+100i42 Id2{15|73I12}
+101i42 Prio2{15|73I12}
+105U14 Spy_Send_Event_Time 105>35 106>35 107>35 108>35 109b<c,_marte_spy_send_event_time>22
+. 341s7
+105m35 Timestamp{14|236M9}
+106e35 C_Op1{character}
+107e35 C_Op2{character}
+108m35 T{14|236M9}
+115b4 Initialized{boolean} 161r37 162m7 222r14 231r33 293r33 332r33 359r14
+121i7 Num_Tasks_Mx{integer} 146m10 148m10 170r15
+122b7 Interrupts_Enabled{boolean} 140m10 188r10
+123i7 Flags{integer} 139m45 189r45
+201b7 Interrupts_Enabled{boolean} 235m10 251r10
+202i7 Flags{integer} 234m45 252r45
+280b7 Interrupts_Enabled{boolean} 299m10 307r10
+281i7 Flags{integer} 298m45 308r45
+319b7 Interrupts_Enabled{boolean} 338m10 346r10
+320i7 Flags{integer} 337m45 347r45
+

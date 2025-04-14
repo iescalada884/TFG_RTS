@@ -1,0 +1,46 @@
+
+                              MaRTE OS
+                             ----------
+
+		       Architecture "linux_lib"
+                      --------------------------	   
+
+This  directory  contains  the  code  specific  for  the  architecture
+"linux_lib".
+
+When  compiled   for  this   architecture,  a  MaRTE   OS  application
+("mprogram") takes the form of a standard Linux application and can be
+executed as a standard Linux user process.
+
+When  using this  architecture,  MaRTE OS  behaves  as a  POSIX-thread
+library that  can be used to  provide concurrency at  library level to
+Ada and C applications running on  Linux. In the case of Ada language,
+MaRTE OS is used as the  Pthread library that supports Ada tasking for
+the GNAT (GAP) compiler.
+
+The  main  differences  between  this  architecture  and  the  "linux"
+architecture are the following:
+
+   - Standard  Linux libraries  are used,  in particular  the  Linux C
+     library (in "linux" architecture MaRTE OS C library (libmc.a) was
+     used instead).
+
+   - As a consequence of the former point, Linux file system and other
+     system features  can be accessed from MaRTE OS applications using
+     the  standard POSIX,  Linux or  Ada APIs like in any  other Linux
+     program.
+
+Notice  that, when  using this  architecture, hard  real-time behavior
+cannot be achieve since  "mprograms" are standard processes that share
+CPU time with  all the other processes in the  system according to the
+Linux scheduling policies. As any  other process, they are affected by
+memory swapping, Linux kernel activities, etc.
+
+                             --------------
+
+The idea of running MaRTE OS as a Linux process is due to Miguel Ángel
+Masmano     Tello     (Universidad    Politécnica     de     Valencia)
+<mimastel@doctor.upv.es>.
+
+He  is  also  the  author  of   most  of  the  code  involved  in  the
+implementation of the hardware interface for this architecture.

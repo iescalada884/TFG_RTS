@@ -1,0 +1,156 @@
+================================================================================
+                                 IDE
+================================================================================
+                             by Sangorrin
+                        daniel.sangorrin@gmail.com
+================================================================================
+
+1) What this module DOES:
+=========================
+This module provides an interface to read/write sectors from/to an ATA (also
+known as IDE) hard disk (also for CompactFlash disk in True IDE Mode or
+QEMU x86 emulator IDE hard disk for example). The implementation uses PIO
+mode (no DMA) with 28-bit (<128 Gb) LBA addresses and it is based on the
+ATA-4 specification (available at http://www.t13.org).
+
+2) What this module DOES NOT:
+=============================
+a) It doesn't provide concurrency facilities. If you want to use it from
+different tasks you need to provide mutual exclusion access to the functions.
+b) It doesn't make use of DMA facilities, just IO instructions.
+c) Although It is also supposed to work with normal hard disks some constant
+delays (D400NS at ide.adb) may need to be changed and It hasn't been tested with
+them yet.
+d) It doesn't provide a POSIX interface (write, read, ioctl...). So you don't
+have to install it, like other drivers, into the MaRTE OS filesystem. Just use
+its own interface (very simple to use).
+
+3) ARCHITECTURE of the module:
+==============================
+a) ide.ads:
+-----------
+This is the main interface for reading and writing sectors. There are some
+funcions for Init, Reset and Free the Drive and the main funcion for
+reading, writing sectors:
+
+   function RW_Sectors
+     (Drv    : in     Drive;
+      RW     : in     Read_Write;
+      Start  : in     Sector_Offset; --  physical sector offset
+      Count  : in     Sector_Count;  --  0=256 sectors
+      Buffer : in     FSDT.Buffer_Ac)
+      return Int;
+
+A drive is "type Drive is (hda, hdb, hdc, hdd);" so we can select the
+primary-secondary IDE disks and the master-slave of each one.
+
+b) ide.adb:
+-----------
+This is the implementation of the previous interface and it is based on the ATA
+LBA28 standard. The main document I have used to make the driver is the
+CompactFlash specification (available at http://www.compactflash.org), but
+there are lots of documentation about the IDE interface on the Web.
+
+The structure of the functions is quite simple if you are familiar with the IDE
+interface. It consists of writing/reading some registers, an Interrupt handler
+and a Semaphore for syncronizing the Interrupt handler and the application.
+
+c) ide-partitions.adx:
+----------------------
+This is just an add-on to the IDE driver. It provides a function to read and
+extract the relevant information from the first sector of the drive (aka MBR)
+The code is simple and short.
+
+4) HOW TO USE IT:
+=================
+The use of this module consists on using the interface provided by ide.ads and
+ide-partitions.ads. An example is included in the file test_ide.adb.
+
+5) Dependencies of the module:
+==============================
+This module is very easy to port to another operating system because it has
+very few dependencies. The main dependencies are:
+
+   a) Some type definitions from:
+      - Basic_Integer_Types.ads
+      - MaRTE.Kernel.File_System_Data_Types.ads
+   b) IO functions (Insw, Outsw) from Io_Interface.ads
+   c) Interrupt handlers from Marte_Hardware_Interrupts.ads
+   d) Semaphores from Marte_Semaphores.ads
+   e) Timing functions from:
+      - Ada.Real_Time.ads
+      - Type_Timespec.ads
+      - MaRTE.Kernel.Tasks_Operations.Nanosleep_Gnat.ads
+   f) Console IO for output messages from Basic_console_io.ads
+
+6) Troubleshoot:
+=================
+
+   a) Check that you are using appropiate device (hda, hdb, hdc, hdd) and
+      partition.
+   b) If you have problems reading the partition go and check that the IDE
+      driver is working ok (create a example to read a sector for example)
+   c) The IDE driver has some delay constants in ide.ads. Try varying them.
+   d) It is slow: as we are using PIO mode this is normal. CompactFlash cards
+      can be quite slow for writing (i.e.: 123 ms/sector) but faster for
+      reading (i.e.: 280 us/sector). For a hard disk, the timing depends on
+      where the position of the head is at the moment. It can range from 1ms
+      if the last read or write sector was the same to tenths of ms.
+   e) If none of these helps send an e-mail to the MaRTE OS forum.
+
+7) Some notes about ATA IDE:
+============================
+
+ATA (Advanced Technology Attachment) is a standard interface that allows
+you to connect storage peripherals to PC computers. Sometimes this standard
+is better known by the commercial term IDE (Integrated Drive Electronics)
+or Enhanced IDE (EIDE or E-IDE).
+
+The ATA standard was originally intended for connecting hard drives, however
+an extension called ATAPI (ATA Packet Interface) was developed in order
+to be able to interface other storage peripherals
+(CD-ROM drives, DVD-ROM drives, etc.) on an ATA interface.
+
+Since the Serial ATA standard (written S-ATA or SATA) has emerged, which allows
+you to transfer data over a serial link, the term "Parallel ATA"
+(written PATA or P-ATA) sometimes replaces the term "ATA" in order to
+differentiate between the two standards.
+
+There are several modes to interface with the disks:
+
+1) PIO (Programmed Input/Output) Modes
+
+Allows peripherals to exchange data with the RAM with the help of commands
+managed directly by the processor. However, large data transfers can quickly
+impose a large workload on the processor and slow down the whole system.
+There are 5 PIO modes that define the maximum throughput:
+
+PIO Mode    Throughput (Mb/s)
+Mode 0         3.3
+Mode 1         5.2
+Mode 2         8.3
+Mode 3         11.1
+Mode 4   1     6.7
+
+2) DMA Modes (Direct Memory Access)
+
+It allows computers to free up the processor by allowing each of the
+peripherals to directly access the memory. The following table lists the
+different DMA modes and their associated throughputs:
+
+DMA Mode          Throughput (Mb/s)
+0 (Single word)         2.1
+1 (Single word)         4.2
+2 (Single word)         8.3
+0 (Multi-word)          4.2
+1 (Multi-word)          13.3
+2 (Multi-word)          16.7
+
+3) Ultra DMA
+
+It was designed with the goal of optimising the ATA interface as much as
+possible.
+
+There are several versions of the ATA standard, for this driver we use the
+ATA-4 specification.
+

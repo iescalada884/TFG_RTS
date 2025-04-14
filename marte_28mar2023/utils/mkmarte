@@ -1,0 +1,405 @@
+#!/usr/bin/perl -w
+#
+# MaRTE OS - Make MaRTE libraries
+use strict;
+
+# get MaRTE utils directory 
+use File::Basename;
+use File::Spec;
+my $UTILS_PATH;
+BEGIN {
+    $UTILS_PATH= dirname(File::Spec->rel2abs( __FILE__ ));
+}
+
+# Require local_config.pl
+require "$UTILS_PATH/local_config.pl";
+use vars qw($MPATH %GNAT_VERSION);
+
+# Require current_arch.pl
+require "$UTILS_PATH/current_arch.pl";
+use vars qw($CURRENT_ARCH $CURRENT_PROC);
+my $march = $CURRENT_ARCH;
+my $mproc =  $CURRENT_PROC;
+
+# Require globals.pl
+require "$UTILS_PATH/globals.pl";
+use vars qw(%ARCH_MAKE_OPTS %INCLUDES $GNAT_COMPILE_KERNEL_OPS
+            $MARTE_ADA_SRC_LOCATIONS %COMPILER_PREFIX %GNAT_RTS
+            &exec_command &get_cmd_output);
+
+# Make sure minstall has been executed
+$CURRENT_ARCH ne "none" or 
+    die "ERROR: MaRTE not properly installed (architecture is \"none\")\n" .
+    "   Run minstall before running this script\n";
+
+# RTS should have been created before calling this script
+if ($march ne "gnat_arm_bb") {
+(is_arch_rts_compiled ($march)) or
+    die "\nError: RTS for the architecture \"$march\" is not compiled yet\n" .
+    "  Run \'mkrtsmarteuc\' for the \"$march\" architecture before running this script.\n";
+} else {
+    print "\n TODO: check if RTS is compiled.\n\n";
+}
+    
+
+# compile only kernel? (do not recompile libraries nor C drivers)
+use Getopt::Long;
+Getopt::Long::Configure(qw (pass_through no_auto_abbrev no_ignore_case) );
+my $compile_only_kernel = 0;
+GetOptions("compile_only_kernel" => \$compile_only_kernel);
+
+# directory where object files and libraries are created
+my $OBJ_DIR="$MPATH/lib/";
+
+# architecture directory
+my $ARCH_DIR="$MPATH/$march" . "_arch";
+
+#----------------------------------------------------------------------------
+# Parameters managment
+my $cflags = "";
+my $gnatflags = "";
+my $found_bargs = 0;
+my $binderflags = "";
+my $arg = "";
+my $gflag = "";
+
+foreach $arg (@ARGV) {
+    if ($arg eq "-bargs")                 { $found_bargs = 1;           next; }
+    if ($found_bargs)                     { $binderflags .= " " . $arg; next; }
+    if ($arg =~ /^-gnat/ || $arg eq "-f") { $gnatflags .= " " . $arg;   next; }
+    if ($arg eq "-g")                     { $binderflags .= " -g";
+                                            $gflag = " -g"; }
+    $cflags .= " " . $arg;
+}
+
+#---------------------------------------------------------------------------
+# Clean the objects directory
+#exec_command "mkdir -p $OBJ_DIR" unless -e $OBJ_DIR;
+#exec_command "rm -f $OBJ_DIR/*.a $OBJ_DIR/*.o"; this line forces recompilation of everything
+
+#----------------------------------------------------------------------------
+# Architecture gnat_arm_bb is special
+if ($march eq "gnat_arm_bb") {
+
+    # build kernel and drivers Ada and C code
+    exec_command "cd $MPATH && gprbuild -j0 -P marte_gnat_bb_arm.gpr $cflags $gnatflags";
+
+    # Compile and execute 'write_marte_c_headers.adb'
+    write_marte_c_headers();
+
+    # Make architecture dependent C code ('arch/' directory)
+    make_architecture_dependent_c_code();
+
+    # Elaboration of MaRTE library (function marte_init())
+    make_ada_library_init();
+    exec_command "cd $OBJ_DIR && " .
+    "$COMPILER_PREFIX{$CURRENT_ARCH}ar -r libmarte.a marte_init.o";
+
+    # Elaboration of MaRTE C library (function marte_c_init())
+    # make_c_library_init();
+    # Not required in since there are not Ada drivers
+    # with tasks in this architecture.
+
+
+    print "mkmarte: work done :-)\n";
+    exit 0;
+}
+
+#----------------------------------------------------------------------------
+# Architecture STM32F is special
+if ($march eq "stm32f") {
+    my $xboard = "";
+    if ($mproc eq "f4") {
+       $xboard = "stm32f4";
+    } elsif ($mproc eq "f7") {
+       $xboard = "stm32f769disco";
+    } else {
+       die "\n ERROR: Unexpected mproc value: $mproc\n";
+    }
+
+    # build kernel and drivers Ada and C code
+    exec_command "cd $MPATH && " . 
+      "gprbuild -j0 --target=arm-eabi -P marte_stm32f.gpr " .
+      "-Xmtarget=$xboard " .
+      "-cargs:C $cflags -cargs:Ada $gnatflags $gflag";
+
+    exec_command "make -C $MPATH/stm32f_arch/hwi/stm32duino/ copy_lib";
+
+    # copy wrapper_main_c.o to the expected location
+#    exec_command "cp $MPATH/objs/${march}_objs/objs/wrapper_main_c.o " .
+#                 "$MPATH/${march}_arch/call_main/";
+
+    # Compile and execute 'write_marte_c_headers.adb'
+    write_marte_c_headers();
+
+    print "mkmarte: work done :-)\n";
+    exit 0;
+}
+
+#----------------------------------------------------------------------------
+# Architecture EV3 is special
+if ($march eq "ev3") {
+
+    # build kernel and drivers Ada and C code
+    exec_command "cd $MPATH && " . 
+      "gprbuild -j0 --target=arm-eabi -P marte_ev3.gpr " .
+      "-Xmtarget=ev3 " .
+      "-cargs:C $cflags -cargs:Ada $gnatflags $gflag";
+
+    # Compile and execute 'write_marte_c_headers.adb'
+    write_marte_c_headers();
+
+    print "mkmarte: work done :-)\n";
+    exit 0;
+}    
+
+#----------------------------------------------------------------------------
+# Kernel Ada code compilation
+print "\n - Kernel Ada code compilation...\n";
+exec_command "cd $MPATH/kernel && " .
+    "$MPATH/utils/mgnatmake marte_os_all.ads -c " .
+    #"-gnatwa -gnaty -gnatyu " . # all optional warnings, default style checks
+    #"-gnatwe " . # treat all warnings as errors
+    #"-gnatyg " .   # check standard GNAT style rules
+    "-gnateDDEF_MARTE_ARCH=" . uc($march) . " " .
+    "$GNAT_COMPILE_KERNEL_OPS " .
+    "-gnatf -gnatwl " .
+    "$cflags $gnatflags " .
+    "$MARTE_ADA_SRC_LOCATIONS" .
+    drivers_directories ($march) .
+    " -aO$OBJ_DIR -D $OBJ_DIR @ARGV";
+
+
+#----------------------------------------------------------------------------
+# marte_os_c compilation
+print "\n - marte_os_c code compilation...\n";
+exec_command "cd $MPATH/kernel && " .
+    "$MPATH/utils/mgnatmake marte_os_c.ads -c -g " .
+    #"-gnatwa -gnaty -gnatyu " . # all optional warnings, default style checks
+    #"-gnatwe " . # treat all warnings as errors
+    #"-gnatyg " .   # check standard GNAT style rules
+    "$GNAT_COMPILE_KERNEL_OPS " .
+    "-gnatf -gnatwl " .
+    "$cflags $gnatflags " .
+    "$MARTE_ADA_SRC_LOCATIONS" .
+    drivers_directories ($march) .
+    " -aO$OBJ_DIR -D $OBJ_DIR @ARGV";
+
+#----------------------------------------------------------------------------
+# Elaboration of MaRTE library (function marte_init())
+make_ada_library_init();
+
+#----------------------------------------------------------------------------
+# Elaboration of MaRTE C library (function marte_c_init())
+make_c_library_init();
+
+#----------------------------------------------------------------------------
+# Compile and execute 'write_marte_c_headers.adb'
+write_marte_c_headers();
+
+#----------------------------------------------------------------------------
+# NOT USED, now using the preprocessor
+# Set "time" symbol names to standard POSIX names (not in linux_lib in
+# order to use the Linux functions)
+#if ($march ne "linux_lib") {
+#    print "\n - Set \"time\" symbol names to standard POSIX names...\n";
+#    exec_command "cd $OBJ_DIR &&" .
+#	"$COMPILER_PREFIX{$CURRENT_ARCH}objcopy " .
+#	"--redefine-sym marte_time=time " .
+#	"--redefine-sym marte_gettimeofday=gettimeofday " .
+#	"marte-posix_time.o";
+#}
+
+#----------------------------------------------------------------------------
+# Dynamic Memory Pool management compilation
+print "\n - Dynamic Memory Pool management compilation...\n";
+exec_command "cd $MPATH/kernel/dynamic_memory && " .
+    "export CFLAGS=\"$cflags -Wall $INCLUDES{$march} \" && " .
+    "export GNATFLAGS=\"$gnatflags -gnatf -gnatwl @ARGV \" && " .
+    "make ";
+
+#----------------------------------------------------------------------------
+# Kernel C code compilation
+printf "\n - Kernel C code compilation...\n";
+system("export CFLAGS=\"$cflags -Wall \"; " .
+       "export MPATH=$MPATH; " .
+       "make -C $MPATH/kernel; ") == 0 or
+    die "Error: Compiling Kernel C code";
+
+#----------------------------------------------------------------------------
+# Architecture dependent C code ('arch/' directory)
+make_architecture_dependent_c_code();
+
+
+if (!$compile_only_kernel) {
+    #--------------------------------------------------------------------------
+    # Make drivers
+    print "\n - Making drivers...\n";
+    exec_command "$MPATH/utils/mkdrivers $cflags";
+
+    #--------------------------------------------------------------------------
+    # Make the libmc
+    printf "\n - Making the libmc library...\n";
+    exec_command "$MPATH/utils/mklibmc $cflags";
+}
+
+#----------------------------------------------------------------------------
+# Make misc
+exec_command "make -C $MPATH/misc $march";
+
+#----------------------------------------------------------------------------
+# Make posix5 (only x86)
+if ($march eq "x86") {
+    exec_command "make -C $MPATH/posix5 all";
+}
+
+#----------------------------------------------------------------------------
+# 'libmarte.a' generation
+print "\n - libmarte.a generation...\n";
+exec_command "mv $MPATH/kernel/*.o $OBJ_DIR/";
+exec_command "mv $ARCH_DIR/hwi/*.o $OBJ_DIR/";
+exec_command "mv $MPATH/kernel/dynamic_memory/*.o $OBJ_DIR/";
+exec_command "mv $ARCH_DIR/call_main/*.o $OBJ_DIR/";
+exec_command "mv $OBJ_DIR/wrapper_main*.o $ARCH_DIR/call_main/ ";
+exec_command "mv $MPATH/misc/*.o $OBJ_DIR/";
+
+exec_command "cd $OBJ_DIR && rm -f libmarte.a && " .
+    "$COMPILER_PREFIX{$CURRENT_ARCH}ar -r libmarte.a *.o";
+
+# remove multiboot.o. This file is already included by the linker
+# script (utils/linker.lds) and, consequently, a linker error about
+# duplicated symbols is produced when multiboot.o is also in the
+# library.
+exec_command "cd $OBJ_DIR && " .
+    "$COMPILER_PREFIX{$CURRENT_ARCH}ar -d libmarte.a multiboot.o";
+
+# link to rename libmarte.a as libc.a (not in linux and linux_lib)
+if ($march ne "linux" && $march ne "linux_lib") {
+    exec_command "cd $OBJ_DIR && ln -f -s libmarte.a libc.a";
+}
+
+# ----------------------------------------------
+# -- Copy MaRTE files to libgnat.a (only in linux)
+# It is necessary since in some architectures libmarte.a and libc.a
+# are differents libraries, but some objects of libmarte.a should be
+# used instead of the equivalent files in libc.a. I can't change the
+# library order for the linker provided by gnatmake or gcc, so I directly
+# include those objects files in the libgnat.a
+if ($march eq "linux") {
+    my $files_to_copy = "$MPATH/lib/fwrite.o";
+    my $libgnat="$MPATH/gnat_rts/rts-marteuc_${march}/adalib/libgnat.a";
+    exec_command "chmod u+w $libgnat";
+    exec_command "$COMPILER_PREFIX{$CURRENT_ARCH}ar r $libgnat $files_to_copy";
+    exec_command "chmod u-w $libgnat";
+}
+
+# build the language support library
+if ($march eq "x86" || $march eq "linux") {
+    print "\n - C++ language support library...\n";
+
+    my $gpp_path = get_cmd_output("which g++");
+    if ($gpp_path eq "") {
+	print "   g++ not found. C++ not suported.\n\n";
+
+    } else {
+	print "   g++ found: $gpp_path\n";
+	exec_command "cd $MPATH/lang_support && " . 
+	    "export MARCH=$march && make";
+	print "   C++ language support library DONE\n\n";
+    }
+}
+
+print "mkmarte: work done :-)\n";
+exit 0;
+
+
+#---------------------------------------------------------------
+# local subfunctions declaration
+
+# write_marte_c_headers
+sub write_marte_c_headers
+{
+    print "\n - Compiling and executing 'write_marte_c_headers.adb'...\n";
+    if ($march ne "xtratum") {
+	exec_command "cd $MPATH/kernel/write_marte_c_headers && " .
+	    "rm -f *.ali *.o kernel_types_sizes.ads";
+
+	exec_command "$UTILS_PATH/mextract_kernel_types_sizes.pl";
+
+	if (exists $GNAT_VERSION{"x86"}) {
+	    # using GNAT GPL 64bits
+	    exec_command "$UTILS_PATH/mcopy_32-64bits_gnat_libs.pl 64";
+	    exec_command "cd $MPATH/kernel/write_marte_c_headers && " .
+		"gnatmake --RTS=rts-native -aI$MPATH/kernel write_marte_c_headers.adb ";
+	    exec_command "$UTILS_PATH/mcopy_32-64bits_gnat_libs.pl 32";
+	} else {
+	    # using the standard Linux gnat package
+	    exec_command "cd $MPATH/kernel/write_marte_c_headers && " .
+		"gnatmake -aI$MPATH/kernel write_marte_c_headers.adb ";
+	}
+
+	exec_command "cd $MPATH/kernel/write_marte_c_headers && " .
+	    "./write_marte_c_headers $ARCH_DIR ";
+	# create links to the files in 'arch/arch_dependent_files/sys_marte/'
+	exec_command "ln -s -f $MPATH/arch/arch_dependent_files/sys_marte/marte_*.h $MPATH/arch/include/sys/";
+
+    } else {
+	# Skiped in xtratum arch
+	# Native Ada programs crash in this Linux version
+	print "\n NOT DONE!!!!!\n";
+    }
+}
+
+# make_architecture_dependent_c_code
+sub make_architecture_dependent_c_code
+{
+    print "\n - Compiling architecture dependent C code (dir 'arch/')...\n";
+    exec_command "export CFLAGS=\"$cflags -Wall -O0 \" && " .
+	"export MPATH=$MPATH && " .
+	"make $ARCH_MAKE_OPTS{$march}  -C $ARCH_DIR/";
+}
+
+# Elaboration of MaRTE library (function marte_init())
+sub make_ada_library_init
+{
+    printf "\n - Generating MaRTE library elaboration code ('marte_init()')...\n";
+    exec_command "cd $OBJ_DIR/ && " .
+    "$MPATH/utils/mgnatbind -n " .  # -n: No Ada main program
+    "-Lmarte_ " .         # adainit/final renamed to marte_c_init/final
+    "$binderflags " .
+    "$MARTE_ADA_SRC_LOCATIONS " .
+    drivers_directories ($march).
+    "-aO$OBJ_DIR " .
+    "-F " .      # Force checking of elaboration Flags 
+    "-o marte_init.adb -v -t " .
+    "marte_os_all.ali";
+    
+    exec_command "cd $OBJ_DIR/ && " .
+	"$MPATH/utils/mgcc -c $gflag marte_init.adb --RTS=$GNAT_RTS{$march}";
+}
+
+# Elaboration of MaRTE C library (function marte_c_init())
+sub make_c_library_init
+{
+    printf "\n - Generating MaRTE library elaboration code ('marte_c_init()')...\n";
+    exec_command "cd $OBJ_DIR/ && " .
+    "$MPATH/utils/mgnatbind -n " .  # -n: No Ada main program
+    "-Lmarte_c_ " .         # adainit/final renamed to marte_c_init/final
+    "$binderflags " .
+    "$MARTE_ADA_SRC_LOCATIONS " .
+    drivers_directories  ($march).
+    "-aO$OBJ_DIR " .
+    "-F " .      # Force checking of elaboration Flags 
+    "-o marte_c_init.adb -t " .
+    "marte_os_c.ali";
+    
+    # change policy to FIFO to avoid RTS initialization for C applications
+    # change the main policy to SCHED_OTHER
+    exec_command "cd $OBJ_DIR/ && " .
+    "sed -e 's/Task_Dispatching_Policy := '\\'' '\\''/Task_Dispatching_Policy := '\\''F'\\''/g' marte_c_init.adb > marte_c_init2.adb";
+    exec_command "cd $OBJ_DIR/ && mv marte_c_init2.adb marte_c_init.adb";
+
+    exec_command "cd $OBJ_DIR/ && " .
+	"$MPATH/utils/mgnatmake -c $gflag marte_c_init.adb";
+}
+

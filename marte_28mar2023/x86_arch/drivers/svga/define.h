@@ -1,0 +1,2 @@
+#define INCLUDE_S3_TRIO64_DAC
+#define S3_LINEAR_SUPPORT

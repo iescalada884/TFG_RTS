@@ -1,0 +1,12 @@
+(07-10-05) A Raul y María se les queda colgada la lectura del puerto serie.
+Lo he probado en la máquina virtual con el programa 'marte_os/tests_marte/drivers_pru/serial_port/serial_port_read.c' y me ocurre igual.
+
+Lo que observo es q todo va bien si se envían los caracteres de 1 en 1, pero si mando unos cuantos (5 o así) sólo se lee el primero y ya no se reciben más interrupciones en el puerto serie. Esto ocurre tanto si se hace el read como si no. Incluso ocurre si quito el 'put_in_input_buffer' del manejador de interrupción.
+
+Por eso me parece que es algún problema con el hardware. Por alguna razón se queda "flipado" y no produce nuevas interrupciones. He probado a leer todos los registros que resetean las posibles fuentes de interrupción por si acaso era eso, pero todo sigue igual. Esto lo he probado tanto desde el programa como en el mismo manejador de interrupción.
+
+También he probado a rehablilitar las interrupciones en el programa, e incluso a reprogramar el puerto después de cada read.
+
+También probé a usar inb en lugar de inb_p en el manejador de interrupción.
+
+Según parece este problema se da en algunos ordenadores, pero no en otros.

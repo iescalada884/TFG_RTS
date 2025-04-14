@@ -1,0 +1,112 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_ATTRIBUTES
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.linux%s	s-linux.ads		bff98b5c NE OL PR PK
+W interfaces%s		interfac.ads		interfac.ali
+W interfaces.c%s	i-c.adb			i-c.ali
+W system%s		system.ads		system.ali
+W system.parameters%s	s-parame.adb		s-parame.ali
+
+D ada.ads		20250318185043 76789da1 ada%s
+D a-unccon.ads		20250318185043 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20250318185043 9111f9c1 interfaces%s
+D i-c.ads		20250318185044 aac316ce interfaces.c%s
+D system.ads		20250318185043 14286b0f system%s
+D s-exctab.ads		20250318185043 91bef6ef system.exception_table%s
+D s-linux.ads		20250318185044 34850a8c system.linux%s
+D s-parame.ads		20250318185044 3597fc11 system.parameters%s
+D s-stalib.ads		20250318185044 1c9580f6 system.standard_library%s
+G a e
+G c Z s s [timespecIP system__linux 54 9 none]
+G c Z s s [timevalIP system__linux 60 9 none]
+X 3 interfac.ads
+38K9*Interfaces 233e15 7|38r6 48r27 49r27 52r27
+X 4 i-c.ads
+30K20*C 598e17 7|38w17 48r38 49r38 52r38
+59I9*int<integer> 7|52r40
+61I9*long<integer> 7|48r40 49r40
+X 5 system.ads
+37K9*System 155e11 7|39r6 41r9 50r32 51r18 130r5
+X 7 s-linux.ads
+41K16*Linux 5|37k9 7|130l12 130e17
+48I12*long{4|61I9} 56r17
+49I12*suseconds_t{4|61I9} 62r17
+50I9*time_t<integer> 55r17 61r17
+52I12*clockid_t{4|59I9}
+54R9*timespec 57e14 58r26
+55i7*tv_sec{50I9}
+56i7*tv_nsec{48I12}
+60R9*timeval 63e14 64r26
+61i7*tv_sec{50I9}
+62i7*tv_usec{49I12}
+70N4*EAGAIN
+71N4*EINTR
+72N4*EINVAL
+73N4*ENOMEM
+74N4*EPERM
+75N4*ETIMEDOUT
+81N4*SIGHUP
+82N4*SIGINT
+83N4*SIGQUIT
+84N4*SIGILL
+85N4*SIGTRAP
+86N4*SIGIOT
+87N4*SIGABRT
+88N4*SIGFPE
+89N4*SIGKILL
+90N4*SIGBUS
+91N4*SIGUSR1
+92N4*SIGSEGV
+93N4*SIGUSR2
+94N4*SIGPIPE
+95N4*SIGALRM
+96N4*SIGTERM
+97N4*SIGSTKFLT
+98N4*SIGCLD
+99N4*SIGCHLD
+100N4*SIGSTOP
+101N4*SIGTSTP
+102N4*SIGCONT
+103N4*SIGTTIN
+104N4*SIGTTOU
+105N4*SIGURG
+106N4*SIGXCPU
+107N4*SIGXFSZ
+108N4*SIGVTALRM
+109N4*SIGPROF
+110N4*SIGWINCH
+111N4*SIGPOLL
+112N4*SIGIO
+113N4*SIGLOST
+114N4*SIGPWR
+115N4*SIGSYS
+116N4*SIGUNUSED
+117N4*SIG32
+118N4*SIG33
+119N4*SIG34
+123N4*sa_handler_pos
+124N4*sa_mask_pos 125r39
+125N4*sa_flags_pos
+127N4*SA_SIGINFO
+128N4*SA_ONSTACK
+X 8 s-parame.ads
+49K16*Parameters 7|39w13 50r39 51r25 8|188e22
+103N4*time_t_bits 7|50r50 51r36
+

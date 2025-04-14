@@ -1,0 +1,1 @@
+marte-kernel-tasks_operations-initialize_tcbs.adb:267:45: warning: HAL.Init_Task_Context for EV3

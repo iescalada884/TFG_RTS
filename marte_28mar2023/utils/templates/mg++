@@ -1,0 +1,100 @@
+#!/usr/bin/perl -w
+#
+# MaRTE OS.
+#
+# Call 'g++' and 'mgcc' with the appropriate parameters.
+
+use strict;
+
+# get MaRTE utils directory 
+use File::Basename;
+use File::Spec;
+my $UTILS_PATH;
+BEGIN {
+    $UTILS_PATH= dirname(File::Spec->rel2abs( __FILE__ ));
+}
+
+# Require local_config.pl
+require "$UTILS_PATH/local_config.pl";
+use vars qw($MPATH %GNAT_VERSION);
+
+# Require current_arch.pl
+require "$UTILS_PATH/current_arch.pl";
+use vars qw($CURRENT_ARCH);
+
+# Require globals.pl
+require "$UTILS_PATH/globals.pl";
+use vars qw(%ARCH_GCC_OPTS %CODE_GEN_OPTS %INCLUDES %WRAPPER_MAIN
+            %ARCH_GCC_LD_OPTS
+            %LIBS_PATH %LIBS_GCC %ARCH_CXX_LIB
+            &exec_command);
+
+# check arguments
+use Getopt::Long;
+Getopt::Long::Configure(qw (pass_through no_auto_abbrev no_ignore_case) );
+my $compile_only=0;
+my $output_file="";
+GetOptions("c" => \$compile_only,
+           "o=s" => \$output_file);
+
+# Compiler
+my $cpp;
+if ($CURRENT_ARCH eq "rpi") {
+    $cpp = "arm-eabi-c++filt";
+} else {
+    $cpp = "g++";
+}
+
+# get the path to libgcc_eh
+my $gcc_eh_path = `gcc -print-file-name=libgcc_eh.a`;
+chomp $gcc_eh_path;
+$gcc_eh_path =~ s/libgcc_eh\.a//g;
+
+my $lang="cxx";
+
+my $gxx_args = "@ARGV $ARCH_GCC_OPTS{$CURRENT_ARCH} " .
+        "$CODE_GEN_OPTS{$CURRENT_ARCH} " .
+        "$INCLUDES{$CURRENT_ARCH} $WRAPPER_MAIN{$lang} " .
+        "$ARCH_GCC_LD_OPTS{$CURRENT_ARCH} " .
+        "$LIBS_PATH{$CURRENT_ARCH} $LIBS_GCC{$CURRENT_ARCH} ";
+
+# get the filename of the c++ file
+my $file_index = get_cc_file_index(@ARGV);
+
+# if no c++ file was found we assume the user is trying to link
+if ($file_index == -1) {
+    if ($output_file eq "") {
+        $output_file = "mprogram";
+    }
+    exec_command "$cpp $gxx_args -o $output_file -L$gcc_eh_path -Wl,--start-group $LIBS_GCC{$CURRENT_ARCH} -lgcc_eh -lgcc $ARCH_CXX_LIB{$CURRENT_ARCH} -Wl,--end-group";
+    exit;
+}
+
+# if a c++ file was found and we only want to compile
+if ($compile_only) {
+    if ($output_file eq "") {
+        $output_file = $ARGV[$file_index];
+        $output_file =~ s/\.cpp$|\.cxx$|\.cc$/.o/;
+    }
+    exec_command "$cpp $ARCH_GCC_OPTS{$CURRENT_ARCH} $CODE_GEN_OPTS{$CURRENT_ARCH} -c @ARGV -o $output_file $INCLUDES{$CURRENT_ARCH} ";
+    exit;
+}
+
+# if a c++ file was found and we want to compile and link
+if ($output_file eq "") {
+    $output_file = $ARGV[$file_index];
+    $output_file =~ s/\.cpp$|\.cxx$|\.cc$/.exe/;
+}
+exec_command "$cpp $gxx_args -o $output_file -L$gcc_eh_path -lgcc_eh $ARCH_CXX_LIB{$CURRENT_ARCH}";
+
+# Subfunction get_cc_file_index
+sub get_cc_file_index
+{
+    my $i;
+    for ($i=0; $i <= $#ARGV; $i++) {
+        if ($ARGV[$i] =~ /\.cpp$|\.cxx$|\.cc$/) {
+            return $i;
+        }
+    }
+    return -1;
+}

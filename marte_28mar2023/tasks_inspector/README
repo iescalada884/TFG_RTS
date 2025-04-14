@@ -1,0 +1,38 @@
+
+                              MaRTE OS
+                             ----------
+
+        Minimal Real Time Operating System for Embedded Applications
+                      Version 1.4 - Dec 2003
+
+	 Copyright (C) 2003   Universidad de Cantabria, SPAIN
+
+	 Authors: Mario Aldea Rivas         aldeam@unican.es
+	          Michael Gonzalez Harbour     mgh@unican.es
+
+
+                         'task_inspector' Tool
+                        =======================
+
+This tool allows analyzing the execution flow of an application. The
+relevant scheduling information is sent from the target to the host
+computer across the serial line, being stored to be analyzed after the
+application execution finishes.
+
+The scheduling information is parsed and transformed into a set of
+files that can serve as input for 'gnuplot', a plotting program with
+which the information is displayed graphically.
+
+For information about how to use the 'task_inspector' tool look at the
+'marte_ug.txt' document.
+
+
+
+--------------------------------------------------------------------------
+  Contact Address:                          MaRTE OS Internet site:
+  aldeam@unican.es                          http://marte.unican.es
+
+	      Department of Electronica y Computadores
+		Group of Computadores y Tiempo Real
+		       University of Cantabria
+--------------------------------------------------------------------------

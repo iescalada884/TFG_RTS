@@ -1,0 +1,97 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_FIXED_POINT
+RV NO_LONG_LONG_INTEGERS
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.os_primitives%b  s-osprim.adb		d172d809 NE OL PK
+W system%s		system.ads		system.ali
+W system.parameters%s	s-parame.adb		s-parame.ali
+
+U system.os_primitives%s  s-osprim.ads		13d50ef9 BN NE OL PR PK
+W system%s		system.ads		system.ali
+
+D system.ads		20250318185043 14286b0f system%s
+D s-osprim.ads		20250318185043 07fd65f6 system.os_primitives%s
+D s-osprim.adb		20250318185043 70a7f01c system.os_primitives%b
+D s-optide.adb		20250318185043 93bfb1f2 system.os_primitives.timed_delay
+D s-parame.ads		20250318185044 3597fc11 system.parameters%s
+G a e
+G c Z s b [initialize system__os_primitives 59 14 none]
+G c Z s b [clock system__os_primitives 64 13 none]
+G c Z s b [timed_delay system__os_primitives 77 14 none]
+G c Z b b [nanosleep system__os_primitives 51 13 none]
+G c Z b b [timespecIP system__os_primitives 45 9 none]
+G c Z b b [to_timespec system__os_primitives 102 13 none]
+X 1 system.ads
+37K9*System 155e11 2|40r9 89r5 3|33r6 35r14 42r32 43r15 81r15 81r33 93r42
+. 143r5 4|34r11
+67M9*Address 3|81r22
+69m4*Null_Address{67M9} 3|81r40 93r49
+X 2 s-osprim.ads
+40K16*OS_Primitives 1|37k9 2|89l12 89e25 3|35b21 143l12 143t25 4|34r18
+43o4*Max_Sensible_Delay{duration} 55r44 4|67r32
+55o4*Max_System_Delay{duration} 4|67r13 68r26 70r27
+59U14*Initialize 3|138b14 141l8 141t18
+64V13*Clock{duration} 65r19 3|58b13 96l8 96t13 4|43s38 77s24
+70N4*Relative 4|51r14
+71N4*Absolute_Calendar
+72N4*Absolute_RT
+77U14*Timed_Delay 77>27 77>44 3|129b14 4|35b11 84l5 84t16
+77o27 Time{duration} 3|130b7 4|36b4 52r19 53r19 55r19 56r19
+77i44 Mode{integer} 3|131b7 4|37b4 51r7
+X 3 s-osprim.adb
+42I9 time_t<integer> 46r17 105r11 109r12
+45R9 timespec 48e14 49r26 51r53 102r47 104r47 121r9 4|39r25 40r25
+46i7*tv_sec{42I9} 121m19
+47i7*tv_nsec{long_integer} 122m19
+51V13 nanosleep{integer} 51^24 51^30 52b<c,nanosleep>22 4|75s20
+51p24 rqtp(45R9)
+51p30 rmtp(45R9)
+60A12 timeval(long_integer)<integer> 67r33 75r24 80r22
+66U17*timeval_to_duration 67^10 68^10 69^10 70b<c,__gnat_timeval_to_duration>25
+. 94s7
+67p10 T(60A12)
+68p10 sec(long_long_integer)
+69p10 usec(long_integer)
+72N7 Micro 95r49
+73i7 sec{long_long_integer} 94m39 94r39 95r24
+74i7 usec{long_integer} 94m51 94r51 95r41
+75a7 TV{60A12} 93m31 93r31 94m28 94r28
+76i7 Result{integer} 77r28 93m7
+79V16*gettimeofday{integer} 80^10 81>10 82b<c,gettimeofday>25 93s17
+80p10 Tv(60A12)
+81m10 Tz{1|67M9}
+102V13 To_Timespec{45R9} 102>26 104b13 123l8 123t19 4|74s21
+102o26 D{duration} 104b26 109r39 110r12
+105i7 S{42I9} 109m7 110r26 116m10 116r15 121r30
+106o7 F{duration} 110m7 115r10 117m10 117r15 122r63
+X 4 s-optide.adb
+39r4 Request{3|45R9} 74m10 75m31 75r31
+40r4 Remaind{3|45R9} 75m47 75r47
+41o4 Rel_Time{duration} 52m7 55m7 63r7 64r21
+42o4 Abs_Time{duration} 53m7 56m7 79r20 81r24
+43o4 Base_Time{duration} 44r29 79r64
+44o4 Check_Time{duration} 53r26 55r26 77m10 79r32 79r51 81r35
+45o4 Time_Chunk{duration} 64m7 68r13 70m13 74r34 81m10
+47i4 Result{integer} 48r25 75m10
+X 5 s-parame.ads
+49K16*Parameters 3|33w13 42r39 43r22 5|188e22
+103N4*time_t_bits 3|42r50 43r33
+

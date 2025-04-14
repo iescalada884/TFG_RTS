@@ -1,0 +1,86 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_RECURSION
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_ASPECT_SPECIFICATIONS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.value_i%b	s-valuei.adb		a7e449ef NE OL PK GE
+W system%s		system.ads		system.ali
+W system.val_util%s	s-valuti.adb		s-valuti.ali
+
+U system.value_i%s	s-valuei.ads		76450972 BN NE OL PR PK GE
+W system%s		system.ads		system.ali
+
+D system.ads		20250318185043 14286b0f system%s
+D s-casuti.ads		20250318185043 cf13d755 system.case_util%s
+D s-valspe.ads		20250318185043 b0fcd073 system.val_spec%s
+D s-valuti.ads		20250318185044 d396a33d system.val_util%s
+D s-valuei.ads		20250318185043 d9377ca5 system.value_i%s
+D s-valuei.adb		20250318185044 ad459677 system.value_i%b
+D s-vaispe.ads		20250318185043 8280550e system.value_i_spec%s
+D s-vauspe.ads		20250318185043 89269ba5 system.value_u_spec%s
+G a e
+G c Z s b [value_i system 64 16 none]
+X 1 system.ads
+37K9*System 155e11 5|41r6 41r27 42r6 43r6 59r31 60r29 64r9 146r5 6|32r6 32r27
+. 34r14 192r5
+X 4 s-valuti.ads
+48K16*Val_Util 240e20 6|32w13 32r34
+55U14*Bad_Value 6|98s10 111s13
+91U14*Scan_Sign 6|94s7
+199U14*Scan_Trailing_Blanks 6|183s13
+X 5 s-valuei.ads
+47I9 Int 61r14 71r17 133r49 6|54r17 59r18 63r44 63r69 64r39 65r25 72r18 107r22
+. 108r40 109r20 117r19 122r17 135r49 160r17
+49M9 Uns 55r22 59r59 61r26 100r31 6|58r18 63r39 71r18 75r14 107r17 108r35
+51U19 Scan_Raw_Unsigned 52>12 53^12 54>12 55<12 6|101s7
+52a12 Str{string}
+53p12 Ptr(integer)
+54i12 Max{integer}
+55*12 Res{49M9}
+64k16*Value_I 1|37k9 5|47z9 49z9 51z19 59z17 60z17 146l12 146e19 6|34b21
+. 192l12 192t19
+67U14*Scan_Integer 68>7 69^7 70>7 71<7 6|50b14 129l8 129t20 176s16
+68a7 Str{string} 73r14 76r38 76r64 77r39 81r16 83r19 86r50 88r18 90r27 92r21
+. 96r13 98r16 101r45 103r41 107r15 6|51b7 85r32 89r13 94r18 96r10 98r21 101r26
+. 103r49 111r24 126r19
+69p7 Ptr(integer) 75r18 76r27 77r44 81r21 96r18 106r21 6|52b7 85r37 94r23
+. 96r15 97r10 101r31
+70i7 Max{integer} 75r28 76r57 77r53 81r30 86r66 88r32 92r35 96r31 101r59
+. 107r29 6|53b7 85r46 94r28 101r36 103r63
+71*7 Res{47I9} 105r41 6|54b7 109m13 117m10 122m10 128r19
+80i13 Non_Blank{positive} 83r24 83r53 84r21 90r32
+82i13 Fst_Num{positive} 86r55 88r23 92r26
+95i10 Non_Blank{positive} 98r21 98r50 99r18 103r46
+97i10 Fst_Num{positive} 101r50 107r20
+100*10 Uval{49M9} 104r41
+133V13*Value_Integer{47I9} 133>28 139r40 6|135b13 153s20 190l8 190t21
+133a28 Str{string} 135r35 135r40 135r51 136r17 137r65 139r34 140r42 6|135b28
+. 141r10 143r40 146r23 147r46 147r51 147r62 148r64 149r50 153r39 161r36 164r16
+. 164r21 164r32 168r19 176r30 176r42 181r19 181r33 183r35 186r70
+X 6 s-valuei.adb
+75*7 Uval{5|49M9} 101m41 103r10 107r10 108r28 117r24 122r22 127r19
+78b7 Minus{boolean} 94m33 108r13 116r13
+81i7 Unused_Start{positive} 94m40 97r21
+143A21 NT{string}<integer> 149r46 153r35
+160*13 V{5|47I9} 176m52 186r76 187r20
+161i13 P{integer} 174m60 174r60 180r16 183r40
+174p16 P_Acc(integer) 176r35
+

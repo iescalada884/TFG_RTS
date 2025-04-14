@@ -1,0 +1,11 @@
+with Console_Switcher;
+
+separate (Reports)
+
+procedure Init is
+begin
+   if not Is_Initialized then
+      Console_Switcher.Serial_Console_Init;
+      Is_Initialized := True;
+   end if;
+end Init;

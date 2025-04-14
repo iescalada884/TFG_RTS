@@ -1,0 +1,1 @@
+/home/ubuntfg/Documents/marte_28mar2023/arch/arch_dependent_files/marte-kernel-devices_table.ads

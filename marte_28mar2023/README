@@ -1,0 +1,210 @@
+
+                              MaRTE OS
+                             ----------
+
+        Minimal Real Time Operating System for Embedded Applications
+                       Version 2.0 - Feb 2017
+
+         Copyright (C) 2000-2017  Universidad de Cantabria, SPAIN
+
+         Authors: Mario Aldea Rivas         aldeam@unican.es
+                  Michael Gonzalez Harbour     mgh@unican.es
+
+
+Introduction
+============
+
+MaRTE OS is a real-time kernel for embedded applications that follows
+the Minimal Real-Time POSIX.13 [POSIX] subset. Most of its code is
+written in Ada with some C and assembler parts.
+
+It allows software cross-development of Ada and C applications using
+the GNU compilers Gnat and Gcc. In particular in the case of Gnat the
+Run-Time Library (GNARL) has been adapted to run on our kernel. Remote
+debugging of applications is also possible using the GNU debugger gdb.
+
+MaRTE OS supports two target architectures: x86 and Raspberry Pi
+(models 1 and Zero).
+
+For the x86 architecture the MaRTE OS the cross environment is formed
+by a PC running Linux as "Host" and a bare x86 board as "Target", both
+systems connected by and Ethernet LAN (for application booting) and a
+serial line (for remote debugging).
+
+MaRTE OS is developed by the Group of "Ingenieria Software y Tiempo
+Real" of the Department of "Ingenieria Software y Electronica" of the
+University of Cantabria. It is not a finished product, but we share it
+hopping it can be useful for educational or experimental purposes.
+
+MaRTE OS is available under the GNU General Public License.
+
+
+Functionality Implemented
+=========================
+
+MaRTE OS implements the following POSIX functionality:
+
+- Pthread Management (creation, finalization, attributes, ...).
+
+- Priority scheduling (FIFO, Round-Robin and Sporadic Server
+  scheduling policies supported).
+
+- Mutexes and Condition Variables.
+
+- Semaphores.
+
+- Signals (partially implemented).
+
+- Clocks (monotonic and real time) and Timers.
+
+- CPU time Clocks and Timers.
+
+- Console I/O.
+
+- Time Services: absolute and relative tasks and Pthreads suspension.
+
+- Dynamic Memory Management.
+
+This POSIX functionality support the whole gnat run time library, so
+the current MaRTE OS implementation allows running complex C and Ada
+applications which do not use a file system (limitation imposed by the
+Minimal Real-Time POSIX.13 subset).
+
+Apart from the POSIX standard functionality supported, in MaRTE OS we
+have implemented some other features we consider very interesting for
+real-time systems programmers:
+
+- Application-Defined Scheduling:
+
+  MaRTE OS includes application program interfaces (API) that enables
+  Ada and C applications to use application-defined scheduling
+  algorithms in a way compatible with the scheduling algorithms
+  defined in POSIX and in the Ada 95 Real-Time Systems Annex. Several
+  application-defined schedulers, implemented as special user tasks,
+  can coexist in the system in a predictable way.
+
+- Interrupts Management at Application Level:
+
+  MaRTE OS offers to Ada and C programmers an API that allows dealing
+  with hardware interrupts in an easy way.  Basically this API offers
+  operations to: enable and disable hardware interrupts, install
+  interrupt handler procedures and put tasks or threads waiting for a
+  hardware interrupt.
+
+- Addings to POSIX:
+
+  Ada binding for CPU-Time clocks and access to the thread-specific
+  data form a thread different from the owner.
+
+
+Development Environment
+=======================
+
+MaRTE OS works in a cross development environment:
+
+
+      Host                                                 Target
+ +-------------------+            Ethernet            +-----------------+
+ | Linux             |--------------------------------|                 |
+ | Gnat              |     (For booting purposes,     | i386 or above   |
+ | gcc               |    involves dhcpd and nfsd)    | Floppy Disk     |
+ | gdb               |                                |                 |
+ | MaRTE OS          |                                | Doesn't need HD |
+ | dhcpd (or bootpd) |            RS-232              | Doesn't need OS |
+ | nfsd              |--------------------------------|                 |
+ +-------------------+    (For debugging purposes,    +-----------------+
+                               gdb is used)
+
+
+
+Distribution Directory Overview
+===============================
+
+This is the top level of the MaRTE OS directory structure.  The following
+is a description of the files and directories you will find in it:
+
+- INSTALL: Installation instructions.
+
+- README: This file.
+
+- arch: link to the directory of the active architecture ('linux_arch/',
+  'linux_lib_arch/' or 'x86_arch/')
+
+- arch/drivers/: code for some device drivers.
+
+- arch/include/: POSIX C header files.
+
+- arch/libmc/: libc implementation.
+
+- examples/: some simple program examples.
+
+- COPYING: The license used to distribute MaRTE OS code
+
+- kernel/ : source code for the hardware independent part of the kernel.
+
+- lib/: link to the object files and libraries directory of the active
+  architecture ('objs/linux_lib_objs/', 'objs/linux_objs/' or
+  'objs/x86_objs/').
+
+- gnat_rts/: GNAT packages modified for MaRTE OS.
+
+- marte_ug.html: MaRTE OS User's Guide.
+
+- minstall: main installation script.
+
+- misc/: miscellany of utility packages.
+
+- objs/: object files and libraries directory.
+
+- posix5/: POSIX.5 packages (POSIX Ada bindings). Based on the Florist
+  [Florist] implementation.
+
+- sll/: singly linked lists used by the kernel.
+
+- tasks_inspector/: a tool to analyze graphically the execution flow of
+  a finished application.
+
+- utils/: compilation utilities.
+
+- x86_arch/: source code for the hardware dependent part of the kernel
+  for 386 PC or above.
+
+- rpi_arch/: source code for the hardware dependent part of the kernel
+  for Raspberry Pi 1 and Zero.
+
+- linux_arch/: source code for the hardware dependent part of the kernel
+  to execute MaRTE OS as a Linux process.
+
+- linux_lib_arch/: source code for the hardware dependent part of the kernel
+  to execute MaRTE OS as a Linux process with access to the Linux GLIBC
+  library (including filesystem functions for example).
+
+- xtratum_arch/: source code for the hardware dependent part of the kernel
+  for the XtratuM hypervisor.
+
+- tests/: a set of regression tests for MaRTE OS.
+
+- lang_support/: includes support libraries for other languages. For example,
+  the runtime for C++ applications (libsupc++.a) and the C++ STL port library
+  taken from uSTL.
+
+References
+==========
+
+[POSIX]   IEEE Std. 1003.13-1998. Information Technology -Standardized
+          Application Environment Profile- POSIX Realtime Application
+          Support (AEP). The Institute of Electrical and Electronics
+          Engineers, 1998.
+
+[Florist] http://www.cs.fsu.edu/~baker/florist.html
+
+[uSTL] http://ustl.sourceforge.net/
+
+--------------------------------------------------------------------------
+  Contact Address:                          MaRTE OS Internet site:
+  aldeam@unican.es                          http://marte.unican.es
+
+             Department of Ingenieria Software y Electronica
+               Group of Ingenieria Software y Tiempo Real
+                       University of Cantabria
+--------------------------------------------------------------------------

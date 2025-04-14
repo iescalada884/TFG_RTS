@@ -1,0 +1,334 @@
+V "GNAT Lib v2019"
+A -gnatA
+A --RTS=/home/ubuntfg/opt/GNAT/2019-arm-elf/arm-eabi/lib/gnat/zfp-stm32f4/
+A -mlittle-endian
+A -mfloat-abi=hard
+A -mcpu=cortex-m4
+A -mfpu=fpv4-sp-d16
+A -mthumb
+A -ffunction-sections
+A -fdata-sections
+A -gnateDDEF_MARTE_ARCH=STM32F
+A -gnateDMARTE_BOARD=stm32f4
+P SL ZX
+
+RN
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_FIXED_POINT
+RV NO_IMPLICIT_CONDITIONALS
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK_05
+
+U marte.posix_time%b	marte-posix_time.adb	e602938a NE OO PK IU
+Z ada.tags%s		a-tags.adb		a-tags.ali
+W marte%s		marte.ads		marte.ali
+W marte.configuration_parameters%s  marte-configuration_parameters.ads  marte-configuration_parameters.ali
+W marte.integer_types%s	marte-integer_types.ads	marte-integer_types.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali  EA
+W marte.kernel.debug%s	marte-kernel-debug.adb	marte-kernel-debug.ali
+W marte.kernel.scheduler%s  marte-kernel-scheduler.adb  marte-kernel-scheduler.ali  EA
+W marte.kernel.tasks_operations%s  marte-kernel-tasks_operations.adb  marte-kernel-tasks_operations.ali  EA
+W marte.kernel.tasks_operations.internals%s  marte-kernel-tasks_operations-internals.adb  marte-kernel-tasks_operations-internals.ali  EA
+W marte.kernel.timers%s	marte-kernel-timers.adb	marte-kernel-timers.ali  EA
+
+U marte.posix_time%s	marte-posix_time.ads	507de01d BN EE NE OO PK
+W marte%s		marte.ads		marte.ali
+W marte.hal%s		marte-hal.adb		marte-hal.ali  EA
+W marte.integer_types%s	marte-integer_types.ads	marte-integer_types.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+W marte.kernel.signals%s  marte-kernel-signals.ads  marte-kernel-signals.ali
+W marte.kernel.tasks_operations%s  marte-kernel-tasks_operations.adb  marte-kernel-tasks_operations.ali
+W marte.kernel.timers%s	marte-kernel-timers.adb	marte-kernel-timers.ali
+W marte.timespec%s	marte-timespec.adb	marte-timespec.ali
+
+D ada.ads		20190518110050 76789da1 ada%s
+D a-tags.ads		20190518110050 2dde273c ada.tags%s
+D a-unccon.ads		20190518110050 0e9b276f ada.unchecked_conversion%s
+D gnat.ads		20190518110050 b5988c27 gnat%s
+D g-souinf.ads		20190518110050 291df751 gnat.source_info%s
+D interfac.ads		20190518110050 5ab55268 interfaces%s
+D i-c.ads		20190518110050 ef84921c interfaces.c%s
+D i-stm32.ads		20190518110049 4d2e1e9b interfaces.stm32%s
+D i-stm32-pwr.ads	20190518110049 10ed2a13 interfaces.stm32.pwr%s
+D marte.ads		20230328142408 99bc4a3f marte%s
+D marte-configuration_parameters.ads  20230328142416 381ea921 marte.configuration_parameters%s
+D marte-hal.ads		20230328142416 b82c62f8 marte.hal%s
+D marte-integer_types.ads  20230328142407 2e806981 marte.integer_types%s
+D marte-kernel.ads	20230328142408 dd02ee52 marte.kernel%s
+D marte-kernel-debug.ads  20230328142408 c0acd07a marte.kernel.debug%s
+D marte-kernel-scheduler.ads  20230328142407 464c231a marte.kernel.scheduler%s
+D marte-kernel-signals.ads  20230328142407 c9be4286 marte.kernel.signals%s
+D marte-kernel-signals-global.ads  20230328142407 cdf191c8 marte.kernel.signals.global%s
+D marte-kernel-tasks_operations.ads  20230328142406 99ad58ad marte.kernel.tasks_operations%s
+D marte-kernel-tasks_operations-internals.ads  20230328142407 26c13121 marte.kernel.tasks_operations.internals%s
+D marte-kernel-timers.ads  20230328142407 9ff93a49 marte.kernel.timers%s
+D marte-posix_constants.ads  20230328142408 8d4a4132 marte.posix_constants%s
+D marte-posix_time.ads	20230328142408 f2978f5a marte.posix_time%s
+D marte-posix_time.adb	20230328142408 797c9287 marte.posix_time%b
+D marte-sll.ads		20230328142436 f705b9d6 marte.sll%s
+D marte-sll-advanced.ads  20230328142436 2ff94b17 marte.sll.advanced%s
+D marte-sll-map.ads	20230328142436 71679a5f marte.sll.map%s
+D marte-sll-order.ads	20230328142436 45a1562e marte.sll.order%s
+D marte-sll-resources.ads  20230328142436 3fc24e72 marte.sll.resources%s
+D marte-stacks_management.ads  20230328142408 745cf584 marte.stacks_management%s
+D marte-timespec.ads	20230328142408 bf12e031 marte.timespec%s
+D system.ads		20190518110049 e69b74bd system%s
+D s-bb.ads		20190518110050 09e072ae system.bb%s
+D s-bbbopa.ads		20190518110049 95d97b26 system.bb.board_parameters%s
+D s-bbmcpa.ads		20190518110049 c4c55388 system.bb.mcu_parameters%s
+D s-bbpara.ads		20190518110049 431abc17 system.bb.parameters%s
+D s-stm32.ads		20190518110049 e898dba2 system.stm32%s
+D s-stoele.ads		20190518110050 2dc34a04 system.storage_elements%s
+D s-unstyp.ads		20190518110050 34867c83 system.unsigned_types%s
+G a e
+G c Z s b [to_duration marte__posix_time 75 13 none]
+G c Z s b [to_timeval marte__posix_time 78 13 none]
+G c Z s b [clock_settime marte__posix_time 100 13 none]
+G c Z s b [clock_gettime marte__posix_time 105 13 none]
+G c Z s b [clock_getres marte__posix_time 110 13 none]
+G c Z s b [timer_create marte__posix_time 120 13 none]
+G c Z s b [timer_settime marte__posix_time 128 13 none]
+G c Z s b [timer_gettime marte__posix_time 135 13 none]
+G c Z s b [time marte__posix_time 148 13 none]
+G c Z s b [gettimeofday marte__posix_time 166 13 none]
+G c Z s s [timevalIP marte__posix_time 64 9 none]
+G c Z s s [timezoneIP marte__posix_time 69 9 none]
+G c Z s s [itimerspecIP marte__posix_time 92 9 none]
+G c Z b b [minus_1_on_error marte__posix_time 71 13 none]
+G c Z b b [to_itimerspec marte__posix_time 169 13 none]
+G c Z b b [to_timer_state marte__posix_time 178 13 none]
+G r c none [clock_settime marte__posix_time 100 13 none] [timespec_to_hwtime marte__timespec 65 13 none]
+G r c none [clock_settime marte__posix_time 100 13 none] [set_time marte__kernel__timers 134 14 none]
+G r c none [clock_settime marte__posix_time 100 13 none] [self marte__kernel__scheduler 58 13 none]
+G r c none [clock_gettime marte__posix_time 105 13 none] [get_time marte__kernel__timers 140 13 none]
+G r c none [clock_gettime marte__posix_time 105 13 none] [hwtime_to_timespec marte__timespec 61 13 none]
+G r c none [clock_gettime marte__posix_time 105 13 none] [self marte__kernel__scheduler 58 13 none]
+G r c none [clock_getres marte__posix_time 110 13 none] [get_resolution marte__kernel__timers 171 13 none]
+G r c none [clock_getres marte__posix_time 110 13 none] [to_timespec marte__timespec 72 13 none]
+G r c none [clock_getres marte__posix_time 110 13 none] [self marte__kernel__scheduler 58 13 none]
+G r c none [timer_create marte__posix_time 120 13 none] [create_timer marte__kernel__timers 183 13 none]
+G r c none [timer_create marte__posix_time 120 13 none] [self marte__kernel__scheduler 58 13 none]
+G r c none [timer_settime marte__posix_time 128 13 none] [timespec_to_hwtime marte__timespec 65 13 none]
+G r c none [timer_settime marte__posix_time 128 13 none] [arm_timer marte__kernel__timers 203 14 none]
+G r c none [timer_settime marte__posix_time 128 13 none] [arm_timer marte__kernel__timers 195 14 none]
+G r c none [timer_settime marte__posix_time 128 13 none] [hwtime_to_timespec marte__timespec 61 13 none]
+G r c none [timer_settime marte__posix_time 128 13 none] [disarm_timer marte__kernel__timers 215 14 none]
+G r c none [timer_settime marte__posix_time 128 13 none] [self marte__kernel__scheduler 58 13 none]
+G r c none [timer_gettime marte__posix_time 135 13 none] [get_timer_state marte__kernel__timers 210 13 none]
+G r c none [timer_gettime marte__posix_time 135 13 none] [hwtime_to_timespec marte__timespec 61 13 none]
+G r c none [timer_gettime marte__posix_time 135 13 none] [self marte__kernel__scheduler 58 13 none]
+G r c none [time marte__posix_time 148 13 none] [get_hwtime_slow marte__hal 238 13 none]
+G r c none [time marte__posix_time 148 13 none] [realtime_clock_offset marte__kernel__timers 128 13 none]
+G r c none [time marte__posix_time 148 13 none] [hwtime_to_duration marte__hal 251 13 none]
+G r c none [gettimeofday marte__posix_time 166 13 none] [get_hwtime_slow marte__hal 238 13 none]
+G r c none [gettimeofday marte__posix_time 166 13 none] [realtime_clock_offset marte__kernel__timers 128 13 none]
+G r c none [gettimeofday marte__posix_time 166 13 none] [hwtime_to_duration marte__hal 251 13 none]
+G r c none [minus_1_on_error marte__posix_time 71 13 none] [self marte__kernel__scheduler 58 13 none]
+G r c none [to_itimerspec marte__posix_time 169 13 none] [hwtime_to_timespec marte__timespec 61 13 none]
+G r c none [to_timer_state marte__posix_time 178 13 none] [timespec_to_hwtime marte__timespec 65 13 none]
+X 6 interfac.ads
+77M9*Unsigned_64
+X 7 i-c.ads
+53I9*int<integer>
+55I9*long<long_integer>
+X 10 marte.ads
+43K9*MaRTE 45e10 23|48r6 49r6 50r6 51r6 52r6 53r6 55r6 57r9 59r22 65r17 66r17
+. 70r24 71r24 93r21 94r21 101r39 102r34 106r46 107r34 111r45 112r33 117r42
+. 123r33 126r53 132r34 137r34 141r37 147r26 149r25 168r34 180r5 24|48r6 48r24
+. 50r6 52r6 54r6 56r6 58r6 59r6 61r6 61r31 63r14 67r24 75r10 115r39 118r34
+. 126r46 129r17 137r45 140r17 256r5
+X 11 marte-configuration_parameters.ads
+52K15*Configuration_Parameters 409e35 24|59w12 67r30
+58E9*Supported_Architectures 60e59 24|225r19 246r19
+58n59*ARCH_LINUX_LIB{58E9} 24|228r36 249r36
+61E12*MaRTE_Architecture{58E9} 24|227r36 248r36
+X 12 marte-hal.ads
+57K15*HAL 352e14 23|53w12 54r30 24|225r44 231r17 231r41 236r17 236r41 246r44
+. 251r10 251r34
+137U14*Disable_Interrupts 138i<c,marte__hal__disable_interrupts>22
+141U14*Enable_Interrupts 142i<c,marte__hal__enable_interrupts>22
+236M9*HWTime<6|77M9> 24|225r48 246r48
+238V13*Get_HWTime_Slow{236M9} 24|231s45 236s45 251s38
+251V13*HWTime_To_Duration{duration} 24|231s21 236s21 251s14
+X 13 marte-integer_types.ads
+44K15*Integer_Types 201e24 23|48w12 65r23 66r23 70r30 71r30 102r40 107r40
+. 112r39 117r48 123r39 126r59 132r40 137r40 141r43 147r32 149r31 168r40 24|61w12
+. 61r37
+65M9*Unsigned_32
+73I12*Int{7|53I9} 23|65r37 66r37 102r54 107r54 112r53 117r62 123r53 126r73
+. 132r54 137r54 141r57 147r46 149r45 168r54 24|69r13 71r37 73r37 94r11 98r12
+. 108r47 116r35 127r35 138r34 149r62 193r60 215r60 224r44 231r12 236r12 245r56
+75I12*Long{7|55I9} 23|70r44 71r44
+X 14 marte-kernel.ads
+64K15*Kernel 767e17 23|49w12 50r12 51r12 52r12 59r28 24|48w12 48r30 49r29
+. 50r12 52r12 54r12 56r12 58r12 75r16
+105U14*Enter_Critic_Section 106i<c,kernel_enter_critic_section>22
+118U14*Leave_Critic_Section 119i<c,kernel_leave_critic_section>22
+184M9*Clock_Id<13|65M9>
+420R9*TCB
+639b7*POSIX_Error{boolean} 24|75r38
+693P12*Task_Id{25|55P9[668]} 23|115r50
+X 15 marte-kernel-debug.ads
+49K22*Debug 89e23 24|58w19 66r26
+80U14*Assert 24|227s25 248s25
+X 16 marte-kernel-scheduler.ads
+48K22*Scheduler 182e27 24|50w19 51r36 75r23
+58V13*Self{14|693P12} 59i<c,pthread_self>22 24|75s33
+144U14*Do_Scheduling 145i<c,do_scheduling>22
+156U14*Start_Interrupt 157i<c,scheduler__start_interrupt>22
+164U14*End_Interrupt 165i<c,scheduler__end_interrupt>22
+172U14*Before_ATC 173i<c,scheduler__before_atc>22
+X 17 marte-kernel-signals.ads
+50K22*Signals 197e25 23|52w19 119r52 24|155r47 156r47
+58I9*Signal<7|53I9>
+93i4*Signal_User_1{58I9} 24|156r55
+166I12*Sigval{13|73I12}
+167I9*Notification<short_short_integer>
+171i4*SIGNAL_NOTIFICATION{167I9} 24|155r55
+173R9*Signal_Event 177e14 23|119r60
+174i7*Event_Notification{167I9} 24|155m25
+175i7*Event_Signal{58I9} 24|156m25
+176i7*Event_Sigval{166I12} 24|157m25
+X 19 marte-kernel-tasks_operations.ads
+50K22*Tasks_Operations 314e34 23|50w19 24|52w19 53r36 54r19 65r26
+173V13*Pthread_Setschedparam{13|73I12} 176i<c,pthread_setschedparam>22
+181V13*Pthread_Setschedprio{13|73I12} 184i<c,pthread_setschedprio>22
+190V13*Pthread_Setdeadline{13|73I12} 195i<c,pthread_setdeadline>22
+206V13*Pthread_Getdeadline{13|73I12} 209i<c,pthread_getdeadline>22
+219V13*Pthread_Setpreemptionlevel{13|73I12} 222i<c,pthread_setpreemptionlevel>22
+232V13*Pthread_Getpreemptionlevel{13|73I12} 235i<c,pthread_getpreemptionlevel>22
+244V13*Pthread_Getschedparam{13|73I12} 248i<c,pthread_getschedparam>22
+254V13*Pthread_Create{13|73I12} 258i<c,pthread_create>22
+265V13*Pthread_Join{13|73I12} 267i<c,pthread_join>22
+273V13*Pthread_Detach{13|73I12} 274i<c,pthread_detach>22
+280U14*Pthread_Exit 281i<c,pthread_exit>22
+287V13*Sched_Yield{13|73I12} 289i<c,sched_yield>22
+299V13*MaRTE_Enable_RR_Quantum{13|73I12} 300i<c,marte_enable_rr_quantum>22
+308V13*MaRTE_Disable_RR_Quantum{13|73I12} 309i<c,marte_disable_rr_quantum>22
+X 20 marte-kernel-tasks_operations-internals.ads
+47K39*Internals 150e44 24|54w36 55r53
+X 21 marte-kernel-timers.ads
+52K22*Timers 230e24 23|51w19 84r27 85r27 88r8 90r8 118r16 127r16 129r40 142r16
+. 24|56w19 57r36 118r7 129r52 140r45 153r12 160r25 169r33 170r33 178r54 179r54
+. 181r14 191r38 194r19 197r10 200r13 204r13 217r35 232r43 237r43 252r36
+61M12*Clock_Id{14|184M9} 23|84r34
+63m4*CLOCK_REALTIME{61M12} 23|88r15
+67m4*CLOCK_THREAD_CPUTIME_ID{61M12} 23|90r15
+84R9*Timer_State 87e14 24|169r40 170r40 178r61 179r61 181r21 194r26
+85m7*Initial{12|236M9} 24|173r57 182m10
+86m7*Interval{12|236M9} 24|174r57 183m10
+115P9*Timer_Id(89R9) 23|85r34
+117M9*Timer_Options<13|65M9> 23|129r47 24|191r45
+128V13*Realtime_Clock_Offset{12|236M9} 24|232s50 237s50 252s43
+134U14*Set_Time 24|118s14
+140V13*Get_Time{12|236M9} 24|129s59
+151V13*Get_RealTime_Clock_Gnat{duration} 152i<c,timers__get_realtime_clock_gnat>22
+164V13*Get_Monotonic_Clock_Gnat{duration} 165i<c,timers__get_monotonic_clock_gnat>22
+171V13*Get_Resolution{duration} 24|140s52
+176V13*Pthread_Getcpuclockid{13|73I12} 178i<c,pthread_getcpuclockid>22 23|118r23
+183V13*Create_Timer{115P9} 24|153s19 160s32
+183m27 Clock{61M12} 24|154r15
+184r27 Event{17|173R9} 24|155r15
+185b27 Default_Event{boolean} 24|158r15
+189V13*Timer_Delete{13|73I12} 190i<c,timer_delete>22 23|127r23
+195U14*Arm_Timer 24|200s20
+203U14*Arm_Timer 24|204s20
+210V13*Get_Timer_State{84R9} 24|217s42
+215U14*Disarm_Timer 24|197s17
+220V13*Timer_Getoverrun{13|73I12} 221i<c,timer_getoverrun>22 23|142r23
+X 23 marte-posix_time.ads
+57K15*POSIX_Time 10|43k9 23|180l11 180e21 24|63b20 256l11 256t21
+59K12*K=59:28 84r25 85r25 88r6 90r6 115r48 118r14 119r50 127r14 129r38 142r14
+. 24|65r24 66r24 232r41 237r41 252r34
+64R9*Timeval 67e14 68r26 75r31 78r46 166r39 24|85r31 93r46 108r14 244r39
+65i7*Tv_Sec{13|73I12} 24|87r27 108m23
+66i7*Tv_Usec{13|73I12} 24|87r50 108m36
+69R9*Timezone 72e14 73r26 167r39 24|245r39
+70i7*Tz_Minuteswest{13|75I12}
+71i7*Tz_Dsttime{13|75I12}
+75V13*To_Duration{duration} 75>26 76r19 24|85b13 88l8 88t19
+75r26 TV{64R9} 24|85b26 87r24 87r47
+78V13*To_Timeval{64R9} 78>25 79r19 24|93b13 109l8 109t18 250s17
+78o25 D{duration} 24|93b25 98r17 99r12
+84M12*Clockid_T{21|61M12} 87r39 89r39 100r39 105r39 110r38 116r55 120r40
+. 24|114r39 125r39 136r38 147r39
+85P12*Timer_T{21|115P9} 122r47 126r37 128r38 135r38 140r41 24|149r46 190r38
+. 214r38
+87m4*CLOCK_REALTIME{84M12}
+89m4*CLOCK_THREAD_CPUTIME_ID{84M12}
+92R9*Itimerspec 95e14 96r26 97r37 98r48 24|169r60 170r60 172r14 178r35 179r35
+93r7*It_Interval{31|53R9} 24|174m10 183r55
+94r7*It_Value{31|53R9} 24|173m10 182r55 196r16 196r46
+97P9*Itimerspec_Ac(92R9) 131r38 136r38 24|193r38 215r38
+98P9*Itimerspec_Ac_Const(92R9) 130r38 24|192r38
+100V13*Clock_Settime{13|73I12} 100>28 101>28 103i<c,clock_settime>22 24|114b13
+. 120l8 120t21
+100m28 Clock_Id{84M12} 24|114b28 118r24
+101p28 Tp{31|59P9} 24|115b28 118r69
+105V13*Clock_Gettime{13|73I12} 105>28 106^28 108i<c,clock_gettime>22 24|125b13
+. 131l8 131t21
+105m28 Clock_Id{84M12} 24|125b28 129r69
+106p28 Tp(31|53R9) 24|126b28 129r7
+110V13*Clock_Getres{13|73I12} 110>27 111^27 113i<c,clock_getres>22 24|136b13
+. 142l8 142t20
+110m27 Clock_Id{84M12} 24|136b27 140r68
+111p27 Tp(31|53R9) 24|137b27 140r7
+115V13*Pthread_Getcpuclockid=118:23{13|73I12}
+115p36 Thread_Id{14|693P12}
+116p36 Clock_Id(21|61M12)
+119P9*Signal_Event_Ac_Const(17|173R9) 121r40 24|148r39
+120V13*Timer_Create{13|73I12} 120>27 121>27 122^27 124i<c,timer_create>22
+. 24|147b13 163l8 163t20
+120m27 Clock_Id{84M12} 24|147b27 154r24 160r46
+121p27 Evp{119P9} 24|148b27 151r10 160r56
+122p27 Timerid(85P12) 24|149b27 152r10 160r10
+126V13*Timer_Delete=127:23{13|73I12}
+126p27 Timerid{85P12}
+128V13*Timer_Settime{13|73I12} 128>28 129>28 130>28 131>28 133i<c,timer_settime>22
+. 24|190b13 209l8 209t21
+128p28 Timerid{85P12} 24|190b28 197r31 200r31 204r31
+129m28 Flags{21|117M9} 24|191b28 200r40 204r40
+130p28 Value{98P9} 24|192b28 196r10 196r40 201r47 205r47
+131p28 Ovalue{97P9} 24|193b28 199r13 202r13
+135V13*Timer_Gettime{13|73I12} 135>28 136>28 138i<c,timer_gettime>22 24|214b13
+. 219l8 219t21
+135p28 Timerid{85P12} 24|214b28 217r59
+136p28 Value{97P9} 24|215b28 217r7
+140V13*Timer_Getoverrun=142:23{13|73I12}
+140p31 Timerid{85P12}
+147P9*Int_Ac(13|73I12) 148r29 24|224r29
+148V13*Time{13|73I12} 148>19 156i<c,time>22 24|224b13 239l8 239t12
+148p19 Tloc{147P9} 24|224b19 229r10 230r10 233r17
+166V13*Gettimeofday{13|73I12} 166^27 167^27 174i<c,gettimeofday>22 24|244b13
+. 254l8 254t20
+166p27 Tv(64R9) 24|244b27 250r7
+167p27 Tz(69R9) 24|245b27
+X 24 marte-posix_time.adb
+65K12 TO=65:26
+66K12 DBG=66:26 227r21 248r21
+67K12 CP=67:30 225r16 227r33 228r33 246r16 248r33 249r33
+71V13 Minus_1_On_Error{13|73I12} 72r19 73b13 80l8 80t24 119s14 130s14 141s14
+. 162s14 208s14 218s14
+94i7 S{13|73I12} 98m7 99r26 104m10 104r15 108r33
+95o7 F{duration} 99m7 103r10 105m10 105r15 108r52
+169V13 To_Itimerspec{23|92R9} 169>28 170b13 175l8 175t21 176r19 202s27 217s20
+169r28 TS{21|84R9} 170b28 173r54 174r54
+178V13 To_Timer_State{21|84R9} 178>29 179b13 184l8 184t22 185r19 201s31 205s31
+178r29 ITS{23|92R9} 179b29 182r51 183r51
+194r7 Old_State{21|84R9} 201m59 202r42
+X 25 marte-sll.ads
+48R9 Basic
+53R9*Element<14|209R9>
+55P9*Element_Ac(53R9[14|668])
+X 31 marte-timespec.ads
+49K15*Timespec 23|55w12 93r27 94r27 101r45 106r52 111r51 24|115r45 118r40
+. 126r52 129r23 137r51 140r23 173r25 174r25 182r22 183r22 31|80e19
+53R9*Timespec 23|93r36 94r36 106r61 111r60 24|126r61 137r60 31|56e14
+54i7*Tv_Sec{13|73I12} 24|196r25
+55i7*Tv_Nsec{13|73I12} 24|196r55
+59P9*Timespec_Ac_Const(53R9) 23|101r54 24|115r54
+61V13*HWTime_To_Timespec{53R9} 24|129s32 173s34 174s34
+65V13*Timespec_To_HWTime{12|236M9} 24|118s49 182s31 183s31
+72V13*To_Timespec{53R9} 24|140s32
+

@@ -1,0 +1,12 @@
+project Default is
+
+   package Compiler is
+      for Default_Switches ("ada") use ("-g", "-O2");
+   end Compiler;
+
+   for Languages use ("Ada", "C");
+   for Source_Dirs use (".", "../../../../call_main", "../../../../arch_dependent_files/**", "../../../../../kernel/**", "../../ports/marte/netif/**", "../../src/**");
+   for Main use ("client.c");
+
+end Default;
+

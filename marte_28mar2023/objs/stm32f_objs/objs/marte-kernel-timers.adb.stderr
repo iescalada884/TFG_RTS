@@ -1,0 +1,3 @@
+marte-kernel-timers.ads:176:36: warning: "Pthread_Getcpuclockid.T" involves a tagged type which does not correspond to any C type
+marte-kernel-timers.ads:189:27: warning: "Timer_Delete.Timer" involves a tagged type which does not correspond to any C type
+marte-kernel-timers.ads:220:31: warning: "Timer_Getoverrun.Timer" involves a tagged type which does not correspond to any C type

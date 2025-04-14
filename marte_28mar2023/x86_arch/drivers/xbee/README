@@ -1,0 +1,38 @@
+                        Proyecto Fin de Carrera
+
+           == Librería ZigBee para sistemas operativos POSIX ==
+               (ZigBee Library for POSIX operating systems)
+
+Para acceder al Título de INGENIERO EN INFORMÁTICA
+
+Autor: Alvaro Solana Sánchez
+Director: Mario Aldea Rivas
+Julio - 2014
+
+
+Abstract
+
+ZigBee is becoming a very important protocol to create short range wireless networks
+with low data transmission rate and low power consumption, in order to interconnect
+devices (robots, controllers, actuators, sensors, etc), to perform a particular task.
+This final project develops a library written in c language that gives the user the
+operations that he needs to create and manage a pan network using the ZigBee protocol
+and ensure that this library can be used in any operating system that provides the POSIX
+interface, including real-time operating systems as MaRTE. To do that we have several
+devices, which consist of a module xbee series 2 and a board with rs-232 and USB
+connection.
+
+One goal of this project is to create a wireless network between several devices which can
+work in different operating systems. In our case, MaRTE OS does not have implemented
+the controller serial port usb so we will connect the devices with serial port rs-232
+to MaRTE operating system and the devices with serial port USB connection to Linux
+operating system.
+
+As demonstration that anyone can use our library for the creation and management of
+wireless networks using the ZigBee protocol, we have included in our project a
+demonstration of controlling the motions of a robot microbiro, which we will send packets
+with the instructions.
+
+
+Full document (in Spanish):
+http://hdl.handle.net/10902/5558

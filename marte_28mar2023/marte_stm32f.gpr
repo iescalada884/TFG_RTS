@@ -1,0 +1,27 @@
+with "global_switches.gpr";
+with "stm32f_shared_switches.gpr";
+
+--  Aggregate of the projects:
+--      - libmarte_stm32
+--      - stm32cube_fw_f7 (only if board=stm32f769disco)
+aggregate project MaRTE_STM32F is
+
+   for Runtime ("ada") use STM32F_Shared_Switches.Runtime;
+   for Target use STM32F_Shared_Switches.Target;
+   for Create_Missing_Dirs use "True";
+
+   All_Project_Files := ("libmarte_stm32f.gpr");
+
+   case Global_Switches.MTarget is
+      when "stm32f4" =>
+         All_Project_Files := All_Project_Files;
+      when "stm32f769disco" =>
+         All_Project_Files := All_Project_Files
+           & ("stm32f_arch/hwi/stm32cube_stm32f769disco/stm32cube_fw_f7.gpr");
+      when "ev3" =>
+         All_Project_Files := ("Unexpected EV3 MTarget");
+   end case;
+
+   for Project_Files use All_Project_Files;
+
+end MaRTE_STM32F;

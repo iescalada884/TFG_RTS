@@ -1,0 +1,36 @@
+
+                     MaRTE OS examples
+                     =================
+
+- hello_world_c.c: Very simple "hello world" C program. Used to test the
+  installation and the debugger.
+
+- hello_world.adb: Very simple "hello world" Ada program. Used to test the
+  installation and the debugger.
+
+- ada/: directory with some Ada language examples.
+
+- appsched/: Some examples of application-defined scheduling algorithms. Their
+  console output is very simple, to see as they work I recommend you to use
+  the 'task_inspector' tool.
+
+- hardware_interrupts/: Examples of use of the "Interrupts Management at
+  Application Level" API.
+
+- posix/: Some POSIX C basic functionality examples.
+
+- speaker/: example of a MaRTE OS application that uses the PC speaker to
+  play music (for x86 architecture)
+
+- tetris/: example of a MaRTE OS that ressembles the famous Tetris game
+
+- widgets/: an example that uses the svga and mouse driver to create
+  different widgets (buttons, lights, ..)
+
+- logger/: examples that use the logger utility included in the misc library
+
+- time_measurement/: examples that use the time_measurement library included
+  in the miscellanea utilities.
+
+- drivers/: some examples that uses the MaRTE OS driver (NOTE: in each
+  driver directory there might be more tests and examples)

@@ -1,0 +1,98 @@
+/*----------------------------------------------------------------------------
+ *-------------------------      M a R T E   O S      ------------------------
+ *----------------------------------------------------------------------------
+ *                                                             V2.0 2019-05-24
+ *
+ *                               's p r i n t f'
+ *
+ *                                      C
+ *
+ * File 'sprintf.c'                                                    by Mar.
+ *
+ * ----------------------------------------------------------------------
+ *  Copyright (C) 2000-2019, Universidad de Cantabria, SPAIN
+ *
+ *  MaRTE OS web page: http://marte.unican.es
+ *  Contact Addresses: Mario Aldea Rivas          aldeam@unican.es
+ *                     Michael Gonzalez Harbour      mgh@unican.es
+ *
+ * MaRTE OS  is free software; you can  redistribute it and/or  modify it
+ * under the terms of the GNU General Public License  as published by the
+ * Free Software Foundation;  either  version 2, or (at  your option) any
+ * later version.
+ *
+ * MaRTE OS  is distributed  in the  hope  that  it will be   useful, but
+ * WITHOUT  ANY  WARRANTY;     without  even the   implied   warranty  of
+ * MERCHANTABILITY  or  FITNESS FOR A  PARTICULAR PURPOSE.    See the GNU
+ * General Public License for more details.
+ *
+ * You should have received  a  copy of  the  GNU General Public  License
+ * distributed with MaRTE  OS;  see file COPYING.   If not,  write to the
+ * Free Software  Foundation,  59 Temple Place  -  Suite 330,  Boston, MA
+ * 02111-1307, USA.
+ *
+ * As a  special exception, if you  link this  unit  with other  files to
+ * produce an   executable,   this unit  does  not  by  itself cause  the
+ * resulting executable to be covered by the  GNU General Public License.
+ * This exception does  not however invalidate  any other reasons why the
+ * executable file might be covered by the GNU Public License.
+ *
+ *---------------------------------------------------------------------------*/
+
+
+#include <stdarg.h>
+#include "doprint.h"
+
+int vsprintf(char *s, const char *fmt, va_list args)
+{
+  doprint_destiny_t destiny;
+  
+  destiny.max = SPRINTF_UNLIMITED;
+  destiny.len = 0;
+  destiny.buf = s;
+  destiny.fd  = NO_FD;
+
+  _doprint(&destiny, fmt, args);
+  *(destiny.buf) = '\0';
+
+  return destiny.len;
+}
+
+int vsnprintf(char *s, int size, const char *fmt, va_list args)
+{
+  doprint_destiny_t destiny;
+  destiny.max = size-1;
+  destiny.len = 0;
+  destiny.buf = s;
+  destiny.fd  = NO_FD;
+
+  _doprint(&destiny, fmt, args);
+  *(destiny.buf) = '\0';
+
+  return destiny.len;
+}
+
+int sprintf(char *s, const char *fmt, ...)
+{
+  va_list	args;
+  int err;
+
+  va_start(args, fmt);
+  err = vsprintf(s, fmt, args);
+  va_end(args);
+
+  return err;
+}
+
+int snprintf(char *s, int size, const char *fmt, ...)
+{
+  va_list	args;
+  int err;
+
+  va_start(args, fmt);
+  err = vsnprintf(s, size, fmt, args);
+  va_end(args);
+
+  return err;
+}
+

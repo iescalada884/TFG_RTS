@@ -1,0 +1,152 @@
+
+                              MaRTE OS
+                             ----------
+
+        Minimal Real Time Operating System for Embedded Applications
+                       Version 2.0 - Feb 2017
+
+         Copyright (C) 2000-2017  Universidad de Cantabria, SPAIN
+
+         Authors: Mario Aldea Rivas         aldeam@unican.es
+                  Michael Gonzalez Harbour     mgh@unican.es
+
+
+              MaRTE for RPi specific installation notes
+             ===========================================
+
+This document provides specific installation notes for the
+installation of MaRTE OS for the Raspberry Pi. It is and amendment to
+the INSTALL document. If installing MaRTE for Raspberry Pi you should
+read both documents in parallel.
+
+Installation
+============
+
+0) Installing AdaCore ARM GNAT compiler
+
+   Proceed as explained in INSTALL (section "Installation.0") to
+   install the native AdaCore GNAT compiler.
+
+   Install the AdaCore GNAT compiler for ARM (labeled as "ARM ELF
+   format (hosted on Linux)") from https://libre.adacore.com/
+   (gnat-gpl-2016-arm-elf-linux-bin.tar.gz). (On Ubuntu this compiler
+   requires ia32-libs to work on a 64-bit system).
+
+   Add the binaries directory to your PATH environment variable.
+
+0.1) Installing in a 32-bits Linux host
+
+   You can install MaRTE for RPi in a 32-bits Linux. In such case the
+   native AdaCore compiler will not work since it is only for 64-bits
+   Linux (although you have to install it anyway). In consequence you
+   will need another native GNAT compiler. For example, in Debian
+   based Linux you can install the GNAT package, i.e:
+
+   $ sudo apt-get install gnat-4.8
+
+   Return to the INSTALL document section "Installation.1".
+
+1) Installing MaRTE OS
+
+   Proceed as explained in INSTALL (section "Installation.1").
+
+2) Check your installation with an example
+
+   Proceed as explained in INSTALL (section "Installation.2").
+
+   mg++ is not available for RPi yet.
+  
+3) Running the application
+
+   The a.out (and the a.out.img) we just built in the previous section
+   can be run in a Raspberry Pi 1 Model B computer or in an emulator
+   (QEMU).
+
+3.1) Running the application in QEMU
+
+   The emulator we have used is a QEMU modification for Raspberry Pi
+   that can be found in https://github.com/Torlus/qemu and in the
+   MaRTE OS web page (downloads section).
+
+   In order to run a MaRTE OS for RPi application in the
+   aforementioned modified QEMU use the following command:
+
+   $ qemu-system-arm -kernel a.out -cpu arm1176 -m 256 -M raspi -serial stdio
+
+3.2) Running the application in the Raspberry Pi
+
+   We use operating system installer NOOBS in our SD card.
+
+   To create a bootable SD card plug it in your host computer. Use the
+   following command to know its mounting point:
+
+   # df
+
+   (From this point on, lets assume the SD card is mounted in /dev/sdb1)
+
+   Unmount the device:
+
+   # umount /dev/sdb1
+
+   Format the SD card (FAT 32):
+
+   # mkdosfs -F 32 -v /dev/sdb1
+
+   (Be sure that your card only has one partition. To avoid problems
+   it is probably better to use gparted instead of these commands to
+   format your SD card)
+
+   Download the last NOOBS version and unzip it:
+
+   # wget http://downloads.raspberrypi.org/NOOBS latest
+   # unzip NOOBS_vx_y_z.zip -d noobs/
+
+   Copy NOOBS to the SD card (assuming it is mounted in /media/sd):
+
+   # cp -r noobs/* /media/sd/
+
+   At this point you have a SD card that will boot the
+   /media/sd/boot/kernel.img file. You should replace this file with
+   the a.out.img you make in section "Installation.2":
+
+   # cp a.out.img /media/sd/boot/kernel.img
+
+   Plug the SD card in the Raspberry Pi and connect the power USB
+   wire. Chose the Raspbian entry in the NOOBS menu in order to run
+   your application.
+
+   By default MaRTE uses the UART as console. You can use the HDMI
+   console as explained in the section "HDMI Console" in this
+   document.
+
+4) Debugging the application
+
+   If you are using the QEMU emulator as a target you can use its
+   built-in debugging capabilities:
+
+   $ qemu-system-arm -kernel a.out -cpu arm1176 -m 256 -M raspi -serial stdio -s -S
+
+   $ arm-eabi-gdb a.out
+   (gdb) target remote localhost:1234
+   (gdb) break main
+   (gdb) cont
+
+
+HDMI Console
+============
+
+By default MaRTE OS uses the serial port as console. If you prefer to
+use the HDMI console edit kernel/marte-direct_io.ads, comment out
+every reference to the "uart_simple_*" functions and uncomment
+references to "hdmi_console_*".
+
+Edit rpi_arch/hwi/hdmi_console.c and make sure the HDMI console is not
+disabled (Line "#define DISABLE_HDMI_CONSOLE 0" must be commented
+out).
+
+Recompile MaRTE kernel:
+
+   $ mkmarte
+
+Recompile your application (for example hello_world_c.c) and run it
+again (in the QEMU or in the Raspberry Pi).

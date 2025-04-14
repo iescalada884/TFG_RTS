@@ -1,0 +1,290 @@
+#!/usr/bin/perl -w
+
+# use: mkrtsmarteuc [gnat flags] [-keep_rts_dir]
+
+use strict;
+
+# get MaRTE utils directory 
+use File::Basename;
+use File::Spec;
+my $UTILS_PATH;
+BEGIN {
+    $UTILS_PATH= dirname(File::Spec->rel2abs( __FILE__ ));
+}
+
+# Require local_config.pl
+require "$UTILS_PATH/local_config.pl";
+use vars qw($MPATH %GNAT_BIN_PATH %GNAT_VERSION %GNAT_LIBS_PATH);
+
+# Require current_arch.pl
+require "$UTILS_PATH/current_arch.pl";
+use vars qw($CURRENT_ARCH);
+my $march = $CURRENT_ARCH;
+
+# Require globals.pl
+require "$UTILS_PATH/globals.pl";
+use vars qw(%INCLUDES %CODE_GEN_OPTS
+            &exec_command &get_cmd_output);
+
+# Make sure minstall has been executed
+$CURRENT_ARCH ne "none" or 
+    die "ERROR: MaRTE not properly installed (architecture is \"none\")\n" .
+    "   Run 'msetcurrentarch' (or 'minstall') before running this script\n";
+
+# --------------------------------------------------
+# Special tratement for STM32F architecture (Modificado por mi)
+if ($march eq "stm32f") {
+    print "Using ZFP RTS right now.\n";
+    print "Nothing to be done for STM32F architecture.\n\n";
+
+    exec_command "cd $MPATH/gnat_rts/rts-marteuc_stm32f/adainclude &&" .
+    "gprbuild -P libada --target=arm-eabi -j0";
+
+    exec_command "rm -f $MPATH/gnat_rts/rts-marteuc_$march &&" .
+    "ln -s $MPATH/gnat_rts/rts-marteuc_stm32f $MPATH/gnat_rts/rts-marteuc_$march";
+
+    exit;
+}
+
+# --------------------------------------------------
+# Special tratement for EV3 architecture
+if ($march eq "ev3") {
+    print "Bulding ZFP RTS...\n";
+    exec_command "cd $MPATH/gnat_rts/rts_zfp_ev3 && " .
+    "gprbuild -P runtime_build.gpr";
+    exec_command "rm -f $MPATH/gnat_rts/rts-marteuc_$march &&" .
+    "ln -s $MPATH/gnat_rts/rts_zfp_ev3 $MPATH/gnat_rts/rts-marteuc_$march";
+    print "  ZFP RTS done.\n\n";
+    exit;
+}
+
+# --------------------------------------------------
+# get options
+use Getopt::Long;
+Getopt::Long::Configure(qw (pass_through no_auto_abbrev no_ignore_case) );
+my $keep_rts_dir = 0;
+GetOptions("keep_rts_dir" => \$keep_rts_dir);
+
+# --------------------------------------------------
+# Shortcuts for widely used data
+my $RTS_MARTE_UC_PATH = "$MPATH/gnat_rts/rts-marteuc_${march}";
+my $GNAT_VER = $GNAT_VERSION{$march};
+my $GNAT_L_PATH = $GNAT_LIBS_PATH{$march};
+my $ORIG_RTS = "rts-native";
+if ($march eq "x86") {
+    $ORIG_RTS = "rts-sjlj";
+}
+my $ORIG_RTS_PATH = "$GNAT_L_PATH/$ORIG_RTS";
+if ($march eq "rpi") {
+    $ORIG_RTS_PATH = "$GNAT_LIBS_PATH{x86}/$ORIG_RTS";
+}
+my $GCC_VER = get_cmd_output("arm-eabi-gcc -dumpversion");
+my $GCC_TARGET = get_cmd_output("arm-eabi-gcc -dumpmachine");
+
+# --------------------------------------------------
+# Create RTS directories and links
+
+if ($march ne "gnat_arm_bb") {
+    print "\nmkrtsmarteuc: creating rts-marteuc_${march} directory...\n";
+
+    # create RTS directory if it doesn't exist
+    if (! (-e $RTS_MARTE_UC_PATH)) {
+	exec_command "mkdir $RTS_MARTE_UC_PATH";
+    }
+
+    # Make link in gnat directory
+    if ($march ne "rpi") {
+	exec_command "rm -f $GNAT_L_PATH/rts-marteuc_${march}";
+	exec_command "ln -s $RTS_MARTE_UC_PATH $GNAT_L_PATH/";
+    }
+}
+
+#----------------------------------------------------------------------------
+# Parameters managment
+my $cflags = "";
+if ($march ne "gnat_arm_bb") {
+    $cflags = "-O2 -DMaRTE " .  # -O2 is the default value in Makefile.adalib
+	"$CODE_GEN_OPTS{$CURRENT_ARCH} ";
+}
+if ($march eq "x86") {
+    $cflags .= "-D__USING_SJLJ_EXCEPTIONS__ "; # for SJLJ RTS
+}
+if ($march eq "x86" || $march eq "linux" || $march eq "xtratum") {
+    $cflags .= " -DNO_FD_SET ";
+}
+my $adaflags = "-gnatpgn ";  # -gnatpgn is the default value in Makefile.adalib
+if ($march eq "rpi") {
+#    $adaflags .= " --RTS=$MPATH/gnat_rts/rts-zfp ";
+    $cflags .= " -D__ARM_EABI_UNWINDER__ -Dinhibit_libc -DUSE_LIBUNWIND_EXCEPTIONS ";
+    $adaflags .= " --RTS=$RTS_MARTE_UC_PATH ";
+}
+my $arg = "";
+foreach $arg (@ARGV) {
+    if ($arg =~ /^-gnat/) { $adaflags .= " " . $arg;   next; }
+    $cflags .= " " . $arg;
+}
+
+#----------------------------------------------------------------------------
+# Architecture gnat_arm_bb is special
+if ($march eq "gnat_arm_bb") {
+    my $GNAT_PATH = "$GNAT_BIN_PATH{$march}/..";
+    
+    print "Setting files for marte_stm32f4 RTS in $GNAT_PATH...\n";
+    exec_command "cd $MPATH/gnat_rts/2018/ && " .
+	"./create_marte_rts_in_gnat.sh";
+
+    print "Clearing marte_stm32f4 RTS...\n";
+    exec_command "gprclean -P $GNAT_PATH/arm-eabi/BSPs/marte_stm32f4.gpr";
+
+    print "Building marte_stm32f4 RTS...\n";
+    exec_command "gprbuild -j0 $cflags -P $GNAT_PATH/arm-eabi/BSPs/marte_stm32f4.gpr";
+
+    print "Installing marte_stm32f4 RTS...\n";
+#    if (-e "$GNAT_PATH/share/gpr/manifests/marte_stm32f4") {
+#	exec_command "gprinstall --uninstall -P $GNAT_PATH/arm-eabi/BSPs/marte_stm32f4.gpr";
+#    }
+    exec_command "gprinstall -p -f -P $GNAT_PATH/arm-eabi/BSPs/marte_stm32f4.gpr";
+
+    epilog();
+
+    exit 0;
+} # $march eq "gnat_arm_bb"
+
+# ----------------------------------------------
+# --  backup copy for current adainclude and adalib links (to be restored at
+# --  the end of the script.
+#exec_command "rm -f $GNAT_PATH/adainclude.bak $GNAT_PATH/adalib.bak";
+#exec_command "cp -d $GNAT_PATH/adainclude $GNAT_PATH/adainclude.bak";
+#exec_command "cp -d $GNAT_PATH/adalib $GNAT_PATH/adalib.bak";
+
+# ----------------------------------------------
+# -- Create GNAT/MaRTE RTS directory
+if (!$keep_rts_dir) {
+    print "\nmkrtsmarteuc: Preparing RTS directory...\n";
+
+    # remove contents of existing RTS directory
+    exec_command "chmod -R u+rwx $RTS_MARTE_UC_PATH";
+    exec_command "rm -fr $RTS_MARTE_UC_PATH/../rts-marteuc_${march}/*";
+
+    # copy adainclude form ORIG_RTS directory
+    exec_command "cp -r $ORIG_RTS_PATH/adainclude  $RTS_MARTE_UC_PATH";
+
+    # create adalib/ directory
+    exec_command "mkdir $RTS_MARTE_UC_PATH/adalib";
+
+    # copy makefile (arch specific or common)
+    my $makefile_adalib = "$MPATH/gnat_rts/${GNAT_VER}_common/Makefile.adalib";
+    if (-e "$MPATH/gnat_rts/${GNAT_VER}_${march}/Makefile.adalib") {
+	$makefile_adalib =
+	    "$MPATH/gnat_rts/${GNAT_VER}_${march}/Makefile.adalib";
+    }
+    exec_command
+	"cp $makefile_adalib $RTS_MARTE_UC_PATH/adalib/Makefile.adalib";
+} # if (!$keep_rts_dir)
+
+# ----------------------------------------------
+# -- replace modified files from MaRTE distribution
+print "\nmkrtsmarteuc: Replacing modified files from MaRTE distribution...\n";
+exec_command "chmod u+w $RTS_MARTE_UC_PATH/adainclude/";
+exec_command "cp $MPATH/gnat_rts/${GNAT_VER}_common/*.* " .
+    "$RTS_MARTE_UC_PATH/adainclude/";
+exec_command "cp $MPATH/gnat_rts/${GNAT_VER}_${march}/*.* " .
+    "$RTS_MARTE_UC_PATH/adainclude/";
+#exec_command "chmod u-w $RTS_MARTE_UC_PATH/adainclude/";
+
+# ----------------------------------------------
+# -- make links to the new adainclude directory and to the ORIG_RTS/adalib
+if ($march ne "rpi") {
+    exec_command "cd $GNAT_L_PATH && rm adainclude adalib";
+    exec_command "cd $GNAT_L_PATH && ln -s $RTS_MARTE_UC_PATH/adainclude " .
+	"adainclude";
+    exec_command "cd $GNAT_L_PATH && ln -s $ORIG_RTS/adalib          adalib";
+}
+
+# ----------------------------------------------
+# -- give write permission for files in adalib (only if "reusing" the
+# -- adalib directory)
+if ($keep_rts_dir) {
+    exec_command "chmod u+w $RTS_MARTE_UC_PATH/adalib/*";
+}
+
+# ----------------------------------------------
+# -- Compile GNAT/MaRTE RTS
+
+# get gnat installation path ("/path/to/gnat")
+my $gnat_installation_path=$GNAT_BIN_PATH{$march};
+$gnat_installation_path=~ s/bin[\/]?$//; # remove ending "bin/" or "bin"
+
+# make new RTS using Makefile.adalib
+my $marte_includes = $INCLUDES{$march};
+if ($march eq "linux_lib") {
+    $marte_includes = "";
+}
+print "\nmkrtsmarteuc: Compiling new RTS...\n";
+exec_command "cd $RTS_MARTE_UC_PATH/adalib && " .
+    "make -f Makefile.adalib ROOT=$gnat_installation_path " .
+    "CFLAGS=\"$cflags\" ADAFLAGS=\"$adaflags\" " .
+    "MINCLUDES=\"$marte_includes\" " .
+    "MPATH=\"$MPATH\" X86_GNAT_LIBS_PATH=\"$GNAT_LIBS_PATH{x86}\" ";
+
+# ----------------------------------------------
+# -- remove write permission for files in adalib (only if "reusing" the
+# -- adalib directory)
+if ($keep_rts_dir) {
+    exec_command "chmod u-w $RTS_MARTE_UC_PATH/adalib/*";
+}
+
+# ----------------------------------------------
+# -- set links to the new adainclude and adalib directories
+#exec_command "rm -f $GNAT_PATH/adainclude $GNAT_PATH/adalib";
+#exec_command "cd $GNAT_PATH && ln -s $RTS_MARTE_UC_PATH/adainclude adainclude";
+#exec_command "cd $GNAT_PATH && ln -s $RTS_MARTE_UC_PATH/adalib adalib";
+
+# ----------------------------------------------
+# -- set link to libmarte.a
+exec_command "cd $RTS_MARTE_UC_PATH/adalib/ && " .
+    "ln -f -s ../../../lib/libmarte.a libmarte.a";
+# link to rename libmarte.a as libc.a (not in linux nor linux_lib)
+# (GNAT linking command includes -lc)
+if ($march ne "linux" && $march ne "linux_lib") {
+    exec_command "cd $RTS_MARTE_UC_PATH/adalib/ && " .
+       "ln -f -s libmarte.a libc.a";
+}
+# link to multiboot.o (only in x86)
+if ($march eq "x86") {
+    exec_command "cd $RTS_MARTE_UC_PATH/adalib/ && " .
+       "ln -f -s ../../../lib/multiboot.o multiboot.o";
+}
+
+# ----------------------------------------------
+# -- restore links to origninal adainclude and adalib directories
+#exec_command "rm -f $GNAT_PATH/adainclude $GNAT_PATH/adalib";
+#exec_command "mv $GNAT_PATH/adainclude.bak $GNAT_PATH/adainclude";
+#exec_command "mv $GNAT_PATH/adalib.bak $GNAT_PATH/adalib";
+
+# ----------------------------------------------
+# -- restore links to origninal adainclude and adalib directories
+if ($march ne "rpi") {
+    exec_command "cd $GNAT_L_PATH && rm adainclude adalib";
+    exec_command "cd $GNAT_L_PATH && ln -s rts-native/adainclude adainclude";
+    exec_command "cd $GNAT_L_PATH && ln -s rts-native/adalib         adalib";
+}
+
+epilog();
+
+exit 0;
+
+
+#---------------------------------------------------------------
+# local subfunctions declaration
+
+# Final messages
+sub epilog
+{
+    print "    mkrtsmarteuc: rts-marteuc_${march} done :)\n";
+
+    if (!is_arch_libmarte_compiled ($march)) {
+	printf "\n   Lib MaRTE for this architecture is not compiled yet\n";
+	printf "   Run 'mkmarte'\n";
+    }
+}

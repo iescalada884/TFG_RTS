@@ -1,0 +1,5 @@
+<command-line>:0:0: warning: "main" redefined
+<command-line>:0:0: note: this is the location of the previous definition
+/home/ubuntfg/Documents/marte_28mar2023/stm32f_arch/call_main/wrapper_main_c.c:69:13: warning: 'callConstructors' defined but not used [-Wunused-function]
+ static void callConstructors()
+             ^~~~~~~~~~~~~~~~

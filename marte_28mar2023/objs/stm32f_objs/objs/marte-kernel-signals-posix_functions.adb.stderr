@@ -1,0 +1,1 @@
+marte-kernel-signals-posix_functions.ads:99:27: warning: "Pthread_Kill.T" involves a tagged type which does not correspond to any C type

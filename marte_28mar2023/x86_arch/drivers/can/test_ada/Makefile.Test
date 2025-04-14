@@ -1,0 +1,6 @@
+clean:
+	rm *.ali *.o
+
+test_can:
+	mgnatmake -Imarte_src_dirs test_can_times_tx.adb
+	mgnatmake -Imarte_src_dirs test_can_times_rx.adb

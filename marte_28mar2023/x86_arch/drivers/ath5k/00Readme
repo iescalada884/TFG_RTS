@@ -1,0 +1,36 @@
+/*------------------------------------------------------------------------------
+ *-------------------------        ATH5K Driver          -----------------------
+ *------------------------------------------------------------------------------
+ *                                                           V1.0  08/02/2010
+ *
+ *
+ *  Feb 2010 - Samuel Cabrero <samuelcabrero@gmail.com>
+ *		Initial release
+ *
+ *  ----------------------------------------------------------------------------
+ *  Copyright (C) 2000-2010, Universidad de Zaragoza, SPAIN
+ *
+ *  Authors:
+ *		Samuel Cabrero        <samuelcabrero@gmail.com>
+ *		Danilo Tardioli	      <dantard@unizar.es>
+ *		Jose Luis Villarroel  <jlvilla@unizar.es>
+ *
+ *  This is a simplified version of the original ath5k driver. It should work 
+ *  with all Atheros 5xxx WLAN cards. The 802.11 layer have been removed so it
+ *  just send and receive frames over the air, as if it were an Ethernet bus
+ *  interface.
+ *
+ *  Please read ath5k_interface.h for instructions.
+ *
+ *  This program is distributed under the terms of GPL version 2 and in the 
+ *  hope that it will be useful, but WITHOUT ANY WARRANTY; without even the 
+ *  implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *  See the GNU General Public License for more details.
+ *
+ *----------------------------------------------------------------------------*/
+ 
+ Use examples in the 'examples/' directory.
+ 
+ Based on the ath5k driver:
+ "ath5k is a completely FOSS wireless driver for Atheros WLAN based chipsets"
+ http://linuxwireless.org/en/users/Drivers/ath5k 

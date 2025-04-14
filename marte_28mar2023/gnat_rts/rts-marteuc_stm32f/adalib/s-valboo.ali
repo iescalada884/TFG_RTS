@@ -1,0 +1,52 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.val_bool%b	s-valboo.adb		faa45768 NE OL PK
+W system%s		system.ads		system.ali
+W system.val_util%s	s-valuti.adb		s-valuti.ali
+
+U system.val_bool%s	s-valboo.ads		1c7e5b29 NE OL PR PK
+W system%s		system.ads		system.ali
+
+D system.ads		20250318185043 14286b0f system%s
+D s-casuti.ads		20250318185043 cf13d755 system.case_util%s
+D s-valboo.ads		20250318185043 b8aae055 system.val_bool%s
+D s-valboo.adb		20250318185043 91981400 system.val_bool%b
+D s-valspe.ads		20250318185043 b0fcd073 system.val_spec%s
+D s-valuti.ads		20250318185044 d396a33d system.val_util%s
+G a e
+G c Z s b [value_boolean system__val_bool 50 13 none]
+X 1 system.ads
+37K9*System 155e11 3|43r6 45r9 52r14 53r16 56r16 60r5 4|40r6 40r27 42r14
+. 58r26 72r5
+X 3 s-valboo.ads
+45K16*Val_Bool 1|37k9 3|60l12 60e20 4|42b21 72l12 72t20
+50V13*Value_Boolean{boolean} 50>28 55r8 4|50b13 70l8 70t21
+50a28 Str{string} 52r54 53r56 56r11 57r14 57r19 57r30 4|50b28 53r19 53r33
+. 59r26 59r37 68r21
+X 4 s-valboo.adb
+51i7 F{integer} 56m28 58r22 61r13 64r16
+52i7 L{integer} 56m31 61r18 64r21
+53a7 S{string} 56m25 56r25 59r23 61r10 64r13
+X 6 s-valuti.ads
+48K16*Val_Util 4|40w13 40r34 6|240e20
+55U14*Bad_Value 4|68s10
+62U14*Normalize_String 4|56s7
+

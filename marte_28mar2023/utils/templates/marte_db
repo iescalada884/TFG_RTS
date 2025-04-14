@@ -1,0 +1,3 @@
+file root_instalation_path/mprogram
+source root_instalation_path/utils/gdb_commands
+connect

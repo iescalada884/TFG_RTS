@@ -1,0 +1,250 @@
+#!/usr/bin/perl -w
+#
+# MaRTE OS - Set default architecture (creates 'current_arch.pl')
+use strict;
+
+# get MaRTE utils directory 
+use File::Basename;
+use File::Spec;
+my $UTILS_PATH;
+BEGIN {
+    $UTILS_PATH= dirname(File::Spec->rel2abs( __FILE__ ));
+}
+
+# Require local_config.pl
+require "$UTILS_PATH/local_config.pl";
+use vars qw($MPATH %GNAT_BIN_PATH %GNAT_LIBS_PATH %GNAT_VERSION @AVAILABLE_ARCHS);
+
+# Require current_arch.pl
+require "$UTILS_PATH/current_arch.pl";
+use vars qw($CURRENT_ARCH $CURRENT_PROC);
+
+# Require globals.pl
+require "$UTILS_PATH/globals.pl";
+use vars qw(@SUPPORTED_ARCHS %LIBS_PATH %LIBS_GCC %GNAT_LIBS_DIRS &exec_command &exec_command_no_echo &is_arch_available);
+
+# Called with no options: reports current architecture and exit
+if ($#ARGV == -1) {
+    print "  Current architecture:$CURRENT_ARCH";
+    if ($CURRENT_ARCH eq "x86") {
+	print "  (Current processor:$CURRENT_PROC)";
+    }
+    if ($CURRENT_ARCH eq "stm32f") {
+	print "  (Current board:stm32$CURRENT_PROC)";
+    }
+    print "\n\n";
+
+    show_archs_install_status();
+    print "\n";
+    exit 0;
+}
+
+# get options
+my $march=$ARGV[0]; # first is the architecture
+my $mproc="none";
+if ($march eq "x86" && $#ARGV > 0) {
+    # in "x86" second option is the processor
+    $mproc=$ARGV[1];
+}
+if ($march eq "stm32f" && $#ARGV > 0) {
+    # in "stm32" second option is the board
+    $mproc=$ARGV[1];
+}
+
+# check options
+is_arch_available($march) or
+    die "Architecture '$march' not available\n" .
+    "  Use 'msetcurrentarch [@AVAILABLE_ARCHS]'\n";
+$march ne "x86" || $mproc eq "i386" ||$mproc eq "pi" || $mproc eq "pii" or
+    die "Wrong processor:\"$mproc\" (should be \"i386\", \"pi\" or \"pii\")\n" .
+    "   Use 'msetcurrentarch x86 [i386,pi,pii]'\n";
+$march ne "stm32f" || $mproc eq "f4" || $mproc eq "f7" or
+    die "Wrong board:\"$mproc\" (should be \"f4\" or \"f7\")\n" .
+    "   Use 'msetcurrentarch stm32f [f4,f7]'\n";
+
+print " msetcurrentarch: setting $march as the default architecture...\n";
+
+# ------------
+# Create 'current_arch.pl'
+write_current_arch_file($march, $mproc);
+
+# ------------
+# Write 'Makefile_marte.cfg'
+write_makefile_marte_cfg($march, $mproc, $MPATH);
+
+#-----------------------------------------------------------------------------
+# create marte-x86_processor_type.ads (only for x86 arch)
+if ($march eq "x86") {
+    $mproc eq "i386" ||$mproc eq "pi" || $mproc eq "pii" or
+	die "Invalid processor type:$mproc\n";
+
+    # make link to the appropriate processor file
+    exec_command "ln -s -f " .
+	"$MPATH/x86_arch/hwi/marte-x86_processor_type_${mproc}.ads " .
+	"$MPATH/x86_arch/hwi/marte-x86_processor_type.ads";
+}
+
+#-----------------------------------------------------------------------------
+# Unzip libgcc and libbcov (only for rpi arch)
+if ($march eq "rpi") {
+    exec_command " cd $MPATH/rpi_arch && " .
+	"unzip -qq -o libs_gcc_rpi.zip";
+}
+
+#-----------------------------------------------------------------------------
+# Unzip code taken from ninjastorms (only for ev3 arch)
+if ($march eq "ev3") {
+    exec_command " cd $MPATH/ev3_arch && " .
+	"unzip -qq -o ninjastorms.zip";
+}
+
+# ------------------------------
+#  Set correct reports-init.adb (used for Ada tests)
+if ($march eq "x86") {
+    exec_command "cd $MPATH/tests/ada/reports && " .
+	"cp reports-init.adb.x86 reports-init.adb";
+} else {
+    exec_command "cd $MPATH/tests/ada/reports && " .
+	"cp reports-init.adb.linux reports-init.adb";
+}
+
+# ------------
+# set links to the adainclude and adalib directories
+#my $RTS_MARTE_UC_PATH="$GNAT_PATH/rts-marteuc_${march}";
+#if (-e "$RTS_MARTE_UC_PATH/adainclude" && -e "$RTS_MARTE_UC_PATH/adalib") {
+#    exec_command "rm -f $GNAT_PATH/adainclude $GNAT_PATH/adalib";
+#    exec_command "cd $GNAT_PATH && " . 
+#	"ln -s $RTS_MARTE_UC_PATH/adainclude adainclude";
+#    exec_command "cd $GNAT_PATH && ln -s $RTS_MARTE_UC_PATH/adalib adalib";
+#}
+# if $RTS_MARTE_UC_PATH/adainclude and $RTS_MARTE_UC_PATH/adalib don't
+# exist it means it is the first time we are calling this script from
+# a source distribution and the RTS hasn't been created yet. Next step
+# will be to create libmarte using mkmarte and then run mkrtsmarteuc
+
+# ------------
+# create link to the 'arch/'directory
+exec_command "rm -f $MPATH/arch"; # if link already exists remove it
+exec_command "ln -s $MPATH/${march}_arch $MPATH/arch"; # create link
+
+# ------------
+# create links to the files in 'arch/arch_dependent_files/sys_marte/'
+exec_command "ln -s -f $MPATH/arch/arch_dependent_files/sys_marte/marte_*.h $MPATH/arch/include/sys/";
+
+# ------------
+# Create links to the architecture dependent files
+
+# architecture specific files (in arch_dependent_files)
+#        file name                        destination path
+my %files=("marte-configuration_parameters.ads",  "$MPATH/kernel/",
+	   "marte-direct_io.ads",           "$MPATH/kernel/",
+	   "marte-kernel-devices_table.ads",      "$MPATH/kernel/",
+	   "marte-kernel-file_system.ads",        "$MPATH/kernel/",
+	   "console_management.adb",        "$MPATH/misc/",
+	   "console_management.ads",        "$MPATH/misc/",
+	   "console_management_c.c",        "$MPATH/misc/",
+	   "libm.a",                        "$MPATH/objs/${march}_objs/");
+my $file="";
+foreach $file (keys %files) {
+    # If the original file exists creates the link in the destination path
+    if (-e "$MPATH/arch/arch_dependent_files/$file") {
+	exec_command "ln -s -f $MPATH/arch/arch_dependent_files/$file " .
+	    " $files{$file}";
+    } else {
+	# if the original file doesn't exist remove the possible existing
+	# link in the destination path
+	exec_command "rm -f $files{$file}/$file";
+    }
+}
+
+# ------------
+# create link to the current lib and rts directories
+exec_command "rm -f $MPATH/lib && ln -s $MPATH/objs/${march}_objs $MPATH/lib";
+exec_command "cd $MPATH/gnat_rts/ && rm -f rts && " .
+    "ln -s rts-marteuc_$march rts";
+
+print "  msetcurrentarch:$march set as the default architecture...OK\n";
+
+# Check if $march is compiled
+if (!is_arch_rts_compiled ($march)) {
+    printf "\n   GNAT/MaRTE RTS for this architecture is not compiled yet.\n";
+    printf "   To compile it execute command: ";
+    printf "'mkrtsmarteuc && mkmarte'\n";
+
+} elsif (!is_arch_libmarte_compiled ($march)) {
+    printf "\n   Lib MaRTE for this architecture is not compiled yet.\n";
+    printf "   To compile it execute command: ";
+    printf "'mkmarte'\n";
+}
+exit 0;
+
+
+# Subfunction "show_archs_install_status"
+sub show_archs_install_status
+{
+    my $arch;
+    printf "  Available architectures status:\n";
+    for $arch (@SUPPORTED_ARCHS) {
+	# if not available just tell it
+	if (!is_arch_available($arch)) {
+	    printf "    $arch:\tNOT available\n";
+	    next;
+	}
+
+	# if available print compilation status
+	my $rts = "gnat_rts/rts-marteuc_$arch";
+        if ($arch eq "stm32f" || $arch eq "ev3") {
+            $rts = "ZFP";
+        }
+	printf "    $arch:\tRTS ($rts): ";
+
+	if (is_arch_rts_compiled ($arch)) {
+	    printf "Compiled";
+	} else {
+	    printf "NOT Compiled";
+	}
+
+	my $objs = "objs/${arch}_objs";
+        if ($arch eq "stm32f" || $arch eq "ev3") {
+            $objs .= "/libmarte";
+        }
+	printf "\n    \t\tLib MaRTE ($objs):      ";
+
+	if (is_arch_libmarte_compiled ($arch)) {
+	    printf "Compiled";
+	} else {
+	    printf "NOT Compiled";
+	}
+	printf "\n";	   
+    }
+}
+
+# Write 'Makefile_marte.cfg' file
+#
+# Params
+#    arch
+#    proc
+#    MPATH
+sub write_makefile_marte_cfg
+{
+    my $arch = shift;
+    my $proc = shift;
+    my $mpath = shift;
+
+    my $file_name="$MPATH/utils/Makefile_marte.cfg";
+
+    if (-e "$file_name") {
+       exec_command_no_echo "rm -f $file_name";
+    }
+    open ARCH_F, ">$file_name" or die "Couldn't open $file_name";
+
+    print ARCH_F "#  automatically generated by msetcurrentarch\n";
+    print ARCH_F "CURRENT_ARCH=$arch\n";
+    print ARCH_F "CURRENT_PROC=$proc\n";
+    print ARCH_F "MPATH=$mpath\n";
+    print ARCH_F "M_LD_LIBSPATH=$LIBS_PATH{$arch} " .
+	"$GNAT_LIBS_DIRS{$GNAT_VERSION{$arch}}\n";
+    print ARCH_F "M_LD_GCC_LIBS=$LIBS_GCC{$arch}\n";
+
+    close ARCH_F;
+}

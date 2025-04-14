@@ -1,0 +1,39 @@
+#!/usr/bin/perl -w
+
+require "root_instalation_path/utils/globals.pl";
+
+# Constants in 'globals.pl'
+$JRATE_PATH = $JRATE_PATH;
+
+# Execute command
+sub exec_command
+{
+    my $cmd = shift(@_);
+    printf "$cmd\n";
+    system ($cmd) == 0 or die "Can't execute $cmd\n";
+}
+
+# Execute jvgenmain
+exec_command 
+    "$JRATE_PATH/jRate-gcc/lib/gcc-lib/i686-pc-linux-gnu/3.3.1/jvgenmain ".
+    "@ARGV";
+
+$main_i = $ARGV[0] . ".i";
+
+exec_command "mv $main_i $main_i.orig";
+
+print "Rename symbol 'main' to 'user_main' in $main_i\n";
+open ORIG_FILE, "<$main_i.orig" or die "Can't open $main_i.orig\n";
+open DEST_FILE, ">$main_i"      or die "Can't open $main_i\n";
+@lines = <ORIG_FILE>;
+foreach $line (@lines) {
+    if ($line =~ /main/) {
+	$line =~ s/main/user_main/;
+    }
+    print DEST_FILE "$line";
+}
+close ORIG_FILE;
+close DEST_FILE;
+
+exec_command "gcc -c $main_i";
+

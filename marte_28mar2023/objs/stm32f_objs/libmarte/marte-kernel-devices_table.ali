@@ -1,0 +1,119 @@
+V "GNAT Lib v2019"
+A -gnatA
+A --RTS=/home/ubuntfg/opt/GNAT/2019-arm-elf/arm-eabi/lib/gnat/zfp-stm32f4/
+A -mlittle-endian
+A -mfloat-abi=hard
+A -mcpu=cortex-m4
+A -mfpu=fpv4-sp-d16
+A -mthumb
+A -ffunction-sections
+A -fdata-sections
+A -gnateDDEF_MARTE_ARCH=STM32F
+A -gnateDMARTE_BOARD=stm32f4
+P SL ZX
+
+RN
+RV NO_UNCHECKED_CONVERSION
+RV NO_IMPLEMENTATION_PRAGMAS
+RV NO_IMPLICIT_LOOPS
+RV NO_ELABORATION_CODE
+RV SPARK_05
+
+U marte.kernel.devices_table%b  marte-kernel-devices_table.adb  b38668c2 NE OO PK
+W marte%s		marte.ads		marte.ali
+W marte.configuration_parameters%s  marte-configuration_parameters.ads  marte-configuration_parameters.ali
+W marte.direct_io%s	marte-direct_io.adb	marte-direct_io.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+
+U marte.kernel.devices_table%s  marte-kernel-devices_table.ads  e5c9ffa2 EE OO PK IU
+Z ada.tags%s		a-tags.adb		a-tags.ali
+W marte%s		marte.ads		marte.ali
+W marte.configuration_parameters%s  marte-configuration_parameters.ads  marte-configuration_parameters.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+W marte.kernel.file_system_data_types%s  marte-kernel-file_system_data_types.ads  marte-kernel-file_system_data_types.ali
+
+D ada.ads		20190518110050 76789da1 ada%s
+D a-tags.ads		20190518110050 2dde273c ada.tags%s
+D a-unccon.ads		20190518110050 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20190518110050 5ab55268 interfaces%s
+D i-c.ads		20190518110050 ef84921c interfaces.c%s
+D i-stm32.ads		20190518110049 4d2e1e9b interfaces.stm32%s
+D i-stm32-pwr.ads	20190518110049 10ed2a13 interfaces.stm32.pwr%s
+D marte.ads		20230328142408 99bc4a3f marte%s
+D marte-configuration_parameters.ads  20230328142416 381ea921 marte.configuration_parameters%s
+D marte-direct_io.ads	20230328142416 cc1262e4 marte.direct_io%s
+D marte-hal.ads		20230328142416 b82c62f8 marte.hal%s
+D marte-integer_types.ads  20230328142407 2e806981 marte.integer_types%s
+D marte-kernel.ads	20230328142408 dd02ee52 marte.kernel%s
+D marte-kernel-devices_table.ads  20230328142416 aabae281 marte.kernel.devices_table%s
+D marte-kernel-devices_table.adb  20230328142408 ed304186 marte.kernel.devices_table%b
+D marte-kernel-file_system_data_types.ads  20230328142408 aa6f5a50 marte.kernel.file_system_data_types%s
+D marte-posix_constants.ads  20230328142408 8d4a4132 marte.posix_constants%s
+D marte-sll.ads		20230328142436 f705b9d6 marte.sll%s
+D marte-sll-advanced.ads  20230328142436 2ff94b17 marte.sll.advanced%s
+D marte-sll-map.ads	20230328142436 71679a5f marte.sll.map%s
+D marte-sll-order.ads	20230328142436 45a1562e marte.sll.order%s
+D marte-sll-resources.ads  20230328142436 3fc24e72 marte.sll.resources%s
+D marte-stacks_management.ads  20230328142408 745cf584 marte.stacks_management%s
+D system.ads		20190518110049 e69b74bd system%s
+D s-bb.ads		20190518110050 09e072ae system.bb%s
+D s-bbbopa.ads		20190518110049 95d97b26 system.bb.board_parameters%s
+D s-bbmcpa.ads		20190518110049 c4c55388 system.bb.mcu_parameters%s
+D s-bbpara.ads		20190518110049 431abc17 system.bb.parameters%s
+D s-stm32.ads		20190518110049 e898dba2 system.stm32%s
+D s-stoele.ads		20190518110050 2dc34a04 system.storage_elements%s
+D s-unstyp.ads		20190518110050 34867c83 system.unsigned_types%s
+G a e
+G c Z s b [initialize_devices marte__kernel__devices_table 176 14 none]
+X 5 i-c.ads
+53I9*int<integer>
+X 8 marte.ads
+43K9*MaRTE 45e10 14|54r6 55r5 56r6 58r9 60r22 61r23 178r5 15|50r6 51r6 51r27
+. 53r14 61r10 84r5
+X 9 marte-configuration_parameters.ads
+52K15*Configuration_Parameters 409e35 14|56w12 61r29 15|50w12 61r16
+357b4*Use_Devices_Filesystem{boolean} 15|61r41
+367N4*Devices_Mx 14|170r41
+X 10 marte-direct_io.ads
+82K15*Direct_IO 325e20 15|51w12 51r33
+105U14*Put 15|65s42
+119U14*Put 15|62s10 65s16 67s34 68s34 69s34 70s34 72s16 74s19 76s19
+121U14*New_Line 15|62s45 78s16
+130U14*Basic_Stdout_Initialization 131i<c,basic_stdout_initialization>22
+142U14*Basic_Stderr_Initialization 143i<c,basic_stderr_initialization>22
+153U14*Direct_Write_On_Stdout 156i<c,direct_write_on_stdout>22
+161U14*Direct_Write_On_Stderr 164i<c,direct_write_on_stderr>22
+169V13*Direct_Read_From_Stdin{12|59M9} 170i<c,direct_read_from_stdin>22
+X 11 marte-hal.ads
+137U14*Disable_Interrupts 138i<c,marte__hal__disable_interrupts>22
+141U14*Enable_Interrupts 142i<c,marte__hal__enable_interrupts>22
+X 12 marte-integer_types.ads
+59M9*Unsigned_8
+73I12*Int{5|53I9} 15|59r16
+X 13 marte-kernel.ads
+64K15*Kernel 8|43k9 13|767e17 14|54r12 55r11 58r15 60r28 178r11 15|53r20
+. 84r11
+105U14*Enter_Critic_Section 106i<c,kernel_enter_critic_section>22
+118U14*Leave_Critic_Section 119i<c,kernel_leave_critic_section>22
+X 14 marte-kernel-devices_table.ads
+58K22*Devices_Table 13|64k15 14|178l18 178e31 15|53b27 84l18 84t31
+60K12*K=60:28 90r24 163r6
+61K12*CP=61:29 170r38
+90a4*The_Driver_Table{16|184A9} 15|64r16 72r21 73r19
+162a4*The_Device_Files_Table{16|182A9}
+176U14*Initialize_Devices 15|58b14 82l8 82t26
+X 15 marte-kernel-devices_table.adb
+63i14 I{16|75I9} 64r34 65r56 66r21 72r39 73r37
+X 16 marte-kernel-file_system_data_types.ads
+50K22*File_System_Data_Types 14|54w19 55r18 90r26 163r8 16|187e40
+75I9*Major<5|53I9> 15|63r19
+103n33*Device{103E9} 14|170r63
+118P9*Create_Function_Ac(5|53I9)
+166a7*Name{string} 15|72r42
+167p7*Create{118P9} 15|64r37 73r40
+182A9*Device_Files_Table_Type(105R9)<83I9> 14|163r31
+184A9*Driver_Table_Type(165R9)<75I9> 14|90r49
+X 18 marte-sll.ads
+48R9 Basic
+53R9*Element<13|209R9>
+

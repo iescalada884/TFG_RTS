@@ -1,0 +1,98 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P SS ZX
+
+RN
+RV NO_DISPATCH
+RV NO_DISPATCHING_CALLS
+RV NO_LOCAL_ALLOCATORS
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.put_task_images%b  s-putaim.adb	da9151b7 NE OL PK
+W system%s		system.ads		system.ali
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+
+U system.put_task_images%s  s-putaim.ads	2f8f51f6 NE OL PK
+W ada%s			ada.ads			ada.ali
+W ada.strings%s		a-string.ads		a-string.ali
+W ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
+W ada.task_identification%s  a-taside.adb	a-taside.ali
+W system%s		system.ads		system.ali
+
+D ada.ads		20250318185043 76789da1 ada%s
+D a-except.ads		20250318185043 e7970cd9 ada.exceptions%s
+D a-string.ads		20250318185043 90ac6797 ada.strings%s
+D a-sttebu.ads		20250318185043 f1ad67a2 ada.strings.text_buffers%s
+D a-stuten.ads		20250318185043 c6ced0ae ada.strings.utf_encoding%s
+D a-tags.ads		20250318185043 9eaa38c6 ada.tags%s
+D a-taside.ads		20250318185043 c0a7c8d8 ada.task_identification%s
+D a-unccon.ads		20250318185043 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20250318185043 9111f9c1 interfaces%s
+D i-c.ads		20250318185044 aac316ce interfaces.c%s
+D system.ads		20250318185043 14286b0f system%s
+D s-atacco.ads		20250318185043 5868e3ba system.address_to_access_conversions%s
+D s-exctab.ads		20250318185043 91bef6ef system.exception_table%s
+D s-linux.ads		20250318185044 34850a8c system.linux%s
+D s-multip.ads		20250318185043 38ac9f73 system.multiprocessors%s
+D s-oscons.ads		20250318185043 0a1d1474 system.os_constants%s
+D s-osinte.ads		20250318185043 e4f53740 system.os_interface%s
+D s-parame.ads		20250318185044 3597fc11 system.parameters%s
+D s-putaim.ads		20250318185043 0aad9583 system.put_task_images%s
+D s-putaim.adb		20250318185044 d03cc434 system.put_task_images%b
+D s-secsta.ads		20250318185043 578279f5 system.secondary_stack%s
+D s-soflin.ads		20250318185043 df77073e system.soft_links%s
+D s-stache.ads		20250318185043 0b81c1fe system.stack_checking%s
+D s-stausa.ads		20250318185044 5be75682 system.stack_usage%s
+D s-stalib.ads		20250318185044 1c9580f6 system.standard_library%s
+D s-stoele.ads		20250318185043 ccded4e8 system.storage_elements%s
+D s-tasinf.ads		20250318185044 528dde74 system.task_info%s
+D s-taspri.ads		20250318185044 4ec891e7 system.task_primitives%s
+D s-taskin.ads		20250318185043 ebc4edbe system.tasking%s
+D s-traent.ads		20250318185043 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		20250318185043 fa2a7f59 system.unsigned_types%s
+G a e
+G c Z s b [put_image_protected system__put_task_images 44 14 none]
+G c Z s b [put_image_task system__put_task_images 45 14 none]
+X 1 ada.ads
+16K9*Ada 20e8 19|32r6 33r6 42r20 46r35 20|34r8 42r35 45r32
+X 3 a-string.ads
+16K13*Strings 35e16 19|32r10 42r24 20|34r12
+X 4 a-sttebu.ads
+17K21*Text_Buffers 152e29 19|32w18 42r32 20|34r20
+26H9*Root_Buffer_Type 104e14 19|42r45
+37x14*Put_UTF_8 20|38R7 45R7
+X 7 a-taside.ads
+45K13*Task_Identification 106e28 19|33w10 46r39 20|42r39 45r36
+53P9*Task_Id<29|109P9> 19|46r59 20|42r59
+62V13*Image{string} 20|45s56
+X 11 system.ads
+37K9*System 155e11 19|35r9 48r5 20|32r14 48r5
+X 19 s-putaim.ads
+35K16*Put_Task_Images 11|37k9 19|48l12 48e27 20|32b21 48l12 48t27
+42H12*Sink{4|26R9} 44r46 46r18 20|36r46 42r18
+44U14*Put_Image_Protected 44=35 20|36b14 39l8 39t27
+44c35 S<4|26R9> 20|36b35 38m18
+45U14*Put_Image_Task 46=7 46>30 20|41b14 46l8 46t22
+46c7 S<4|26R9> 20|42b7 45m18
+46p30 Id{7|53P9} 20|42b30 45r63
+X 24 s-stausa.ads
+207U14*Initialize 208i<c,__gnat_stack_usage_initialize>22
+272U14*Output_Results 276i<c,__gnat_stack_usage_output_results>22
+X 29 s-taskin.ads
+109P9*Task_Id(107R9)
+

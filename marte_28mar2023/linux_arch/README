@@ -1,0 +1,43 @@
+
+                              MaRTE OS
+                             ----------
+
+			 Architecture "linux"
+                        ----------------------
+
+This  directory  contains  the  code  specific  for  the  architecture
+"linux".
+
+When  compiled   for  this   architecture,  a  MaRTE   OS  application
+("mprogram") takes the form of a standard Linux application and can be
+executed as a standard Linux user process.
+
+Using this architecture can be  seen like something similar to running
+MaRTE  OS   applications  in  a  hardware  emulator   since  MaRTE  OS
+applications generated  for this architecture  are almost the  same as
+the applications generated for a bare x86 PC (architecture "x86").
+
+In this architecture,  MaRTE OS C library (libmc.a)  and MaRTE OS file
+system are used. The only  differences with the "x86" architecture are
+in the hardware interface layer:
+
+   - A Linux timer  is used instead of the hardware  timer used in the
+     "x86" architecture.
+
+   - Linux signals play  the role of hardware interrupts  in the "x86"
+     architecture.
+
+Notice  that, when  using this  architecture, hard  real-time behavior
+cannot be achieve since  "mprograms" are standard processes that share
+CPU time with  all the other processes in the  system according to the
+Linux scheduling policies. As any  other process, they are affected by
+memory swapping, Linux kernel activities, etc.
+
+                             --------------
+
+The idea of running MaRTE OS as a Linux process is due to Miguel Ángel
+Masmano     Tello     (Universidad    Politécnica     de     Valencia)
+<mimastel@doctor.upv.es>.
+
+He  is  also  the  author  of   most  of  the  code  involved  in  the
+implementation of the hardware interface for this architecture.

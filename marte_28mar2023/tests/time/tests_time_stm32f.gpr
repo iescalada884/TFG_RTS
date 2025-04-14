@@ -1,0 +1,41 @@
+with "../../stm32f_shared_switches.gpr";
+
+project Tests_Time_STM32F is
+
+   for Languages use ("C");
+
+   for Source_Dirs use (".");
+   for Object_Dir use "obj";
+   for Main use ("test_clock.c",
+                 "test_cpu_clock_for_another_thread.c",
+                 "test_cpu_clock_of_main.c",
+                 "test_cpu_clocks.c",
+                 "test_cpu_timer_for_main.c",
+                 "test_cpu_timer_for_self.c",
+                 "test_load_loop.c",
+                 "test_nanosleep.c",
+                 "test_program_timer_in_the_past.c",
+                 "test_short_and_long_sleeps.c",
+                 "test_sleep.c",
+                 "test_sleep_simple.c",
+                 "test_timers_expiring_simult_with_equal_signal.c",
+                 "test_timer_signal.c");
+
+   for Runtime ("Ada") use Stm32F_Shared_Switches.Runtime;
+   for Target use Stm32F_Shared_Switches.Target;
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Switches ("Ada") use Stm32F_Shared_Switches.Compiler'Switches ("ada");
+      for Switches ("c") use Stm32F_Shared_Switches.Compiler'Switches ("c")
+        & ("-Werror");
+   end Compiler;
+
+   package Linker renames Stm32F_Shared_Switches.Linker;
+
+   package Ide renames Stm32F_Shared_Switches.Ide;
+
+   package Emulator renames Stm32F_Shared_Switches.Emulator;
+
+end Tests_Time_STM32F;
+

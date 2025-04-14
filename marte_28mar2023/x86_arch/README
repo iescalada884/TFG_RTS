@@ -1,0 +1,15 @@
+
+                              MaRTE OS
+                             ----------
+
+			  Architecture "x86"
+                         --------------------
+
+This directory contains the code specific for the architecture "x86".
+
+When  compiled   for  this   architecture,  a  MaRTE   OS  application
+("mprogram") takes the form of a x86 ELF executable file that includes
+both operating system and user's application code.
+
+It is a stand-alone program that can be executed in a bare-machine x86
+PC.

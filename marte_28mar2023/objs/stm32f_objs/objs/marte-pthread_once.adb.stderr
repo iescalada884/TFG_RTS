@@ -1,0 +1,2 @@
+marte-pthread_once.ads:63:27: warning: subprogram pointer "Pthread_Once.Routine" should have foreign convention
+marte-pthread_once.ads:63:27: warning: add Convention pragma to declaration of "Pthread_Once.Init_Routine" at line 61

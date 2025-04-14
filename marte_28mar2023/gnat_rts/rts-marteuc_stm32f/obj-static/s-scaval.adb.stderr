@@ -1,0 +1,20 @@
+s-scaval.adb:164:21: error: value not in range of type "System.Scalar_Values.Byte16"
+s-scaval.adb:164:21: error: static expression fails Constraint_Check
+s-scaval.adb:170:21: error: value not in range of type "System.Scalar_Values.Byte16"
+s-scaval.adb:170:21: error: static expression fails Constraint_Check
+s-scaval.adb:183:23: warning: upper bound of aggregate out of range [enabled by default]
+s-scaval.adb:183:23: warning: Constraint_Error will be raised at run time [enabled by default]
+s-scaval.adb:193:21: error: value not in range of type "System.Scalar_Values.Byte16"
+s-scaval.adb:193:21: error: static expression fails Constraint_Check
+s-scaval.adb:212:23: warning: upper bound of aggregate out of range [enabled by default]
+s-scaval.adb:212:23: warning: Constraint_Error will be raised at run time [enabled by default]
+s-scaval.adb:222:21: error: value not in range of type "System.Scalar_Values.Byte16"
+s-scaval.adb:222:21: error: static expression fails Constraint_Check
+s-scaval.adb:228:21: error: value not in range of type "System.Scalar_Values.Byte16"
+s-scaval.adb:228:21: error: static expression fails Constraint_Check
+s-scaval.adb:234:21: error: value not in range of type "System.Scalar_Values.Byte16"
+s-scaval.adb:234:21: error: static expression fails Constraint_Check
+s-scaval.adb:241:23: warning: upper bound of aggregate out of range [enabled by default]
+s-scaval.adb:241:23: warning: Constraint_Error will be raised at run time [enabled by default]
+s-scaval.adb:284:23: warning: upper bound of aggregate out of range [enabled by default]
+s-scaval.adb:284:23: warning: Constraint_Error will be raised at run time [enabled by default]

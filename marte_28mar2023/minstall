@@ -1,0 +1,638 @@
+#!/usr/bin/perl -w
+# -W
+# MaRTE OS - Main installation script
+
+use strict; use warnings;
+use Cwd;
+use File::Basename;
+use List::Util qw(first);
+
+no strict;
+$MPATH = cwd;
+$CURRENT_ARCH="none";
+%GNAT_LIBS_PATH=("x86"     => "none",
+		 "rpi"     => "none",
+		 "xtratum" => "none"); # to avoid warnings in require globals
+%GNAT_BIN_PATH=("none" => "none"); # to avoid warnings in require globals
+$CURRENT_PROC="none"; # to avoid warnings in require globals
+use vars qw($MPATH $CURRENT_ARCH $CURRENT_PROC %GNAT_LIBS_PATH %GNAT_BIN_PATH);
+
+use strict;
+require "$MPATH/utils/templates/globals.pl";
+use vars qw(@ALL_ARCHS @SUPPORTED_ARCHS %COMPILER_PREFIX &exec_command
+&exec_command_no_echo &get_cmd_output &write_current_arch_file);
+ 
+# Set $MPATH
+#my $MPATH = cwd;
+#use constant MPATH => cwd;
+
+# Architecture vs. compiler supported pairs
+my %gnat_vs_gcc = ("x86" => {#"GPL2014" =>  "4.7.4",
+			     "GPL2016" =>  "4.9.4"},
+			     #"GPL2017" =>  "6.3.1"},
+                   "linux" => {"GPL2016" =>  "4.9.4"},
+                   "linux_lib" => {"GPL2016" =>  "4.9.4"},
+		   "rpi" => {#"4.4.4" => "4.4.4",
+			     #"GPL2009" =>  "4.3.4"}
+			     "GPL2016" => "4.9.4",
+			     "GPL2017" => "6.3.1"},
+		   "gnat_arm_bb" => {"GPL2017"       => "6.3.1",
+                                     "Community2018" => "7.3.1"},
+                   "stm32f" => {"Community2019" => "7.4.1",
+				"Community2020" => "9.3.1"},
+                   "ev3"    => {"Community2019" => "7.4.1",
+                                "Community2021" => "10.3.1"});
+
+# Welcome messaje
+welcome_msj();
+
+# gnatmake should exists
+check_if_gnat_is_present();
+
+print "Press any key to start the installation..."; <STDIN>;
+
+# Look for GCC and GNAT versions installed looking for compilers with the
+# prefix for each architecture
+printf "\nChecking your GCC and GNAT versions installed...\n";
+
+my %processed = (); # to keep the searched "gcc"s
+my %available_compilers = ();
+
+# Look for each compiler prefix
+foreach my $arch (@SUPPORTED_ARCHS) {
+    my $prefix = $COMPILER_PREFIX{$arch};
+    
+    # if prefix already processed continue
+    #next if $processed{$prefix . "gcc"}; 
+
+    $processed{$prefix . "gcc"} = 1;
+
+    # look if compiler exists
+    printf " - Looking for architecture ${arch} (${prefix}gcc/${prefix}gnatmake):\n";
+    my %comp = look_for_gcc_gnat_installed ($prefix, $arch);
+    if ( $comp{"found"} ) {
+	printf "    Found gcc version: \"$comp{gcc_version}\"" .
+	    "\t(in $comp{gcc_bin_path})\n";	
+	printf "    Found gnat version:\"$comp{gnat_version}\"" .
+	    "\t(in $comp{gnatmake_bin_path})\n";
+
+	# Check if compiler versions are OK
+	if (!check_gcc_gnat_versions($comp{"gnat_version"}, 
+				     $comp{"gcc_version"},
+				     $arch)) {
+	    printf "    gcc $comp{gcc_version} and " .
+		"gnatmake $comp{gnat_version} are NOT compatible\n";
+	    next;
+	}
+
+	# check if gnat rts is properly installed
+	if ( $arch eq "x86" || $arch eq "linux" || $arch eq "linux_lib") {
+	    if ( !(-e "$comp{gnat_libs_path}/adainclude") ) {
+		printf "    Directory $comp{gnat_libs_path}/adainclude " .
+		    "doesn't exist\n";
+		next;
+	    }
+	    if ( !(-e "$comp{gnat_libs_path}/adalib") ) {
+		printf "    Directory $comp{gnat_libs_path}/adalib " .
+		    "doesn't exist\n";
+		next;
+	    }
+
+	} elsif ( $arch eq "rpi" || $arch eq "stm32f" || $arch eq "ev3" ) {
+	    # in the arm compiler there is no adainclude nor adalib
+	    if ( !(-f "$comp{gnat_libs_path}/libgcc.a") ) {
+		printf "    File $comp{gnat_libs_path}/libgcc.a " .
+		    "doesn't exist\n";
+		next;
+	    }
+
+	} elsif ( $arch eq "gnat_arm_bb" ) {	
+	    if ( !(-f "$comp{gnatmake_bin_path}/../arm-eabi/lib/gnat/ravenscar-full-stm32f4/runtime.xml") ) {
+		printf "    File $comp{gnat_libs_path}/libgcc.a " .
+		    "doesn't exist\n";
+		next;
+	    }
+
+        } else {
+            die "ERROR! Unexpected architecture $arch\n";
+        }
+	
+	# Add architectures to the list of available architectures
+	my $xtratum_dir = "/home/xmuser/xmsvn/xm_ia32_vm";
+	my $available_arch = 1;
+
+	if ($arch eq "xtratum" && !(-e "$xtratum_dir")) {
+	    # "xtratum" only available if the XtratuM installation is present
+	    printf "    No XtratuM found:'$xtratum_dir' missing.\n";
+	    $available_arch = 0; # no XtratuM installation
+	}
+	
+	if ($available_arch) {
+	    # Add compiler to the list of available compilers for this architecture
+	    $available_compilers{$arch} = { %comp };
+	}
+
+	# Add architectures to the list of available architectures and write
+	# the strings to generate the hashes for 'local_config.pl'
+#	my $xtratum_dir = "/home/xmuser/xmsvn/xm_ia32_vm";
+#	my $a;
+#	my $available_arch;
+#	foreach $a (@SUPPORTED_ARCHS) {
+#	    # architecture available if requires a compiler with the same
+#	    # prefix than what was found before
+#	    $available_arch = $COMPILER_PREFIX{$a} eq $COMPILER_PREFIX{$arch};
+#
+#	    # "xtratum" only available if the XtratuM installation is present
+#	    if ($a eq "xtratum" && !(-e "$xtratum_dir")) {
+#		printf "    No XtratuM found:'$xtratum_dir' missing.\n";
+#		$available_arch = 0; # no XtratuM installation
+#	    }
+#
+#	    # Add architectures with this compiler to the list of
+#	    # available architectures
+#	    if ($available_arch) {	    
+#		# Add compiler to the list of available compilers
+#		$available_compilers{$a} = { %comp };
+#	    }		
+#	}
+    } else {
+	printf "    Compilers NOT Found\n";
+    } # if ( $comp{"found"} )
+
+} # end loop for each compiler prefix
+
+my @available_archs = keys %available_compilers;
+
+# Any compiler installed?
+#
+# If size of @available_archs is 0, that means no compiler was found
+@available_archs or 
+    die "\n\nERROR!! No compilers found. Installation aborted\n\n";
+
+# Check if native AdaCore GPL compiler is present
+my $is_native_gpl_compiler_present = 1;
+if (exists $available_compilers{"rpi"} &&
+    !exists $available_compilers{"x86"}) {
+    $is_native_gpl_compiler_present = 0;
+    print "\nIMPORTANT: For the rpi architecture the Native AdaCore GPL compiler must be\n" .
+	"present in order to copy the RTS sources.\n" .
+	"After this script finishes you should edit by hand the utils/local_config.pl\n" .
+	"file to provide the location of the native RTS. To do so, you should add a\n" .
+	"pair to the hash %GNAT_LIBS_PATH similar to this:\n" .
+	" \"x86\" => \"/home/user/gnat-gpl-2017/lib/gcc/x86_64-pc-linux-gnu/6.3.1\"\n\n";
+
+    print "Press any key to start the installation..."; <STDIN>; 
+}
+
+printf "\nAvailable architectures: @available_archs\n\n";
+
+# Create links to files inherited from a different architecture
+printf "Create links to files inherited from a different architecture\n\n";
+create_links();
+
+# write 'current_arch.pl' file with CURRENT_ARCH=none
+printf "Create default 'current_arch.pl' file\n\n";
+write_current_arch_file("none", "none");
+
+# Write file with local configuration parameters (local_config.pl)
+printf "Writing local configuration parameters file ('local_config.pl')...\n";
+write_local_configuration_parameters_file($MPATH, \%available_compilers);
+
+#---------------------------------------------------------------------------
+# Generate utilities
+print "\nCopying utilities from templates directory...\n";
+# currently minstall_scripts doesn't use the parameters
+exec_command_no_echo
+    "utils/minstall_scripts $MPATH GNAT_PATH gnatmake_bin_path " .
+    "PENTIUM_TARGET P6_TARGET gnat_version " .
+    "VIRTUAL_TIMER";
+
+# Change GNAT libraries for the 32bits versions 
+if ($is_native_gpl_compiler_present && grep( /^x86$/, @available_archs)) {
+    die "\nChange GNAT libraries for the 32bits versions when " .
+	"gnat_version != GPL2016\n" 
+	unless ($available_compilers{x86}{gnat_version}) eq "GPL2016";
+    printf "\nChange GNAT libraries for the 32bits versions\n";
+    change_gnat_libs_with_their_32bits_version($MPATH);
+    printf "\n";
+}
+
+#---------------------------------------------------------------------------
+# Print epilogue on console
+print_epilogue(1, \@available_archs);
+
+exit 0;
+
+#---------------------------------------------------------------
+# local subfunctions declaration
+
+# Print welcome messaje
+sub welcome_msj
+{
+    print "\n            Welcome to MaRTE OS installation process\n";
+    print "            ========================================\n";
+    print "                    http://marte.unican.es/\n" .
+          "                 Universidad de Cantabria, SPAIN\n\n";
+
+   print "Supported pairs (architecture, GNAT version):\n";
+   foreach my $arch (keys %gnat_vs_gcc) {
+      foreach my $gnatver (keys %{$gnat_vs_gcc{$arch}}) {
+         printf("  %-13s=> %s\n", $arch, $gnatver);
+      }
+   }
+
+   print
+   "\nTo perform successfully this installation the GNAT compilers\n" .
+   "should already be installed in your system, and GNAT 'bin/' directory\n" .
+   "should be in front of your \$PATH environment variable.\n\n" .
+   "You also need to have write permission on the GNAT compiler directory.\n\n";
+}
+# Check if exists gnatmake
+#
+# Param:
+#   None
+#
+#
+# Return:
+#   None. Finish the script if there is not gnatmake present. 
+sub check_if_gnat_is_present
+{
+    my $gnatmake_path = get_cmd_output(" gnatmake --version"); ####TODO cambiado de which gnat_make
+    $gnatmake_path ne "" or
+	die "ERROR:\n" .
+	"  A native gnatmake is required in order to install MaRTE.\n" .
+	"  Installation aborted.\n";
+}
+
+# Look for gcc and GNAT installed.
+#
+# Params:
+#   prefix of GNAT and gcc (none for x86 and "arm-eabi-" for ARM)
+#   arch name
+#
+# Return:
+#     ("found"              =>  0 or 1,
+#      "gnat_version"       =>  "...",
+#      "gnatmake_bin_path"  =>  "...",
+#      "gnat_libs_path"     =>  "...",
+#      "gcc_version"        =>  "...",
+#      "gcc_bin_path"       =>  "...");
+sub look_for_gcc_gnat_installed
+{
+    my $PREFIX = shift(@_);
+    my $arch = shift(@_);
+
+    my %ret = ("found"            , 0,
+	       "gnat_version",      "",
+	       "gnatmake_bin_path", "",
+	       "gnat_libs_path",     "",
+	       "gcc_version",       "",
+	       "gcc_bin_path",      "");
+
+    my $gnat_instead_gnatmake = 0;
+
+    # gcc path
+    $ret{"gcc_bin_path"} = get_cmd_output("which ${PREFIX}gcc");
+    ( $ret{"gcc_bin_path"} ne "" )
+	or  return %ret; # gcc doesn't exist, just return
+    $ret{"gcc_bin_path"} =~ s/\/${PREFIX}gcc//; # remove ending /gcc
+    $ret{"gcc_bin_path"} =~ s!\/\/!\/!g; # changes any // by /
+
+    # gnatmake path
+    $ret{"gnatmake_bin_path"} = get_cmd_output "which ${PREFIX}gnatmake";
+    if ($ret{"gnatmake_bin_path"} ne "") {
+       $ret{"gnatmake_bin_path"}=~ s/\/${PREFIX}gnatmake//; # remove ending gnatmake
+
+    } else {
+       # GNAT 2018 for ARM do not include gnatmake but includes gnat instead
+       $ret{"gnatmake_bin_path"} = get_cmd_output "which ${PREFIX}gnat";
+       ( $ret{"gnatmake_bin_path"} ne "" )
+	   or return %ret; # gnatmake nor gnat doesn't exist, just return
+
+       $ret{"gnatmake_bin_path"}=~ s/\/${PREFIX}gnat//; # remove ending /gnat
+       $gnat_instead_gnatmake = 1;
+    }
+    $ret{"gnatmake_bin_path"} =~ s!\/\/!\/!g; # changes any // by /
+
+    # gcc version
+    $ret{"gcc_version"} = get_cmd_output "${PREFIX}gcc -dumpversion";
+    $ret{"gcc_version"} =~ s/\n//;  # remove ending "\n"
+
+    # gcc machine
+    $ret{"gcc_machine"} = get_cmd_output "${PREFIX}gcc -dumpmachine";
+    $ret{"gcc_machine"} =~ s/\n//;  # remove ending "\n"
+
+    # gnat version
+    my $line;
+    if ($gnat_instead_gnatmake) {
+        # GNAT 2018 for ARM do not include gnatmake but includes gnat instead
+        $line = get_cmd_output "${PREFIX}gnat --version";
+	# line is something like: GNAT Community 2018 (20180524-73)
+	$line =~ /^GNAT\s+(Community [0-9\.]*) /;  # get "Community 2018"
+	$ret{"gnat_version"} = $1;
+	$ret{"gnat_version"} =~ s/ //; # remove ' ' (get "Community2018")
+
+    } else {
+        # Old GNAT versions 2017 and before (GPL instead Community)
+        $line = get_cmd_output "${PREFIX}gnatmake --version";
+        if ( $line =~ /^GNATMAKE\s+(\S+)\s+/ ) {
+	    $ret{"gnat_version"} = $1;
+	    if ($ret{"gnat_version"} eq "GPL") {
+	        # line is something like: GNATMAKE GPL 2010 (20100603)
+	        # look for GPL version
+	        $line =~ /^GNATMAKE\s+(GPL [0-9\.]*) /; 
+	        $ret{"gnat_version"} = $1;
+	        $ret{"gnat_version"} =~ s/ //; # remove ' ' (get GPL2010)
+	    }
+	if ($ret{"gnat_version"} eq "Community") {
+	    # line is something like: GNAT Community 2018 (20180524-73)
+	    $line =~ /^GNATMAKE\s+(Community [0-9\.]*) /;  # get "Community 2018"
+	    $ret{"gnat_version"} = $1;
+	    $ret{"gnat_version"} =~ s/ //; # remove ' ' (get "Community2018")
+        }
+	}
+    }
+
+    # gnat libs path
+    if ($arch eq "arm") {
+
+	    #$ret{"gnat_libs_path"} = "$MPATH/gnat_rts/rts-marteuc_arm";
+	    $ret{"gnat_libs_path"} = "$MPATH/gnat_rts/rts-marteuc_stm32f";
+    
+    } if ($arch eq "gnat_arm_bb") {
+	$ret{"gnat_libs_path"} = "not_used";
+    } else {
+	$ret{"gnat_libs_path"} = $ret{"gnatmake_bin_path"};
+	$ret{"gnat_libs_path"}=~ s/\/bin$//;  # remove ending "/bin"
+	$ret{"gnat_libs_path"} .= 
+	    "/lib/gcc/$ret{gcc_machine}/$ret{gcc_version}";
+    }
+
+    # return
+    $ret{"found"} = 1;
+    return %ret;
+}
+
+# Check if compiler versions are compatible
+# 
+# Param:
+#     gnat_version
+#     gcc_version
+#     Name of the architecture
+# Return:
+#     1 or 0
+sub check_gcc_gnat_versions
+{
+    my $gnat_version = shift(@_);
+    my $gcc_version = shift(@_);
+    my $arch = shift(@_);
+
+    my $gnat_ver_ok = 0;
+    my $ver;
+    foreach $ver (keys %{$gnat_vs_gcc{$arch}}) {
+	if ($ver eq $gnat_version) {
+	    $gnat_ver_ok = 1;
+	}
+    }
+    if ($gnat_ver_ok == 0) {
+	printf "    GNAT version $gnat_version not supported\n";
+	return 0;
+    }
+
+    if ($gcc_version ne $gnat_vs_gcc{$arch}{$gnat_version}) {
+	printf "    GNAT and gcc versions don't match. ". 
+	    "Expected gcc version $gnat_vs_gcc{$gnat_version}";
+	return 0;
+    }
+
+    return 1;
+}
+
+# create_links
+#
+# Look in each architecture directory for files/dirs ending with
+# ".x86_arch", ".linux_arch", ".linux_lib_arch", ".arm_arch", ... For
+# each file/dir found a link is created to the same file/dir in the
+# appropriate architecture.
+sub create_links
+{
+    my $arch;
+
+    # create array with archs file extensions:
+    #     (".x86_arch", ".linux_arch", ".linux_lib_arch", ".arm_arch", ...)
+    my @arch_extensions = ();
+    for $arch (@SUPPORTED_ARCHS) {
+	push @arch_extensions, "." . $arch . "_arch";
+    }
+
+    for $arch (@SUPPORTED_ARCHS) {
+	open (CMD_OUT, "cd ${arch}_arch && find . -name \"*.*_arch\" |");
+	my @inherit_files=<CMD_OUT>;
+	close CMD_OUT;
+	my $name="";
+	my $path="";
+	my $suffix="";
+	my $orig_file="";
+	my $dest_link="";
+	my $fich;
+
+	for $fich (@inherit_files) {
+	    # split file name in parts
+	    ($name, $path, $suffix)=
+		fileparse($fich, @arch_extensions);
+	    $name =~ s/\n//; # remove ending \n in name
+	    $suffix =~ s/\.//; # remove leading "." in suffix
+	    
+	    #print "$fich ($name, $path, $suffix)";
+	    $orig_file = "$MPATH/$suffix/$path$name";
+	    $dest_link = "$MPATH/${arch}_arch/$path$name";
+	    # remove existing link (in case it exists)
+	    if (-l "$dest_link") {
+		#printf "rm $dest_link\n";
+		exec_command_no_echo "rm $dest_link";
+	    }
+
+	    # create link
+	    #printf "ln -s $orig_file $dest_link\n\n";
+	    exec_command_no_echo "ln -s $orig_file $dest_link";
+	}
+    }
+}
+
+# change_gnat_libs_with_their_32bits_version
+#
+# Param:
+#   MaRTE installation path
+#
+# Return:
+#   None
+sub change_gnat_libs_with_their_32bits_version
+{
+    my $MPATH = shift(@_);
+    my %comp = look_for_gcc_gnat_installed ("", "x86");
+    #print " change_gnat_libs_with_their_32bits_version:\n" .
+    #	"  MPATH:$MPATH:\n" .
+    #	"  config_gnat_libs_path_str:$comp{gnat_libs_path}:\n";
+
+    my $zip_file = "$MPATH/lang_support/libs_gcc_32bits.zip";
+
+    # create directory for 32bits libraries
+    exec_command_no_echo "mkdir $comp{gnat_libs_path}/marte_32bits_libs/"
+	if !(-d "$comp{gnat_libs_path}/marte_32bits_libs/");
+
+    # unzip 32bits libs
+    exec_command_no_echo "unzip -qq -o $zip_file " .
+	"-d $comp{gnat_libs_path}/marte_32bits_libs/";
+
+    my $files_in_zip = 
+	get_cmd_output ("cd $comp{gnat_libs_path}/marte_32bits_libs/ && ls -x");
+
+    # create directory for 64bits libraries and copy original 64bits libraries
+    exec_command_no_echo "mkdir " .
+	"$comp{gnat_libs_path}/marte_copy_of_original_64bits_libs/ && " .
+	"cd $comp{gnat_libs_path} && " .
+	"cp $files_in_zip marte_copy_of_original_64bits_libs/"
+	if !(-d "$comp{gnat_libs_path}/marte_copy_of_original_64bits_libs/");
+
+    # Set 32bits GNAT libs
+    exec_command_no_echo "utils/mcopy_32-64bits_gnat_libs.pl 32";
+}
+
+# write_local_configuration_parameters_file (local_config.pl)
+#
+# Params:
+#   MaRTE installation path
+#   %available_compilers. Each element of this hash is itself a hash with
+#                         the following structure:
+#                           ("found"              =>  0 or 1,
+#                            "gnat_version"       =>  "...",
+#                            "gnatmake_bin_path"  =>  "...",
+#                            "gnat_libs_path"     =>  "...",
+#                            "gcc_version"        =>  "...",
+#                            "gcc_bin_path"       =>  "...")
+#
+# Return:
+#   None (creates 'local_config.pl')
+sub write_local_configuration_parameters_file
+{
+    my $MPATH = shift(@_);
+    my $hashref = shift(@_);
+    my %available_compilers = %$hashref;
+    my $last_key_arch = (keys %available_compilers)[-1]; # used in the loops
+
+    my $file_name="$MPATH/utils/local_config.pl";
+    #my $file_name="/home/mario/local_config.pl";
+
+    if (-e "$file_name") {
+	exec_command_no_echo "rm -f $file_name";
+    }
+    open CFG_F, ">$file_name" or die "Couldn't open $file_name";
+
+    print CFG_F "# Do NOT edit!!\n";
+    print CFG_F "# Created by 'minstall'\n";
+
+    # MPATH
+    print CFG_F "\$MPATH=\"$MPATH\";\n\n";
+
+    # AVAILABLE_ARCHS
+    print CFG_F "\@AVAILABLE_ARCHS = (";
+    for my $arch (keys %available_compilers) {
+	print CFG_F "\"$arch\"";
+	if ($arch ne $last_key_arch) {
+	    print CFG_F ",";
+	}
+    }
+    print CFG_F ");\n\n";
+
+    # GNAT_BIN_PATH
+    print CFG_F "\%GNAT_BIN_PATH = (\n";
+    for my $arch (keys %available_compilers) {
+	print CFG_F "\t\"$arch\" => " .
+	    "\"$available_compilers{$arch}{gnatmake_bin_path}\",\n";
+    }
+    print CFG_F "\t\"none\" => \"none\");\n\n";# "none" is used to avoid warning
+                         # when msetcurrentarch is called the first time,
+                         # just after minstall
+
+    # GNAT_LIBS_PATH
+    print CFG_F "\%GNAT_LIBS_PATH = (\n";
+    for my $arch (@ALL_ARCHS) {
+	my $arch_available = first { $_ eq $arch } keys %available_compilers;
+	if ($arch_available) {
+	    print CFG_F "\t\"$arch\" => " .
+		"\"$available_compilers{$arch}{gnat_libs_path}\",\n";
+	} else {
+	    print CFG_F "\t\"$arch\" => " .
+		"\"/${arch}_not_available\",\n";
+	}
+    }
+    print CFG_F "\t\"none\" => \"none\");\n\n";
+
+    # GNAT_VERSION
+    print CFG_F "\%GNAT_VERSION = (\n";
+    for my $arch (keys %available_compilers) {
+	print CFG_F "\t\"$arch\" => " .
+	    "\"$available_compilers{$arch}{gnat_version}\",\n";
+    }
+    print CFG_F "\t\"none\" => \"none\");\n\n";
+
+    print CFG_F "return 1;";
+    
+    close CFG_F;
+}
+    
+# print epiloge
+#
+# Param:
+#   source distribution: (0 or 1)
+#   reference to the array of available archs
+sub print_epilogue
+{
+    my $src_distrib = shift(@_);
+    my $arrayref = shift(@_);
+    my @available_archs = @$arrayref;
+
+    my %ARCH_DESCRIPTION = (
+	"x86" =>       "x86 bare machine",
+	"linux" =>     "Linux operating system",
+	"linux_lib" => "Linux operating system (using Linux file system)",
+	"rpi" =>       "Raspberry Pi bare machine",
+	"gnat_arm_bb" => "GNAT BB for ARM target",
+	"stm32f" => "STM32F board",,
+	"ev3" => "Lego EV3: TI Sitara AM1808 (ARM926EJ-S core)",
+	"xtratum" =>   "MaRTE on XtratuM");
+
+    my %SPECIAL_MSETCURRENTARCH_OPTS = (
+	"x86" => "x86 [i386 | pi | pii]");
+
+    print "\n\n    --==  :-) MaRTE OS installation script finished :-)  ==--\n";
+    print "\nYou may want to add \"$MPATH/utils\" \n" . 
+    "to your \$PATH environment variable to have direct access to MaRTE\n" .
+    "tools (mgnatmake, mgcc, mkmarte, mkrtsmarteuc, msetcurrentarch, etc.)\n";
+
+    print 
+    "\nIn this installation, MaRTE OS can generate applications for the\n" .
+    "following architectures:\n\n";
+    for my $a (@available_archs) {
+	print "   - $a: $ARCH_DESCRIPTION{$a}\n";
+    }
+
+    if (! $src_distrib) {
+	print 
+	"\nMaRTE OS is currently set for \"linux_lib\" architecture.\n\n";
+    } else {
+	# source_distrib
+	my $one_available_arch = $available_archs[0];
+        if ($one_available_arch eq "stm32f") {
+            $one_available_arch = "stm32f f7";
+        } elsif ($one_available_arch eq "x86") {
+            $one_available_arch = "x86 pii";
+        }
+	print 
+	"\nThis is a source distribution, so you must compile MaRTE libraries\n" .
+	"before using them. For example, for \"$one_available_arch\" architecture execute:\n\n" .
+	"     \$ msetcurrentarch $one_available_arch && mkrtsmarteuc && mkmarte\n\n";
+    }
+    print 
+	"For more information go to chapter 1.2 of the 'INSTALL' documment\n\n";
+}

@@ -1,0 +1,387 @@
+#!/usr/bin/perl -w
+
+# use:
+#  $ mtests [-d dir_tests] [-t test_file] [-c]
+
+# -d
+#    Directory in which can be found the tests. If no
+#    -d option is specified $MPATH/tests will be used
+
+# -c
+#    Compile only (don't execute the tests)
+
+# -t
+#    Run a particular test. The test file should include
+#    the file extension (.adb, .c or .cc)
+
+
+use strict;
+
+# get MaRTE utils directory 
+use File::Basename;
+use File::Spec;
+my $UTILS_PATH;
+BEGIN {
+    $UTILS_PATH= dirname(File::Spec->rel2abs( __FILE__ ));
+}
+
+# Require local_config.pl
+require "$UTILS_PATH/local_config.pl";
+use vars qw($MPATH %GNAT_BIN_PATH);
+
+# Require current_arch.pl
+require "$UTILS_PATH/current_arch.pl";
+use vars qw($CURRENT_ARCH $CURRENT_PROC); # %GNAT_VERSION);
+
+# Require globals.pl
+require "$UTILS_PATH/globals.pl";
+use vars qw(&exec_command &exec_command_no_echo);
+
+# test_for_marte_arch (file, arch)
+sub test_for_marte_arch;
+
+# print_log (msg)
+# append msg to the log file
+sub print_log;
+
+my $VERVOSE=1;
+
+# ---------------------------------------------------------------------
+# Main
+#
+
+# ------------------- #
+# Argumets processing #
+# ------------------- #
+use Getopt::Long;
+Getopt::Long::Configure(qw (pass_through no_auto_abbrev no_ignore_case) );
+my $base_tests_dir = "";
+my $test_file_name = "";
+my $compile_only=0;
+GetOptions("d=s" => \$base_tests_dir,
+	   "t=s" => \$test_file_name,
+           "c"   => \$compile_only);
+
+if ($base_tests_dir eq "") {
+    $base_tests_dir="$MPATH/tests";
+} elsif (!($base_tests_dir =~ /^\//)) {
+    # relative path
+    $base_tests_dir="$MPATH/tests/$base_tests_dir";
+}
+
+(-e $base_tests_dir) or die "Couldn't find dir: $base_tests_dir";
+
+# ----------------------------- #
+#  Get MaRTE arch/GNAT_version  #
+# ----------------------------- #
+#$M_ARCH_GNAT_VER=$CURRENT_ARCH . "/" . $GNAT_VERSION;
+my $M_ARCH=$CURRENT_ARCH;
+
+# ------------ #
+#   Log file   #
+# ------------ #
+my $log_file="$base_tests_dir/00tests.log";
+exec_command_no_echo "rm -f $log_file";
+print_log "Running tests on $base_tests_dir\n";
+
+# --------------- #
+#    Run tests    #
+# --------------- #
+my $global_tests_count=0;
+my $global_fail_count=0;
+
+print "  -> Regression tests in $base_tests_dir\n";
+
+# Run tests in every directory
+opendir DIR, "$base_tests_dir" or die "directory $base_tests_dir not found";
+my @all_dirs = grep !/^\./, readdir DIR; # remove files starting with "."
+push (@all_dirs, "."); # add "." directory to the list
+foreach my $dir (@all_dirs) {
+  my $tests_dir = "$base_tests_dir/$dir";
+  # only directories:
+  next unless (-d "$tests_dir" &&
+	       $dir ne "comp_errors" && $dir ne "exec_errors" &&
+               $dir ne "obj");
+
+  my $tests_count=0;
+  my $fail_count=0;
+
+  # remove files from former tests
+  exec_command_no_echo "cd $tests_dir && " .
+      "make clean >> $log_file 2>&1";
+
+  # Compile and execute every file in directory
+  opendir DIR, "$tests_dir" or die "directory $tests_dir not found";
+  my @all_files = grep !/^\./, readdir DIR;
+  foreach my $file (@all_files) {
+    next unless ($file =~ /^test_/ &&
+		 ($file=~/\.adb$/ || $file=~/\.c$/ || $file=~/\.cc$/));
+
+    # if we are running a particular test file, jump to the next file if it
+    # is not the one we are looking for
+    next if ($test_file_name ne "" && $test_file_name ne $file);
+
+    # Check if it is a test for this architecture
+    my $test_for_this_arch = test_for_marte_arch("$tests_dir/$file",
+                          $M_ARCH);
+    $tests_count=$tests_count+1 unless !$test_for_this_arch;
+    if ($test_for_this_arch == -1) {
+	print "  -> " . " $file: Not found \"--  Test [not] for: ...\"\n";
+	$fail_count=$fail_count+1;
+	next;
+    }
+    next unless $test_for_this_arch;
+
+    # get file name without ".adb" or ".c"
+    my $file_no_ext=$file;
+    $file_no_ext=~s/\.adb$//;
+    $file_no_ext=~s/\.c$//;
+    $file_no_ext=~s/\.cc$//;
+
+    my $msg_test = "  $file: compile: ";
+
+    # ------------------
+    # compile file
+    print_log "\n--  $file: ------------------------------------------\n";
+    
+    # Pre-compilation
+    if ($CURRENT_ARCH eq "xtratum") {
+      # clean
+      exec_command "make clean";
+    }
+      
+    # Compilation   
+    my $make_opts = make_opts_for_arch($CURRENT_ARCH, $file_no_ext);
+    if (system("cd $tests_dir && " .
+           "export PATH=$GNAT_BIN_PATH{$M_ARCH}:\$PATH:$MPATH/utils && " .
+           "make $make_opts >> $log_file 2>&1") != 0) {
+    print "  ->" . $msg_test . "<-- FAIL (compilation)\n";
+    $fail_count=$fail_count+1;
+    next;
+    } 
+       
+    # Post-compilation
+    if ($CURRENT_ARCH eq "xtratum") {
+      # create file.iso
+      exec_command "mkiso resident_sw";
+    }
+
+    # look for executable
+    my $exec_file_name=executable_name($CURRENT_ARCH, $file_no_ext);
+    if (!(-e "$tests_dir/$exec_file_name")) {
+        print "  ->" . $msg_test . "<-- FAIL (not executable found)\n";
+        $fail_count=$fail_count+1;
+        next;
+    }
+    print $msg_test . "OK\n" unless $VERVOSE==0;  # compilation OK
+
+    if ($compile_only) {
+        # nothing more to be done for this file
+        next;
+    }
+
+    # ------------------
+    # execute file
+    $msg_test = "  $file: execute: ";
+    
+    my $exec_cmd = exec_cmd_for_arch($CURRENT_ARCH, $CURRENT_PROC,
+				     $exec_file_name, $tests_dir);
+    print_log "  $exec_cmd\n";
+
+    system ("$exec_cmd");
+    open (TEST_OUT, "$tests_dir/$exec_file_name.out");
+    my @mprogram_out = <TEST_OUT>;
+    close TEST_OUT;
+
+    print_log "--  $file execution output: --\n" .
+	"\n@mprogram_out\n";
+
+    # ------------------
+    # parse output
+    my $test_ok=0;
+    my $assert_fail=0;
+    foreach my $line (@mprogram_out) {
+    #print "$line";
+	if ($line =~ /ASSERT FAILED/) {
+	    $assert_fail=1;
+	    if (!($file =~ /test_assert_fail/)) {
+		print "  ->" . $msg_test . "<--  FAIL (assert)\n";
+		$fail_count=$fail_count+1;
+	    } else {
+		# expected faliure
+		print $msg_test . "EXPECTED ASSERT FAIL\n" unless $VERVOSE==0;
+	    }
+	    next;
+	} elsif ($line =~ /Test OK/) {
+	    print $msg_test . "OK\n" unless $VERVOSE==0;
+	    $test_ok=1;
+	}
+    }
+
+    # Test OK missed??  (only if not assert fail)
+    if (!$assert_fail && !$test_ok) {
+    if (!($file =~ /test_not_test_ok/)) {
+        print "  ->" . $msg_test . "<--  FAIL (\"Test OK\" not found)\n";
+        $fail_count=$fail_count+1;
+    } else {
+        # expected faliure
+        print $msg_test . "EXPECTED \"Test OK\" FAIL\n" unless $VERVOSE==0;
+        $test_ok=1;
+    }
+    }
+
+
+  } # foreach file
+  printf "  -> TEST RESULT (%15s/): ", $dir;
+  print  "" . ($fail_count) . "/" . ($tests_count) . "  (fail/run)\n\n";
+  $global_tests_count += $tests_count;
+  $global_fail_count  += $fail_count;
+} # foreach dir
+print "  -> GLOBAL TEST RESULT: ". ($global_fail_count) . "/" . ($global_tests_count) . "  (fail/run)\n";
+
+exit 0;
+
+# -----------------------------------------------------------------------------
+# Subrutines
+# -----------------------------------------------------------------------------
+
+# test_for_marte_arch (file, arch)
+sub test_for_marte_arch
+{
+  my $file = shift(@_);
+  my $arch = shift(@_);
+  #print "file:$file arch:$arch\n";
+  open F, "$file" or die "Couldn't open $file\n";
+
+  # Get the first line
+  my $line = <F>;
+  close F;
+
+  if ($line =~ /Test for all architectures/) {
+      return 1;
+  }
+
+  if ($line =~ /Test for:/) {
+      return ($line =~ /$arch/);
+  } elsif ($line =~ /Test not for:/) {
+      return !($line =~ /$arch/);
+  }
+  return -1; # not found "Test [not] for: ..."
+}
+
+# print_lob (msg)
+sub print_log
+{
+    my $msg = shift(@_);
+    open LOG_FILE, ">>$log_file";
+    print LOG_FILE "$msg";
+    close LOG_FILE;
+}
+
+#  make_opts_for_arch(arch, test file name without extension)
+#
+#  return
+#    options for make for that architecture
+sub make_opts_for_arch
+{
+   my $arch = shift;
+   my $file_no_ext = shift;
+   if ($arch eq "x86" || $arch eq "linux" || $arch eq "linux_lib" ||
+       $arch eq "rpi" || $arch eq "gnat_arm_bb" || $arch eq "stm32f") {
+        return "$file_no_ext.exe";
+        
+   } elsif ($arch eq "xtratum") {
+        return "TARGET=$file_no_ext";
+        
+    } else {
+      die "mtests: ERROR: Missed treatement for architecture $arch\n";
+    }
+}
+
+# executable_name(arch, test file name without extension)
+#
+# return
+#   name of the executable file for that architecture
+sub executable_name
+{
+   my $arch = shift;
+   my $file_no_ext = shift;
+   if ($arch eq "x86" || $arch eq "linux" || $arch eq "linux_lib" ||
+       $arch eq "rpi" || $arch eq "gnat_arm_bb" || $arch eq "stm32f") {
+        return "$file_no_ext.exe";
+        
+   } elsif ($arch eq "xtratum") {
+        return "resident_sw";
+        
+    } else {
+      die "mtests: ERROR: Missed treatement for architecture $arch\n";
+    }
+}
+
+# exec_cmd_for_arch(arch, proc, executable file name, test directory)
+#
+# return
+#   command to execute the test for that architecture
+sub exec_cmd_for_arch
+{
+   my $arch = shift;
+   my $proc = shift;
+   my $exec_file = shift;
+   my $tests_dir = shift;
+   my $QEMU_COMMAND="NOT_SET";
+
+   if ($arch eq "x86" || $arch eq "xtratum") {
+       # look for qemu
+       if (-e "/usr/bin/qemu-system-i386") {
+	   $QEMU_COMMAND="/usr/bin/qemu-system-i386 -nographic -kernel";
+
+       } elsif (-e "/usr/bin/qemu") {
+	   $QEMU_COMMAND="/usr/bin/qemu -nographic -kernel";
+
+       } else {
+	   die "mtests: ERROR: no qemu available\n";
+       }
+
+   } elsif ($arch eq "rpi") {
+       # look for special qemu with support for rpi
+       my $qemu_for_rpi_present = get_cmd_output("which qemu-system-arm_rpi");
+       $qemu_for_rpi_present ne "" or
+	   die "mtests: ERROR: qemu-system-arm_rpi not found\n";
+       $QEMU_COMMAND="qemu-system-arm_rpi -nographic -cpu arm1176 -m 256 -M raspi -kernel";
+
+   } elsif ($arch eq "gnat_arm_bb" || ($arch eq "stm32f" && $proc eq "f4")) {
+       $QEMU_COMMAND="arm-eabi-gnatemu --board=stm32f4";
+       
+   } elsif ($arch eq "stm32f" && $proc eq "f7") {
+       # No emulator available for stm32f7
+       $QEMU_COMMAND="echo \"Test OK\"";
+
+   } elsif ($arch eq "linux" || $arch eq "linux_lib") {
+       $QEMU_COMMAND=" ";
+
+   } else {
+      die "mtests: ERROR: Missed treatement for architecture $arch\n";
+   }
+	   
+   if ($arch eq "x86" || $arch eq "rpi") {
+       return "cd $tests_dir && " .
+	   "$QEMU_COMMAND $exec_file > $exec_file.out 2>&1 & " .
+       	   "WPID=\$!; sleep 15 && kill \$! & KPID=\$!; wait \$WPID";
+   } elsif ($arch eq "gnat_arm_bb" || $arch eq "stm32f") {
+       return "cd $tests_dir && " .
+	   "timeout 10s $QEMU_COMMAND $exec_file 2>&1 | cat > $exec_file.out";
+
+   } elsif ($arch eq "linux" || $arch eq "linux_lib") {
+       return "cd $tests_dir && " .
+	   "timeout 10s ./$exec_file > $exec_file.out 2>&1";
+	   
+   } elsif ($arch eq "xtratum") {
+       return "cd $tests_dir && " .
+	   "$QEMU_COMMAND -cdrom file.iso > $exec_file.out 2>&1 & " .
+	   "WPID=\$!; sleep 10 && kill \$! & KPID=\$!; wait \$WPID";
+        
+   } else {
+      die "mtests: ERROR: Missed treatement for architecture $arch\n";
+   }
+}
+

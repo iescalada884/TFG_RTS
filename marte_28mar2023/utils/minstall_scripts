@@ -1,0 +1,85 @@
+#!/usr/bin/perl -w
+use Cwd;
+
+$#ARGV == 6 or 
+    die "use: minstall_scripts marte_path gnat_path gnat_bin_path pentium_target p6_target gnat_version virtal_timer ";
+
+$MPATH          = $ARGV[0];
+#$GNAT_PATH      = $ARGV[1];
+#$GNAT_BIN_PATH  = $ARGV[2];
+##$HOST_IP_NUM    = $ARGV[2];
+##$EXPORTED_DIR   = $ARGV[3];
+##$TARGET_IP_DIR  = $ARGV[4];
+#$PENTIUM_TARGET = $ARGV[3];
+#$P6_TARGET      = $ARGV[4];
+#$GNAT_VERSION   = $ARGV[5];
+#$VIRTAL_TIMER   = $ARGV[6];
+
+#$GNAT_VERSION_STR = $GNAT_VERSION;
+#$GNAT_VERSION_STR =~ s/\./_/;
+
+($MPATH =~ /^\//) or 
+    die "Installation path:$MPATH must be absolute";
+
+#($GNAT_PATH =~ /^\//) or 
+#    die "GNAT path:$GNAT_PATH must be absolute";
+
+# Creating compiler scripts
+opendir TEMPLATES_DIR, "$MPATH/utils/templates" or 
+    die "$MPATH/utils/templates directory not found";
+
+@all_template_files = grep !/^\./, readdir TEMPLATES_DIR;
+
+foreach $file_name (@all_template_files) {
+    if ($file_name =~ /\.txt$/ || -d "$MPATH/utils/templates/$file_name") {
+	# not copy txt files nor directories
+	next;
+    }
+    open TEMPLATE_FILE, "<$MPATH/utils/templates/$file_name" or 
+	die "Can't open $MPATH/templates/$file_name";
+    open DEST_FILE, ">$MPATH/utils/$file_name" or 
+	die "Can't open $MPATH/utils/$file_name";
+    chmod 0755, "$MPATH/utils/$file_name";
+    @lines = <TEMPLATE_FILE>;
+    foreach $line (@lines) {
+	if ($line =~ /root_instalation_path/) {
+	    $line =~ s/root_instalation_path/$MPATH/;
+	}
+#	if ($line =~ /gnat_instalation_path/) {
+#	    $line =~ s/gnat_instalation_path/$GNAT_PATH/;
+#	}
+#	if ($line =~ /_gnat_binary_path_/) {
+#	    $line =~ s/_gnat_binary_path_/$GNAT_BIN_PATH/;
+#	}
+##	if ($line =~ /_host_ip_num_/) {
+##	    $line =~ s/_host_ip_num_/$HOST_IP_NUM/;
+##	}
+##	if ($line =~ /_exported_directory_/) {
+##	    $line =~ s/_exported_directory_/$EXPORTED_DIR/;
+##	}
+##	if ($line =~ /_target_domain_name_/) {
+##	    $line =~ s/_target_domain_name_/$TARGET_IP_DIR/;
+##	}
+#	if ($line =~ /_pentium_target_/) {
+#	    $line =~ s/_pentium_target_/$PENTIUM_TARGET/;
+#	}
+#	if ($line =~ /_p6_target_/) {
+#	    $line =~ s/_p6_target_/$P6_TARGET/;
+#	}
+#	if ($line =~ /_gnat_version_number_/) {
+#	    $line =~ s/_gnat_version_number_/$GNAT_VERSION/;
+#	}
+#	if ($line =~ /_gnat_version_str_/) {
+#	    $line =~ s/_gnat_version_str_/$GNAT_VERSION_STR/;
+#	}
+##	if ($line =~ /_arch_/) {
+##	    $line =~ s/_arch_/$ARCHITECTURE/;
+##	}
+#	if ($line =~ /_use_itimer_/) {
+#	    $line =~ s/_use_itimer_/$VIRTAL_TIMER/;
+#	}
+	print DEST_FILE "$line";
+    }
+    close TEMPLATE_FILE;
+    close DEST_FILE;
+}

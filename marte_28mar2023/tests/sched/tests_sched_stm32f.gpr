@@ -1,0 +1,40 @@
+with "../../stm32f_shared_switches.gpr";
+
+project Tests_Sched_STM32F is
+
+   for Languages use ("C");
+
+   for Source_Dirs use (".");
+   for Object_Dir use "obj";
+   for Exec_Dir use "obj";
+   for Main use ("test_dynamic_prio_change.c",
+                 "test_dynamic_prio_change_suspended_th.c",
+                 "test_edf_deadline_miss.c",
+                 "test_edf_deadlines_clock_monotonic.c",
+                 "test_edf_deadlines_clock_realtime.c",
+                 "test_edf_mutex.c",
+                 "test_rr_sched.c",
+                 "test_rr_sched_dynamic_change.c",
+                 "test_rr_sched_dynamic_change_self.c",
+                 "test_two_threads_simple.c",
+                 "test_yield.c");
+   for Excluded_Source_Files use ("edf_deadlines_common.c");
+
+   for Runtime ("Ada") use Stm32F_Shared_Switches.Runtime;
+   for Target use Stm32F_Shared_Switches.Target;
+   for Create_Missing_Dirs use "True";
+
+   package Compiler is
+      for Switches ("Ada") use Stm32F_Shared_Switches.Compiler'Switches ("ada");
+      for Switches ("c") use Stm32F_Shared_Switches.Compiler'Switches ("c")
+        & ("-Werror");
+   end Compiler;
+
+   package Linker renames Stm32F_Shared_Switches.Linker;
+
+   package Ide renames Stm32F_Shared_Switches.Ide;
+
+   package Emulator renames Stm32F_Shared_Switches.Emulator;
+
+end Tests_Sched_STM32F;
+

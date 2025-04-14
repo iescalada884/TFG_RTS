@@ -1,0 +1,245 @@
+MaRTE OS Changelog
+==================
+
+   * Fixed bug in EDF when thread suspends for a time in the past.
+   * Added missing files to pci_1710_DAS driver
+   * Added Ada standard package Ada.Synchronous_Task_Control.EDF
+   * Added examples for network communication Ethernet/UDP/TCP MaRTE <-> Linux
+
+marte_2.0_22Feb2017 main changes:
+================================
+
+   * Adaptation to GNAT-GPL-2016 (64bits host -> 32bits target)
+   * Port to Raspberry Pi
+   * lwIP (x86)
+   * ZigBee library for the Xbee module (x86)
+   * Fixed bugs in FAT driver (x86)
+   * Drivers for the PCI-1710 data acquisition (DAS) card (x86)
+   * Test Ada for the CAN bus (x86)
+   * Test Ada for the Ethernet driver (x86)
+   * Scripts to conver convert images for the svga driver (x86)
+   * Simple VGA driver (x86)
+   * New games in examples directory (x86)
+
+marte_1.9_20Aug2014 main changes:
+================================
+
+   * Adaptation to GNAT-GPL-2014
+
+marte_1.9_27Jul2012 main changes:
+================================
+
+   * Adaptation to GNAT-GPL-2012
+
+marte_1.9_06Jun2011 main changes:
+================================
+
+   * Port to XtratuM (yet under development)
+   * Added ath5k driver (Atheros 5xxx WLAN cards)
+   * Adaptation to GNAT-GPL-2010
+   * Added separate accounting for execution time of interrupt handlers
+   * Fixed bug with pragma Relative_Deadline in Ada
+
+marte_1.9_19Aug2009 main changes:
+================================
+
+   * Support for Ada priority specific dispatching: FIFO_Within_Priorities,
+     Round_Robin_Within_Priorities and EDF_Across_Priorities can be used
+     together in a single partition (Ada RM D.2)
+   * Added functions to change the CPU frequency (clock_modulation)
+   * Added examples of clock_modulation usage
+   * Adaptation to GNAT-GPL-2009
+
+marte_1.9_19Mar2009 main changes:
+================================
+
+   * Integrated drivers from Francisco Feijoo proyect, most of them are
+     based on the serial port:
+         - laser-sick-lms200 driver
+         - GPS Novatel ProPak driver
+         - P2OS driver: which in turn allows MaRTE OS to control P2OS
+           devices (compass, odometer, sonar, motors..)
+   * Updated MaRTE OS documentation (README, INSTALL and the USER's GUIDE in
+     marte_ug.html)
+   * Changed the ./minstall script to make the installation a bit easier
+   * Updated the pcm_3718 driver (for Advantech PCM 3718 cards)
+   * Added some functions to the console management module
+   * Several fixes in the keyboard driver, puts function, oscilloscope, RT-EP..
+   * Fixed bug in binary distribution for x86 architecture (wrong links)
+   * Added a new example (martrix)
+
+marte_1.9_13Jan2009 main changes:
+================================
+
+   * Fixes in C++ language support: frame_dummy, stdbool.h
+   * MaRTE OS tracer is in experimental phase after several fixes
+   * Fixed bug in Linux_Lib architecture on Debian: undefined reference to
+     __stack_chk_fail (detected in Debian 2.6.18-5-686)
+
+marte_1.9_22Dec2008 main changes:
+================================
+
+   * In x86 the dynamic memory automatically makes use of all the
+     available free memory by default.
+   * Task Inspector
+   * Round Robin fixes
+   * Fixes in Printer_Port driver, assert, update INSTALL information
+   * EDF scheduling policy added to the POSIX interface (SCHED_EDF)
+
+marte_1.9_5Nov2008 main changes:
+================================
+
+   * MaRTE OS is now compiled as a library and all the architectures
+     can be compiled at the same time. See 'minstall'
+   * Adaptation to GNAT-GPL-2008
+   * New Ada 2005 services: Priority Specific Dispatching, Round Robin
+     Dispatching and Group budgets
+   * Added support for Thread Sets at operating system level (POSIX-like
+     interface)
+   * Added language support for C++, including global static objects,
+     exceptions, rtti, and a partial porting of uSTL.
+   * Added more tests to 'tests/' directory
+   * Added a sniffer for RT-EP to log RT-EP packets from Linux
+   * Timed handlers improvements
+   * Round Robin fixes at operating system level (POSIX interface)
+
+marte_1.8_22Sep2008 main changes:
+================================
+
+   * Added Mouse driver
+   * Added Widgets (buttons, mouse pointer, panels, etc..)
+   * Added support for timed handlers based on group clocks
+   * Fixes in fseek.c, posix-files.adb and fat.adb
+
+marte_1.8_4Jun2008 main changes:
+================================
+
+   * Fixed a bug in the FAT driver and modified the IDE driver
+   * Added a Tetris application to the examples
+
+marte_1.8_26May2008 main changes:
+================================
+
+   * Fixed a bug in the IDE driver
+   * Now the tar.gz file uncompress in a directory with the same name
+
+marte_1.8_5May2008 main changes:
+================================
+
+   * The previous distribution did not include some of the drivers it
+     claimed to include because a mistake when doing the distribution,
+     now they are included
+   * Added drivers for the CAN bus (see x86_arch/drivers/can)
+   * There has been a big renaming in the files of MaRTE OS. For instance
+     all the kernel filenames now have a "marte-" prefix to avoid
+     name collisions (this was a requirement for the inclusion of
+     MaRTE OS in AdaCore GNAT distribution), the hardware interface is
+     now called HAL, the task inspector is now marte-spy, etc..
+   * There are some small libraries added in misc/ directory like a
+     library for taking time measurements, a logger (for example, you
+     can log bytes to a Linux host through the Ethernet), a freelist
+     (useful to preallocate elements in a pool and then get/free them
+     in O(1) time) and Linux kernel-like linked lists.
+
+marte_1.7_13Dec2007 main changes:
+=================================
+
+   * added support for GPL2007 (older compilers are no longer supported)
+   * support for some of the new Ada2005 features
+         Dynamic Priorities for protected objects
+         Execution Time Clocks and Timers
+         Timing Events
+         Round Robin (experimental)
+   * added group-clocks support
+   * experimental support for C++ programs using g++ to compile. STL is
+      only available in linux_lib_arch.
+   * support for the new TLSF 2.3.2
+   * Updated the install information and compilation
+   * Changed mgcc, mgnatmake. Now they support -o option as well.
+   * Drivers:
+         I2C
+         pcm_3718 A/D and Digital card
+         Compass driver
+         Wireless driver for ralink R2561
+         Soundblaster 16 driver
+         serial port bug corrected (thanks to Univ of Zaragoza)
+         circular memory buffer driver, logger and timestamping library
+         console_switcher driver to switch the standard output
+         several improvements in RT-EP, added plug-in for Wireshark
+         Ethernet drivers are not in promiscuous mode by default anymore
+   * Suspension_Time_Minimum changed to processor cycles
+   * added a directory for Regression tests (run with mtests.pl), x86 tests
+      are passed using QEMU.
+   * Avoid some elaborations in MaRTE OS kernel packages, initialization
+      is done through kernel-initialization.adb
+   * Fixed bug when programming a timer in the past (Linux and Linux_Lib)
+   * For x86 added a linker script
+   * Ada Application-defined scheduling for GPL2007 (experimental)
+
+MaRTE OS 1.4 (December, 2003)
+=============================
+
+   * New POSIX functionality included:
+          + Semaphores.
+          + pthread_setschedprio() function.
+          + "Dynamic Package Initialization" (pthread_once() function).
+   * Application-defined scheduling interface improved.
+   * Added PCI bus support (Developed by Jose Maria Martinez).
+   * Improved dynamic memory management: Included the "Two Levels
+   Segregate Fit memory allocator" (TLSF) algorithm developed by
+   Miguel Masmano Tello (Universidad Politecnica de Valencia)
+   * Created scripts 'mgnatbind' and 'mgnatlink'. Now 'mgnatmake' can
+   be used to compile applications split into several directories.
+   * Hardware interrupts management operations. Based on a POSIX
+   draft for "Interrupt Control API" (P1003.2X/D1.0, February 2001).
+   * Drivers for standard output, input and error are now integrated
+   in the general MaRTE drivers framework.
+   * Other minor improvements and bug fixes.
+
+
+MaRTE OS 1.2 (February, 2003)
+=============================
+
+   * New POSIX functionality included:
+                + pthread_mutex_timedlock() function.
+                + clock_nanosleep() function.
+                + Monotonic clock.
+   * Drivers framework.
+   * Application-defined scheduling interface improved:
+                + Accept and reject threads.
+                + Accept and reject mutexes.
+   * Port to gnat3.14p (gnat3.13p is no longer used).
+   * Boot across Ethernet using "dhcpd" and Etherboot
+   * Other minor improvements and bug fixes.
+
+
+MaRTE OS 1.0  (December, 2001)
+=============================
+
+   * Interface for  Application-Defined Scheduling .
+   * Interface for  Interrupts Management at Application Level .
+   * Sporadic Server scheduling policy supported.
+   * Improved interrupt handlers management.
+   * POSIX thread-specific data.
+   * Improved printf and scanf (code taken from the FreeBSD libc).
+   * Tasks block while waiting for keyboard input (no active waiting
+     as in previous versions).
+
+
+MaRTE OS 0.86  (December, 2000)
+=============================
+
+   * Added support for Pentium II  (and higher) Local APIC Timer. This
+     allows implementing faster and more accurate timers.
+   * Fixed bug in timers programming when using TSC and PIT simultaneously.
+   * Fixed bug in delivery of signals generated by timers.
+   * POSIX Trace patch. Developed by Agustin Espinosa (Universidad
+     Politecnica de Valencia).
+
+
+MaRTE OS 0.85 (September, 2000)
+=============================
+
+   * First public version.
+   * C and Ada language POSIX interfaces.
+   * Support the whole gnat run time library.

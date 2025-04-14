@@ -1,0 +1,110 @@
+#!/usr/bin/perl
+
+# MaRTE OS - Create a customized boot floppy
+
+require "root_instalation_path/utils/globals.pl";
+
+# $#ARGV == 0 or die "Use mkbootfloppy exported_directory";
+
+# $exported_directory = $ARGV[0];
+
+opendir NETBOOT_DIR, "$MPATH/netboot" or 
+    die "Can't read '$MPATH/netboot' directory";
+
+open INFO_CARDS, "<$MPATH/netboot/info_cards.txt" or 
+    die "Can't open '$MPATH/netboot/info_cards.txt'";
+
+@lines = <INFO_CARDS>;
+foreach $line (@lines) {
+    ($card_info, $card_name) = split(/;\s/, $line);
+    $card_name =~ s/\n//;
+#    print "card_name:$card_name, card_info:$card_info\n";
+    $Info_cards{$card_name} = $card_info;
+}
+    
+@all_netboots = grep /^netboot_/, readdir NETBOOT_DIR;
+
+do {
+    $i = 0;
+    print "\nChoose the Ethernet card of your _TARGET_ computer:\n";
+    print "  (Press \'q\' and visit http://rom-o-matic.net if your Ethernet\n";
+    print "   card is not in the following list)\n";
+    foreach $netboot_file (@all_netboots) {
+	next unless !($netboot_file =~ /_custom/);
+	$netboot_file =~ /^netboot_(.+)/;
+	$card_names[$i] = $1;
+	printf "(%2d) %s \t", $i, $card_names[$i];
+	print "\n" unless (++$i) % 5;
+    }
+    print "\nChoose a number to get more information or \'q\' to quit...";
+    chomp($num = <STDIN>);
+    exit(0) unless $num ne "q"; 
+    ($short_name, $long_name, $made, $who) = 
+	split(/:/, $Info_cards{$card_names[$num]});
+    print "\nCard:\t\t $card_names[$num]\n";
+    print "Short Name:\t $short_name\n";
+    print "Long Name:\t$long_name\n";
+    print "Company:\t$made";
+#    print "Programmer:\t$who";
+    print "\nIs this the Ethernet card of your target? (y,N)...";   
+} while (!(<STDIN> =~ /^[Y,y]/));
+
+# Create customized netboot
+$boot_params =  $HOST_IP_NUM . ":" . $EXPORTED_DIR . "/mprogram";
+$def_boot_params = "192.168.1.1:/export/marte/mprogram";
+if (length $boot_params > length $def_boot_params) {
+    while (length $boot_params > length $def_boot_params) {
+	$def_boot_params .= " ";
+    }
+} else {
+    while (length $boot_params < length $def_boot_params) {
+	$boot_params .= " ";
+    }
+}
+
+$netboot = "netboot_" . $card_names[$num];
+$netboot_custom = $netboot . "_custom";
+system("cp $MPATH/netboot/$netboot $MPATH/netboot/$netboot_custom") == 0 or
+    die "Can't copy $MPATH/netboot/$netboot";
+
+open ORG_FILE, "<$MPATH/netboot/$netboot" or 
+    die "Can't open $MPATH/netboot/$netboot";
+open DEST_FILE, ">$MPATH/netboot/$netboot_custom" or 
+    die "Can't open $MPATH/netboot/$netboot_custom";
+@lines = <ORG_FILE>;
+foreach $line (@lines) {
+    if ($line =~ /$def_boot_params/) {
+	$line =~ s/$def_boot_params/$boot_params/;
+    }
+    print DEST_FILE "$line";
+}
+close ORG_FILE;
+close DEST_FILE;
+
+# Create a customized bootfloppy
+print "\nInsert a floppy (all the data in it will be destroyed).\n";
+print "Press <enter> to continue..."; $key = <STDIN>;
+$cmd = "dd if=$MPATH/netboot/grubfloppy.img of=/dev/fd0 bs=1440k";
+print "$cmd\n";
+while (system($cmd) != 0) {
+    print "Can't write on the floppy. Is it write-protected?\n";
+    print "If it isn't maybe you will need to execute this\n"; 
+    print "script (mkbootfloppy) with superuser privileges.\n";
+    print "Press <enter> to try again or <Control-C> to abort...";
+    $key = <STDIN>;
+}
+$cmd = "mcopy -o $MPATH/netboot/$netboot_custom a:netboot";
+print "$cmd\n";
+system($cmd) == 0 or 
+    die "Can't copy $MPATH/netboot/$netboot_custom to the floppy";
+
+print "\nNetboot floppy created sucesfully :-)\n";
+print "  - Target Ethrenet Card:\t$card_names[$num]\n";
+print "  - Host IP direction:\t$HOST_IP_NUM\n";
+print "  - Exported directory:\t$EXPORTED_DIR\n\n";
+
+	
+
+
+
+    

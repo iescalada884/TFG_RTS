@@ -1,0 +1,89 @@
+--  Switches for EV3
+with "global_switches";
+
+abstract project EV3_Shared_Switches is
+
+   for Source_Files use ();   --  no sources
+
+   Runtime := project'Project_Dir & "gnat_rts/rts_zfp_ev3";
+   Target := "arm-eabi";
+
+   package Compiler is
+      Common_Compiler_Switches := ("-ffunction-sections",
+                                   "-fdata-sections",
+                                   "-mcpu=ARM926EJ-s",
+                                   "-fno-delete-null-pointer-checks",
+                                   "-march=armv5te",
+                                   "-marm"
+                                   --"-mfloat-abi=soft"
+                                  );
+      for Switches ("Ada") use
+        Common_Compiler_Switches
+        & Global_Switches.Ada_Flags
+        & ("-gnateDDEF_MARTE_ARCH=EV3",
+           "-gnateDMARTE_BOARD=" & Global_Switches.MTarget);
+
+      for Switches ("c") use
+        Common_Compiler_Switches
+        & Global_Switches.C_Flags
+        & ("-Wall",
+           "-nostdinc",
+           "-ffreestanding",
+           "-I" & project'Project_Dir & "ev3_arch/include",
+           "-I" & project'Project_Dir & "ev3_arch/include/misc",
+           --  "-Dmain=user_main",
+           "-DMaRTE_" & Global_Switches.MTarget);
+   end Compiler;
+
+   package Linker is
+      Common_Default_Switches :=
+        ("-Wl,-v",
+         "-Wl,--gc-sections",
+         "-nostdlib",
+         "-nostartfiles",
+         "-ffreestanding",
+         "-mcpu=ARM926EJ-s",
+         "-fno-delete-null-pointer-checks",
+         "-Wl,-T," & project'Project_Dir & "ev3_arch/link-arm-eabi.ld",
+         "-Wl,-Ttext,0x00010000",
+         project'Project_Dir & "ev3_arch/start.o",
+         "-Wl,--print-memory-usage",
+         "-Wl,-Map,map.txt",
+         "-L" & project'Project_Dir & "ev3_arch/",
+         "-L" & project'Project_Dir & "objs/ev3_objs/libmarte");
+
+      for Default_Switches ("Ada") use Common_Default_Switches;
+      for Default_Switches ("C") use Common_Default_Switches;
+
+      Common_Trailing_Switches :=
+        ("-Wl,--start-group",
+         "-lmarte",
+         --"-lgnarl", not in ZFP
+         Runtime & "/adalib/libgnat.a", "-lmarte", "-lgcc", project'Project_Dir & "ev3_arch/libc.a",
+         "-Wl,--end-group");
+
+      for Trailing_Switches ("Ada") use Common_Trailing_Switches;
+      for Trailing_Switches ("C") use Common_Trailing_Switches;
+   end Linker;
+
+--    package Ide is
+--       for Connection_Tool use "openocd";
+--       for Connection_Config_File use OpenOCD_CFG;
+--       for Program_Host use "localhost:4242";
+--       for Communication_Protocol use "remote";
+-- --        for Debugger_Command use
+-- --          "arm-eabi-gdb -x " & project'Project_Dir & "gdb_commands.txt ";
+
+-- --        for Gnat use "arm-eabi-gnat";
+-- --        for Gnatlist use "arm-eabi-gnatls";
+-- --        for Debugger_Command use "arm-eabi-gdb";
+-- --        for Program_Host use "localhost:4242";
+-- --        for Communication_Protocol use "remote";
+-- --        for Connection_Tool use "st-util";
+--    end Ide;
+
+   package Emulator is
+      for Board use "versatilepb";
+   end Emulator;
+
+end EV3_Shared_Switches;

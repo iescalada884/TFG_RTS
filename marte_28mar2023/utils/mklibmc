@@ -1,0 +1,67 @@
+#!/usr/bin/perl
+
+# MaRTE OS. 
+# Make the C standard library.
+
+use strict;
+
+# get MaRTE utils directory 
+use File::Basename;
+use File::Spec;
+my $UTILS_PATH;
+BEGIN {
+    $UTILS_PATH= dirname(File::Spec->rel2abs( __FILE__ ));
+}
+
+# Require local_config.pl
+require "$UTILS_PATH/local_config.pl";
+use vars qw($MPATH);
+
+# Require current_arch.pl
+require "$UTILS_PATH/current_arch.pl";
+use vars qw($CURRENT_ARCH);
+my $march = $CURRENT_ARCH;
+
+# Require globals.pl
+require "$UTILS_PATH/globals.pl";
+use vars qw(&exec_command);
+
+# Make sure minstall has been executed
+$CURRENT_ARCH ne "none" or 
+    die "ERROR: MaRTE not properly installed (architecture is \"none\")\n" .
+    "   Run minstall before running this script\n";
+
+# RTS should have been created before calling this script
+(is_arch_rts_compiled ($march)) or
+    die "\nError: RTS for the architecture \"$march\" is not compiled yet\n" .
+    "  Run \'mkrtsmarteuc\' for the \"$march\" architecture before running this script.\n";
+
+# Parameters managment
+my $cflags = "";
+my $arg="";
+
+foreach $arg (@ARGV) {
+    if ($arg eq "-a") { next; }      # Skip Gnat option
+    if ($arg =~ /^-gnat/) { next; }  # Skip Gnat option
+    if ($arg =~ /^-cargs/) { next; } # Skip Gnat option
+    if ($arg eq "-f") { next; }      # Skip Gnat option
+    if ($arg =~ /^-O./) { next; }    # Skip optimization option
+
+    $cflags .= " " . $arg;
+}
+
+# never use optimization when compiling libmc: printf fails for "%f" with
+# some values
+exec_command "export CFLAGS=\"$cflags \" && " .
+    "export MPATH=$MPATH &&" .
+    "export MARCH=$CURRENT_ARCH &&" .
+    "make -C $MPATH/${march}_arch/libmc";
+
+if ($march ne "linux_lib") {
+    exec_command "export CFLAGS=\"$cflags \" && " .
+	"export MPATH=$MPATH &&" .
+	"make -C $MPATH/${march}_arch/libmc/libm";
+}
+
+printf "   mklibmc: making standard C library...OK.\n";
+

@@ -1,0 +1,113 @@
+===============================================================================
+===============================================================================
+>> eth_drv contains the driver for some ethernet cards
+   Please decompress the sources from inside the MaRTE OS directory.
+   This will install the sources in <marte-directory>/drivers/eth_drv
+
+===============================================================================
+===============================================================================
+>> The ethernet cards supported by this driver are the following ones:
+
+	- sis900
+	
+	- eepro100
+	
+	- rtl8139 (under test)
+
+===============================================================================
+===============================================================================
+>> The specific ethernet card is autodetected in your computer when MaRTE OS 
+    starts running.
+
+===============================================================================
+===============================================================================
+>> It is necessary to rewrite the ../marte/kernel/k-devices_table.ads file 
+    in order to include the driver in MaRTE OS as mentioned in the 
+    MaRTE OS User's Guide published at http://marte.unican.es.
+  
+   In the k-devices_table.ads_EXAMPLE file included in this directory we show
+    an example of how the driver should be installed:
+
+   Below we show a summary of the actions required to install a new driver:
+
+   with Ethernet;  --  This file includes the Interface of the driver functions
+
+   ---------------------------------------------------------------------------
+   --  Drivers Table  --------------------------------------------------------
+   ---------------------------------------------------------------------------
+   --
+   --  Device drivers included in the system. This table associates
+   --  major numbers with device drivers. To include a driver just add
+   --  the following lines to the table:
+   --
+   --  any number available => (
+   --  {your_driver}_create'access,
+   --  {your_driver}_remove'access,
+   --  {your_driver}_open'access,
+   --  {your_driver}_close'access,
+   --  {your_driver}_read'access,
+   --  {your_driver}_write'access,
+   --  {your_driver}_ioctl'access )
+
+   ... 
+
+   -- Ethernet Driver (major number chosen = 9)
+   9 => (--null,
+         Name   => "Ether Drv       ",
+         Create => Ethernet.Create_Ac,
+         Remove => null,
+         Open   => Ethernet.Open_Ac,
+         Close  => Ethernet.Close_Ac,
+         Read   => Ethernet.Read_Ac,
+         Write  => Ethernet.Write_Ac,
+         Ioctl  => Ethernet.Ioctl_Ac),
+
+   ...
+
+   ---------------------------------------------------------------------------
+   --  Device files table  ---------------------------------------------------
+   ---------------------------------------------------------------------------
+   --
+   --  This table defines the files in the file-system. To create a new
+   --  file, add a new entry to the table using the appropriate
+   --  parameters:
+   --
+   --  The major number must be the one that points to the driver in
+   --  The_Driver_Table rows
+   --
+   --  The minor number may be anyone, as it's used as a minor number
+   --  to differentiate assignments of the same Major_Number
+   --
+   --  The third in the assignment (mutex_ceiling_prio) matches with the value
+   --  that all the mutex created from this device file
+   --  will use as ceiling priority
+   --
+   --  The Boolean indicates whether the assignment is in use or not
+
+
+
+   The_Device_Files_Table :
+     Kernel.File_System_Data_Types.Device_Files_Table_Type :=
+     (--        File path                     Major  Minor   Ceiling     Used
+
+      --  ... 
+
+      12 => (To_Path ("/dev/eth0"),             9,     1,    Ceiling_Mx, True),
+
+      --  ... 
+
+      others => (To_Path (""), Major'Last, Minor'Last, 0, False)
+      );
+
+===============================================================================
+===============================================================================
+>> Recompile MaRTE OS to make the driver available to applications.
+
+===============================================================================
+===============================================================================
+>> configuration_parameters.ads_EXAMPLE shows an example of the
+   configuration parameter values that have been successfully used
+   in our system.
+
+===============================================================================
+===============================================================================

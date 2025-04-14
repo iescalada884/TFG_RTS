@@ -1,0 +1,129 @@
+--  Switches for STM32F
+with "global_switches";
+
+abstract project STM32F_Shared_Switches is
+
+   for Source_Files use ();   --  no sources
+
+   Runtime := "zfp-" & Global_Switches.MTarget;
+   Target := "arm-eabi";
+
+   package Compiler is
+      Common_Compiler_Switches := ("-ffunction-sections",
+                                   "-fdata-sections");
+      for Switches ("Ada") use
+        Common_Compiler_Switches
+        & Global_Switches.Ada_Flags
+        & ("-gnateDDEF_MARTE_ARCH=STM32F",
+           "-gnateDMARTE_BOARD=" & Global_Switches.MTarget);
+
+      STM32Cube_FW_F7 := project'Project_Dir &
+        "stm32f_arch/hwi/stm32cube_stm32f769disco/";
+
+      for Switches ("c") use
+        Common_Compiler_Switches
+        & Global_Switches.C_Flags
+        & ("-Wall",
+           "-nostdinc",
+           "-DSTM32F769xx",
+           "-I" & STM32Cube_FW_F7,
+           "-I" & STM32Cube_FW_F7 & "Drivers/BSP/STM32F769I-Discovery",
+           "-I" & STM32Cube_FW_F7 & "Drivers/STM32F7xx_HAL_Driver/Inc",
+           "-I" & Stm32f_Shared_Switches'Project_Dir & "stm32f_arch/hwi/CMSIS",
+
+           "-DSTM32F7xx -DARDUINO=10813 -DARDUINO_DISCO_F769NI -DARDUINO_ARCH_STM32 -DSTM32F769xx -DHAL_UART_MODULE_ENABLED",
+           "-I" & project'Project_Dir & "stm32f_arch/include",
+           "-I" & project'Project_Dir & "stm32f_arch/include/misc",
+           "-I" & project'Project_Dir & "stm32f_arch/hwi/stm32duino/include",
+           "-I" & project'Project_Dir & "stm32f_arch/hwi/stm32duino/include/stm32",
+           "-I" & project'Project_Dir & "stm32f_arch/hwi/stm32duino/include/stm32/LL",
+   --        "-I" & project'Project_Dir & "stm32f_arch/hwi/stm32duino/include/arm-non-eabi",
+   --        "-I" & project'Project_Dir & "stm32f_arch/hwi/stm32duino/include/arm-non-eabi/machine",
+   --        "-I" & project'Project_Dir & "stm32f_arch/hwi/stm32duino/include/arm-non-eabi/sys",
+   --        "-I" & project'Project_Dir & "stm32f_arch/hwi/stm32duino/include/aux2",
+   --        "-I" & project'Project_Dir & "stm32f_arch/hwi/stm32duino/include/ultrasonic",
+           "-I" & project'Project_Dir & "stm32f_arch/hwi/stm32duino/include/variants/DISCO_F769NI",
+
+           "-Dmain=user_main",
+           "-DMaRTE_" & Global_Switches.MTarget);
+   end Compiler;
+
+   package Linker is
+      Common_Default_Switches :=
+        ("-Wl,-v",
+         "-Wl,--gc-sections",
+         "-Wl,--print-memory-usage",
+         "-Wl,-Map,map.txt",
+         "-L" & project'Project_Dir & "/objs/stm32f_objs/libmarte");
+      case Global_Switches.MTarget is
+         when "stm32f4" =>
+            null;
+         when "stm32f769disco" =>
+            Common_Default_Switches := Common_Default_Switches
+              & ("-L" & project'Project_Dir &
+                   "/stm32f_arch/stm32f769disco_ld", -- Linker Scripts With Static C++ Contstructors
+                 "-L" & project'Project_Dir &
+                   "/objs/stm32f_objs/stm32cube_fw_f7",
+                "-L" & project'Project_Dir &
+                   "/stm32f_arch/hwi/stm32duino");
+         when "ev3" =>
+            Common_Default_Switches := ("Unexpected EV3 MTarget");
+      end case;
+
+      for Default_Switches ("Ada") use Common_Default_Switches;
+      for Default_Switches ("C") use Common_Default_Switches;
+
+      Common_Trailing_Switches :=
+        ("-Wl,--start-group",
+         "-lmarte",
+         --"-lgnarl", not in ZFP
+         "-lgnat", "-lgcc", "-lc",
+--           "-lgnat", "-lgcc", "-lgcov", "-lc",
+         "-Wl,--end-group");
+      case Global_Switches.MTarget is
+         when "stm32f4" =>
+            null;
+         when "stm32f769disco" =>
+            Common_Trailing_Switches := Common_Trailing_Switches
+              & ("-lstm32cube_fw_f7","-Wl,--start-group","-lstm32duino","-lgcc","-lc","-Wl,--end-group");
+         when "ev3" =>
+            Common_Trailing_Switches := ("Unexpected EV3 MTarget");
+      end case;
+
+      for Trailing_Switches ("Ada") use Common_Trailing_Switches;
+      for Trailing_Switches ("C") use Common_Trailing_Switches;
+   end Linker;
+
+   OpenOCD_CFG := "";
+   case Global_Switches.MTarget is
+      when "stm32f4" =>
+         OpenOCD_CFG := "board/stm32f4discovery.cfg";
+      when "stm32f769disco" =>
+         OpenOCD_CFG := "board/stm32f7discovery.cfg";
+         --OpenOCD_CFG := project'Project_Dir &
+          -- "stm32f_arch/hwi/openocd_stm32f7/stm32f7discovery.cfg";
+      when "ev3" =>
+         OpenOCD_CFG := "Unexpected EV3 MTarget";
+   end case;
+
+   package Ide is
+      for Connection_Tool use "openocd";
+      for Connection_Config_File use OpenOCD_CFG;
+      for Program_Host use "localhost:4242";
+      for Communication_Protocol use "remote";
+--        for Debugger_Command use
+--          "arm-eabi-gdb -x " & project'Project_Dir & "gdb_commands.txt ";
+
+--        for Gnat use "arm-eabi-gnat";
+--        for Gnatlist use "arm-eabi-gnatls";
+--        for Debugger_Command use "arm-eabi-gdb";
+--        for Program_Host use "localhost:4242";
+--        for Communication_Protocol use "remote";
+--        for Connection_Tool use "st-util";
+   end Ide;
+
+   package Emulator is
+      for Board use "STM32F4";
+   end Emulator;
+
+end STM32F_Shared_Switches;

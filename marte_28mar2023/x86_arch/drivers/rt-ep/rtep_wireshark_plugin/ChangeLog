@@ -1,0 +1,17 @@
+# Changelog
+# Changelog file for RTEP plugin
+#
+# $Id: Makefile.am 21961 2007-05-27 18:35:55Z sangorrin $
+
+Overview of changes in RT-EP Wireshark plugin:
+
+Version 0.0.3 (9-Dec-2007)
+
+* Adapted to new RT-EP packet formats
+* Added Lock and Unlock
+
+Version 0.0.2 (8-Dec-2007)
+
+* Adapted to SVN revision 23807
+* Added a README File
+

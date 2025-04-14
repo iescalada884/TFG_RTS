@@ -1,0 +1,71 @@
+#!/usr/bin/perl
+
+# MaRTE OS. 
+# Make all drivers: execute make in every subdirectories inside 'drivers/'.
+# Move all the objects files in subdirectories inside 'drivers/' to the objs
+# directory ($MPATH/lib/${march}_objs).
+use strict;
+
+# get MaRTE utils directory 
+use File::Basename;
+use File::Spec;
+my $UTILS_PATH;
+BEGIN {
+    $UTILS_PATH= dirname(File::Spec->rel2abs( __FILE__ ));
+}
+
+# Require local_config.pl
+require "$UTILS_PATH/local_config.pl";
+use vars qw($MPATH);
+
+# Require current_arch.pl
+require "$UTILS_PATH/current_arch.pl";
+use vars qw($CURRENT_ARCH);
+my $march = $CURRENT_ARCH;
+
+# Require globals.pl
+require "$UTILS_PATH/globals.pl";
+use vars qw(&exec_command &exec_command_no_echo);
+
+# Make sure minstall has been executed
+$CURRENT_ARCH ne "none" or 
+    die "ERROR: MaRTE not properly installed (architecture is \"none\")\n" .
+    "   Run minstall before running this script\n";
+
+# RTS should have been created before calling this script
+(is_arch_rts_compiled ($march)) or
+    die "\nError: RTS for the architecture \"$march\" is not compiled yet\n" .
+    "  Run \'mkrtsmarteuc\' for the \"$march\" architecture before running this script.\n";
+
+# Look for gcc flags
+my $cflags=""; 
+my $arg="";
+foreach $arg (@ARGV) {
+    $cflags .= " " . $arg unless ($arg =~ /-gnat/);
+}
+
+my $DRIVERS_DIR="$MPATH/${march}_arch/drivers";
+
+printf "  mkdrivers: making C drivers...\n";
+# for every dir inside 'drivers/'
+opendir DIR, "$DRIVERS_DIR" or 
+    die "$DRIVERS_DIR directory not found";
+my @all_files = grep !/^\./, readdir DIR;
+my $dir="";
+foreach $dir (@all_files) {
+    if ((-e "$DRIVERS_DIR/$dir/GNUmakefile") ||
+	(-e "$DRIVERS_DIR/$dir/makefile")    ||
+	(-e "$DRIVERS_DIR/$dir/Makefile")) {
+	printf "  Making $dir...\n";
+	exec_command "cd $DRIVERS_DIR/$dir && " .
+	    "export CFLAGS=\"$cflags\" && export MPATH=$MPATH && " .
+	    "make";
+    }
+}
+
+if ($march ne "linux_lib") {
+    printf " - Moving *.o files to objs directory...";
+    exec_command "mv $DRIVERS_DIR/*/*.o $MPATH/lib/";
+}
+
+printf "   mkdrivers: making C drivers...OK.\n";

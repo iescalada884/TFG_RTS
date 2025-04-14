@@ -1,0 +1,30 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.atomic_operations%s  s-atoope.ads	d34b112a NE OL PU PK
+W system%s		system.ads		system.ali
+
+D system.ads		20250318185043 14286b0f system%s
+D s-atoope.ads		20250318185043 c7637a25 system.atomic_operations%s
+G a e
+X 1 system.ads
+37K9*System 155e11 2|36r9 39r5
+X 2 s-atoope.ads
+36K16*Atomic_Operations 1|37k9 2|39l12 39e29
+

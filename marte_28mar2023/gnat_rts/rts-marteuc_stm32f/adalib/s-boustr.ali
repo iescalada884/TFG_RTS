@@ -1,0 +1,78 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P SS ZX
+
+RN
+RV NO_SECONDARY_STACK
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.bounded_strings%b  s-boustr.adb	0978786d NE OL PK
+W system%s		system.ads		system.ali
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+W system.storage_elements%s  s-stoele.ads	s-stoele.ali
+
+U system.bounded_strings%s  s-boustr.ads	63d54a16 NE OL PK
+W system%s		system.ads		system.ali
+
+D system.ads		20250318185043 14286b0f system%s
+D s-boustr.ads		20250318185043 77fd2119 system.bounded_strings%s
+D s-boustr.adb		20250318185043 b25b8d9c system.bounded_strings%b
+D s-parame.ads		20250318185044 3597fc11 system.parameters%s
+D s-secsta.ads		20250318185043 578279f5 system.secondary_stack%s
+D s-stoele.ads		20250318185043 ccded4e8 system.storage_elements%s
+G a e
+G c Z s b [append system__bounded_strings 39 14 none]
+G c Z s b [append system__bounded_strings 40 14 none]
+G c Z s b [to_string system__bounded_strings 44 13 none]
+G c Z s b [append_address system__bounded_strings 48 14 none]
+G c Z s b [is_full system__bounded_strings 51 13 none]
+G c Z s s [bounded_stringIP system__bounded_strings 55 9 none]
+X 1 system.ads
+37K9*System 155e11 2|34r9 62r5 3|32r6 34r14 65r11 104r5
+67M9*Address 2|48r61 3|61r61
+X 2 s-boustr.ads
+34K16*Bounded_Strings 1|37k9 2|55E9 62l12 62e27 3|34b21 104l12 104t27
+35R9*Bounded_String 35d25 39r33 40r33 44r28 45r22 48r41 51r26 55c9 61e14
+. 3|40r33 50r33 61r41 90r26 99r28
+35i25 Max_Length{natural} 55r25 59r29 3|44r23 92r28
+39U14*Append 39=22 39>49 3|40b14 48l8 48t14 53s10
+39r22 X{35R9} 3|40b22 44r10 44r21 45m10 45r32 46m10 46r19
+39e49 C{character} 3|40b49 46r32
+40U14*Append 40=22 40>49 3|50b14 55l8 55t14 83s7
+40r22 X{35R9} 3|50b22 53m18
+40a49 S{string} 3|50b49 52r16
+44V13*To_String{string} 44>24 45r60 3|99b13 102l8 102t17
+44r24 X{35R9} 3|99b24 101r14 101r28
+45V14*"+"=45:60{string}
+45r18 X{35R9}
+48U14*Append_Address 48=30 48>57 3|61b14 84l8 84t22
+48r30 X{35R9} 3|61b30 83m15
+48m57 A{1|67M9} 3|61b57 72r24
+51V13*Is_Full{boolean} 51>22 3|90b13 93l8 93t15
+51r22 X{35R9} 3|90b22 92r14 92r26
+56i7*Length{natural} 3|44r12 45m12 45r34 46r21 92r16 101r30
+59a7*Chars{string} 3|46m12 101r16
+X 3 s-boustr.adb
+52e11 C=52:16{character} 53r21
+63a7 S{string} 71r12 74m10 80m7 81m7 83r18 83r30
+64i7 P{natural} 71m7 74r13 75m10 75r15 80r10 81r10 83r21
+66m7 N{6|82M9} 72m7 74r31 76m10 76r15 77r20
+68a7 H(character) 74r19
+X 6 s-stoele.ads
+40K16*Storage_Elements 3|32w13 65r18 6|90e28
+82M9*Integer_Address 3|66r11
+87V13*To_Integer{82M9} 3|72s12
+

@@ -1,0 +1,2 @@
+gnat_io_driver_functions.adb:12:47: warning: return type of "System_Text_IO_Initialized" is an 8-bit Ada Boolean
+gnat_io_driver_functions.adb:12:47: warning: use appropriate corresponding type in C (e.g. char)

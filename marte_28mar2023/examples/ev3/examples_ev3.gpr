@@ -1,0 +1,23 @@
+with "../../ev3_shared_switches.gpr";
+--with "../../marte_ev3.gpr";
+
+project Examples_EV3 is
+
+   for Languages use ("C");
+   for Source_Dirs use (".");
+   for Object_Dir use "obj";
+   for Main use ("hello_world_serial.c");
+   for Create_Missing_Dirs use "True";
+   for Runtime ("ada") use Ev3_Shared_Switches.Runtime;
+   for Target use Ev3_Shared_Switches.Target;
+
+   package Compiler renames Ev3_Shared_Switches.Compiler;
+
+   package Linker renames Ev3_Shared_Switches.Linker;
+
+   --package Ide renames EV3_Shared_Switches.Ide;
+
+   package Emulator renames Ev3_Shared_Switches.Emulator;
+
+end Examples_EV3;
+

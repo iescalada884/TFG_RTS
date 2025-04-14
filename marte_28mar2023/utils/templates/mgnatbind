@@ -1,0 +1,33 @@
+#!/usr/bin/perl -w
+#
+# MaRTE OS.
+#
+# Call 'gnatbind' with the appropriate parameters.
+
+use strict;
+
+# get MaRTE utils directory 
+use File::Basename;
+use File::Spec;
+my $UTILS_PATH;
+BEGIN {
+    $UTILS_PATH= dirname(File::Spec->rel2abs( __FILE__ ));
+}
+
+# Require local_config.pl
+require "$UTILS_PATH/local_config.pl";
+use vars qw($MPATH);
+
+# Require current_arch.pl
+require "$UTILS_PATH/current_arch.pl";
+use vars qw($CURRENT_ARCH);
+
+# Require globals.pl
+require "$UTILS_PATH/globals.pl";
+use vars qw(%COMPILER_PREFIX %GNAT_RTS &exec_command);
+
+
+# Invoke gnatbind
+exec_command "$COMPILER_PREFIX{$CURRENT_ARCH}gnatbind " .
+      "@ARGV --RTS=$GNAT_RTS{$CURRENT_ARCH} ";
+

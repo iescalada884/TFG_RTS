@@ -1,0 +1,6 @@
+Only the MaRTE partition
+
+This configuration is useful to test MaRTE on XtratuM without interference
+from other partitions
+
+Do not change files in this directory. They are used to perform the automatic MaRTE tests ('tests/' directory).

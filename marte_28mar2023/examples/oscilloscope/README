@@ -1,0 +1,25 @@
+
+                        Oscilloscope for MaRTE OS
+                        =========================
+                           by Daniel Sangorrin
+                    daniel.sangorrin@{unican.es, gmail.com}
+
+This is a very simple oscilloscope to monitor data.
+
+- README: this file
+
+- Makefile: script to compile the tests (make test_xxx.exe)
+
+- oscilloscope.[h, c]: the code for the oscilloscope. It requires the library
+  svga (which is available in MaRTE OS for the x86 architecture). The
+  interface is very simple, check the example tests provided
+
+- test_oscilloscope.c: a simple test that shows a sine on the oscilloscope
+
+- test_oscilloscope_mouse.c: a test that monitors on the oscilloscope the value
+  of the coordinate 'y' of the mouse (you must install the driver for the
+  mouse device in marte-kernel-devices_table.ads and recompile MaRTE OS)
+
+- mouse_bindings.ad[s,b]: this is part of the test_oscilloscope_mouse and is
+  used to communicate with the mouse driver in Ada because there is no C
+  interface available for that driver right now.

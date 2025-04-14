@@ -1,0 +1,108 @@
+V "GNAT Lib v2019"
+A -gnatA
+A --RTS=/home/ubuntfg/opt/GNAT/2019-arm-elf/arm-eabi/lib/gnat/zfp-stm32f4/
+A -mlittle-endian
+A -mfloat-abi=hard
+A -mcpu=cortex-m4
+A -mfpu=fpv4-sp-d16
+A -mthumb
+A -ffunction-sections
+A -fdata-sections
+A -gnateDDEF_MARTE_ARCH=STM32F
+A -gnateDMARTE_BOARD=stm32f4
+P ZX
+
+RN
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_UNCHECKED_CONVERSION
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK_05
+
+U marte.kernel.semaphores%b  marte-kernel-semaphores.adb  df155afa NE OO PK
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+
+U marte.kernel.semaphores%s  marte-kernel-semaphores.ads  e0997211 EE NE OO PK
+W ada%s			ada.ads			ada.ali
+W ada.unchecked_conversion%s
+W marte%s		marte.ads		marte.ali
+W marte.integer_types%s	marte-integer_types.ads	marte-integer_types.ali
+W marte.kernel%s	marte-kernel.adb	marte-kernel.ali
+
+D ada.ads		20190518110050 76789da1 ada%s
+D a-tags.ads		20190518110050 2dde273c ada.tags%s
+D a-unccon.ads		20190518110050 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20190518110050 5ab55268 interfaces%s
+D i-c.ads		20190518110050 ef84921c interfaces.c%s
+D i-stm32.ads		20190518110049 4d2e1e9b interfaces.stm32%s
+D i-stm32-pwr.ads	20190518110049 10ed2a13 interfaces.stm32.pwr%s
+D marte.ads		20230328142408 99bc4a3f marte%s
+D marte-configuration_parameters.ads  20230328142416 381ea921 marte.configuration_parameters%s
+D marte-hal.ads		20230328142416 b82c62f8 marte.hal%s
+D marte-integer_types.ads  20230328142407 2e806981 marte.integer_types%s
+D marte-kernel.ads	20230328142408 dd02ee52 marte.kernel%s
+D marte-kernel-semaphores.ads  20230328142408 1d80d2ad marte.kernel.semaphores%s
+D marte-kernel-semaphores.adb  20230328142407 c2958857 marte.kernel.semaphores%b
+D marte-posix_constants.ads  20230328142408 8d4a4132 marte.posix_constants%s
+D marte-sll.ads		20230328142436 f705b9d6 marte.sll%s
+D marte-sll-advanced.ads  20230328142436 2ff94b17 marte.sll.advanced%s
+D marte-sll-map.ads	20230328142436 71679a5f marte.sll.map%s
+D marte-sll-order.ads	20230328142436 45a1562e marte.sll.order%s
+D marte-sll-resources.ads  20230328142436 3fc24e72 marte.sll.resources%s
+D marte-stacks_management.ads  20230328142408 745cf584 marte.stacks_management%s
+D system.ads		20190518110049 e69b74bd system%s
+D s-bb.ads		20190518110050 09e072ae system.bb%s
+D s-bbbopa.ads		20190518110049 95d97b26 system.bb.board_parameters%s
+D s-bbmcpa.ads		20190518110049 c4c55388 system.bb.mcu_parameters%s
+D s-bbpara.ads		20190518110049 431abc17 system.bb.parameters%s
+D s-stm32.ads		20190518110049 e898dba2 system.stm32%s
+D s-stoele.ads		20190518110050 2dc34a04 system.storage_elements%s
+D s-unstyp.ads		20190518110050 34867c83 system.unsigned_types%s
+G a e
+G c Z s b [semaphore_ok marte__kernel__semaphores 67 13 none]
+G c Z s s [to_semaphore_base_ac marte__kernel__semaphores 72 13 none]
+G c Z s s [to_semaphore_ac marte__kernel__semaphores 74 13 none]
+G c Z s s [Tmagic_checkBIP marte__kernel__semaphores 80 4 none]
+G c Z s s [semaphoreIP marte__kernel__semaphores 88 9 none]
+G r s map_list [semaphoreIP marte__kernel__semaphores 88 9 none] [map_listIP marte__kernel__tasks_map_lists 111 9 685_4]
+X 1 ada.ads
+16K9*Ada 20e8 13|47r6 73r11 75r11
+X 3 a-unccon.ads
+20v14*Unchecked_Conversion 13|47w10 73r15 75r15
+X 8 marte.ads
+43K9*MaRTE 45e10 13|46r6 49r9 51r22 56r32 94r5 14|46r14 56r5
+X 10 marte-hal.ads
+137U14*Disable_Interrupts 138i<c,marte__hal__disable_interrupts>22
+141U14*Enable_Interrupts 142i<c,marte__hal__enable_interrupts>22
+X 11 marte-integer_types.ads
+44K15*Integer_Types 201e24 13|46w12 56r38
+79M9*Unsigned 13|56r52
+X 12 marte-kernel.ads
+64K15*Kernel 8|43k9 12|767e17 13|49r15 51r28 94r11 14|46r20 56r11
+105U14*Enter_Critic_Section 106i<c,kernel_enter_critic_section>22
+118U14*Leave_Critic_Section 119i<c,kernel_leave_critic_section>22
+179M9*Semaphore_Base_Ac<22|90M9> 13|73r53 75r39
+685K12*Tasks_Map_Lists[18|56] 13|90r25
+X 13 marte-kernel-semaphores.ads
+49K22*Semaphores 12|64k15 13|80E9 94l18 94e28 14|46b27 56l18 56t28
+51K12*K=51:28 73r51 75r37 90r23
+56M9*Semaphore_Value<11|79M9> 89r23
+61R9*Semaphore 62r36 88c9 92e14
+62P9*Semaphore_Ac(61R9) 67r36 73r37 75r58 14|51r36
+67V13*Semaphore_OK{boolean} 67>27 14|51b13 54l8 54t20
+67p27 Sem{62P9} 14|51b27 53r14 53r35
+72V13*To_Semaphore_Base_Ac[3|20]{12|179M9}
+74V13*To_Semaphore_Ac[3|20]{62P9}
+80A9 Magic_Check(character)<integer> 81r17 82r27 83r27 91r23
+82a4 INITIALIZED{80A9} 14|53r47
+83a4 DESTROYED{80A9}
+89m7*Value{56M9}
+90r7*Blocked_Tasks{18|58R9[12|685]}
+91a7*Magic{80A9} 14|53r39
+X 16 marte-sll.ads
+48R9 Basic
+53R9*Element<12|209R9>
+X 18 marte-sll-map.ads
+58R9*Map_List 13|90r41[12|685]
+X 22 system.ads
+90M9*Address
+

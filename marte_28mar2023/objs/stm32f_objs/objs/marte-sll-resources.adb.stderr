@@ -1,0 +1,4 @@
+marte-sll-resources.adb:50:13: warning: return type of "Malloc" does not correspond to C type
+marte-sll-resources.adb:52:20: warning: "Free.E" involves a tagged type which does not correspond to any C type
+marte-sll-resources.adb:81:30: warning: "Memory_Copy.From" involves a tagged type which does not correspond to any C type
+marte-sll-resources.adb:82:30: warning: "Memory_Copy.To" involves a tagged type which does not correspond to any C type

@@ -1,0 +1,2 @@
+marte-posix_time.ads:128:28: warning: "Timer_Settime.Timerid" involves a tagged type which does not correspond to any C type
+marte-posix_time.ads:135:28: warning: "Timer_Gettime.Timerid" involves a tagged type which does not correspond to any C type

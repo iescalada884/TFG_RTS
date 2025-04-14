@@ -1,0 +1,14 @@
+Sangorrin Lopez, Daniel wrote:
+
+    I am coding a new plugin dissector for a real-time protocol. I have two short questions:
+
+    - Is there a way to get the value of the 'time' column?
+
+pinfo->fd->abs_ts gives you a seconds+nanoseconds absolute time stamp - seconds since January 1, 1970, 00:00:00 GMT, and nanoseconds since the beginning of that second.
+
+    - If I patch my kernel to have high resolution timers, the time
+    displayed in wireshark will be more accurate, right?
+
+"Accurate" depends on how accurately set the clock is. Note also that the time stamping isn't necessarily done at the instant the first bit, or the last bit, of the packet arrives at the network adapter, so the OS can get in the way of accuracy.
+
+What you might get from high-resolution timers is higher-resolution time stamps. You'll get microsecond resolution at best without code changes including libpcap code changes. If the high resolution timers are used for time stamping in the networking code, you'll get higher-resolution time stamps; if they require special APIs and KPIs to get at them, so that the existing socket code won't use them automatically, it won't make a difference. I don't know which is the case.

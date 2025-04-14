@@ -1,0 +1,46 @@
+V "GNAT Lib v14"
+A -nostdinc
+A -O2
+A -gnatA
+A --RTS=/home/ubuntfg/Documents/TFG_RTS/rts14_arm/
+A -g
+A -gnatg
+A -gnatp
+A -gnatg
+A -mcpu=arm7tdmi
+A -mfloat-abi=soft
+A -marm
+A -mlibarch=armv4t
+A -march=armv4t
+P ZX
+
+RN
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U system.exp_lllu%s	s-explllu.ads		469a0f72 NE OL PK
+W system%s		system.ads		system.ali
+Z system.exp_llu%s	s-expllu.ads		s-expllu.ali
+W system.exponu%s
+W system.unsigned_types%s  s-unstyp.ads		s-unstyp.ali
+
+D system.ads		20250318185043 14286b0f system%s
+D s-explllu.ads		20250318185044 f772e783 system.exp_lllu%s
+D s-expllu.ads		20250318185043 ad7cdd87 system.exp_llu%s
+D s-exponu.ads		20250318185044 5feafca7 system.exponu%s
+D s-exponu.adb		20250318185043 29154284 system.exponu%b
+D s-unstyp.ads		20250318185043 fa2a7f59 system.unsigned_types%s
+G a e
+G c Z s s [exp_long_long_long_unsignedR system__exp_lllu__exp_long_long_long_unsignedGP3417 57 13 none]
+G c Z s s [exp_long_long_long_unsigned system__exp_lllu 57 13 none]
+X 1 system.ads
+37K9*System 155e11 2|48r6 49r6 51r9 61r5
+X 2 s-explllu.ads
+51K16*Exp_LLLU 1|37k9 2|61l12 61e20
+55M12*Long_Long_Long_Unsigned{6|47M9} 58r18
+57V13*Exp_Long_Long_Long_Unsigned[4|49]{6|47M9} 59r26 5|32b17
+X 4 s-exponu.ads
+49v17*Exponu 1|37k9 2|48w13 58r10
+X 6 s-unstyp.ads
+38K16*Unsigned_Types 2|49w13 55r39 6|249e26
+47M9*Long_Long_Long_Unsigned 2|55r54
+

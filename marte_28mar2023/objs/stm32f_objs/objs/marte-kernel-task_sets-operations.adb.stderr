@@ -1,0 +1,12 @@
+marte-kernel-task_sets-operations.ads:52:07: warning: "Marte_Thread_Set_Destroy.Set" involves a tagged type which does not correspond to any C type
+marte-kernel-task_sets-operations.ads:57:07: warning: "Marte_Thread_Set_Empty.Set" involves a tagged type which does not correspond to any C type
+marte-kernel-task_sets-operations.ads:62:07: warning: "Marte_Thread_Set_Add_Thread.Set" involves a tagged type which does not correspond to any C type
+marte-kernel-task_sets-operations.ads:63:07: warning: "Marte_Thread_Set_Add_Thread.T" involves a tagged type which does not correspond to any C type
+marte-kernel-task_sets-operations.ads:68:07: warning: "Marte_Thread_Set_Del_Thread.Set" involves a tagged type which does not correspond to any C type
+marte-kernel-task_sets-operations.ads:69:07: warning: "Marte_Thread_Set_Del_Thread.T" involves a tagged type which does not correspond to any C type
+marte-kernel-task_sets-operations.ads:74:07: warning: "Marte_Thread_Set_First.Set" involves a tagged type which does not correspond to any C type
+marte-kernel-task_sets-operations.ads:81:07: warning: "Marte_Thread_Set_Next.Set" involves a tagged type which does not correspond to any C type
+marte-kernel-task_sets-operations.ads:88:07: warning: "Marte_Thread_Set_Is_Member.Set" involves a tagged type which does not correspond to any C type
+marte-kernel-task_sets-operations.ads:89:07: warning: "Marte_Thread_Set_Is_Member.T" involves a tagged type which does not correspond to any C type
+marte-kernel-task_sets-operations.ads:95:07: warning: "Marte_Thread_Set_Getset.T" involves a tagged type which does not correspond to any C type
+marte-kernel-task_sets-operations.ads:101:07: warning: "Marte_Getgroupclockid.Set" involves a tagged type which does not correspond to any C type

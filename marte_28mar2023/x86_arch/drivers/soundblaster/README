@@ -1,0 +1,75 @@
+// -----------------------------------------------------------------------
+// Soundblaster + DMA driver
+// -----------------------------------------------------------------------
+
+Introduction
+============
+
+This directory contains a simple driver for programming a soundblaster 16 and
+a DMA driver to program the DMA with the data that feeds the sound card.
+It does not cover all the functionality of the card.
+
+You can find documentation on the soundblaster 16 easily on the internet:
+
+http://homepages.cae.wisc.edu/~brodskye/sb16doc/sb16doc.html
+http://www.inversereality.org/tutorials/sound%20programming/soundblaster16.html
+
+
+How to test the driver in QEMU
+============================
+
+1.- Install MaRTE OS with the FAT filesystem enabled. (Note: for the
+    "hexdump" tests, this step is not necessary as the sound file is already
+    embebded in the code).
+
+2.- Compile one of the provided examples as:
+
+    $ make test_xxx.exe
+
+3.- Uncompress the following disk image which has a a FAT16 filesystem with
+    GRUB installed and a song in WAV format.
+
+    $ wget http://marte.unican.es/documentation/tutorials/music_demo.img.tar.gz
+
+4.- Copy the application in the disk
+
+    $ losetup -o32256 /dev/loop/0 disk.img
+    $ mount -o loop /dev/loop0  mfloppy
+    $ cp -f test_xxx.exe mfloppy/mprogram
+    $ umount mfloppy
+    $ losetup -d /dev/loop/0
+
+    or
+
+    $ mcopy test_xxx.exe c:mprogram
+
+5.- Execute QEMU as:
+
+    $ qemu -hda disk.img -soundhw sb6
+
+    (If you have problems with busy resource, desactivate the ESD daemon)
+
+FILES
+=====
+
+- dma.ad[s,b]: Module that contains the internals for programming the DMA
+
+- sb16.ad[s,b]: Module that contains the internals for programming the SB16
+
+- test_sb16.adb: The main test of the module which reproduces a song
+
+- test_sb16_hexdump.adb: Plays a sound from a buffer variable obtained by
+  hexdumping a WAV file with a command like this (Ada version):
+
+   $ hexdump -v -s 44 -n 20000 -e '9/1 "16#%02X#, " "\n"' test.wav
+
+- test_sb16_hexdump_c.c: Plays a sound from a buffer variable obtained by
+  hexdumping a WAV file with a command like this (C version):
+
+   $ hexdump -v -s 44 -n 20000 -e '11/1 "0x%02X, " "\n"' test.wav
+
+- test_sb16_internals.adb and seemem.c: These are just tests that access directly
+  to the card. They were just useful for creating sb16.ad[s,b] but I leave them
+  here in case you are interested. Seemem.c simply shows a section of memory.
+
+

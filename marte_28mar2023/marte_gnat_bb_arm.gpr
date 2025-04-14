@@ -1,0 +1,46 @@
+library project Marte_Gnat_Bb_Arm is
+
+   for Languages use ("Ada", "C", "Asm_Cpp");
+   for Source_Dirs use ("kernel", "sll", "gnat_arm_bb_arch/hwi", "gnat_arm_bb_arch/drivers/**", "misc", "gnat_arm_bb_arch/call_main");
+   --, "/home/mario/opt/GNAT/2018-arm-elf/arm-eabi/lib/gnat/ravenscar-full-stm32f4/gnat");
+   for Excluded_Source_Files use
+     ("marte-sll-null_element.adb", "marte-sll-null_element.ads", "marte-kernel-cpu_time_timed_events_lists_prio.ads",
+      "marte_os_c.ads", "time_measurement_hwtime.c", "marte-direct_io_c.c", 
+      "marte_hardware_interrupts_wait.adb", "marte_hardware_interrupts_wait.ads",
+      "console_management.adb", "console_management.ads", "debug_marte.adb",
+      "debug_marte.ads", "logger_ada.ads",
+      "execution_load_loop.adb", "execution_load_loop.ads",
+      "marte_hardware_interrupts.ads",
+      "time_measurement_posix_ada.adb", "time_measurement_posix_ada.ads",
+      "wrapper_main_ada.c");
+   for Target use "arm-eabi";
+   for Runtime ("ada") use "marte-stm32f4";
+   for Library_Name use "marte";
+   for Object_Dir use "objs/libmarte_gnat_arm_bb_objs";
+   for Library_Dir use "objs/gnat_arm_bb_objs";
+   for Library_Kind use "static";
+   --for Library_Interface use ("marte");
+   --for Library_Auto_Init use "False";
+
+   for Exec_Dir use "tests/sched";
+
+   package Compiler is
+      DBG_Switch := ("-g");
+      for Switches ("c") use DBG_Switch & ("-Wall", "-nostdinc", "-I/home/mario/opt/GNAT/2018-arm-elf/lib/gcc/arm-eabi/7.3.1/include", "-I/home/mario/marte_os/marte/arch/include", 
+         "-I/home/mario/marte_os/marte/arch/include/misc", "-ffunction-sections", "-fdata-sections");
+      for Switches ("ada") use DBG_Switch & ("-ffunction-sections", "-fdata-sections", "-gnateDDEF_MARTE_ARCH=GNAT_BB_ARM");
+   end Compiler;
+
+   package Emulator is
+      for Debug_Port use "1234";
+   end Emulator;
+
+   package Ide is
+      for Debugger_Command use "arm-eabi-gdb -x gdb_commands.txt";
+   end Ide;
+
+   package Linker is
+   end Linker;
+
+end Marte_Gnat_Bb_Arm;
+

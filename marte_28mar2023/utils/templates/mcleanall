@@ -1,0 +1,98 @@
+#!/usr/bin/perl -w
+use strict;
+use Cwd;
+
+# get MaRTE utils directory 
+use File::Basename;
+use File::Spec;
+my $UTILS_PATH;
+BEGIN {
+    $UTILS_PATH= dirname(File::Spec->rel2abs( __FILE__ ));
+}
+
+# Require local_config.pl
+require "$UTILS_PATH/local_config.pl";
+use vars qw($MPATH);
+
+# Subfunction declaration
+sub exec_command_or_skip;
+
+my $CREATED_UTILS="gdb_commands mgcc mg++ mkbootfloppy mkrtsmarteuc globals.pl mgcj mkdrivers mscriptsgen marte_db mgnatmake mgnatbind mklibmc msetcurrentarch mcleanall  mjvgenmain  mkmarte  mtests";
+
+
+$MPATH eq cwd or
+    die "mcleanall must be executed from the root installation directory";
+
+# Removing security copies...
+print "\nRemoving security copies...\n";
+exec_command_or_skip "find $MPATH -name \"*~\" -exec rm {} \\;";
+
+# Removing RTSs.
+print "\nRemoving GNAT RTSs...\n";
+my $arch="";
+for $arch ("linux", "linux_lib", "x86", "xtratum", "rpi") {
+   exec_command_or_skip "cd gnat_rts && " .
+    "chmod -R u+rwx rts-marteuc_$arch && " .
+    "rm -fr rts-marteuc_$arch" unless (!(-e "gnat_rts/rts-marteuc_$arch"));
+}
+
+# Removing '.o' files...
+print "\nRemoving '.o' files...\n";
+exec_command_or_skip "find $MPATH -name \"*.o\" -exec rm {} \\;";
+
+# Removing '.ali' files...
+print "\nRemoving '.ali' files...\n";
+exec_command_or_skip "find $MPATH -name \"*.ali\" -exec rm {} \\;";
+
+# Removing '.a' files...
+print "\nRemoving '.a' files...\n";
+exec_command_or_skip "find $MPATH -name \"*.a\" ! -name \"libm.a\" ! -name \"libboot.a\" -exec rm {} \\;";
+
+# Removing created utilities...
+print "\nRemoving created utilities...\n";
+exec_command_or_skip "cd $MPATH/utils; rm -f $CREATED_UTILS";
+
+# Removing gnat main programs ...
+print "\nRemoving gnat main programs...\n";
+exec_command_or_skip "find $MPATH -name \"b~*\" -exec rm {} \\;";
+
+# Removing auxiliary programs ...
+print "\nRemoving auxiliary programs...\n";
+exec_command_or_skip "rm -f $MPATH/kernel/write_marte_c_headers/write_marte_c_headers";
+
+# Removing ustl
+print "\nRemoving ustl (C++ stl) headers...\n";
+exec_command_or_skip "rm -f -R $MPATH/x86_arch/include/ustl";
+
+# Removing links
+print "\nRemoving links...\n";
+exec_command_or_skip "find $MPATH -type l -delete;";
+
+# Removing Ada elaboration file
+print "\nRemoving Ada elaboration file...\n";
+exec_command_or_skip "rm -f $MPATH/objs/x86_objs/marte_c_init.c";
+exec_command_or_skip "rm -f $MPATH/objs/linux_objs/marte_c_init.c";
+
+# Other extensions
+print "\nRemoving others (a.out, mprogram, *.exe)...\n";
+exec_command_or_skip "find $MPATH \\( -name 'a.out' -or -name '*.exe' -or -name 'mprogram*' \\) -print -delete;";
+
+# Remove libstm32duino.a
+print "\nRemoving libstm32duino.a...\n";
+exec_command_or_skip "make -C $MPATH/stm32f_arch/hwi/stm32duino clean";
+
+print "\nDone, you must reinstall MaRTE OS using 'minstall'\n";
+exit 0;
+
+# Execute command
+sub exec_command_or_skip
+{
+    my $cmd = shift(@_);
+    my $continue="";
+    print "  $cmd\n    OK to proceed [y,n]?... ";
+    if (($continue = <STDIN>) =~ /^[N,n]/) {
+	print "  Skipped!!\n";
+    } else {
+	system($cmd) == 0 or die "Can't execute $cmd\n";
+    }
+}
