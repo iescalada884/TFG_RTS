@@ -39,7 +39,9 @@ my %gnat_vs_gcc = ("x86" => {#"GPL2014" =>  "4.7.4",
 		   "gnat_arm_bb" => {"GPL2017"       => "6.3.1",
                                      "Community2018" => "7.3.1"},
                    "stm32f" => {"Community2019" => "7.4.1",
-				"Community2020" => "9.3.1"},
+				"Community2020" => "9.3.1",
+                "" => "14.2.0"
+                },
                    "ev3"    => {"Community2019" => "7.4.1",
                                 "Community2021" => "10.3.1"});
 
