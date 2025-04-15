@@ -32,17 +32,10 @@ $CURRENT_ARCH ne "none" or
     "   Run 'msetcurrentarch' (or 'minstall') before running this script\n";
 
 # --------------------------------------------------
-# Special tratement for STM32F architecture (Modificado por mi)
+# Special tratement for STM32F architecture
 if ($march eq "stm32f") {
     print "Using ZFP RTS right now.\n";
     print "Nothing to be done for STM32F architecture.\n\n";
-
-    exec_command "cd $MPATH/gnat_rts/rts-marteuc_stm32f/adainclude &&" .
-    "gprbuild -P libada --target=arm-eabi -j0";
-
-    exec_command "rm -f $MPATH/gnat_rts/rts-marteuc_$march &&" .
-    "ln -s $MPATH/gnat_rts/rts-marteuc_stm32f $MPATH/gnat_rts/rts-marteuc_$march";
-
     exit;
 }
 
