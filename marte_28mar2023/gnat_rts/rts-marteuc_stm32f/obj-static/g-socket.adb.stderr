@@ -1,4 +1,0 @@
-g-socket.adb:2882:26: error: value not in range of type "time_t" defined at g-sothco.ads:47
-g-socket.adb:2882:26: error: static expression fails Constraint_Check
-g-socket.adb:2884:26: error: value not in range of type "time_t" defined at g-sothco.ads:47
-g-socket.adb:2884:26: error: static expression fails Constraint_Check

@@ -1295,3 +1295,8 @@ g-cppexc.ads
 g-cppexc.adb
 s-excmac.ads
 s-excmac.adb
+s-bb.ads
+s-bbbopa.ads
+s-bbmcpa.ads
+s-bbpara.ads
+s-stm32.ads
