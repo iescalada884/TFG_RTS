@@ -1300,3 +1300,6 @@ s-bbbopa.ads
 s-bbmcpa.ads
 s-bbpara.ads
 s-stm32.ads
+start-ram.S
+start-rom.S
+start-common.S

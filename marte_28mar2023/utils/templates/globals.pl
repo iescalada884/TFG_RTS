@@ -36,7 +36,8 @@
      "linux_lib" => "marteuc_linux_lib",
      "rpi"       => "$MPATH/gnat_rts/rts-marteuc_rpi",
      "gnat_arm_bb" => "$GNAT_BIN_PATH{$CURRENT_ARCH}/../arm-eabi/lib/gnat/marte-stm32f4",
-     "stm32f"      => "$GNAT_BIN_PATH{$CURRENT_ARCH}/../arm-eabi/lib/gnat/zfp-stm32f4/",
+     #"stm32f"      => "$GNAT_BIN_PATH{$CURRENT_ARCH}/../arm-eabi/lib/gnat/zfp-stm32f4/",
+     "stm32f"      => "$MPATH/gnat_rts/rts-marteuc_stm32f",
      "ev3"         => "$GNAT_BIN_PATH{$CURRENT_ARCH}/../arm-eabi/lib/gnat/zfp-stm32f4/",
      "xtratum"   => "marteuc_xtratum",
      "none" => " ARCH_VALUE_NOT_SET ");
@@ -182,7 +183,8 @@ $GNAT_COMPILE_KERNEL_OPS="-fno-strict-aliasing";
      "gnat_arm_bb" => " -nodefaultlibs -nostdlib -nostartfiles -Wl,--gc-sections -Wl,-L,$GNAT_BIN_PATH{$CURRENT_ARCH}/../arm-eabi/lib/gnat/marte-stm32f4/adalib,-L,$GNAT_BIN_PATH{$CURRENT_ARCH}/../arm-eabi/lib/gnat/marte-stm32f4/ld,-T,memory-map.ld,-T,common-ROM.ld,-Map=map.txt ",
      "stm32f"      => " -nodefaultlibs -nostdlib -nostartfiles -Wl,--gc-sections " .
                       "-Wl,-L,$GNAT_RTS{$CURRENT_ARCH}/ld/," .
-                      "-T,memory-map.ld,-T,common-ROM.ld,-Map=map.txt ",
+                      #"-T,memory-map.ld,-T,common-ROM.ld,-Map=map.txt ",
+                      "-T,$GNAT_RTS{$CURRENT_ARCH}/ld/common-ROM.ld,-Map=map.txt ",
      "ev3"         => " -nodefaultlibs -nostdlib -nostartfiles -Wl,--gc-sections " .
                       "-Wl,-T,falta_linker_script_en_globals.ld,-Map=map.txt ",
      "xtratum", "no_link_form_script_in_this_architecture");

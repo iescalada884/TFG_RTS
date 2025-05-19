@@ -2,7 +2,7 @@ with "libgnat_common";
 
 library project Libgnat is
 
-   for Languages use ("Ada", "C");
+   for Languages use ("Ada", "C", "Asm_Cpp");
    for Source_Dirs use (".");
    for Source_List_File use "libgnat.lst";
    for Object_Dir use "../obj-" & Libgnat_Common.Library_Kind;
@@ -65,5 +65,6 @@ library project Libgnat is
         Libgnat_Common.C_Flags & Libgnat_Common.No_Omit;
 
    end Compiler;
+
 
 end Libgnat;

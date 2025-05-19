@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<Locations>
+  <Project>
+    <vfs_file>/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/tests/hello/tests_hello_stm32f.gpr</vfs_file>
+    <file_marker column=" 1" line=" 1" >
+      <vfs_project />
+      <vfs_file>/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/tests/hello/tests_hello_stm32f.gpr</vfs_file>
+    </file_marker>
+    <file_marker current="true" column=" 23" line=" 8" >
+      <vfs_project />
+      <vfs_file>/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/tests/hello/tests_hello_stm32f.gpr</vfs_file>
+    </file_marker>
+  </Project>
+</Locations>
