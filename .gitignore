@@ -8,9 +8,7 @@
 *ada_target_properties
 # Adainclude files
 
-*.adb
-*.ads
-*.h
+
 
 #stderr
 *.stderr
