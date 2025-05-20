@@ -1,1 +1,0 @@
-marte-kernel-tasks_operations-attributes.ads:136:07: warning: "Pthread_Attr_Setappscheduler.Appscheduler" involves a tagged type which does not correspond to any C type

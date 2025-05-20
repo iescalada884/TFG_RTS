@@ -1,2 +1,0 @@
-marte-kernel-scheduler.adb:1558:13: warning: no actualizar former_Task si Is_CS_Pending?
-marte-kernel-scheduler.ads:58:13: warning: return type of "Self" does not correspond to C type

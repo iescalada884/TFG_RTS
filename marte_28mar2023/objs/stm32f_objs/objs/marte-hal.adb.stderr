@@ -1,8 +1,0 @@
-marte-hal.adb:141:36: warning: Only install timer handler
-marte-hal.adb:246:36: warning: Save_Flags_And_Disable_Interrupts
-marte-hal.adb:265:36: warning: Restore_Flags
-marte-hal.adb:347:10: warning: Mover Handler_Wrapper a otro paquete para todas las IRQs
-marte-hal.adb:412:04: warning: types for unchecked conversion have different sizes
-marte-hal.adb:413:04: warning: types for unchecked conversion have different sizes
-marte-hal.adb:642:36: warning: Change_To_Context not implemented
-marte-hal.adb:659:36: warning: Change_Return_Address_Of_Preempted_Task

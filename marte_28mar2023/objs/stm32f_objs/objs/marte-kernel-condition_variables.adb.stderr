@@ -1,7 +1,0 @@
-marte-kernel-condition_variables.adb:115:27: warning: "Memory_Copy.From" involves a tagged type which does not correspond to any C type
-marte-kernel-condition_variables.adb:116:27: warning: "Memory_Copy.To" involves a tagged type which does not correspond to any C type
-marte-kernel-condition_variables.ads:66:32: warning: "Pthread_Cond_Init.Cond" involves a tagged type which does not correspond to any C type
-marte-kernel-condition_variables.ads:71:35: warning: "Pthread_Cond_Destroy.Cond" involves a tagged type which does not correspond to any C type
-marte-kernel-condition_variables.ads:77:34: warning: "Pthread_Cond_Signal.Cond" involves a tagged type which does not correspond to any C type
-marte-kernel-condition_variables.ads:81:37: warning: "Pthread_Cond_Broadcast.Cond" involves a tagged type which does not correspond to any C type
-marte-kernel-condition_variables.ads:85:32: warning: "Pthread_Cond_Wait.Cond" involves a tagged type which does not correspond to any C type

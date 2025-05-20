@@ -1,6 +1,5 @@
 pragma Warnings (Off);
 pragma Ada_95;
-pragma Restrictions (No_Exception_Propagation);
 with System;
 with System.Parameters;
 with System.Secondary_Stack;
@@ -9,12 +8,15 @@ package martemain is
    procedure marteinit;
    pragma Export (C, marteinit, "marteinit");
 
+   procedure martefinal;
+   pragma Export (C, martefinal, "martefinal");
+
    type Version_32 is mod 2 ** 32;
    u00001 : constant Version_32 := 16#7ac29857#;
    pragma Export (C, u00001, "drivers_marteB");
    u00002 : constant Version_32 := 16#cbc22675#;
    pragma Export (C, u00002, "drivers_marteS");
-   u00003 : constant Version_32 := 16#08669333#;
+   u00003 : constant Version_32 := 16#a4a7f411#;
    pragma Export (C, u00003, "gnat_io_driver_functionsB");
    u00004 : constant Version_32 := 16#44ae6148#;
    pragma Export (C, u00004, "gnat_io_driver_functionsS");
@@ -24,25 +26,25 @@ package martemain is
    pragma Export (C, u00006, "marte__debug_messagesS");
    u00007 : constant Version_32 := 16#6747964d#;
    pragma Export (C, u00007, "marte__direct_ioB");
-   u00008 : constant Version_32 := 16#9db535e7#;
+   u00008 : constant Version_32 := 16#6f062a55#;
    pragma Export (C, u00008, "marte__direct_ioS");
-   u00009 : constant Version_32 := 16#961abd4f#;
+   u00009 : constant Version_32 := 16#36b81250#;
    pragma Export (C, u00009, "marte__hal__registersB");
-   u00010 : constant Version_32 := 16#c88ce55b#;
+   u00010 : constant Version_32 := 16#e235d01e#;
    pragma Export (C, u00010, "marte__hal__registersS");
-   u00011 : constant Version_32 := 16#81bf86a6#;
+   u00011 : constant Version_32 := 16#37107d5d#;
    pragma Export (C, u00011, "marte__halB");
-   u00012 : constant Version_32 := 16#27bee0b9#;
+   u00012 : constant Version_32 := 16#3928c941#;
    pragma Export (C, u00012, "marte__halS");
-   u00013 : constant Version_32 := 16#58b8b1a2#;
+   u00013 : constant Version_32 := 16#1dff3570#;
    pragma Export (C, u00013, "marte__integer_typesS");
    u00014 : constant Version_32 := 16#538e478e#;
    pragma Export (C, u00014, "marte__kernel__application_schedulerB");
    u00015 : constant Version_32 := 16#ca6081cf#;
    pragma Export (C, u00015, "marte__kernel__application_schedulerS");
-   u00016 : constant Version_32 := 16#dbf6fd80#;
+   u00016 : constant Version_32 := 16#9eb17952#;
    pragma Export (C, u00016, "marte__kernel__application_scheduler_task_bodyB");
-   u00017 : constant Version_32 := 16#ae443f15#;
+   u00017 : constant Version_32 := 16#5cf720a7#;
    pragma Export (C, u00017, "marte__kernel__application_scheduler_task_bodyS");
    u00018 : constant Version_32 := 16#eb9c4d5a#;
    pragma Export (C, u00018, "marte__kernel__application_scheduling_dataB");
@@ -60,15 +62,15 @@ package martemain is
    pragma Export (C, u00024, "marte__kernel__condition_variablesB");
    u00025 : constant Version_32 := 16#7f0b1f43#;
    pragma Export (C, u00025, "marte__kernel__condition_variablesS");
-   u00026 : constant Version_32 := 16#5a4457a4#;
+   u00026 : constant Version_32 := 16#3458e61b#;
    pragma Export (C, u00026, "marte__kernel__debugB");
-   u00027 : constant Version_32 := 16#8c9fab81#;
+   u00027 : constant Version_32 := 16#e2831a3e#;
    pragma Export (C, u00027, "marte__kernel__debugS");
    u00028 : constant Version_32 := 16#b38668c2#;
    pragma Export (C, u00028, "marte__kernel__devices_tableB");
    u00029 : constant Version_32 := 16#e5c9ffa2#;
    pragma Export (C, u00029, "marte__kernel__devices_tableS");
-   u00030 : constant Version_32 := 16#5f92e1d1#;
+   u00030 : constant Version_32 := 16#ad21fe63#;
    pragma Export (C, u00030, "marte__kernel__file_systemB");
    u00031 : constant Version_32 := 16#f1e7eb51#;
    pragma Export (C, u00031, "marte__kernel__file_systemS");
@@ -116,9 +118,9 @@ package martemain is
    pragma Export (C, u00052, "marte__kernel__mutexes__srp_ceilingS");
    u00053 : constant Version_32 := 16#5d3e2d18#;
    pragma Export (C, u00053, "marte__kernel__mutexesB");
-   u00054 : constant Version_32 := 16#9a1730b3#;
+   u00054 : constant Version_32 := 16#68a42f01#;
    pragma Export (C, u00054, "marte__kernel__mutexesS");
-   u00055 : constant Version_32 := 16#00d5cef4#;
+   u00055 : constant Version_32 := 16#45924a26#;
    pragma Export (C, u00055, "marte__kernel__pool_tcbsB");
    u00056 : constant Version_32 := 16#72175018#;
    pragma Export (C, u00056, "marte__kernel__pool_tcbsS");
@@ -166,7 +168,7 @@ package martemain is
    pragma Export (C, u00077, "marte__kernel__signals__globalS");
    u00078 : constant Version_32 := 16#8493715a#;
    pragma Export (C, u00078, "marte__kernel__signals__handlerB");
-   u00079 : constant Version_32 := 16#197e31f0#;
+   u00079 : constant Version_32 := 16#ebcd2e42#;
    pragma Export (C, u00079, "marte__kernel__signals__handlerS");
    u00080 : constant Version_32 := 16#4b4c6f59#;
    pragma Export (C, u00080, "marte__kernel__signals__internalsB");
@@ -180,11 +182,11 @@ package martemain is
    pragma Export (C, u00084, "marte__kernel__signals__pool_sdbsB");
    u00085 : constant Version_32 := 16#9a066e6e#;
    pragma Export (C, u00085, "marte__kernel__signals__pool_sdbsS");
-   u00086 : constant Version_32 := 16#a6c27b7b#;
+   u00086 : constant Version_32 := 16#547164c9#;
    pragma Export (C, u00086, "marte__kernel__signals__posix_functionsB");
-   u00087 : constant Version_32 := 16#1101da12#;
+   u00087 : constant Version_32 := 16#e3b2c5a0#;
    pragma Export (C, u00087, "marte__kernel__signals__posix_functionsS");
-   u00088 : constant Version_32 := 16#51edf0da#;
+   u00088 : constant Version_32 := 16#a35eef68#;
    pragma Export (C, u00088, "marte__kernel__signalsS");
    u00089 : constant Version_32 := 16#c671bb17#;
    pragma Export (C, u00089, "marte__kernel__task_sets__internalsB");
@@ -236,9 +238,9 @@ package martemain is
    pragma Export (C, u00112, "marte__kernel__tasks_operations__debugS");
    u00113 : constant Version_32 := 16#fe664a4c#;
    pragma Export (C, u00113, "marte__kernel__tasks_operations__initialize_tcbsB");
-   u00114 : constant Version_32 := 16#03fb1008#;
+   u00114 : constant Version_32 := 16#f1480fba#;
    pragma Export (C, u00114, "marte__kernel__tasks_operations__initialize_tcbsS");
-   u00115 : constant Version_32 := 16#1b84b477#;
+   u00115 : constant Version_32 := 16#e937abc5#;
    pragma Export (C, u00115, "marte__kernel__tasks_operations__internalsB");
    u00116 : constant Version_32 := 16#bf6c698c#;
    pragma Export (C, u00116, "marte__kernel__tasks_operations__internalsS");
@@ -248,7 +250,7 @@ package martemain is
    pragma Export (C, u00118, "marte__kernel__tasks_operations__nanosleepS");
    u00119 : constant Version_32 := 16#064222db#;
    pragma Export (C, u00119, "marte__kernel__tasks_operationsB");
-   u00120 : constant Version_32 := 16#0bb8e2d3#;
+   u00120 : constant Version_32 := 16#f90bfd61#;
    pragma Export (C, u00120, "marte__kernel__tasks_operationsS");
    u00121 : constant Version_32 := 16#7083898d#;
    pragma Export (C, u00121, "marte__kernel__timed_events_and_timerB");
@@ -270,7 +272,7 @@ package martemain is
    pragma Export (C, u00129, "marte__kernel__timed_handlers__operationsB");
    u00130 : constant Version_32 := 16#9bfd7ef3#;
    pragma Export (C, u00130, "marte__kernel__timed_handlers__operationsS");
-   u00131 : constant Version_32 := 16#d81e6e91#;
+   u00131 : constant Version_32 := 16#2aad7123#;
    pragma Export (C, u00131, "marte__kernel__timed_handlersS");
    u00132 : constant Version_32 := 16#64fc4918#;
    pragma Export (C, u00132, "marte__kernel__timer_timed_events_poolB");
@@ -288,7 +290,7 @@ package martemain is
    pragma Export (C, u00138, "marte__kernel__types_sizesS");
    u00139 : constant Version_32 := 16#16c85b11#;
    pragma Export (C, u00139, "marte__kernelB");
-   u00140 : constant Version_32 := 16#1720dfe1#;
+   u00140 : constant Version_32 := 16#e593c053#;
    pragma Export (C, u00140, "marte__kernelS");
    u00141 : constant Version_32 := 16#3a76628c#;
    pragma Export (C, u00141, "marte__posix_constantsS");
@@ -298,9 +300,9 @@ package martemain is
    pragma Export (C, u00143, "marte__posix_interrupt_controlS");
    u00144 : constant Version_32 := 16#51ae8e82#;
    pragma Export (C, u00144, "marte__posix_pthreadB");
-   u00145 : constant Version_32 := 16#caac3f5b#;
+   u00145 : constant Version_32 := 16#381f20e9#;
    pragma Export (C, u00145, "marte__posix_pthreadS");
-   u00146 : constant Version_32 := 16#58f43226#;
+   u00146 : constant Version_32 := 16#aa472d94#;
    pragma Export (C, u00146, "marte__posix_schedB");
    u00147 : constant Version_32 := 16#b9576df1#;
    pragma Export (C, u00147, "marte__posix_schedS");
@@ -368,9 +370,9 @@ package martemain is
    pragma Export (C, u00178, "marte__stacks_management__debugB");
    u00179 : constant Version_32 := 16#6a01475a#;
    pragma Export (C, u00179, "marte__stacks_management__debugS");
-   u00180 : constant Version_32 := 16#5912d74e#;
+   u00180 : constant Version_32 := 16#aba1c8fc#;
    pragma Export (C, u00180, "marte__stacks_managementB");
-   u00181 : constant Version_32 := 16#d522fc02#;
+   u00181 : constant Version_32 := 16#2791e3b0#;
    pragma Export (C, u00181, "marte__stacks_managementS");
    u00182 : constant Version_32 := 16#b94e4055#;
    pragma Export (C, u00182, "marte__timespecB");
@@ -381,40 +383,161 @@ package martemain is
 
    --  BEGIN ELABORATION ORDER
    --  ada%s
+   --  ada.characters%s
+   --  ada.characters.latin_1%s
    --  interfaces%s
-   --  interfaces.c%s
    --  system%s
-   --  ada.exceptions%s
-   --  ada.exceptions%b
-   --  gnat%s
-   --  gnat.source_info%s
-   --  interfaces.stm32%s
-   --  interfaces.stm32.pwr%s
+   --  system.atomic_operations%s
    --  system.bb%s
    --  system.bb.board_parameters%s
    --  system.bb.mcu_parameters%s
-   --  system.bb.mcu_parameters%b
-   --  system.img_int%s
-   --  system.img_int%b
+   --  system.io%s
+   --  system.io%b
    --  system.machine_code%s
    --  system.parameters%s
-   --  system.semihosting%s
-   --  system.semihosting%b
-   --  system.storage_elements%s
-   --  system.storage_elements%b
-   --  system.secondary_stack%s
-   --  system.secondary_stack%b
-   --  ada.tags%s
-   --  ada.tags%b
-   --  system.text_io%s
-   --  system.text_io%b
-   --  gnat.io%s
-   --  gnat.io%b
-   --  system.unsigned_types%s
-   --  interfaces.stm32.rcc%s
+   --  system.parameters%b
+   --  system.crtl%s
+   --  system.spark%s
+   --  system.spark.cut_operations%s
+   --  system.spark.cut_operations%b
    --  system.stm32%s
    --  system.bb.parameters%s
-   --  system.stm32%b
+   --  system.storage_elements%s
+   --  system.return_stack%s
+   --  system.stack_checking%s
+   --  system.stack_checking%b
+   --  system.string_hash%s
+   --  system.string_hash%b
+   --  system.htable%s
+   --  system.htable%b
+   --  system.strings%s
+   --  system.strings%b
+   --  system.traceback_entries%s
+   --  system.traceback_entries%b
+   --  system.unsigned_types%s
+   --  system.wch_con%s
+   --  system.wch_con%b
+   --  system.wch_jis%s
+   --  system.wch_jis%b
+   --  system.wch_cnv%s
+   --  system.wch_cnv%b
+   --  system.concat_2%s
+   --  system.concat_2%b
+   --  system.concat_3%s
+   --  system.concat_3%b
+   --  system.concat_9%s
+   --  system.concat_9%b
+   --  system.traceback%s
+   --  system.traceback%b
+   --  ada.characters.handling%s
+   --  system.atomic_operations.test_and_set%s
+   --  system.case_util%s
+   --  system.os_lib%s
+   --  system.secondary_stack%s
+   --  system.standard_library%s
+   --  ada.exceptions%s
+   --  system.exceptions_debug%s
+   --  system.exceptions_debug%b
+   --  system.soft_links%s
+   --  system.val_util%s
+   --  system.val_util%b
+   --  system.val_llu%s
+   --  system.val_lli%s
+   --  system.wch_stw%s
+   --  system.wch_stw%b
+   --  ada.exceptions.last_chance_handler%s
+   --  ada.exceptions.last_chance_handler%b
+   --  ada.exceptions.traceback%s
+   --  ada.exceptions.traceback%b
+   --  system.address_image%s
+   --  system.address_image%b
+   --  system.bit_ops%s
+   --  system.bit_ops%b
+   --  system.bounded_strings%s
+   --  system.bounded_strings%b
+   --  system.case_util%b
+   --  system.exception_table%s
+   --  system.exception_table%b
+   --  ada.containers%s
+   --  ada.io_exceptions%s
+   --  ada.numerics%s
+   --  ada.numerics.big_numbers%s
+   --  ada.strings%s
+   --  ada.strings.maps%s
+   --  ada.strings.maps%b
+   --  ada.strings.maps.constants%s
+   --  interfaces.c%s
+   --  interfaces.c%b
+   --  system.atomic_primitives%s
+   --  system.atomic_primitives%b
+   --  system.exceptions%s
+   --  system.exceptions.machine%s
+   --  system.exceptions.machine%b
+   --  ada.characters.handling%b
+   --  system.atomic_operations.test_and_set%b
+   --  system.exception_traces%s
+   --  system.exception_traces%b
+   --  system.img_int%s
+   --  system.img_uns%s
+   --  system.memory%s
+   --  system.memory%b
+   --  system.mmap%s
+   --  system.mmap.os_interface%s
+   --  system.mmap%b
+   --  system.mmap.unix%s
+   --  system.mmap.os_interface%b
+   --  system.object_reader%s
+   --  system.object_reader%b
+   --  system.dwarf_lines%s
+   --  system.dwarf_lines%b
+   --  system.os_lib%b
+   --  system.secondary_stack%b
+   --  system.soft_links.initialize%s
+   --  system.soft_links.initialize%b
+   --  system.soft_links%b
+   --  system.standard_library%b
+   --  system.traceback.symbolic%s
+   --  system.traceback.symbolic%b
+   --  ada.exceptions%b
+   --  ada.strings.utf_encoding%s
+   --  ada.strings.utf_encoding%b
+   --  ada.strings.utf_encoding.strings%s
+   --  ada.strings.utf_encoding.strings%b
+   --  ada.strings.utf_encoding.wide_strings%s
+   --  ada.strings.utf_encoding.wide_strings%b
+   --  ada.strings.utf_encoding.wide_wide_strings%s
+   --  ada.strings.utf_encoding.wide_wide_strings%b
+   --  gnat%s
+   --  gnat.io%s
+   --  gnat.io%b
+   --  gnat.source_info%s
+   --  system.fat_flt%s
+   --  system.fat_lflt%s
+   --  system.fat_llf%s
+   --  system.val_uns%s
+   --  ada.tags%s
+   --  ada.tags%b
+   --  ada.strings.text_buffers%s
+   --  ada.strings.text_buffers%b
+   --  ada.strings.text_buffers.utils%s
+   --  ada.strings.text_buffers.utils%b
+   --  system.put_images%s
+   --  system.put_images%b
+   --  ada.streams%s
+   --  ada.streams%b
+   --  system.finalization_root%s
+   --  system.finalization_root%b
+   --  ada.finalization%s
+   --  system.storage_pools%s
+   --  system.storage_pools%b
+   --  system.finalization_masters%s
+   --  system.finalization_masters%b
+   --  system.stream_attributes%s
+   --  system.stream_attributes.xdr%s
+   --  system.stream_attributes.xdr%b
+   --  system.stream_attributes%b
+   --  system.pool_global%s
+   --  system.pool_global%b
    --  marte%s
    --  marte.configuration_parameters%s
    --  marte.debug_messages%s

@@ -1,0 +1,2 @@
+start-ram.o: \
+ /home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/gnat_rts/rts-marteuc_stm32f/adainclude/start-ram.S

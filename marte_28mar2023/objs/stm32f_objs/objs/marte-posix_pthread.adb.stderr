@@ -1,4 +1,0 @@
-marte-posix_pthread.ads:318:28: warning: "Pthread_Equal.T1" involves a tagged type which does not correspond to any C type
-marte-posix_pthread.ads:319:28: warning: "Pthread_Equal.T2" involves a tagged type which does not correspond to any C type
-marte-posix_pthread.ads:424:38: warning: "Pthread_Setspecific_For.T" involves a tagged type which does not correspond to any C type
-marte-posix_pthread.ads:438:39: warning: "Pthread_Getspecific_From.T" involves a tagged type which does not correspond to any C type
