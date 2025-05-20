@@ -5,7 +5,8 @@ abstract project STM32F_Shared_Switches is
 
    for Source_Files use ();   --  no sources
 
-   Runtime := "zfp-" & Global_Switches.MTarget;
+   -- XXX Runtime := "zfp-" & Global_Switches.MTarget;
+   Runtime := project'Project_Dir & "gnat_rts/rts-marteuc_stm32f"; -- XXX
    Target := "arm-eabi";
 
    package Compiler is
