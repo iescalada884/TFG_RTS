@@ -25,6 +25,27 @@ To build and compile this project, ensure you have the following dependencies in
 - **For Cross-Compilation:**
   - `gnat-arm-elf-linux64-x86_64-14.2.0-1`
 
+
+
+## Marte compilation
+1. Export path of cross compiler and gprbuild and marte folder
+    ```sh
+    PATH=.../TFG_RTS/marte_28mar2023/utils/:$PATH; 
+    PATH=~/Documents/gprbuild_22.0.1_24dfc1b5/bin:$PATH; PATH=~/Downloads/gnat-arm-elf-linux64-x86_64-14.2.0-1/bin:$PATH
+    ```
+2. now go to marte_28mar2023 and execute .minstall
+    ```sh
+    ./minstall
+    ```
+3. set the desired arch
+    ```sh
+    msetcurrentarch stm32f f4
+    ```
+4. compile the rts and marte
+    ```sh
+     mkrtsmarteuc && mkmarte
+    ```
+
 ## Native Compilation
 To compile natively, follow these steps:
 
