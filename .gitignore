@@ -15,4 +15,9 @@
 *.stdout
 
 #obj
-*obj-static/*
+*/obj-static/*
+
+#links created by scripts
+lib
+arch
+marte_28mar2023/rts-marteuc_stm32f

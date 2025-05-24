@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-require "/home/ubuntfg/Documents/marte_28mar2023/utils/globals.pl";
+require "/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/utils/globals.pl";
 
 # Constants in 'globals.pl'
 $JRATE_PATH = $JRATE_PATH;

@@ -34,8 +34,19 @@ $CURRENT_ARCH ne "none" or
 # --------------------------------------------------
 # Special tratement for STM32F architecture
 if ($march eq "stm32f") {
-    print "Using ZFP RTS right now.\n";
-    print "Nothing to be done for STM32F architecture.\n\n";
+
+    print "Building STM32F RTS...\n";
+    #create library and object directories
+    exec_command "mkdir -p $MPATH/gnat_rts/rts-marteuc_stm32f/adalib/;" .
+    "mkdir -p  $MPATH/gnat_rts/rts-marteuc_stm32f/obj-static/";
+
+    exec_command "cd $MPATH/gnat_rts/rts-marteuc_stm32f/adainclude &&" .
+    "gprbuild -P libada --target=arm-eabi -j0";
+
+    #leave a link to the original rts-marteuc_stm32f in main marte rts directory
+    exec_command "ln -sf $MPATH/gnat_rts/rts-marteuc_stm32f $MPATH/rts-marteuc_$march ";
+
+    print "stm32f Ada RTS done.\n\n";
     exit;
 }
 

@@ -1,12 +1,11 @@
 # Do NOT edit!!
 # Created by 'minstall'
-$MPATH="/home/ubuntfg/Documents/marte_28mar2023";
+$MPATH="/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023";
 
-@AVAILABLE_ARCHS = ("stm32f","ev3");
+@AVAILABLE_ARCHS = ("stm32f");
 
 %GNAT_BIN_PATH = (
-	"stm32f" => "/home/ubuntfg/opt/GNAT/2019-arm-elf/bin",
-	"ev3" => "/home/ubuntfg/opt/GNAT/2019-arm-elf/bin",
+	"stm32f" => "/home/ubuntfg/Downloads/gnat-arm-elf-linux64-x86_64-14.2.0-1/bin",
 	"none" => "none");
 
 %GNAT_LIBS_PATH = (
@@ -15,13 +14,12 @@ $MPATH="/home/ubuntfg/Documents/marte_28mar2023";
 	"linux_lib" => "/linux_lib_not_available",
 	"rpi" => "/rpi_not_available",
 	"gnat_arm_bb" => "/gnat_arm_bb_not_available",
-	"stm32f" => "/home/ubuntfg/opt/GNAT/2019-arm-elf/lib/gcc/arm-eabi/7.4.1",
-	"ev3" => "/home/ubuntfg/opt/GNAT/2019-arm-elf/lib/gcc/arm-eabi/7.4.1",
+	"stm32f" => "/home/ubuntfg/Downloads/gnat-arm-elf-linux64-x86_64-14.2.0-1/lib/gcc/arm-eabi/14.2.0",
+	"ev3" => "/ev3_not_available",
 	"none" => "none");
 
 %GNAT_VERSION = (
-	"stm32f" => "Community2019",
-	"ev3" => "Community2019",
+	"stm32f" => "",
 	"none" => "none");
 
 return 1;
