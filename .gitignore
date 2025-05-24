@@ -7,7 +7,7 @@
 *.a
 *ada_target_properties
 # Adainclude files
-
+*/adalib/*
 
 
 #stderr
@@ -15,7 +15,8 @@
 *.stdout
 
 #obj
-*/obj-static/*
+**/obj-static/*
+
 
 #links created by scripts
 lib
