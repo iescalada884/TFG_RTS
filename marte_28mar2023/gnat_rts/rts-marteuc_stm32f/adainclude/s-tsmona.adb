@@ -35,9 +35,6 @@ with Interfaces.C;              use Interfaces.C;
 separate (System.Traceback.Symbolic)
 
 package body Module_Name is
-
-   pragma Linker_Options ("-ldl");
-
    function Is_Shared_Lib (Base : Address) return Boolean;
    --  Returns True if a shared library
 
