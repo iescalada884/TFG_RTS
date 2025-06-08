@@ -299,4 +299,321 @@ package body Unimplemented_Functions is
       Put_Line ("Function 'DlAddr' not implemented.");
    end DlAddr;
 
+   procedure Ada_Setup_PLL is
+   begin
+      Put_Line ("Function 'Ada_Setup_PLL' not implemented.");
+   end Ada_Setup_PLL;
+
+   procedure Exit_Funct is
+   begin
+      Put_Line ("Function '_Exit' not implemented.");
+   end Exit_Funct;
+
+   procedure GL_Time_Slice_Val is
+   begin
+      Put_Line ("Function 'GL_Time_Slice_Val' not implemented.");
+   end GL_Time_Slice_Val;
+
+   procedure GL_WC_Encoding is
+   begin
+      Put_Line ("Function 'GL_WC_Encoding' not implemented.");
+   end GL_WC_Encoding;
+
+   procedure GL_Locking_Policy is
+   begin
+      Put_Line ("Function 'GL_Locking_Policy' not implemented.");
+   end GL_Locking_Policy;
+
+   procedure GL_Queuing_Policy is
+   begin
+      Put_Line ("Function 'GL_Queuing_Policy' not implemented.");
+   end GL_Queuing_Policy;
+
+   procedure GL_Task_Dispatching_Policy is
+   begin
+      Put_Line ("Function 'GL_Task_Dispatching_Policy' not implemented.");
+   end GL_Task_Dispatching_Policy;
+
+   procedure GL_Priority_Specific_Dispatching is
+   begin
+      Put_Line (
+      "Function 'GL_Priority_Specific_Dispatching' not implemented.");
+   end GL_Priority_Specific_Dispatching;
+
+   procedure GL_Num_Specific_Dispatching is
+   begin
+      Put_Line ("Function 'GL_Num_Specific_Dispatching' not implemented.");
+   end GL_Num_Specific_Dispatching;
+
+   procedure GL_Main_CPU is
+   begin
+      Put_Line ("Function 'GL_Main_CPU' not implemented.");
+   end GL_Main_CPU;
+
+   procedure GL_Interrupt_States is
+   begin
+      Put_Line ("Function 'GL_Interrupt_States' not implemented.");
+   end GL_Interrupt_States;
+
+   procedure GL_Num_Interrupt_States is
+   begin
+      Put_Line ("Function 'GL_Num_Interrupt_States' not implemented.");
+   end GL_Num_Interrupt_States;
+
+   procedure GL_Unreserve_All_Interrupts is
+   begin
+      Put_Line ("Function 'GL_Unreserve_All_Interrupts' not implemented.");
+   end GL_Unreserve_All_Interrupts;
+
+   procedure GL_Detect_Blocking is
+   begin
+      Put_Line ("Function 'GL_Detect_Blocking' not implemented.");
+   end GL_Detect_Blocking;
+
+   procedure GL_Default_Stack_Size is
+   begin
+      Put_Line ("Function 'GL_Default_Stack_Size' not implemented.");
+   end GL_Default_Stack_Size;
+
+   procedure Gnat_Argc is
+   begin
+      Put_Line ("Function 'Gnat_Argc' not implemented.");
+   end Gnat_Argc;
+
+   procedure Gnat_Argv is
+   begin
+      Put_Line ("Function 'Gnat_Argv' not implemented.");
+   end Gnat_Argv;
+
+   procedure Gnat_Envp is
+   begin
+      Put_Line ("Function 'Gnat_Envp' not implemented.");
+   end Gnat_Envp;
+
+   procedure Gnat_Exit_Status is
+   begin
+      Put_Line ("Function 'Gnat_Exit_Status' not implemented.");
+   end Gnat_Exit_Status;
+
+   procedure Gnat_Constant_Stderr is
+   begin
+      Put_Line ("Function 'Gnat_Constant_Stderr' not implemented.");
+   end Gnat_Constant_Stderr;
+
+   procedure Gnat_Is_Regular_File_Fd is
+   begin
+      Put_Line ("Function 'Gnat_Is_Regular_File_Fd' not implemented.");
+   end Gnat_Is_Regular_File_Fd;
+
+   procedure Gnat_Constant_Stdin is
+   begin
+      Put_Line ("Function 'Gnat_Constant_Stdin' not implemented.");
+   end Gnat_Constant_Stdin;
+
+   procedure Gnat_Constant_Stdout is
+   begin
+      Put_Line ("Function 'Gnat_Constant_Stdout' not implemented.");
+   end Gnat_Constant_Stdout;
+
+   procedure Get_Errno is
+   begin
+      Put_Line ("Function '__get_errno' not implemented.");
+   end Get_Errno;
+
+   procedure Gnat_Get_Errno is
+   begin
+      Put_Line ("Function '__Genat_get_errno' not implemented.");
+   end Gnat_Get_Errno;
+
+   procedure Gnat_Feof is
+   begin
+      Put_Line ("Function '__gnat_feof' not implemented.");
+   end Gnat_Feof;
+
+   --  File Modes and Constants
+   procedure Gnat_Constant_Eof is
+   begin
+      Put_Line ("Function 'Gnat_Constant_Eof' not implemented.");
+   end Gnat_Constant_Eof;
+
+   procedure Gnat_Constant_Seek_End is
+   begin
+      Put_Line ("Function 'Gnat_Constant_Seek_End' not implemented.");
+   end Gnat_Constant_Seek_End;
+
+   procedure Gnat_Constant_Iofbf is
+   begin
+      Put_Line ("Function 'Gnat_Constant_Iofbf' not implemented.");
+   end Gnat_Constant_Iofbf;
+
+   procedure Gnat_Constant_Iolbf is
+   begin
+      Put_Line ("Function 'Gnat_Constant_Iolbf' not implemented.");
+   end Gnat_Constant_Iolbf;
+
+   procedure Gnat_Constant_Ionbf is
+   begin
+      Put_Line ("Function 'Gnat_Constant_Ionbf' not implemented.");
+   end Gnat_Constant_Ionbf;
+
+   --  File Path and Name Operations
+   procedure Gnat_Tmp_Name is
+   begin
+      Put_Line ("Function 'Gnat_Tmp_Name' not implemented.");
+   end Gnat_Tmp_Name;
+
+   procedure Gnat_Full_Name is
+   begin
+      Put_Line ("Function 'Gnat_Full_Name' not implemented.");
+   end Gnat_Full_Name;
+
+   procedure Gnat_Get_File_Names_Case_Sensitive is
+   begin
+      Put_Line (
+      "Function 'Gnat_Get_File_Names_Case_Sensitive' not implemented.");
+   end Gnat_Get_File_Names_Case_Sensitive;
+
+   --  File Error Handling
+   procedure Gnat_Ferror is
+   begin
+      Put_Line ("Function 'Gnat_Ferror' not implemented.");
+   end Gnat_Ferror;
+
+   procedure Gnat_Is_File_Not_Found_Error is
+   begin
+      Put_Line ("Function 'Gnat_Is_File_Not_Found_Error' not implemented.");
+   end Gnat_Is_File_Not_Found_Error;
+
+   --  File Access and Attributes
+   procedure Gnat_Fileno is
+   begin
+      Put_Line ("Function 'Gnat_Fileno' not implemented.");
+   end Gnat_Fileno;
+
+   procedure Gnat_Set_Binary_Mode is
+   begin
+      Put_Line ("Function 'Gnat_Set_Binary_Mode' not implemented.");
+   end Gnat_Set_Binary_Mode;
+
+   procedure Gnat_Set_Text_Mode is
+   begin
+      Put_Line ("Function 'Gnat_Set_Text_Mode' not implemented.");
+   end Gnat_Set_Text_Mode;
+
+   procedure Gnat_Text_Translation_Required is
+   begin
+      Put_Line (
+      "Function 'Gnat_Text_Translation_Required' not implemented.");
+   end Gnat_Text_Translation_Required;
+
+   procedure Gnat_File_Exists is
+   begin
+      Put_Line ("Function 'Gnat_File_Exists' not implemented.");
+   end Gnat_File_Exists;
+
+   procedure Gnat_Unlink is
+   begin
+      Put_Line ("Function 'Gnat_Unlink' not implemented.");
+   end Gnat_Unlink;
+
+   procedure Gnat_Is_Fifo is
+   begin
+      Put_Line ("Function 'Gnat_Is_Fifo' not implemented.");
+   end Gnat_Is_Fifo;
+
+   --  File Opening and Closing
+   procedure Gnat_Fopen is
+   begin
+      Put_Line ("Function 'Gnat_Fopen' not implemented.");
+   end Gnat_Fopen;
+
+   procedure Gnat_Freopen is
+   begin
+      Put_Line ("Function 'Gnat_Freopen' not implemented.");
+   end Gnat_Freopen;
+
+   --  System Operations
+
+   procedure Gnat_Os_Exit is
+   begin
+      Put_Line ("Function 'Gnat_Os_Exit' not implemented.");
+   end Gnat_Os_Exit;
+
+   procedure Gnat_Get_Current_Dir is
+   begin
+      Put_Line ("Function 'Gnat_Get_Current_Dir' not implemented.");
+   end Gnat_Get_Current_Dir;
+
+   procedure Gnat_Create_Output_File is
+   begin
+      Put_Line ("Function 'Gnat_Create_Output_File' not implemented.");
+   end Gnat_Create_Output_File;
+
+   procedure Gnat_Current_Time_String is
+   begin
+      Put_Line ("Function 'Gnat_Current_Time_String' not implemented.");
+   end Gnat_Current_Time_String;
+
+   --  Debugging and Utilities
+   procedure Gnat_Decode is
+   begin
+      Put_Line ("Function 'Gnat_Decode' not implemented.");
+   end Gnat_Decode;
+
+   --  Newlib Functions
+   procedure Close is
+   begin
+      Put_Line ("Function 'Close' not implemented.");
+   end Close;
+
+   procedure Fstat is
+   begin
+      Put_Line ("Function 'Fstat' not implemented.");
+   end Fstat;
+
+   procedure Lseek is
+   begin
+      Put_Line ("Function 'Lseek' not implemented.");
+   end Lseek;
+
+   procedure Read is
+   begin
+      Put_Line ("Function 'Read' not implemented.");
+   end Read;
+
+   procedure Sbrk is
+   begin
+      Put_Line ("Function 'Sbrk' not implemented.");
+   end Sbrk;
+
+   procedure Write is
+   begin
+      Put_Line ("Function 'Write' not implemented.");
+   end Write;
+
+   procedure Isatty is
+   begin
+      Put_Line ("Function 'Isatty' not implemented.");
+   end Isatty;
+
+   procedure Getc_Immediate is
+   begin
+      Put_Line ("Function 'Getc_Immediate' not implemented.");
+   end Getc_Immediate;
+
+   procedure Getc_Immediate_Nowait is
+   begin
+      Put_Line ("Function 'Getc_Immediate_Nowait' not implemented.");
+   end Getc_Immediate_Nowait;
+
+   procedure Gnat_Getc_Immediate is
+   begin
+      Put_Line ("Function 'Gnat_Getc_Immediate' not implemented.");
+   end Gnat_Getc_Immediate;
+
+   procedure Gnat_Getc_Immediate_Nowait is
+   begin
+      Put_Line ("Function 'Gnat_Getc_Immediate_Nowait' not implemented.");
+   end Gnat_Getc_Immediate_Nowait;
+
 end Unimplemented_Functions;
