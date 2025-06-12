@@ -38,10 +38,12 @@ my %gnat_vs_gcc = ("x86" => {#"GPL2014" =>  "4.7.4",
 			     "GPL2017" => "6.3.1"},
 		   "gnat_arm_bb" => {"GPL2017"       => "6.3.1",
                                      "Community2018" => "7.3.1"},
-                   "stm32f" => {"Community2019" => "7.4.1",
-				"Community2020" => "9.3.1",
-                "" => "14.2.0"
-                },
+                   "stm32f" => {
+                                    "Community2018" => "7.3.1",
+                                    "Community2019" => "7.4.1",
+				                    "Community2020" => "9.3.1",
+                                    "" => "14.2.0"
+                   },
                    "ev3"    => {"Community2019" => "7.4.1",
                                 "Community2021" => "10.3.1"});
 
@@ -363,6 +365,12 @@ sub look_for_gcc_gnat_installed
     
     } if ($arch eq "gnat_arm_bb") {
 	$ret{"gnat_libs_path"} = "not_used";
+    } 
+     if ($arch eq "stm32f") {
+        $ret{"gnat_libs_path"} = $ret{"gnatmake_bin_path"};
+	$ret{"gnat_libs_path"} =~ s/\/bin\/?$//;  # Ensure removal of "/bin" or "/bin/" at the end
+	$ret{"gnat_libs_path"} .= 
+	    "/lib/gcc/$ret{gcc_machine}/$ret{gcc_version}";
     } else {
 	$ret{"gnat_libs_path"} = $ret{"gnatmake_bin_path"};
 	$ret{"gnat_libs_path"}=~ s/\/bin$//;  # remove ending "/bin"
