@@ -616,4 +616,23 @@ package body Unimplemented_Functions is
       Put_Line ("Function 'Gnat_Getc_Immediate_Nowait' not implemented.");
    end Gnat_Getc_Immediate_Nowait;
 
+   procedure Gnat_Bkpt_Trap is
+   begin
+      Put_Line ("Function '__gnat_bkpt_trap' not implemented.");
+   end Gnat_Bkpt_Trap;
+
+   procedure GL_Xdr_Stream is
+   begin
+      Put_Line ("Function '__gl_xdr_stream' not implemented.");
+   end GL_Xdr_Stream;
+
+   --  Allow overriding these functions
+   pragma Inline (Close);
+   pragma Inline (Fstat);
+   pragma Inline (Lseek);
+   pragma Inline (Read);
+   pragma Inline (Sbrk);
+   pragma Inline (Write);
+   pragma Inline (Isatty);
+
 end Unimplemented_Functions;

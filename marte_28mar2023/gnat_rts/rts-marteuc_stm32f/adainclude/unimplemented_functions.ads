@@ -155,6 +155,10 @@ package Unimplemented_Functions is
    procedure Getc_Immediate;
    procedure Getc_Immediate_Nowait;
 
+   --  Gnatstudio
+   procedure Gnat_Bkpt_Trap;
+   procedure GL_Xdr_Stream;
+
    --  File Operations
    pragma Export (C, Gnat_Open_Read, "__gnat_open_read");
    pragma Export (C, Gnat_Open_Append, "__gnat_open_append");
@@ -325,12 +329,19 @@ package Unimplemented_Functions is
    pragma Export (C, Gnat_Decode, "__gnat_decode");
 
    pragma Export (C, Close, "_close");
+   pragma Weak_External (Close);
    pragma Export (C, Fstat, "_fstat");
+   pragma Weak_External (Fstat);
    pragma Export (C, Lseek, "_lseek");
+   pragma Weak_External (Lseek);
    pragma Export (C, Read, "_read");
+   pragma Weak_External (Read);
    pragma Export (C, Sbrk, "_sbrk");
+   pragma Weak_External (Sbrk);
    pragma Export (C, Write, "_write");
+   pragma Weak_External (Write);
    pragma Export (C, Isatty, "_isatty");
+   pragma Weak_External (Isatty);
 
    pragma Export (C, Gnat_Constant_Stderr, "__gnat_constant_stderr");
    pragma Export (C, Gnat_Constant_Stdin, "__gnat_constant_stdin");
@@ -345,4 +356,7 @@ package Unimplemented_Functions is
    pragma Export (C, Getc_Immediate, "getc_immediate");
    pragma Export (C, Getc_Immediate_Nowait, "getc_immediate_nowait");
 
+   --  Gnatstudio
+   pragma Export (C, Gnat_Bkpt_Trap, "__gnat_bkpt_trap");
+   pragma Export (C, GL_Xdr_Stream, "__gl_xdr_stream");
 end Unimplemented_Functions;
