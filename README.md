@@ -46,7 +46,7 @@ To build and compile this project, ensure you have the following dependencies in
      mkrtsmarteuc && mkmarte
     ```
 
-## Native Compilation
+## RTS Native Compilation
 To compile natively, follow these steps:
 
 1. Copy from `gnat_native` `lib/gcc/x86_64-pc-linux-gnu/14.2.0/adainclude`  folder into your RTS folder.
@@ -72,7 +72,7 @@ To compile natively, follow these steps:
    gprbuild -P libada
    ```
 
-## Cross-Compilation
+## RTS Cross-Compilation
 For cross-compiling the project, follow these steps:
 1. Copy Adainclude folder from Debian gnat
 2. use listgen.sh in debian adalib to generate .lsts
