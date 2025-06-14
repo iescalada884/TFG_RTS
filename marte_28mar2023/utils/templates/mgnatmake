@@ -51,6 +51,10 @@ if ($include_marte_src_dirs) {
 }
 
 
+# Compile the wrapper_main_ada.o file
+exec_command "cd $MPATH/arch/call_main && " .
+             "make wrapper_main_ada.o && " . "cd -";
+
 # Invoke gnatmake
 my $lang = "ada";
 
