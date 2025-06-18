@@ -1,0 +1,12 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Launch GNATemulator",
+            "type": "shell",
+            "command": "/home/ubuntfg/opt/GNAT/2018-arm-elf/bin//arm-eabi-gnatemu",
+            "args": ["-g", "--board=stm32f4", "/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/tests/hello/test_hello_world"],
+            "problemMatcher": []
+        }
+    ]
+}

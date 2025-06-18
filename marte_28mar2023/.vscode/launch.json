@@ -1,0 +1,39 @@
+
+{
+    "version": "0.2.0",
+    "configurations": [
+
+      {
+        "name": "Debug ARM Ada",
+        "type": "cppdbg",
+        "request": "launch",              // ← must be "launch"
+        "program": "/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/tests/hello/test_hello_world",
+        "cwd": "${workspaceFolder}",
+        "miDebuggerPath": "/home/ubuntfg/Downloads/gnat-arm-elf-linux64-x86_64-14.2.0-1/bin/arm-eabi-gdb",
+        "MIMode": "gdb",
+        "externalConsole": false,
+        "setupCommands": [
+          { "description": "Enable pretty printing", "text": "-enable-pretty-printing", "ignoreFailures": true },
+          { "description": "Connect to GNATemulator", "text": "target rem:1234", "ignoreFailures": false }
+        ]
+      },
+
+      {
+        "name": "Debug ARM Ada and launch GNATemulator",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/tests/hello/test_hello_world",
+        "cwd": "${workspaceFolder}",
+        "miDebuggerPath": "/home/ubuntfg/Downloads/gnat-arm-elf-linux64-x86_64-14.2.0-1/bin/arm-eabi-gdb",
+        "MIMode": "gdb",
+        "externalConsole": false,
+        "setupCommands": [
+          { "description": "Enable pretty printing", "text": "-enable-pretty-printing", "ignoreFailures": true },
+          { "description": "Connect to GNATemulator", "text": "target rem:1234", "ignoreFailures": false }
+        ],
+        "args": ["-g", "--board=stm32f4"],
+        "preLaunchTask": "Launch GNATemulator"
+      }
+    ]
+  }
+ 
