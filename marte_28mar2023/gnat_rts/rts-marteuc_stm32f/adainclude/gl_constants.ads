@@ -26,25 +26,6 @@ package GL_Constants is
    Munmap : constant Integer := 0;
    pragma Export (C, Munmap, "munmap");
 
-   --  System Text IO constants
-   System_Text_IO_Is_Tx_Ready : constant Integer := 0;
-   pragma Export (C, System_Text_IO_Is_Tx_Ready,
-                  "system__text_io__is_tx_ready");
-
-   System_Text_IO_Put : constant Integer := 0;
-   pragma Export (C, System_Text_IO_Put, "system__text_io__put");
-
-   System_Text_IO_Initialize : constant Integer := 0;
-   pragma Export (C, System_Text_IO_Initialize, "system__text_io__initialize");
-
-   System_Text_IO_Use_Cr_Lf_For_New_Line : constant Integer := 0;
-   pragma Export (C, System_Text_IO_Use_Cr_Lf_For_New_Line,
-                  "system__text_io__use_cr_lf_for_new_line");
-
-   System_Text_IO_Initialized : constant Integer := 0;
-   pragma Export (C, System_Text_IO_Initialized,
-                  "system__text_io__initialized");
-
    --  GNAT runtime constants
    Gnat_Personality_V0 : constant Integer := 0;
    pragma Export (C, Gnat_Personality_V0, "__gnat_personality_v0");

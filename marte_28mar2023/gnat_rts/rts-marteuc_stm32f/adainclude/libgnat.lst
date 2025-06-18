@@ -1306,4 +1306,8 @@ start-ram.S
 start-rom.S
 start-common.S
 gl_constants.ads
-
+s-textio.ads
+s-textio.adb
+s-semiho.ads
+s-semiho.adb
+s-sgshca.adb
