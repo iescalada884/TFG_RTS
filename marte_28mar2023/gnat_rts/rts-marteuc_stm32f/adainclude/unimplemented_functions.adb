@@ -309,71 +309,16 @@ package body Unimplemented_Functions is
       Put_Line ("Function '_Exit' not implemented.");
    end Exit_Funct;
 
-   procedure GL_Time_Slice_Val is
-   begin
-      Put_Line ("Function 'GL_Time_Slice_Val' not implemented.");
-   end GL_Time_Slice_Val;
-
-   procedure GL_WC_Encoding is
-   begin
-      Put_Line ("Function 'GL_WC_Encoding' not implemented.");
-   end GL_WC_Encoding;
-
-   procedure GL_Locking_Policy is
-   begin
-      Put_Line ("Function 'GL_Locking_Policy' not implemented.");
-   end GL_Locking_Policy;
-
-   procedure GL_Queuing_Policy is
-   begin
-      Put_Line ("Function 'GL_Queuing_Policy' not implemented.");
-   end GL_Queuing_Policy;
-
-   procedure GL_Task_Dispatching_Policy is
-   begin
-      Put_Line ("Function 'GL_Task_Dispatching_Policy' not implemented.");
-   end GL_Task_Dispatching_Policy;
-
    procedure GL_Priority_Specific_Dispatching is
    begin
       Put_Line (
       "Function 'GL_Priority_Specific_Dispatching' not implemented.");
    end GL_Priority_Specific_Dispatching;
 
-   procedure GL_Num_Specific_Dispatching is
-   begin
-      Put_Line ("Function 'GL_Num_Specific_Dispatching' not implemented.");
-   end GL_Num_Specific_Dispatching;
-
    procedure GL_Main_CPU is
    begin
       Put_Line ("Function 'GL_Main_CPU' not implemented.");
    end GL_Main_CPU;
-
-   procedure GL_Interrupt_States is
-   begin
-      Put_Line ("Function 'GL_Interrupt_States' not implemented.");
-   end GL_Interrupt_States;
-
-   procedure GL_Num_Interrupt_States is
-   begin
-      Put_Line ("Function 'GL_Num_Interrupt_States' not implemented.");
-   end GL_Num_Interrupt_States;
-
-   procedure GL_Unreserve_All_Interrupts is
-   begin
-      Put_Line ("Function 'GL_Unreserve_All_Interrupts' not implemented.");
-   end GL_Unreserve_All_Interrupts;
-
-   procedure GL_Detect_Blocking is
-   begin
-      Put_Line ("Function 'GL_Detect_Blocking' not implemented.");
-   end GL_Detect_Blocking;
-
-   procedure GL_Default_Stack_Size is
-   begin
-      Put_Line ("Function 'GL_Default_Stack_Size' not implemented.");
-   end GL_Default_Stack_Size;
 
    procedure Gnat_Argc is
    begin
@@ -620,11 +565,6 @@ package body Unimplemented_Functions is
    begin
       Put_Line ("Function '__gnat_bkpt_trap' not implemented.");
    end Gnat_Bkpt_Trap;
-
-   procedure GL_Xdr_Stream is
-   begin
-      Put_Line ("Function '__gl_xdr_stream' not implemented.");
-   end GL_Xdr_Stream;
 
    --  Allow overriding these functions
    pragma Inline (Close);

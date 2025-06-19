@@ -70,24 +70,9 @@ package Unimplemented_Functions is
    --  ARM-specific Operations
    procedure Ada_Setup_PLL;
    procedure GL_Main_CPU;
-   procedure GL_Interrupt_States;
-   procedure GL_Num_Interrupt_States;
-   procedure GL_Unreserve_All_Interrupts;
 
    --  Task Management
-   procedure GL_Task_Dispatching_Policy;
    procedure GL_Priority_Specific_Dispatching;
-   procedure GL_Num_Specific_Dispatching;
-   procedure GL_Detect_Blocking;
-
-   --  Queuing and Locking
-   procedure GL_Queuing_Policy;
-   procedure GL_Locking_Policy;
-
-   --  Debugging and Utilities
-   procedure GL_Time_Slice_Val;
-   procedure GL_WC_Encoding;
-   procedure GL_Default_Stack_Size;
 
    --  System Operations
    procedure Exit_Funct;
@@ -157,7 +142,6 @@ package Unimplemented_Functions is
 
    --  Gnatstudio
    procedure Gnat_Bkpt_Trap;
-   procedure GL_Xdr_Stream;
 
    --  File Operations
    pragma Export (C, Gnat_Open_Read, "__gnat_open_read");
@@ -251,31 +235,6 @@ package Unimplemented_Functions is
    --  ARM-specific Operations
    pragma Export (C, Ada_Setup_PLL, "_ada_setup_pll");
    pragma Export (C, GL_Main_CPU, "__gl_main_cpu");
-   pragma Export (C, GL_Interrupt_States, "__gl_interrupt_states");
-   pragma Export (C, GL_Num_Interrupt_States, "__gl_num_interrupt_states");
-   pragma Export (C, GL_Unreserve_All_Interrupts,
-                  "__gl_unreserve_all_interrupts");
-
-   --  Task Management
-   pragma Export (C, GL_Task_Dispatching_Policy,
-                  "__gl_task_dispatching_policy");
-
-   pragma Export (C, GL_Priority_Specific_Dispatching,
-                  "__gl_priority_specific_dispatching");
-
-   pragma Export (C, GL_Num_Specific_Dispatching,
-                  "__gl_num_specific_dispatching");
-
-   pragma Export (C, GL_Detect_Blocking, "__gl_detect_blocking");
-
-   --  Queuing and Locking
-   pragma Export (C, GL_Queuing_Policy, "__gl_queuing_policy");
-   pragma Export (C, GL_Locking_Policy, "__gl_locking_policy");
-
-   --  Debugging and Utilities
-   pragma Export (C, GL_Time_Slice_Val, "__gl_time_slice_val");
-   pragma Export (C, GL_WC_Encoding, "__gl_wc_encoding");
-   pragma Export (C, GL_Default_Stack_Size, "__gl_default_stack_size");
 
    --  System Operations
    pragma Export (C, Exit_Funct, "_exit");
@@ -358,5 +317,4 @@ package Unimplemented_Functions is
 
    --  Gnatstudio
    pragma Export (C, Gnat_Bkpt_Trap, "__gnat_bkpt_trap");
-   pragma Export (C, GL_Xdr_Stream, "__gl_xdr_stream");
 end Unimplemented_Functions;

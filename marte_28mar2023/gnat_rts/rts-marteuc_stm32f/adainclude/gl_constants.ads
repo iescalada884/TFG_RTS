@@ -41,14 +41,6 @@ package GL_Constants is
    pragma Export (C, Gnat_Cleanupunwind_Handler,
                   "__gnat_cleanupunwind_handler");
 
-   Gnat_Exception_Tracebacks : constant Integer := 0;
-   pragma Export (C, Gnat_Exception_Tracebacks,
-                  "__gl_exception_tracebacks");
-
-   Gnat_Exception_Tracebacks_Symbolic : constant Integer := 0;
-   pragma Export (C, Gnat_Exception_Tracebacks_Symbolic,
-                  "__gl_exception_tracebacks_symbolic");
-
    Gnat_Backtrace : constant Integer := 0;
    pragma Export (C, Gnat_Backtrace, "__gnat_backtrace");
 
@@ -59,20 +51,4 @@ package GL_Constants is
    pragma Export (C, Gnat_Get_Executable_Load_Address,
                   "__gnat_get_executable_load_address");
 
-   --  GNAT initialization and finalization constants
-   Gnat_Initialize : constant Integer := 0;
-   pragma Export (C, Gnat_Initialize, "__gnat_initialize");
-
-   Gnat_Finalize : constant Integer := 0;
-   pragma Export (C, Gnat_Finalize, "__gnat_finalize");
-
-   Gnat_Runtime_Initialize : constant Integer := 0;
-   pragma Export (C, Gnat_Runtime_Initialize, "__gnat_runtime_initialize");
-
-   Gnat_Runtime_Finalize : constant Integer := 0;
-   pragma Export (C, Gnat_Runtime_Finalize, "__gnat_runtime_finalize");
-
-   --  MaRTE OS constants
-   Marte_Init : constant Integer := 0;
-   pragma Export (C, Marte_Init, "marte_init");
 end GL_Constants;

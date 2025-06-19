@@ -16,6 +16,7 @@
 
 #obj
 **/obj-static/*
+***/objs/*
 
 
 #links created by scripts

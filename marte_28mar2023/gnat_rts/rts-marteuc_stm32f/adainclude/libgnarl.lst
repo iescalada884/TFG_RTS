@@ -71,8 +71,6 @@ s-tasinf.adb
 s-tasinf.ads
 s-tasini.adb
 s-tasini.ads
-s-taskin.adb
-s-taskin.ads
 s-taspri.ads
 s-tasque.adb
 s-tasque.ads
@@ -96,4 +94,16 @@ s-tposen.ads
 s-linux.ads
 a-exetim.adb
 a-exetim.ads
-
+s-bbbosu.adb
+s-bbbosu.ads
+s-bbinte.adb
+s-bbinte.ads
+s-bbtime.adb
+s-bbtime.ads
+s-bbtiev.ads
+s-bbtiev.adb
+s-bbthre.ads
+s-bbthre.adb
+s-bbthqu.ads
+s-bbthqu.adb
+s-bbprot.adb

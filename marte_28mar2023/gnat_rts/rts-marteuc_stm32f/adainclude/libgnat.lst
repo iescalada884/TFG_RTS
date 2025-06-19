@@ -1311,3 +1311,9 @@ s-textio.adb
 s-semiho.ads
 s-semiho.adb
 s-sgshca.adb
+s-bbcppr.adb
+s-bbcppr.ads
+s-taskin.adb
+s-taskin.ads
+s-init.adb
+s-init.ads
