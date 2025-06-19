@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---           Copyright (C) 2005-2024, Free Software Foundation, Inc.        --
+--           Copyright (C) 2005-2023, Free Software Foundation, Inc.        --
 --                                                                          --
 -- This specification is derived from the Ada Reference Manual for use with --
 -- GNAT. The copyright notice above, and the license provisions that follow --
@@ -33,7 +33,7 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Finalization;
+with System.BB.Timing_Events;
 
 package Ada.Real_Time.Timing_Events is
 
@@ -47,11 +47,6 @@ package Ada.Real_Time.Timing_Events is
       At_Time : Time;
       Handler : Timing_Event_Handler);
 
-   procedure Set_Handler
-     (Event   : in out Timing_Event;
-      In_Time : Time_Span;
-      Handler : Timing_Event_Handler);
-
    function Current_Handler
      (Event : Timing_Event) return Timing_Event_Handler;
 
@@ -61,27 +56,19 @@ package Ada.Real_Time.Timing_Events is
 
    function Time_Of_Event (Event : Timing_Event) return Time;
 
-   --  The compilation closure of this version (as opposed to the hie version)
-   --  of Ada.Real_TIme.Timing_Events includes a specification of a
-   --  Concurrent Partition_Elaboration_Policy. Thus, a bind-time error
-   --  will result if this unit occurs in the same partition as a conflicting
-   --  Partition_Elaboration_Policy specification.
-
 private
 
-   type Timing_Event is new Ada.Finalization.Limited_Controlled with record
-      Timeout : Time := Time_First;
-      --  The time at which the user's handler should be invoked when the
-      --  event is "set" (i.e., when Handler is not null).
+   pragma Inline (Set_Handler);
+   pragma Inline (Current_Handler);
+   pragma Inline (Cancel_Handler);
+   pragma Inline (Time_Of_Event);
 
-      Handler : Timing_Event_Handler;
-      --  An access value designating the protected procedure to be invoked
-      --  at the Timeout time in the future.  When this value is null the event
-      --  is said to be "cleared" and no timeout is processed.
-   end record;
-
-   overriding procedure Finalize (This : in out Timing_Event);
-   --  Finalization procedure is required to satisfy (RM D.15 (19/2)), which
-   --  says that the object must be cleared on finalization.
+   type Timing_Event is new System.BB.Timing_Events.Timing_Event with
+      record
+         Real_Handler : Timing_Event_Handler;
+         --  This is the real handler to be called at timeout, opposed to
+         --  "Handler" (inherited from System.BB.Timing_Events.Timing_Event)
+         --  which is a wrapper.
+      end record;
 
 end Ada.Real_Time.Timing_Events;

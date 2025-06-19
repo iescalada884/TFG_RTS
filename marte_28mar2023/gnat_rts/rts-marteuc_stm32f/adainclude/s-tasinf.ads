@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---            Copyright (C) 2007-2024, Free Software Foundation, Inc.       --
+--          Copyright (C) 1992-2023, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -39,20 +39,15 @@
 --  The functionality in this unit is now provided by the predefined package
 --  System.Multiprocessors and the CPU aspect. This package is obsolescent.
 
---  This is the GNU/Linux version of this module
-
-with System.OS_Interface;
-
 package System.Task_Info is
    pragma Obsolescent (Task_Info, "use System.Multiprocessors and CPU aspect");
    pragma Preelaborate;
    pragma Elaborate_Body;
    --  To ensure that a body is allowed
 
-   --  The Linux kernel provides a way to define the ideal processor to use for
-   --  a given thread. The ideal processor is not necessarily the one that will
-   --  be used by the OS but the OS will always try to schedule this thread to
-   --  the specified processor if it is available.
+   -----------------------------------------
+   -- Implementation of Task_Info Feature --
+   -----------------------------------------
 
    --  The Task_Info pragma:
 
@@ -73,30 +68,26 @@ package System.Task_Info is
    --  Note that this means that the type used for Task_Info_Type must be
    --  suitable for use as a discriminant (i.e. a scalar or access type).
 
-   -----------------------
-   -- Thread Attributes --
-   -----------------------
+   ------------------
+   -- Declarations --
+   ------------------
 
-   subtype CPU_Set is System.OS_Interface.cpu_set_t;
+   type Scope_Type is
+     (Process_Scope,
+      --  Contend only with threads in same process
 
-   Any_CPU : constant CPU_Set := (bits => [others => True]);
-   No_CPU  : constant CPU_Set := (bits => [others => False]);
+      System_Scope,
+      --  Contend with all threads on same CPU
 
-   Invalid_CPU_Number : exception;
-   --  Raised when an invalid CPU mask has been specified
-   --  i.e. An empty CPU set
+      Default_Scope);
 
-   type Thread_Attributes is record
-      CPU_Affinity : aliased CPU_Set := Any_CPU;
-   end record;
+   type Task_Info_Type is new Scope_Type;
+   --  Type used for passing information to task create call, using the
+   --  Task_Info pragma. This type may be specialized for individual
+   --  implementations, but it must be a type that can be used as a
+   --  discriminant (i.e. a scalar or access type).
 
-   Default_Thread_Attributes : constant Thread_Attributes := (others => <>);
-
-   type Task_Info_Type is access all Thread_Attributes;
-
-   Unspecified_Task_Info : constant Task_Info_Type := null;
-
-   function Number_Of_Processors return Positive;
-   --  Returns the number of processors on the running host
+   Unspecified_Task_Info : constant Task_Info_Type := Default_Scope;
+   --  Value passed to task in the absence of a Task_Info pragma
 
 end System.Task_Info;

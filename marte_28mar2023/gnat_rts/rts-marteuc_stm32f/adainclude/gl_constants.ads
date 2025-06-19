@@ -1,9 +1,6 @@
 package GL_Constants is
    --  Task-related constants
 
-   Main_Priority : constant Integer := 10;
-   pragma Export (C, Main_Priority, "__gl_main_priority");
-
    Secondary_Priority : constant Integer := 5;
    pragma Export (C, Secondary_Priority, "__gl_secondary_priority");
 

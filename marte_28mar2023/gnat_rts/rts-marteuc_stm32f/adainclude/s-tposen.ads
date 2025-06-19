@@ -6,7 +6,7 @@
 --                                                                          --
 --                                  S p e c                                 --
 --                                                                          --
---          Copyright (C) 1992-2024, Free Software Foundation, Inc.         --
+--                     Copyright (C) 1998-2023, AdaCore                     --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -39,6 +39,11 @@
 --      (No_Abort_Statements, Max_Asynchronous_Select_Nesting => 0)
 --    PO are at library level
 --    None of the tasks will terminate (no need for finalization)
+--    No timed or conditional entry calls
+
+--  Note that the difference with respect to the high integrity version of
+--  this package is that exception handlers are allowed, so that support for
+--  exceptional completion of entry bodies needs to be provided.
 
 --  This interface is intended to be used in the Ravenscar profile, the
 --  compiler is responsible for ensuring that the conditions mentioned above
@@ -141,13 +146,7 @@ package System.Tasking.Protected_Objects.Single_Entry is
    --     begin
    --        ...B...
    --     end B1b;
-   --     complete_single_entry_body (_object._object'unchecked_access);
    --     return;
-   --  exception
-   --     when all others =>
-   --        exceptional_complete_single_entry_body (_object._object'
-   --          unchecked_access, get_gnat_exception);
-   --        return;
    --  end poPT__E1s;
 
    --  procedure poPT__pN (_object : in out poTV) is
@@ -186,54 +185,40 @@ package System.Tasking.Protected_Objects.Single_Entry is
    --  Access to barrier and action function of an entry
 
    procedure Initialize_Protection_Entry
-     (Object           : Protection_Entry_Access;
-      Ceiling_Priority : Integer;
-      Compiler_Info    : System.Address;
-      Entry_Body       : Entry_Body_Access);
+     (Object            : Protection_Entry_Access;
+      Ceiling_Priority  : Integer;
+      Compiler_Info     : System.Address;
+      Entry_Body        : Entry_Body_Access);
    --  Initialize the Object parameter so that it can be used by the run time
    --  to keep track of the runtime state of a protected object.
 
    procedure Lock_Entry (Object : Protection_Entry_Access);
-   --  Lock a protected object for write access. Upon return, the caller owns
-   --  the lock to this object, and no other call to Lock or Lock_Read_Only
-   --  with the same argument will return until the corresponding call to
-   --  Unlock has been made by the caller.
-
-   procedure Lock_Read_Only_Entry
-     (Object : Protection_Entry_Access);
-   --  Lock a protected object for read access. Upon return, the caller owns
-   --  the lock for read access, and no other calls to Lock with the same
+   --  Lock a protected object for write access. Upon return, the caller
+   --  owns the lock to this object, and no other call to Lock with the same
    --  argument will return until the corresponding call to Unlock has been
-   --  made by the caller. Other calls to Lock_Read_Only may (but need not)
-   --  return before the call to Unlock, and the corresponding callers will
-   --  also own the lock for read access.
+   --  made by the caller.
 
    procedure Unlock_Entry (Object : Protection_Entry_Access);
-   --  Relinquish ownership of the lock for the object represented by the
-   --  Object parameter. If this ownership was for write access, or if it was
-   --  for read access where there are no other read access locks outstanding,
-   --  one (or more, in the case of Lock_Read_Only) of the tasks waiting on
-   --  this lock (if any) will be given the lock and allowed to return from
-   --  the Lock or Lock_Read_Only call.
+   --  Relinquish ownership of the lock for the object represented by
+   --  the Object parameter. One of the tasks waiting on this lock (if any)
+   --  will be given the lock and allowed to return from the Lock call.
 
    procedure Service_Entry (Object : Protection_Entry_Access);
    --  Service the entry queue of the specified object, executing the
    --  corresponding body of any queued entry call that is waiting on True
    --  barrier. This is used when the state of a protected object may have
    --  changed, in particular after the execution of the statement sequence
-   --  of a protected procedure.
-   --
-   --  This must be called with abort deferred and with the corresponding
-   --  object locked. Object is unlocked on return.
+   --  of a protected procedure. This procedure must be called with abort
+   --  deferred and with the corresponding object locked. Object is unlocked
+   --  on return.
 
    procedure Protected_Single_Entry_Call
      (Object              : Protection_Entry_Access;
       Uninterpreted_Data  : System.Address);
-   --  Make a protected entry call to the specified object
-   --
-   --  Pends a protected entry call on the protected object represented by
-   --  Object. A pended call is not queued; it may be executed immediately
-   --  or queued, depending on the state of the entry barrier.
+   --  Make a protected entry call to the specified object. Pends a protected
+   --  entry call on the protected object represented by Object. A pended call
+   --  is not queued; it may be executed immediately or queued, depending on
+   --  the state of the entry barrier.
    --
    --    Uninterpreted_Data
    --      This will be returned by Next_Entry_Call when this call is serviced.
@@ -252,9 +237,9 @@ package System.Tasking.Protected_Objects.Single_Entry is
 
    function Protected_Single_Entry_Caller
      (Object : Protection_Entry) return Task_Id;
-   --  Return value of E'Caller, where E is the protected entry currently being
-   --  handled. This will only work if called from within an entry body, as
-   --  required by the LRM (C.7.1(14)).
+   --  Return value of E'Caller, where E is the protected entry currently
+   --  being handled. This will only work if called from within an
+   --  entry body, as required by the LRM (C.7.1(14)).
 
 private
    type Protection_Entry is record
@@ -269,10 +254,11 @@ private
       --  Pointer to the entry call being executed (if any)
 
       Entry_Body : Entry_Body_Access;
-      --  Pointer to executable code for the entry body of the protected type
+      --  Pointer to the executable code for entry body of the protected type
 
       Entry_Queue : Entry_Call_Link;
       --  Place to store the waiting entry call (if any)
    end record;
+   pragma Suppress_Initialization (Protection_Entry);
 
 end System.Tasking.Protected_Objects.Single_Entry;

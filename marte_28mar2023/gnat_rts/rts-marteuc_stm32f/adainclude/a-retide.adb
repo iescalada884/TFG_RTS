@@ -6,9 +6,9 @@
 --                                                                          --
 --                                  B o d y                                 --
 --                                                                          --
---         Copyright (C) 1992-2024, Free Software Foundation, Inc.          --
+--                     Copyright (C) 2001-2023, AdaCore                     --
 --                                                                          --
--- GNARL is free software; you can  redistribute it  and/or modify it under --
+-- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
 -- ware  Foundation;  either version 3,  or (at your option) any later ver- --
 -- sion.  GNAT is distributed in the hope that it will be useful, but WITH- --
@@ -29,40 +29,28 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Exceptions;
-
-with System.Tasking;
 with System.Task_Primitives.Operations;
+--  Used for Timed_Delay
+--           Self
 
 package body Ada.Real_Time.Delays is
 
    package STPO renames System.Task_Primitives.Operations;
-
-   ----------------
-   -- Local Data --
-   ----------------
-
-   Absolute_RT : constant := 2;
 
    -----------------
    -- Delay_Until --
    -----------------
 
    procedure Delay_Until (T : Time) is
-      Self_Id : constant System.Tasking.Task_Id := STPO.Self;
-
    begin
-      --  If pragma Detect_Blocking is active, Program_Error must be
-      --  raised if this potentially blocking operation is called from a
-      --  protected action.
+      --  pragma Detect_Blocking is mandatory in this run time, so that
+      --  Program_Error must be raised if this delay (potentially blocking
+      --  operation) is called from a protected operation.
 
-      if System.Tasking.Detect_Blocking
-        and then Self_Id.Common.Protected_Action_Nesting > 0
-      then
-         Ada.Exceptions.Raise_Exception
-           (Program_Error'Identity, "potentially blocking operation");
+      if STPO.Self.Common.Protected_Action_Nesting > 0 then
+         raise Program_Error;
       else
-         STPO.Timed_Delay (Self_Id, To_Duration (T), Absolute_RT);
+         STPO.Delay_Until (STPO.Time (T));
       end if;
    end Delay_Until;
 
@@ -70,9 +58,15 @@ package body Ada.Real_Time.Delays is
    -- To_Duration --
    -----------------
 
+   --  This function is not supposed to be used by the Ravenscar run time and
+   --  it is not supposed to be with'ed by the user either (because it is an
+   --  internal GNAT unit). It is kept here (returning a junk value) just for
+   --  sharing the same package specification with the regular run time.
+
    function To_Duration (T : Time) return Duration is
+      pragma Unreferenced (T);
    begin
-      return To_Duration (Time_Span (T));
+      return 0.0;
    end To_Duration;
 
 end Ada.Real_Time.Delays;

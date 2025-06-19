@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---          Copyright (C) 1992-2024, Free Software Foundation, Inc.         --
+--          Copyright (C) 1992-2023, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,32 +29,51 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Exceptions;
-
-with System.Tasking;
-with System.Task_Primitives.Operations;
+--  This is the generic bare board version of this package
 
 package body Ada.Synchronous_Task_Control with
   SPARK_Mode => Off
 is
 
-   ----------------
-   -- Initialize --
-   ----------------
+   protected body Suspension_Object is
 
-   procedure Initialize (S : in out Suspension_Object) is
-   begin
-      System.Task_Primitives.Operations.Initialize (S.SO);
-   end Initialize;
+      --------------
+      -- Get_Open --
+      --------------
 
-   --------------
-   -- Finalize --
-   --------------
+      function Get_Open return Boolean is
+      begin
+         return Open;
+      end Get_Open;
 
-   procedure Finalize (S : in out Suspension_Object) is
-   begin
-      System.Task_Primitives.Operations.Finalize (S.SO);
-   end Finalize;
+      ---------------
+      -- Set_False --
+      ---------------
+
+      procedure Set_False is
+      begin
+         Open := False;
+      end Set_False;
+
+      --------------
+      -- Set_True --
+      --------------
+
+      procedure Set_True is
+      begin
+         Open := True;
+      end Set_True;
+
+      ----------
+      -- Wait --
+      ----------
+
+      entry Wait when Open is
+      begin
+         Open := False;
+      end Wait;
+
+   end Suspension_Object;
 
    -------------------
    -- Current_State --
@@ -62,7 +81,7 @@ is
 
    function Current_State (S : Suspension_Object) return Boolean is
    begin
-      return System.Task_Primitives.Operations.Current_State (S.SO);
+      return S.Get_Open;
    end Current_State;
 
    ---------------
@@ -71,7 +90,7 @@ is
 
    procedure Set_False (S : in out Suspension_Object) is
    begin
-      System.Task_Primitives.Operations.Set_False (S.SO);
+      S.Set_False;
    end Set_False;
 
    --------------
@@ -80,7 +99,7 @@ is
 
    procedure Set_True (S : in out Suspension_Object) is
    begin
-      System.Task_Primitives.Operations.Set_True (S.SO);
+      S.Set_True;
    end Set_True;
 
    ------------------------
@@ -89,18 +108,7 @@ is
 
    procedure Suspend_Until_True (S : in out Suspension_Object) is
    begin
-      --  This is a potentially blocking (see ARM D.10, par. 10), so that
-      --  if pragma Detect_Blocking is active then Program_Error must be
-      --  raised if this operation is called from a protected action.
-
-      if System.Tasking.Detect_Blocking
-        and then System.Tasking.Self.Common.Protected_Action_Nesting > 0
-      then
-         Ada.Exceptions.Raise_Exception
-           (Program_Error'Identity, "potentially blocking operation");
-      end if;
-
-      System.Task_Primitives.Operations.Suspend_Until_True (S.SO);
+      S.Wait;
    end Suspend_Until_True;
 
 end Ada.Synchronous_Task_Control;

@@ -6,7 +6,7 @@
 --                                                                          --
 --                                  S p e c                                 --
 --                                                                          --
---          Copyright (C) 1992-2024, Free Software Foundation, Inc.         --
+--          Copyright (C) 1992-2023, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNARL is free software; you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -58,8 +58,7 @@ package System.Tasking.Protected_Objects.Operations is
       Uninterpreted_Data : System.Address;
       Mode               : Call_Modes;
       Block              : out Communication_Block);
-   --  Make a protected entry call to the specified object.
-   --  Pend a protected entry call on the protected object represented
+   --  Make a protected entry call on the protected object represented
    --  by Object. A pended call is not queued; it may be executed immediately
    --  or queued, depending on the state of the entry barrier.
    --
@@ -77,24 +76,8 @@ package System.Tasking.Protected_Objects.Operations is
    --    Block
    --      Information passed between runtime calls by the compiler
 
-   procedure Timed_Protected_Entry_Call
-     (Object                : Entries.Protection_Entries_Access;
-      E                     : Protected_Entry_Index;
-      Uninterpreted_Data    : System.Address;
-      Timeout               : Duration;
-      Mode                  : Delay_Modes;
-      Entry_Call_Successful : out Boolean);
-   --  Same as the Protected_Entry_Call but with time-out specified.
-   --  This routines is used when we do not use ATC mechanism to implement
-   --  timed entry calls.
-
    procedure Service_Entries (Object : Entries.Protection_Entries_Access);
    pragma Inline (Service_Entries);
-
-   procedure PO_Service_Entries
-     (Self_ID       : Task_Id;
-      Object        : Entries.Protection_Entries_Access;
-      Unlock_Object : Boolean := True);
    --  Service all entry queues of the specified object, executing the
    --  corresponding bodies of any queued entry calls that are waiting
    --  on True barriers. This is used when the state of a protected
@@ -104,13 +87,6 @@ package System.Tasking.Protected_Objects.Operations is
    --  Note that servicing an entry may change the value of one or more
    --  barriers, so this routine keeps checking barriers until all of
    --  them are closed.
-   --
-   --  This must be called with abort deferred and with the corresponding
-   --  object locked.
-   --
-   --  If Unlock_Object is set True, then Object is unlocked on return,
-   --  otherwise Object remains locked and the caller is responsible for
-   --  the required unlock.
 
    procedure Complete_Entry_Body (Object : Entries.Protection_Entries_Access);
    --  Called from within an entry body procedure, indicates that the
@@ -123,76 +99,21 @@ package System.Tasking.Protected_Objects.Operations is
    --  report in Ex the exception whose propagation terminated the entry
    --  body to the runtime system.
 
-   procedure Cancel_Protected_Entry_Call (Block : in out Communication_Block);
-   --  Attempt to cancel the most recent protected entry call. If the call is
-   --  not queued abortably, wait until it is or until it has completed.
-   --  If the call is actually cancelled, the called object will be
-   --  locked on return from this call. Get_Cancelled (Block) can be
-   --  used to determine if the cancellation took place; there
-   --  may be entries needing service in this case.
-   --
-   --  Block passes information between this and other runtime calls.
-
-   function Enqueued (Block : Communication_Block) return Boolean;
-   --  Returns True if the Protected_Entry_Call which returned the
-   --  specified Block object was queued; False otherwise.
-
-   function Cancelled (Block : Communication_Block) return Boolean;
-   --  Returns True if the Protected_Entry_Call which returned the
-   --  specified Block object was cancelled, False otherwise.
-
-   procedure Requeue_Protected_Entry
-     (Object     : Entries.Protection_Entries_Access;
-      New_Object : Entries.Protection_Entries_Access;
-      E          : Protected_Entry_Index;
-      With_Abort : Boolean);
-   --  If Object = New_Object, queue the protected entry call on Object
-   --   currently being serviced on the queue corresponding to the entry
-   --   represented by E.
-   --
-   --  If Object /= New_Object, transfer the call to New_Object.E,
-   --   executing or queuing it as appropriate.
-   --
-   --  With_Abort---True if the call is to be queued abortably, false
-   --   otherwise.
-
-   procedure Requeue_Task_To_Protected_Entry
-     (New_Object : Entries.Protection_Entries_Access;
-      E          : Protected_Entry_Index;
-      With_Abort : Boolean);
-   --  Transfer task entry call currently being serviced to entry E
-   --   on New_Object.
-   --
-   --  With_Abort---True if the call is to be queued abortably, false
-   --   otherwise.
-
    function Protected_Count
-     (Object : Entries.Protection_Entries'Class;
+     (Object : Entries.Protection_Entries;
       E      : Protected_Entry_Index)
       return   Natural;
    --  Return the number of entry calls to E on Object
 
    function Protected_Entry_Caller
-     (Object : Entries.Protection_Entries'Class) return Task_Id;
+     (Object : Entries.Protection_Entries) return Task_Id;
    --  Return value of E'Caller, where E is the protected entry currently
    --  being handled. This will only work if called from within an entry
    --  body, as required by the LRM (C.7.1(14)).
 
-   --  For internal use only
-
-   procedure PO_Do_Or_Queue
-     (Self_ID    : Task_Id;
-      Object     : Entries.Protection_Entries_Access;
-      Entry_Call : Entry_Call_Link);
-   --  This procedure either executes or queues an entry call, depending
-   --  on the status of the corresponding barrier. It assumes that abort
-   --  is deferred and that the specified object is locked.
-
 private
    type Communication_Block is record
       Self      : Task_Id;
-      Enqueued  : Boolean := True;
-      Cancelled : Boolean := False;
    end record;
    pragma Volatile (Communication_Block);
 

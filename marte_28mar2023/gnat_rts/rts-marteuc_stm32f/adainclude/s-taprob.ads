@@ -6,12 +6,12 @@
 --                                                                          --
 --                                  S p e c                                 --
 --                                                                          --
---          Copyright (C) 1992-2024, Free Software Foundation, Inc.         --
+--          Copyright (C) 1992-2023, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNARL is free software; you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
 -- ware  Foundation;  either version 3,  or (at your option) any later ver- --
--- sion.  GNAT is distributed in the hope that it will be useful, but WITH- --
+-- sion. GNARL is distributed in the hope that it will be useful, but WITH- --
 -- OUT ANY WARRANTY;  without even the  implied warranty of MERCHANTABILITY --
 -- or FITNESS FOR A PARTICULAR PURPOSE.                                     --
 --                                                                          --
@@ -29,6 +29,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+--  This is the Ravenscar/HIE version of this package
+
 --  This package provides necessary definitions to handle simple (i.e without
 --  entries) protected objects.
 
@@ -43,7 +45,9 @@
 
 --  Note: the compiler generates direct calls to this interface, via Rtsfind.
 --  Any changes to this interface may require corresponding compiler changes
---  in exp_ch9.adb and possibly exp_ch7.adb and exp_attr.adb
+--  in exp_ch9.adb and possibly exp_ch7.adb
+
+with System.Multiprocessors.Fair_Locks;
 
 package System.Tasking.Protected_Objects is
    pragma Elaborate_Body;
@@ -82,17 +86,17 @@ package System.Tasking.Protected_Objects is
    --  procedure poPT__pN (_object : in out poTV);
    --  procedure poPT__pP (_object : in out poTV);
    --  freeze poTV [
-   --     procedure poTVI (_init : in out poTV) is
+   --     procedure poTVIP (_init : in out poTV) is
    --     begin
    --        _init.open := false;
-   --        object-init-proc (_init._object);
+   --        obj-init-proc (_init._object);
    --        initialize_protection (_init._object'unchecked_access,
    --          unspecified_priority);
    --        return;
-   --     end _init_proc;
+   --     end poTVIP;
    --  ]
    --  po : poT;
-   --  poTVI (poTV!(po));
+   --  poTVIP (poTV!(po));
 
    --  procedure poPT__pN (_object : in out poTV) is
    --     poR : protection renames _object._object;
@@ -125,6 +129,7 @@ package System.Tasking.Protected_Objects is
 
    type Protected_Entry_Index is new Entry_Index
      range Null_Protected_Entry .. Max_Protected_Entry;
+   --  Index of the entry (and in some cases of the queue)
 
    type Barrier_Function_Pointer is access
      function
@@ -152,26 +157,23 @@ package System.Tasking.Protected_Objects is
       Action  : Entry_Action_Pointer;
    end record;
    --  The compiler-generated code passes objects of this type to the GNARL
-   --  to allow it to access the executable code of an entry body and its
-   --  barrier.
+   --  to allow it to access the executable code of an entry body.
 
    type Protection is limited private;
    --  This type contains the GNARL state of a protected object. The
    --  application-defined portion of the state (i.e. private objects)
    --  is maintained by the compiler-generated code.
+   --
    --  Note that there are now 2 Protection types. One for the simple
    --  case (no entries) and one for the general case that needs the whole
    --  Finalization mechanism.
+   --
    --  This split helps in the case of restricted run time where we want to
    --  minimize the size of the code.
 
    type Protection_Access is access all Protection;
 
    Null_PO : constant Protection_Access := null;
-
-   function Get_Ceiling
-     (Object : Protection_Access) return System.Any_Priority;
-   --  Returns the new ceiling priority of the protected object
 
    procedure Initialize_Protection
      (Object           : Protection_Access;
@@ -180,12 +182,12 @@ package System.Tasking.Protected_Objects is
    --  to keep track of the runtime state of a protected object.
 
    procedure Lock (Object : Protection_Access);
-   --  Lock a protected object for write access. Upon return, the caller
-   --  owns the lock to this object, and no other call to Lock or
-   --  Lock_Read_Only with the same argument will return until the
-   --  corresponding call to Unlock has been made by the caller.
+   --  Lock a protected object for write access. Upon return, the caller owns
+   --  the lock to this object, and no other call to Lock with the same
+   --  argument will return until the corresponding call to Unlock has been
+   --  made by the caller.
 
-   procedure Lock_Read_Only (Object : Protection_Access);
+   procedure Lock_Read_Only (Object : Protection_Access) renames Lock;
    --  Lock a protected object for read access. Upon return, the caller
    --  owns the lock for read access, and no other calls to Lock with the
    --  same argument will return until the corresponding call to Unlock
@@ -193,36 +195,19 @@ package System.Tasking.Protected_Objects is
    --  need not) return before the call to Unlock, and the corresponding
    --  callers will also own the lock for read access.
 
-   procedure Set_Ceiling
-     (Object : Protection_Access;
-      Prio   : System.Any_Priority);
-   --  Sets the new ceiling priority of the protected object
-
    procedure Unlock (Object : Protection_Access);
-   --  Relinquish ownership of the lock for the object represented by
-   --  the Object parameter. If this ownership was for write access, or
-   --  if it was for read access where there are no other read access
-   --  locks outstanding, one (or more, in the case of Lock_Read_Only)
-   --  of the tasks waiting on this lock (if any) will be given the
-   --  lock and allowed to return from the Lock or Lock_Read_Only call.
+   --  Relinquish ownership of the lock for the object represented by the
+   --  Object parameter. One of the tasks waiting on this lock (if any) will
+   --  be given the lock and allowed to return from the Lock call.
 
 private
    type Protection is record
-      L : aliased Task_Primitives.Lock;
-      --  Lock used to ensure mutual exclusive access to the protected object
-
       Ceiling : System.Any_Priority;
       --  Ceiling priority associated to the protected object
 
-      New_Ceiling : System.Any_Priority;
-      --  New ceiling priority associated to the protected object. In case
-      --  of assignment of a new ceiling priority to the protected object the
-      --  frontend generates a call to set_ceiling to save the new value in
-      --  this field. After such assignment this value can be read by means
-      --  of the 'Priority attribute, which generates a call to get_ceiling.
-      --  However, the ceiling of the protected object will not be changed
-      --  until completion of the protected action in which the assignment
-      --  has been executed (AARM D.5.2 (10/2)).
+      Caller_Priority : System.Any_Priority;
+      --  Task's active priority when the protected operation was called. This
+      --  priority is restored when the task relinquish the protected object.
 
       Owner : Task_Id;
       --  This field contains the protected object's owner. Null_Task
@@ -231,11 +216,10 @@ private
       --  blocking operations described in the ARM 9.5.1, par. 15 (external
       --  calls on a protected subprogram with the same target object as that
       --  of the protected action).
-   end record;
 
-   procedure Finalize_Protection (Object : in out Protection);
-   --  Clean up a Protection object (in particular, finalize the associated
-   --  Lock object). The compiler generates calls automatically to this
-   --  procedure
+      Lock : Multiprocessors.Fair_Locks.Fair_Lock;
+      --  SMP lock
+   end record;
+   pragma Suppress_Initialization (Protection);
 
 end System.Tasking.Protected_Objects;

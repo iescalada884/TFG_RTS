@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---           Copyright (C) 2005-2024, Free Software Foundation, Inc.        --
+--           Copyright (C) 2005-2023, Free Software Foundation, Inc.        --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,239 +29,43 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with System.Task_Primitives.Operations;
-with System.Tasking.Utilities;
-with System.Soft_Links;
-with System.Interrupt_Management.Operations;
-
-with Ada.Containers.Doubly_Linked_Lists;
-pragma Elaborate_All (Ada.Containers.Doubly_Linked_Lists);
-
----------------------------------
--- Ada.Real_Time.Timing_Events --
----------------------------------
+with System.BB.Time;
+with System.BB.Protection;
 
 package body Ada.Real_Time.Timing_Events is
 
-   use System.Task_Primitives.Operations;
+   procedure Handler_Wrapper
+     (Event : in out System.BB.Timing_Events.Timing_Event'Class) with
+   --  This wrapper is needed to make a clean conversion between
+   --  System.BB.Timing_Events.Timing_Event_Handler and
+   --  Ada.Real_Time.Timing_Events.Timing_Event_Handler.
 
-   package SSL renames System.Soft_Links;
+     Pre =>
+       --  Timing_Event can only be defined from the type defined in RM D.15
+       --  Ada.Real_Time.Timing_Events.Timing_Event.
 
-   type Any_Timing_Event is access all Timing_Event'Class;
-   --  We must also handle user-defined types derived from Timing_Event
+       Event in Ada.Real_Time.Timing_Events.Timing_Event;
 
-   ------------
-   -- Events --
-   ------------
+   package SBTE renames System.BB.Timing_Events;
 
-   package Events is new Ada.Containers.Doubly_Linked_Lists (Any_Timing_Event);
-   --  Provides the type for the container holding pointers to events
+   ---------------------
+   -- Handler_Wrapper --
+   ---------------------
 
-   All_Events : Events.List;
-   --  The queue of pending events, ordered by increasing timeout value, that
-   --  have been "set" by the user via Set_Handler.
+   procedure Handler_Wrapper
+     (Event : in out System.BB.Timing_Events.Timing_Event'Class)
+   is
+      RT_Event : Timing_Event renames Timing_Event (Event);
+      --  View conversion on the parameter
 
-   Event_Queue_Lock : aliased System.Task_Primitives.RTS_Lock;
-   --  Used for mutually exclusive access to All_Events
-
-   --  We need to Initialize_Lock before Timer is activated. The purpose of the
-   --  Dummy package is to get around Ada's syntax rules.
-
-   package Dummy is end Dummy;
-   package body Dummy is
-   begin
-      Initialize_Lock (Event_Queue_Lock'Access, Level => PO_Level);
-   end Dummy;
-
-   procedure Process_Queued_Events;
-   --  Examine the queue of pending events for any that have timed out. For
-   --  those that have timed out, remove them from the queue and invoke their
-   --  handler (unless the user has cancelled the event by setting the handler
-   --  pointer to null). Mutually exclusive access is held via Event_Queue_Lock
-   --  during part of the processing.
-
-   procedure Insert_Into_Queue (This : Any_Timing_Event);
-   --  Insert the specified event pointer into the queue of pending events
-   --  with mutually exclusive access via Event_Queue_Lock.
-
-   procedure Remove_From_Queue (This : Any_Timing_Event);
-   --  Remove the specified event pointer from the queue of pending events with
-   --  mutually exclusive access via Event_Queue_Lock. This procedure is used
-   --  by the client-side routines (Set_Handler, etc.).
-
-   -----------
-   -- Timer --
-   -----------
-
-   task Timer is
-      pragma Priority (System.Priority'Last);
-   end Timer;
-
-   task body Timer is
-      Period : constant Time_Span := Milliseconds (100);
-      --  This is a "chiming" clock timer that fires periodically. The period
-      --  selected is arbitrary and could be changed to suit the application
-      --  requirements. Obviously a shorter period would give better resolution
-      --  at the cost of more overhead.
-
-      Ignore : constant Boolean := System.Tasking.Utilities.Make_Independent;
-      pragma Unreferenced (Ignore);
+      Handler : constant Timing_Event_Handler := RT_Event.Real_Handler;
 
    begin
-      --  Since this package may be elaborated before System.Interrupt,
-      --  we need to call Setup_Interrupt_Mask explicitly to ensure that
-      --  this task has the proper signal mask.
-
-      System.Interrupt_Management.Operations.Setup_Interrupt_Mask;
-
-      loop
-         Process_Queued_Events;
-         delay until Clock + Period;
-      end loop;
-   end Timer;
-
-   ---------------------------
-   -- Process_Queued_Events --
-   ---------------------------
-
-   procedure Process_Queued_Events is
-      Next_Event : Any_Timing_Event;
-
-   begin
-      loop
-         SSL.Abort_Defer.all;
-
-         Write_Lock (Event_Queue_Lock'Access);
-
-         if All_Events.Is_Empty then
-            Unlock (Event_Queue_Lock'Access);
-            SSL.Abort_Undefer.all;
-            return;
-         else
-            Next_Event := All_Events.First_Element;
-         end if;
-
-         if Next_Event.Timeout > Clock then
-
-            --  We found one that has not yet timed out. The queue is in
-            --  ascending order by Timeout so there is no need to continue
-            --  processing (and indeed we must not continue since we always
-            --  delete the first element).
-
-            Unlock (Event_Queue_Lock'Access);
-            SSL.Abort_Undefer.all;
-            return;
-         end if;
-
-         --  We have an event that has timed out so we will process it. It must
-         --  be the first in the queue so no search is needed.
-
-         All_Events.Delete_First;
-
-         --  A fundamental issue is that the invocation of the event's handler
-         --  might call Set_Handler on itself to re-insert itself back into the
-         --  queue of future events. Thus we cannot hold the lock on the queue
-         --  while invoking the event's handler.
-
-         Unlock (Event_Queue_Lock'Access);
-
-         SSL.Abort_Undefer.all;
-
-         --  There is no race condition with the user changing the handler
-         --  pointer while we are processing because we are executing at the
-         --  highest possible application task priority and are not doing
-         --  anything to block prior to invoking their handler.
-
-         declare
-            Handler : constant Timing_Event_Handler := Next_Event.Handler;
-
-         begin
-            --  The first act is to clear the event, per D.15(13/2). Besides,
-            --  we cannot clear the handler pointer *after* invoking the
-            --  handler because the handler may have re-inserted the event via
-            --  Set_Event. Thus we take a copy and then clear the component.
-
-            Next_Event.Handler := null;
-
-            if Handler /= null then
-               Handler.all (Timing_Event (Next_Event.all));
-            end if;
-
-         --  Ignore exceptions propagated by Handler.all, as required by
-         --  RM D.15(21/2).
-
-         exception
-            when others =>
-               null;
-         end;
-      end loop;
-   end Process_Queued_Events;
-
-   -----------------------
-   -- Insert_Into_Queue --
-   -----------------------
-
-   procedure Insert_Into_Queue (This : Any_Timing_Event) is
-
-      function Sooner (Left, Right : Any_Timing_Event) return Boolean;
-      --  Compares events in terms of timeout values
-
-      package By_Timeout is new Events.Generic_Sorting (Sooner);
-      --  Used to keep the events in ascending order by timeout value
-
-      ------------
-      -- Sooner --
-      ------------
-
-      function Sooner (Left, Right : Any_Timing_Event) return Boolean is
-      begin
-         return Left.Timeout < Right.Timeout;
-      end Sooner;
-
-   --  Start of processing for Insert_Into_Queue
-
-   begin
-      SSL.Abort_Defer.all;
-
-      Write_Lock (Event_Queue_Lock'Access);
-
-      All_Events.Append (This);
-
-      --  A critical property of the implementation of this package is that
-      --  all occurrences are in ascending order by Timeout. Thus the first
-      --  event in the queue always has the "next" value for the Timer task
-      --  to use in its delay statement.
-
-      By_Timeout.Sort (All_Events);
-
-      Unlock (Event_Queue_Lock'Access);
-
-      SSL.Abort_Undefer.all;
-   end Insert_Into_Queue;
-
-   -----------------------
-   -- Remove_From_Queue --
-   -----------------------
-
-   procedure Remove_From_Queue (This : Any_Timing_Event) is
-      use Events;
-      Location : Cursor;
-
-   begin
-      SSL.Abort_Defer.all;
-
-      Write_Lock (Event_Queue_Lock'Access);
-
-      Location := All_Events.Find (This);
-
-      if Location /= No_Element then
-         All_Events.Delete (Location);
+      if Handler /= null then
+         RT_Event.Real_Handler := null;
+         Handler.all (RT_Event);
       end if;
-
-      Unlock (Event_Queue_Lock'Access);
-
-      SSL.Abort_Undefer.all;
-   end Remove_From_Queue;
+   end Handler_Wrapper;
 
    -----------------
    -- Set_Handler --
@@ -272,48 +76,27 @@ package body Ada.Real_Time.Timing_Events is
       At_Time : Time;
       Handler : Timing_Event_Handler)
    is
+      BB_Handler : constant System.BB.Timing_Events.Timing_Event_Handler :=
+        (if Handler = null then null else Handler_Wrapper'Access);
+      --  Keep a null low-level handler if we are setting a null handler
+      --  (meaning that we the event is to be cleared as per D.15 par. 11/3).
+      --  Otherwise, pass the address of the wrapper in charge of executing
+      --  the actual handler (we need a wrapper because in addition to execute
+      --  the handler we need to set the handler to null to indicate that it
+      --  has already been executed).
+
    begin
-      Remove_From_Queue (Event'Unchecked_Access);
-      Event.Handler := null;
+      --  The access to the event must be protected and atomic
 
-      --  RM D.15(15/2) required that at this point, we check whether the time
-      --  has already passed, and if so, call Handler.all directly from here
-      --  instead of doing the enqueuing below. However, this caused a nasty
-      --  race condition and potential deadlock. If the current task has
-      --  already locked the protected object of Handler.all, and the time has
-      --  passed, deadlock would occur. It has been fixed by AI05-0094-1, which
-      --  says that the handler should be executed as soon as possible, meaning
-      --  that the timing event will be executed after the protected action
-      --  finishes (Handler.all should not be called directly from here).
-      --  The same comment applies to the other Set_Handler below.
+      System.BB.Protection.Enter_Kernel;
 
-      if Handler /= null then
-         Event.Timeout := At_Time;
-         Event.Handler := Handler;
-         Insert_Into_Queue (Event'Unchecked_Access);
-      end if;
-   end Set_Handler;
+      Event.Real_Handler := Handler;
 
-   -----------------
-   -- Set_Handler --
-   -----------------
+      SBTE.Set_Handler (SBTE.Timing_Event (Event),
+                        System.BB.Time.Time (At_Time),
+                        BB_Handler);
 
-   procedure Set_Handler
-     (Event   : in out Timing_Event;
-      In_Time : Time_Span;
-      Handler : Timing_Event_Handler)
-   is
-   begin
-      Remove_From_Queue (Event'Unchecked_Access);
-      Event.Handler := null;
-
-      --  See comment in the other Set_Handler above
-
-      if Handler /= null then
-         Event.Timeout := Clock + In_Time;
-         Event.Handler := Handler;
-         Insert_Into_Queue (Event'Unchecked_Access);
-      end if;
+      System.BB.Protection.Leave_Kernel;
    end Set_Handler;
 
    ---------------------
@@ -323,8 +106,17 @@ package body Ada.Real_Time.Timing_Events is
    function Current_Handler
      (Event : Timing_Event) return Timing_Event_Handler
    is
+      Res : Timing_Event_Handler;
    begin
-      return Event.Handler;
+      --  The access to the event must be protected and atomic
+
+      System.BB.Protection.Enter_Kernel;
+
+      Res := Event.Real_Handler;
+
+      System.BB.Protection.Leave_Kernel;
+
+      return Res;
    end Current_Handler;
 
    --------------------
@@ -336,9 +128,14 @@ package body Ada.Real_Time.Timing_Events is
       Cancelled : out Boolean)
    is
    begin
-      Remove_From_Queue (Event'Unchecked_Access);
-      Cancelled := Event.Handler /= null;
-      Event.Handler := null;
+      --  The access to the event must be protected and atomic
+
+      System.BB.Protection.Enter_Kernel;
+
+      SBTE.Cancel_Handler (SBTE.Timing_Event (Event), Cancelled);
+      Event.Real_Handler := null;
+
+      System.BB.Protection.Leave_Kernel;
    end Cancel_Handler;
 
    -------------------
@@ -346,22 +143,17 @@ package body Ada.Real_Time.Timing_Events is
    -------------------
 
    function Time_Of_Event (Event : Timing_Event) return Time is
+      Res : Time;
    begin
-      --  RM D.15(18/2): Time_First must be returned in the event is not set
+      --  The access to the event must be protected and atomic
 
-      return (if Event.Handler = null then Time_First else Event.Timeout);
+      System.BB.Protection.Enter_Kernel;
+
+      Res := Time (SBTE.Time_Of_Event (SBTE.Timing_Event (Event)));
+
+      System.BB.Protection.Leave_Kernel;
+
+      return Res;
    end Time_Of_Event;
-
-   --------------
-   -- Finalize --
-   --------------
-
-   procedure Finalize (This : in out Timing_Event) is
-   begin
-      --  D.15 (19/2) says finalization clears the event
-
-      This.Handler := null;
-      Remove_From_Queue (This'Unchecked_Access);
-   end Finalize;
 
 end Ada.Real_Time.Timing_Events;

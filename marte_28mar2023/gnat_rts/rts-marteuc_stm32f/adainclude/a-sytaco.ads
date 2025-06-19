@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---          Copyright (C) 1992-2024, Free Software Foundation, Inc.         --
+--          Copyright (C) 1992-2023, Free Software Foundation, Inc.         --
 --                                                                          --
 -- This specification is derived from the Ada Reference Manual for use with --
 -- GNAT. The copyright notice above, and the license provisions that follow --
@@ -33,9 +33,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with System.Task_Primitives;
+--  This is the generic bare board version of this package
 
-with Ada.Finalization;
 with Ada.Task_Identification;
 
 package Ada.Synchronous_Task_Control with
@@ -69,26 +68,25 @@ is
 private
    pragma SPARK_Mode (Off);
 
-   procedure Initialize (S : in out Suspension_Object);
-   --  Initialization for Suspension_Object
+   --  Using a protected object may seem overkill, but assuming the
+   --  appropriate restrictions (such as those imposed by the Ravenscar
+   --  profile) protected operations are very efficient. Moreover, this
+   --  allows for a generic implementation that is not dependent on the
+   --  underlying operating system.
 
-   procedure Finalize (S : in out Suspension_Object);
-   --  Finalization for Suspension_Object
+   protected type Suspension_Object is
+      entry Wait
+        with Max_Queue_Length => 1;
+      --  At most one task can be waiting, in accordance to D.10/10
 
-   type Suspension_Object is
-     new Ada.Finalization.Limited_Controlled with
-   record
-      SO : System.Task_Primitives.Suspension_Object;
-      --  Use low-level suspension objects so that the synchronization
-      --  functionality provided by this object can be achieved using
-      --  efficient operating system primitives.
-   end record;
+      procedure Set_False;
+      procedure Set_True;
+      function Get_Open return Boolean;
 
-   pragma Inline (Set_True);
-   pragma Inline (Set_False);
-   pragma Inline (Current_State);
-   pragma Inline (Suspend_Until_True);
-   pragma Inline (Initialize);
-   pragma Inline (Finalize);
+      pragma Interrupt_Priority;
+   private
+      Open : Boolean := False;
+      --  Status
+   end Suspension_Object;
 
 end Ada.Synchronous_Task_Control;

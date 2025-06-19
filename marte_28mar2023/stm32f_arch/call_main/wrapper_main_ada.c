@@ -51,7 +51,7 @@
 extern int user_main(int argc, char *argv[], char *envp[]);
 // name of the main function given by the binder (option "-Muser_main")
 
-extern void marte_init();  // Elaboration of MaRTE Ada packages
+extern void marteinit();  // Elaboration of MaRTE Ada packages
 
 extern void direct_write_on_stdout (char * str, int count); // 'Direct_IO'
 extern void basic_stdout_initialization (); //  From 'Direct_IO'

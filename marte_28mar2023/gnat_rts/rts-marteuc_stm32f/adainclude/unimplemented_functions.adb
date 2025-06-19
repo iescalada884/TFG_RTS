@@ -315,11 +315,6 @@ package body Unimplemented_Functions is
       "Function 'GL_Priority_Specific_Dispatching' not implemented.");
    end GL_Priority_Specific_Dispatching;
 
-   procedure GL_Main_CPU is
-   begin
-      Put_Line ("Function 'GL_Main_CPU' not implemented.");
-   end GL_Main_CPU;
-
    procedure Gnat_Argc is
    begin
       Put_Line ("Function 'Gnat_Argc' not implemented.");
@@ -566,13 +561,73 @@ package body Unimplemented_Functions is
       Put_Line ("Function '__gnat_bkpt_trap' not implemented.");
    end Gnat_Bkpt_Trap;
 
-   --  Allow overriding these functions
-   pragma Inline (Close);
-   pragma Inline (Fstat);
-   pragma Inline (Lseek);
-   pragma Inline (Read);
-   pragma Inline (Sbrk);
-   pragma Inline (Write);
-   pragma Inline (Isatty);
+   procedure S_task_prim_op_s is
+   begin
+      Put_Line (
+      "Function 'S_task_prim_op_s' not implemented.");
+   end S_task_prim_op_s;
+
+   procedure S_task_prim_op_in_tbc is
+   begin
+      Put_Line (
+      "Function 'task prim op init tcb' not implemented.");
+   end S_task_prim_op_in_tbc;
+
+   procedure S_task_prim_op_in_in is
+   begin
+      Put_Line (
+      "Function 'task prim op init' not implemented.");
+   end S_task_prim_op_in_in;
+
+   procedure S_BB_SMCuC is
+   begin
+      Put_Line (
+         "Function 'bb sup mult cu cpu' not implemented.");
+   end S_BB_SMCuC;
+
+   procedure S_BB_CPCSTICS is
+   begin
+      Put_Line (
+         "Function 'bb prim cont sw tr init' not implemented.");
+   end S_BB_CPCSTICS;
+
+   procedure S_BB_CPCSTCS is
+   begin
+      Put_Line (
+      "Function 'bb cpu context switch trigger' not implemented.");
+   end S_BB_CPCSTCS;
+
+   procedure S_BB_ISCP is
+   begin
+      Put_Line (
+      "Function 'sys bb support inte set current priority' not implemented.");
+   end S_BB_ISCP;
+
+   procedure System_Bb_Board_Support_Time_Read_Clock is
+   begin
+      Put_Line (
+      "Function 'System_Bb_Board_Support_Time_Read_Clock' not implemented.");
+   end System_Bb_Board_Support_Time_Read_Clock;
+
+   procedure Gnat_Alarm_Time is
+   begin
+      Put_Line ("Function 'Gnat_Alarm_Time' not implemented.");
+   end Gnat_Alarm_Time;
+
+   procedure Gnat_Context_Switch_Needed is
+   begin
+      Put_Line ("Function 'Gnat_Context_Switch_Needed' not implemented.");
+   end Gnat_Context_Switch_Needed;
+
+   procedure Interrupt_Stack_Table is
+   begin
+      Put_Line ("Function 'Interrupt_Stack_Table' not implemented.");
+   end Interrupt_Stack_Table;
+
+   procedure System_Bb_Threads_Queues_Running_Thread is
+   begin
+      Put_Line ("Function 'System_Bb_Threads" &
+      "_Queues_Running_Thread' not implemented.");
+   end System_Bb_Threads_Queues_Running_Thread;
 
 end Unimplemented_Functions;
