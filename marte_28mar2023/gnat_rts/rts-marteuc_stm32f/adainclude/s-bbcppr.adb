@@ -107,7 +107,8 @@ package body System.BB.CPU_Primitives is
    pragma Export (Asm, SV_Call_Handler, "__gnat_sv_call_trap");
 
    procedure Sys_Tick_Handler;
-   pragma Export (Asm, Sys_Tick_Handler, "__gnat_sys_tick_trap");
+   --  ! MARTE-UC implementation instead
+   pragma Export (Asm, Sys_Tick_Handler, "__gnat_sys_tick_trap_NO_USE");
 
    procedure Interrupt_Request_Handler;
    pragma Export (Asm, Interrupt_Request_Handler, "__gnat_irq_trap");
@@ -339,8 +340,7 @@ package body System.BB.CPU_Primitives is
       --  Interrupts must be disabled at this point
 
       --  pragma Assert (PRIMASK = 1); MARTE-UC implementation instead
-
-      Trigger_Context_Switch;            
+      Trigger_Context_Switch;
 
       --  Memory must be clobbered, as task switching causes a task to signal,
       --  which means its memory changes must be visible to all other tasks.

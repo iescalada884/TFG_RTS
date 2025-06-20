@@ -54,7 +54,9 @@ package body System.BB.CPU_Primitives.Context_Switch_Trigger is
 
    procedure Pend_SV_Handler;
    pragma Machine_Attribute (Pend_SV_Handler, "naked");
-   pragma Export (Asm, Pend_SV_Handler, "__gnat_pend_sv_trap");
+   --  ! MARTE-UC implementation instead
+   --  pragma Export (Asm, Pend_SV_Handler, "__gnat_pend_sv_trap");
+
    --  This assembly routine needs to save and restore registers without
    --  interference. The "naked" machine attribute communicates this to GCC.
 
