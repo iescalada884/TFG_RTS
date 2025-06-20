@@ -226,21 +226,21 @@ package body System.BB.CPU_Primitives is
    SHPR3 : Word with Volatile, Address => 16#E000_ED20#; -- Sys Hand 12-15 Prio
    SHCSR : Word with Volatile, Address => 16#E000_ED24#; -- Sys Hand Ctrl/State
 
-   function PRIMASK return Word with Inline, Export, Convention => C;
+   --  function PRIMASK return Word with Inline, Export, Convention => C;
    --  Function returning the contents of the PRIMASK register
 
    -------------
    -- PRIMASK --
    -------------
 
-   function PRIMASK return Word is
-      Result : Word;
-   begin
-      Asm ("mrs %0, PRIMASK",
-           Outputs  => Word'Asm_Output ("=r", Result),
-           Volatile => True);
-      return Result;
-   end PRIMASK;
+   --  function PRIMASK return Word is -- ! MARTE-UC implementation instead
+   --     Result : Word;
+   --  begin
+   --     Asm ("mrs %0, PRIMASK",
+   --          Outputs  => Word'Asm_Output ("=r", Result),
+   --    Volatile => True);
+   --     return Result;
+   --  end PRIMASK;
 
    --------------------
    -- Initialize_CPU --
@@ -338,9 +338,9 @@ package body System.BB.CPU_Primitives is
    begin
       --  Interrupts must be disabled at this point
 
-      pragma Assert (PRIMASK = 1);
+      --  pragma Assert (PRIMASK = 1); MARTE-UC implementation instead
 
-      Trigger_Context_Switch;
+      Trigger_Context_Switch;            
 
       --  Memory must be clobbered, as task switching causes a task to signal,
       --  which means its memory changes must be visible to all other tasks.
