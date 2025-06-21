@@ -1,12 +1,12 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---                         GNAT RUN-TIME COMPONENTS                         --
+--                         GNAT COMPILER COMPONENTS                         --
 --                                                                          --
---                          A D A . T E X T _ I O                           --
+--               S Y S T E M . S T O R A G E _ E L E M E N T S              --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---             Copyright (C) 2017-2023, Free Software Foundation, Inc.      --
+--          Copyright (C) 1992-2024, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -19,64 +19,18 @@
 -- additional permissions described in the GCC Runtime Library Exception,   --
 -- version 3.1, as published by the Free Software Foundation.               --
 --                                                                          --
--- In particular,  you can freely  distribute your programs  built with the --
--- GNAT Pro compiler, including any required library run-time units,  using --
--- any licensing terms  of your choosing.  See the AdaCore Software License --
--- for full details.                                                        --
+-- You should have received a copy of the GNU General Public License and    --
+-- a copy of the GCC Runtime Library Exception along with this program;     --
+-- see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see    --
+-- <http://www.gnu.org/licenses/>.                                          --
 --                                                                          --
 -- GNAT was originally developed  by the GNAT team at  New York University. --
 -- Extensive contributions were provided by Ada Core Technologies Inc.      --
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  Version for semihosting, a mechanism that enables I/O between target and
---  host computer using the debugger.
+--  This package does not require a body. We provide a dummy file containing a
+--  No_Body pragma so that previous versions of the body (which did exist) will
+--  not interfere.
 
-with System.Semihosting;
-
-package body Ada.Text_IO with
-  SPARK_Mode => Off,
-  Refined_State => (File_System => null)
-is
-
-   ---------
-   -- Get --
-   ---------
-
-   procedure Get (C : out Character) is
-   begin
-      System.Semihosting.Get (C);
-   end Get;
-
-   --------------
-   -- New_Line --
-   --------------
-
-   procedure New_Line is
-   begin
-      System.Semihosting.Put (ASCII.CR & ASCII.LF);
-   end New_Line;
-
-   ---------
-   -- Put --
-   ---------
-
-   procedure Put (Item : Character) is
-   begin
-      System.Semihosting.Put (Item);
-   end Put;
-
-   procedure Put (Item : String) is
-   begin
-      System.Semihosting.Put (Item);
-   end Put;
-
-   --------------
-   -- Put_Line --
-   --------------
-
-   procedure Put_Line (Item : String) is
-   begin
-      System.Semihosting.Put (Item & ASCII.CR & ASCII.LF);
-   end Put_Line;
-end Ada.Text_IO;
+pragma No_Body;

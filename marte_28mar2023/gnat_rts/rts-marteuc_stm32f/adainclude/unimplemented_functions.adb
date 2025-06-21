@@ -304,11 +304,6 @@ package body Unimplemented_Functions is
       Put_Line ("Function 'Ada_Setup_PLL' not implemented.");
    end Ada_Setup_PLL;
 
-   procedure Exit_Funct is
-   begin
-      Put_Line ("Function '_Exit' not implemented.");
-   end Exit_Funct;
-
    procedure GL_Priority_Specific_Dispatching is
    begin
       Put_Line (
@@ -560,4 +555,11 @@ package body Unimplemented_Functions is
    begin
       Put_Line ("Function '__gnat_bkpt_trap' not implemented.");
    end Gnat_Bkpt_Trap;
+
+   --  Embbedded Functions
+   procedure finalize_library is
+   begin
+      Put_Line ("Function 'finalize_library' not implemented.");
+   end finalize_library;
+
 end Unimplemented_Functions;

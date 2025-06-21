@@ -83,7 +83,7 @@ package MaRTE.Configuration_Parameters is
    ----------------------------------------------------------------------------
    --  Tasks and Priorities ---------------------------------------------------
    ----------------------------------------------------------------------------
-   Num_User_Tasks_Mx : constant := 12;  --  {PREALLOCATED}
+   Num_User_Tasks_Mx : constant := 6;  --  {PREALLOCATED}
    --  Maximum number of user's tasks or threads that can exist at the same
    --  time (including the main).
    --
@@ -170,7 +170,7 @@ package MaRTE.Configuration_Parameters is
    --  When set to true the TLSF algorithm is used. This algorithm
    --  allows memory allocation and deallocation with bounded response
    --  times (written by Miguel Masmano Tello <mimastel@doctor.upv.es>
-   --  from the Universidad Politécnica de Valencia).
+   --  from the Universidad Politï¿½cnica de Valencia).
    --
    --  When false, a much more simple algorithm is used. It allows
    --  allocation of memory blocks with not deallocation. It is useful

@@ -2,11 +2,11 @@
 --                                                                          --
 --                         GNAT COMPILER COMPONENTS                         --
 --                                                                          --
---                 S Y S T E M . S T O R A G E _ P O O L S                  --
+--                    S Y S T E M . P O O L _ L O C A L                     --
 --                                                                          --
---                                 B o d y                                  --
+--                                 S p e c                                  --
 --                                                                          --
---          Copyright (C) 2009-2023, Free Software Foundation, Inc.         --
+--          Copyright (C) 1992-2024, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,34 +29,46 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-package body System.Storage_Pools is
+--  Storage pool for use with local objects with automatic reclaim
 
-   ------------------
-   -- Allocate_Any --
-   ------------------
+with System.Storage_Elements;
+with System.Pool_Global;
 
-   procedure Allocate_Any
-    (Pool                     : in out Root_Storage_Pool'Class;
-     Storage_Address          : out System.Address;
-     Size_In_Storage_Elements : System.Storage_Elements.Storage_Count;
-     Alignment                : System.Storage_Elements.Storage_Count)
-   is
-   begin
-      Allocate (Pool, Storage_Address, Size_In_Storage_Elements, Alignment);
-   end Allocate_Any;
+package System.Pool_Local is
+   pragma Elaborate_Body;
+   --  Needed to ensure that library routines can execute allocators
 
-   --------------------
-   -- Deallocate_Any --
-   --------------------
+   ----------------------------
+   -- Unbounded_Reclaim_Pool --
+   ----------------------------
 
-   procedure Deallocate_Any
-    (Pool                     : in out Root_Storage_Pool'Class;
-     Storage_Address          : System.Address;
-     Size_In_Storage_Elements : System.Storage_Elements.Storage_Count;
-     Alignment                : System.Storage_Elements.Storage_Count)
-   is
-   begin
-      Deallocate (Pool, Storage_Address, Size_In_Storage_Elements, Alignment);
-   end Deallocate_Any;
+   --  Allocation strategy:
 
-end System.Storage_Pools;
+   --    Call to malloc/free for each Allocate/Deallocate
+   --    No user specifiable size
+   --    Space of allocated objects is reclaimed at pool finalization
+   --    Manages a list of allocated objects
+
+   type Unbounded_Reclaim_Pool is new
+     System.Pool_Global.Unbounded_No_Reclaim_Pool with
+       record
+          First : System.Address := Null_Address;
+       end record;
+
+   --  function Storage_Size is inherited
+
+   procedure Allocate
+     (Pool         : in out Unbounded_Reclaim_Pool;
+      Address      : out System.Address;
+      Storage_Size : System.Storage_Elements.Storage_Count;
+      Alignment    : System.Storage_Elements.Storage_Count);
+
+   procedure Deallocate
+     (Pool         : in out Unbounded_Reclaim_Pool;
+      Address      : System.Address;
+      Storage_Size : System.Storage_Elements.Storage_Count;
+      Alignment    : System.Storage_Elements.Storage_Count);
+
+   procedure Finalize (Pool : in out Unbounded_Reclaim_Pool);
+
+end System.Pool_Local;

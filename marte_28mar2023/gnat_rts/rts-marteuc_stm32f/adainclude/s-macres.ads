@@ -2,11 +2,11 @@
 --                                                                          --
 --                         GNAT RUN-TIME COMPONENTS                         --
 --                                                                          --
---                          A D A . T E X T _ I O                           --
+--                   S Y S T E M .  M A C H I N E _ R E S E T               --
 --                                                                          --
---                                 B o d y                                  --
+--                                 S p e c                                  --
 --                                                                          --
---             Copyright (C) 2017-2023, Free Software Foundation, Inc.      --
+--           Copyright (C) 2011-2023, Free Software Foundation, Inc.        --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -19,64 +19,25 @@
 -- additional permissions described in the GCC Runtime Library Exception,   --
 -- version 3.1, as published by the Free Software Foundation.               --
 --                                                                          --
--- In particular,  you can freely  distribute your programs  built with the --
--- GNAT Pro compiler, including any required library run-time units,  using --
--- any licensing terms  of your choosing.  See the AdaCore Software License --
--- for full details.                                                        --
+-- You should have received a copy of the GNU General Public License and    --
+-- a copy of the GCC Runtime Library Exception along with this program;     --
+-- see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see    --
+-- <http://www.gnu.org/licenses/>.                                          --
 --                                                                          --
 -- GNAT was originally developed  by the GNAT team at  New York University. --
 -- Extensive contributions were provided by Ada Core Technologies Inc.      --
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  Version for semihosting, a mechanism that enables I/O between target and
---  host computer using the debugger.
+--  Abruptly stop the program.
+--  On bareboard platform, this returns to the monitor or reset the board.
+--  In the context of an OS, this terminates the process.
 
-with System.Semihosting;
+package System.Machine_Reset is
+   pragma No_Elaboration_Code_All;
 
-package body Ada.Text_IO with
-  SPARK_Mode => Off,
-  Refined_State => (File_System => null)
-is
-
-   ---------
-   -- Get --
-   ---------
-
-   procedure Get (C : out Character) is
-   begin
-      System.Semihosting.Get (C);
-   end Get;
-
-   --------------
-   -- New_Line --
-   --------------
-
-   procedure New_Line is
-   begin
-      System.Semihosting.Put (ASCII.CR & ASCII.LF);
-   end New_Line;
-
-   ---------
-   -- Put --
-   ---------
-
-   procedure Put (Item : Character) is
-   begin
-      System.Semihosting.Put (Item);
-   end Put;
-
-   procedure Put (Item : String) is
-   begin
-      System.Semihosting.Put (Item);
-   end Put;
-
-   --------------
-   -- Put_Line --
-   --------------
-
-   procedure Put_Line (Item : String) is
-   begin
-      System.Semihosting.Put (Item & ASCII.CR & ASCII.LF);
-   end Put_Line;
-end Ada.Text_IO;
+   procedure Stop;
+   pragma No_Return (Stop);
+   pragma Export (C, Stop, "__gnat_stop");
+   --  Abruptly stop the program
+end System.Machine_Reset;

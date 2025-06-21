@@ -73,9 +73,6 @@ package Unimplemented_Functions is
    --  Task Management
    procedure GL_Priority_Specific_Dispatching;
 
-   --  System Operations
-   procedure Exit_Funct;
-
    --  GNAT Runtime
    procedure Gnat_Argc;
    procedure Gnat_Argv;
@@ -234,9 +231,6 @@ package Unimplemented_Functions is
    --  ARM-specific Operations
    pragma Export (C, Ada_Setup_PLL, "_ada_setup_pll");
 
-   --  System Operations
-   pragma Export (C, Exit_Funct, "_exit");
-
    --  GNAT Runtime
    pragma Export (C, Gnat_Argc, "gnat_argc");
    pragma Export (C, Gnat_Argv, "gnat_argv");
@@ -315,5 +309,9 @@ package Unimplemented_Functions is
 
    --  Gnatstudio
    pragma Export (C, Gnat_Bkpt_Trap, "__gnat_bkpt_trap");
+
+   --  embbeded functions
+   procedure finalize_library;
+   pragma Export (C, finalize_library, "__gnat_finalize_library_objects");
 
 end Unimplemented_Functions;

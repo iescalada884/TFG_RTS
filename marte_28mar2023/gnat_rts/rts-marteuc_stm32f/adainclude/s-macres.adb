@@ -1,12 +1,12 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---                         GNAT COMPILER COMPONENTS                         --
+--                         GNAT RUN-TIME COMPONENTS                         --
 --                                                                          --
---                 S Y S T E M . S T O R A G E _ P O O L S                  --
+--                   S Y S T E M .  M A C H I N E _ R E S E T               --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---          Copyright (C) 2009-2023, Free Software Foundation, Inc.         --
+--            Copyright (C) 2011-2021, Free Software Foundation, Inc.       --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,34 +29,77 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-package body System.Storage_Pools is
+with Interfaces;
+with System.Machine_Code; use System.Machine_Code;
 
-   ------------------
-   -- Allocate_Any --
-   ------------------
+package body System.Machine_Reset is
 
-   procedure Allocate_Any
-    (Pool                     : in out Root_Storage_Pool'Class;
-     Storage_Address          : out System.Address;
-     Size_In_Storage_Elements : System.Storage_Elements.Storage_Count;
-     Alignment                : System.Storage_Elements.Storage_Count)
-   is
+   procedure Os_Exit (Status : Integer);
+   pragma No_Return (Os_Exit);
+   pragma Export (Ada, Os_Exit, "_exit");
+   --  Shutdown or restart the board
+
+   procedure Os_Abort;
+   pragma No_Return (Os_Abort);
+   pragma Export (Ada, Os_Abort, "abort");
+   --  Likewise
+
+   --------------
+   -- Os_Abort --
+   --------------
+
+   procedure Os_Abort is
    begin
-      Allocate (Pool, Storage_Address, Size_In_Storage_Elements, Alignment);
-   end Allocate_Any;
+      Os_Exit (1);
+   end Os_Abort;
 
-   --------------------
-   -- Deallocate_Any --
-   --------------------
+   -------------
+   -- Os_Exit --
+   -------------
 
-   procedure Deallocate_Any
-    (Pool                     : in out Root_Storage_Pool'Class;
-     Storage_Address          : System.Address;
-     Size_In_Storage_Elements : System.Storage_Elements.Storage_Count;
-     Alignment                : System.Storage_Elements.Storage_Count)
-   is
+   procedure Os_Exit (Status : Integer) is
+      pragma Unreferenced (Status);
+      --  The parameter is just for ISO-C compatibility
+
+      AIRCR : Interfaces.Unsigned_32 with
+        Address => 16#E000_ED0C#,
+        Import,
+        Volatile;
+
    begin
-      Deallocate (Pool, Storage_Address, Size_In_Storage_Elements, Alignment);
-   end Deallocate_Any;
+      --  Apply a barrier prior to the reset request to ensure previous
+      --  memory accesses complete before the reset occurs.
 
-end System.Storage_Pools;
+      Asm ("dsb 0xF", Volatile => True, Clobber => "memory");
+
+      --  Depending on the implementation, the reset could take some time to
+      --  occur, during which an interrupt could come in. In that case the
+      --  reset could occur in the middle of the interrupt handler. Disable
+      --  interrupts to prevent that.
+
+      Asm ("cpsid i", Volatile => True);
+
+      --  Request reset
+
+      AIRCR := 16#05FA_0004#;
+
+      --  Depending on the implementation, the processor could continue
+      --  to execute a few instructions following the reset request before
+      --  the reset actually takes place. Use a loop to ensure there is no
+      --  application code to execute following the request.
+
+      loop
+         null;
+      end loop;
+   end Os_Exit;
+
+   ----------
+   -- Stop --
+   ----------
+
+   procedure Stop is
+   begin
+      Os_Exit (0);
+   end Stop;
+
+end System.Machine_Reset;

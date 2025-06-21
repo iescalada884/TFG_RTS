@@ -2,11 +2,11 @@
 --                                                                          --
 --                         GNAT COMPILER COMPONENTS                         --
 --                                                                          --
---                 S Y S T E M . S T O R A G E _ P O O L S                  --
+--                   S Y S T E M . P O O L _ G L O B A L                    --
 --                                                                          --
---                                 B o d y                                  --
+--                                 S p e c                                  --
 --                                                                          --
---          Copyright (C) 2009-2023, Free Software Foundation, Inc.         --
+--          Copyright (C) 1992-2024, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,34 +29,50 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-package body System.Storage_Pools is
+--  Storage pool corresponding to default global storage pool used for types
+--  for which no storage pool is specified.
 
-   ------------------
-   -- Allocate_Any --
-   ------------------
+with System.Storage_Pools;
+with System.Storage_Elements;
 
-   procedure Allocate_Any
-    (Pool                     : in out Root_Storage_Pool'Class;
-     Storage_Address          : out System.Address;
-     Size_In_Storage_Elements : System.Storage_Elements.Storage_Count;
-     Alignment                : System.Storage_Elements.Storage_Count)
-   is
-   begin
-      Allocate (Pool, Storage_Address, Size_In_Storage_Elements, Alignment);
-   end Allocate_Any;
+package System.Pool_Global is
+   pragma Elaborate_Body;
+   --  Needed to ensure that library routines can execute allocators
 
-   --------------------
-   -- Deallocate_Any --
-   --------------------
+   --  Allocation strategy:
 
-   procedure Deallocate_Any
-    (Pool                     : in out Root_Storage_Pool'Class;
-     Storage_Address          : System.Address;
-     Size_In_Storage_Elements : System.Storage_Elements.Storage_Count;
-     Alignment                : System.Storage_Elements.Storage_Count)
-   is
-   begin
-      Deallocate (Pool, Storage_Address, Size_In_Storage_Elements, Alignment);
-   end Deallocate_Any;
+   --    Call to malloc/free for each Allocate/Deallocate
+   --    No user specifiable size
+   --    No automatic reclaim
+   --    Minimal overhead
 
-end System.Storage_Pools;
+   --  Pool simulating the allocation/deallocation strategy used by the
+   --  compiler for access types globally declared.
+
+   type Unbounded_No_Reclaim_Pool is new
+     System.Storage_Pools.Root_Storage_Pool with null record;
+
+   overriding function Storage_Size
+     (Pool : Unbounded_No_Reclaim_Pool)
+      return System.Storage_Elements.Storage_Count;
+
+   overriding procedure Allocate
+     (Pool         : in out Unbounded_No_Reclaim_Pool;
+      Address      : out System.Address;
+      Storage_Size : System.Storage_Elements.Storage_Count;
+      Alignment    : System.Storage_Elements.Storage_Count);
+
+   overriding procedure Deallocate
+     (Pool         : in out Unbounded_No_Reclaim_Pool;
+      Address      : System.Address;
+      Storage_Size : System.Storage_Elements.Storage_Count;
+      Alignment    : System.Storage_Elements.Storage_Count);
+
+   --  Pool object used by the compiler when implicit Storage Pool objects are
+   --  explicitly referred to. For instance when writing something like:
+   --     for T'Storage_Pool use Q'Storage_Pool;
+   --  and Q'Storage_Pool hasn't been defined explicitly.
+
+   Global_Pool_Object : aliased Unbounded_No_Reclaim_Pool;
+
+end System.Pool_Global;

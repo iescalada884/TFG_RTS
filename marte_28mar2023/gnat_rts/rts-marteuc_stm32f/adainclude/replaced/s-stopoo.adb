@@ -1,12 +1,12 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---                         GNAT RUN-TIME COMPONENTS                         --
+--                         GNAT COMPILER COMPONENTS                         --
 --                                                                          --
---                          A D A . T E X T _ I O                           --
+--                 S Y S T E M . S T O R A G E _ P O O L S                  --
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---             Copyright (C) 2017-2023, Free Software Foundation, Inc.      --
+--          Copyright (C) 2009-2024, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -19,64 +19,44 @@
 -- additional permissions described in the GCC Runtime Library Exception,   --
 -- version 3.1, as published by the Free Software Foundation.               --
 --                                                                          --
--- In particular,  you can freely  distribute your programs  built with the --
--- GNAT Pro compiler, including any required library run-time units,  using --
--- any licensing terms  of your choosing.  See the AdaCore Software License --
--- for full details.                                                        --
+-- You should have received a copy of the GNU General Public License and    --
+-- a copy of the GCC Runtime Library Exception along with this program;     --
+-- see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see    --
+-- <http://www.gnu.org/licenses/>.                                          --
 --                                                                          --
 -- GNAT was originally developed  by the GNAT team at  New York University. --
 -- Extensive contributions were provided by Ada Core Technologies Inc.      --
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  Version for semihosting, a mechanism that enables I/O between target and
---  host computer using the debugger.
+package body System.Storage_Pools is
 
-with System.Semihosting;
+   ------------------
+   -- Allocate_Any --
+   ------------------
 
-package body Ada.Text_IO with
-  SPARK_Mode => Off,
-  Refined_State => (File_System => null)
-is
-
-   ---------
-   -- Get --
-   ---------
-
-   procedure Get (C : out Character) is
+   procedure Allocate_Any
+    (Pool                     : in out Root_Storage_Pool'Class;
+     Storage_Address          : out System.Address;
+     Size_In_Storage_Elements : System.Storage_Elements.Storage_Count;
+     Alignment                : System.Storage_Elements.Storage_Count)
+   is
    begin
-      System.Semihosting.Get (C);
-   end Get;
+      Allocate (Pool, Storage_Address, Size_In_Storage_Elements, Alignment);
+   end Allocate_Any;
 
-   --------------
-   -- New_Line --
-   --------------
+   --------------------
+   -- Deallocate_Any --
+   --------------------
 
-   procedure New_Line is
+   procedure Deallocate_Any
+    (Pool                     : in out Root_Storage_Pool'Class;
+     Storage_Address          : System.Address;
+     Size_In_Storage_Elements : System.Storage_Elements.Storage_Count;
+     Alignment                : System.Storage_Elements.Storage_Count)
+   is
    begin
-      System.Semihosting.Put (ASCII.CR & ASCII.LF);
-   end New_Line;
+      Deallocate (Pool, Storage_Address, Size_In_Storage_Elements, Alignment);
+   end Deallocate_Any;
 
-   ---------
-   -- Put --
-   ---------
-
-   procedure Put (Item : Character) is
-   begin
-      System.Semihosting.Put (Item);
-   end Put;
-
-   procedure Put (Item : String) is
-   begin
-      System.Semihosting.Put (Item);
-   end Put;
-
-   --------------
-   -- Put_Line --
-   --------------
-
-   procedure Put_Line (Item : String) is
-   begin
-      System.Semihosting.Put (Item & ASCII.CR & ASCII.LF);
-   end Put_Line;
-end Ada.Text_IO;
+end System.Storage_Pools;

@@ -92,11 +92,13 @@ package body System.Tasking is
 
       --  Initialize T.Common.LL
 
-      Task_Primitives.Operations.Initialize_TCB (T, Success);
+      --  Task_Primitives.Operations.Initialize_TCB (T, Success);
+      --  Always true
 
-      if not Success then
-         return;
-      end if;
+      --  if not Success then
+      --     return;
+      --  end if;
+      Success := True; -- Always true in initialization (problems)
 
       T.Common.Base_Priority            := Base_Priority;
       T.Common.Base_CPU                 := Base_CPU;
