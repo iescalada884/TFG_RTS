@@ -124,11 +124,8 @@ package Unimplemented_Functions is
    --  System Calls
    procedure Close;
    procedure Fstat;
-   procedure Lseek;
    procedure Read;
-   procedure Sbrk;
    procedure Write;
-   procedure Isatty;
 
    --  Input Operations
    procedure Gnat_Getc_Immediate;
@@ -283,16 +280,10 @@ package Unimplemented_Functions is
    pragma Weak_External (Close);
    pragma Export (C, Fstat, "_fstat");
    pragma Weak_External (Fstat);
-   pragma Export (C, Lseek, "_lseek");
-   pragma Weak_External (Lseek);
    pragma Export (C, Read, "_read");
    pragma Weak_External (Read);
-   pragma Export (C, Sbrk, "_sbrk");
-   pragma Weak_External (Sbrk);
    pragma Export (C, Write, "_write");
    pragma Weak_External (Write);
-   pragma Export (C, Isatty, "_isatty");
-   pragma Weak_External (Isatty);
 
    pragma Export (C, Gnat_Constant_Stderr, "__gnat_constant_stderr");
    pragma Export (C, Gnat_Constant_Stdin, "__gnat_constant_stdin");

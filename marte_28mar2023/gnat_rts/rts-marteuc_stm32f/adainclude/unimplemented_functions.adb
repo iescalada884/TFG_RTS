@@ -506,30 +506,15 @@ package body Unimplemented_Functions is
       Put_Line ("Function 'Fstat' not implemented.");
    end Fstat;
 
-   procedure Lseek is
-   begin
-      Put_Line ("Function 'Lseek' not implemented.");
-   end Lseek;
-
    procedure Read is
    begin
       Put_Line ("Function 'Read' not implemented.");
    end Read;
 
-   procedure Sbrk is
-   begin
-      Put_Line ("Function 'Sbrk' not implemented.");
-   end Sbrk;
-
    procedure Write is
    begin
       Put_Line ("Function 'Write' not implemented.");
    end Write;
-
-   procedure Isatty is
-   begin
-      Put_Line ("Function 'Isatty' not implemented.");
-   end Isatty;
 
    procedure Getc_Immediate is
    begin

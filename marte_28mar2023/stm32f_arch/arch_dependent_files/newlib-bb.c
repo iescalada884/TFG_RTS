@@ -140,7 +140,7 @@ extern void *__heap_start;
 extern void *__heap_end;
 
 void *
-sbrk (int nbytes)
+_sbrk (int nbytes)
 {
   static void *heap_ptr = (void *)&__heap_start;
   void *base;
