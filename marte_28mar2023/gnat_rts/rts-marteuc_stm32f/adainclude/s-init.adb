@@ -48,6 +48,57 @@ package body System.Init is
    procedure Finalize;
    pragma Export (C, Finalize, "__gnat_finalize");
 
+   E_Exeptions_Elab_Spec : Short_Integer;
+   pragma Import (Ada, E_Exeptions_Elab_Spec, "ada__exceptions_E");
+
+   E_Soft_tLinnks : Short_Integer;
+   pragma Import (Ada, E_Soft_tLinnks, "system__soft_links_E");
+
+   Sysrem_os_lib : Short_Integer;
+   pragma Import (Ada, Sysrem_os_lib, "system__os_lib_E");
+   System_Exception_Table_Elab_Spec : Short_Integer;
+   pragma Import (Ada, System_Exception_Table_Elab_Spec,
+   "system__exception_table_E");
+   Ada_Containers_Elab_Spec      : Short_Integer;
+   pragma Import (Ada, Ada_Containers_Elab_Spec, "ada__containers_E");
+   Ada_IO_Exceptions_Elab_Spec   : Short_Integer;
+   pragma Import (Ada, Ada_IO_Exceptions_Elab_Spec, "ada__io_exceptions_E");
+   Ada_Numerics_Elab_Spec        : Short_Integer;
+   pragma Import (Ada, Ada_Numerics_Elab_Spec, "ada__numerics_E");
+   Ada_Strings_Elab_Spec         : Short_Integer;
+   pragma Import (Ada, Ada_Strings_Elab_Spec, "ada__strings_E");
+   Ada_Strings_Maps_Elab_Spec    : Short_Integer;
+   pragma Import (Ada, Ada_Strings_Maps_Elab_Spec,
+   "ada__strings__maps_E");
+   Ada_Strings_Maps_Constants_Elab_Spec : Short_Integer;
+   pragma Import (Ada, Ada_Strings_Maps_Constants_Elab_Spec,
+   "ada__strings__maps__constants_E");
+   Ada_Strings_UTF_Encoding_Elab_Spec : Short_Integer;
+   pragma Import (Ada, Ada_Strings_UTF_Encoding_Elab_Spec,
+   "ada__strings__utf_encoding_E");
+   Ada_Tags_Elab_Spec            : Short_Integer;
+   pragma Import (Ada, Ada_Tags_Elab_Spec, "ada__tags_E");
+   Ada_Strings_Text_Buffers_Elab_Spec : Short_Integer;
+   pragma Import (Ada, Ada_Strings_Text_Buffers_Elab_Spec,
+   "ada__strings__text_buffers_E");
+   GNAT_Elab_Spec                : Short_Integer;
+   pragma Import (Ada, GNAT_Elab_Spec, "gnat_E");
+   Interfaces_C_Elab_Spec        : Short_Integer;
+   pragma Import (Ada, Interfaces_C_Elab_Spec, "interfaces__c_E");
+   System_Exceptions_Elab_Spec   : Short_Integer;
+   pragma Import (Ada, System_Exceptions_Elab_Spec, "system__exceptions_E");
+   System_BB_Timing_Events_Elab_Spec : Short_Integer;
+   pragma Import (Ada, System_BB_Timing_Events_Elab_Spec,
+   "system__bb__timing_events_E");
+   System_Object_Reader_Elab_Spec : Short_Integer;
+   pragma Import (Ada, System_Object_Reader_Elab_Spec,
+   "system__object_reader_E");
+   System_Dwarf_Lines_Elab_Spec  : Short_Integer;
+   pragma Import (Ada, System_Dwarf_Lines_Elab_Spec, "system__dwarf_lines_E");
+   System_Traceback_Symbolic_Elab_Spec : Short_Integer;
+   pragma Import (Ada, System_Traceback_Symbolic_Elab_Spec,
+   "system__traceback__symbolic_E");
+
    --------------
    -- Finalize --
    --------------
@@ -80,7 +131,6 @@ package body System.Init is
    ------------------------
 
    procedure Runtime_Initialize (Install_Handler : Integer) is
-      pragma Unreferenced (Install_Handler);
 
    begin
       --  Ensure that the tasking run time is initialized when using this run
@@ -90,7 +140,33 @@ package body System.Init is
 
       System.Tasking.Initialize;
 
-      Init.Install_Handler;
+      if Install_Handler = 1 then
+         --  Init.Install_Handler;
+         E_Exeptions_Elab_Spec := 1; -- avoid check
+      end if;
+
+      --  Avoid Elab_Spec errors
+      E_Exeptions_Elab_Spec := 1;
+      E_Soft_tLinnks := 1;
+      Sysrem_os_lib := 1;
+      System_Exception_Table_Elab_Spec := 1;
+      Ada_Containers_Elab_Spec := 1;
+      Ada_IO_Exceptions_Elab_Spec := 1;
+      Ada_Numerics_Elab_Spec := 1;
+      Ada_Strings_Elab_Spec := 1;
+      Ada_Strings_Maps_Elab_Spec := 1;
+      Ada_Strings_Maps_Constants_Elab_Spec := 1;
+      Ada_Strings_UTF_Encoding_Elab_Spec := 1;
+      Ada_Tags_Elab_Spec := 1;
+      Ada_Strings_Text_Buffers_Elab_Spec := 1;
+      GNAT_Elab_Spec := 1;
+      Interfaces_C_Elab_Spec := 1;
+      System_Exceptions_Elab_Spec := 1;
+      System_BB_Timing_Events_Elab_Spec := 1;
+      System_Object_Reader_Elab_Spec := 1;
+      System_Dwarf_Lines_Elab_Spec := 1;
+      System_Traceback_Symbolic_Elab_Spec := 1;
+
    end Runtime_Initialize;
 
    ----------------------
@@ -101,4 +177,5 @@ package body System.Init is
    begin
       null;
    end Runtime_Finalize;
+
 end System.Init;

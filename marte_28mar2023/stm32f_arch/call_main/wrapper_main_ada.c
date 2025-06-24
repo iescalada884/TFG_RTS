@@ -70,7 +70,7 @@ int main(int argc, char *argv[], char *envp[])
 
   //init_dynamic_memory (); // Initialize dynamic_memory
 
-  marteinit(); // Call elaboration of MaRTE Ada packages
+  //marteinit(); // Call elaboration of MaRTE Ada packages
 
   return (user_main(argc, argv, envp));
 }
