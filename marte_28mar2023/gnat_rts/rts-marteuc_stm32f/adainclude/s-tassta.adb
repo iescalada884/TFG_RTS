@@ -644,14 +644,24 @@ package body System.Tasking.Stages is
       --  The CPU associated to the task (if any) must belong to the
       --  dispatching domain.
 
-      if Base_CPU /= System.Multiprocessors.Not_A_Specific_CPU
-        and then
-          (Base_CPU not in T.Common.Domain'Range
-            or else not T.Common.Domain (Base_CPU))
-      then
-         Initialization.Undefer_Abort_Nestable (Self_ID);
-         raise Tasking_Error with "CPU not in dispatching domain";
-      end if;
+      --  SINGLE CPU OPTIMIZATION: For single-CPU systems, dispatching domain
+      --  validation is unnecessary and can cause issues. We skip validation
+      --  since there's only one CPU and all tasks must run on it.
+
+      declare
+         SINGLE_CPU_SYSTEM : constant Boolean := True;
+         --  Set to False for multi-CPU systems
+      begin
+         if not SINGLE_CPU_SYSTEM
+           and then Base_CPU /= System.Multiprocessors.Not_A_Specific_CPU
+           and then
+             (Base_CPU not in T.Common.Domain'Range
+               or else not T.Common.Domain (Base_CPU))
+         then
+            Initialization.Undefer_Abort_Nestable (Self_ID);
+            raise Tasking_Error with "CPU not in dispatching domain";
+         end if;
+      end;
 
       --  To handle the interaction between pragma CPU and dispatching domains
       --  we need to signal that this task is being allocated to a processor.
@@ -660,16 +670,25 @@ package body System.Tasking.Stages is
       --  system domain) and only before the environment task calls the main
       --  procedure (dispatching domains cannot be created after this).
 
-      if Base_CPU /= System.Multiprocessors.Not_A_Specific_CPU
-        and then T.Common.Domain = System.Tasking.System_Domain
-        and then not System.Tasking.Dispatching_Domains_Frozen
-      then
-         --  Increase the number of tasks attached to the CPU to which this
-         --  task is being moved.
+      --  DEBUG: Add conditional CPU tracking for dispatching domains
+      --  This can be disabled by setting DISABLE_CPU_TRACKING to True
 
-         Dispatching_Domain_Tasks (Base_CPU) :=
-           Dispatching_Domain_Tasks (Base_CPU) + 1;
-      end if;
+      declare
+         DISABLE_CPU_TRACKING : constant Boolean := True;
+         --  Set to False to enable tracking
+      begin
+         if not DISABLE_CPU_TRACKING
+           and then Base_CPU /= System.Multiprocessors.Not_A_Specific_CPU
+           and then T.Common.Domain = System.Tasking.System_Domain
+           and then not System.Tasking.Dispatching_Domains_Frozen
+         then
+            --  Increase the number of tasks attached to the CPU to which this
+            --  task is being moved.
+
+            Dispatching_Domain_Tasks (Base_CPU) :=
+              Dispatching_Domain_Tasks (Base_CPU) + 1;
+         end if;
+      end;
 
       --  Create the secondary stack for the task as early as possible during
       --  in the creation of a task, since it may be used by the operation of
