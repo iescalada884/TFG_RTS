@@ -179,8 +179,8 @@ package body System.Tasking is
    --  because we use the value -1 to indicate the default main priority, and
    --  that is of course not in Priority'range.
 
-   Main_CPU : constant Integer;
-   pragma Import (C, Main_CPU, "__gl_main_cpu");
+   --  Main_CPU : constant Integer;
+   --  pragma Import (C, Main_CPU, "__gl_main_cpu");
    --  Affinity for main task. Note that this is of type Integer, not
    --  CPU_Range, because we use the value -1 to indicate the unassigned
    --  affinity, and that is of course not in CPU_Range'Range.
@@ -194,7 +194,7 @@ package body System.Tasking is
       Base_CPU      : System.Multiprocessors.CPU_Range;
       Success       : Boolean;
 
-      use type System.Multiprocessors.CPU_Range;
+      --  use type System.Multiprocessors.CPU_Range; 1 cpu
 
    begin
       if Initialized then
@@ -210,10 +210,12 @@ package body System.Tasking is
          then Default_Priority
          else Priority (Main_Priority));
 
-      Base_CPU :=
-        (if Main_CPU = Unspecified_CPU
-         then System.Multiprocessors.Not_A_Specific_CPU
-         else System.Multiprocessors.CPU_Range (Main_CPU));
+      --  Single cpu
+      Base_CPU := System.Multiprocessors.Not_A_Specific_CPU;
+      --  Base_CPU :=
+      --  (if Main_CPU = Unspecified_CPU
+      --  then System.Multiprocessors.Not_A_Specific_CPU
+      --  else System.Multiprocessors.CPU_Range (Main_CPU));
 
       --  At program start-up the environment task is allocated to the default
       --  system dispatching domain.
@@ -254,14 +256,14 @@ package body System.Tasking is
 
       --  Signal that this task is being allocated to a processor
 
-      if Base_CPU /= System.Multiprocessors.Not_A_Specific_CPU then
+      --  if Base_CPU /= System.Multiprocessors.Not_A_Specific_CPU then
 
-         --  Increase the number of tasks attached to the CPU to which this
-         --  task is allocated.
+      --     --  Increase the number of tasks attached to the CPU to which this
+      --     --  task is allocated.
 
-         Dispatching_Domain_Tasks (Base_CPU) :=
-           Dispatching_Domain_Tasks (Base_CPU) + 1;
-      end if;
+      --     Dispatching_Domain_Tasks (Base_CPU) :=
+      --       Dispatching_Domain_Tasks (Base_CPU) + 1;
+      --  end if;
 
       --  The full initialization of the environment task's Entry_Calls array
       --  is deferred to Init_RTS because only the first element of the array

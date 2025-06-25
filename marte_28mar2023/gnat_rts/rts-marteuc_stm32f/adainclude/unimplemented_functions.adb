@@ -698,8 +698,13 @@ package body Unimplemented_Functions is
    pragma Export (C, Gnat_Adjust_Context_For_Raise,
                   "__gnat_adjust_context_for_raise");
 
-   procedure Gnat_Number_Of_Cpus is null;
+   function Gnat_Number_Of_Cpus return Integer;
    pragma Export (C, Gnat_Number_Of_Cpus, "__gnat_number_of_cpus");
+
+   function Gnat_Number_Of_Cpus return Integer is
+   begin
+      return 1;
+   end Gnat_Number_Of_Cpus;
 
    procedure Gnat_Timeval_To_Duration is null;
    pragma Export (C, Gnat_Timeval_To_Duration, "__gnat_timeval_to_duration");

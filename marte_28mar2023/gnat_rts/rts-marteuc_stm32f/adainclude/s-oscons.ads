@@ -453,17 +453,17 @@ package System.OS_Constants is
    CLOCK_THREAD_CPUTIME_ID       : constant := 3;          --  Thread CPU clock
    CLOCK_RT_Ada                  : constant := CLOCK_MONOTONIC;
 
-   --  Sizes of pthread data types
+   --  Sizes of pthread data types (Adapted according to sys/marte_types.h)
 
    PTHREAD_SIZE                  : constant := 8;          --  pthread_t
-   PTHREAD_ATTR_SIZE             : constant := 56;         --  pthread_attr_t
-   PTHREAD_MUTEXATTR_SIZE        : constant := 4;          --  pthread_mutexattr_t
-   PTHREAD_MUTEX_SIZE            : constant := 40;         --  pthread_mutex_t
+   PTHREAD_ATTR_SIZE             : constant := 136;         --  pthread_attr_t
+   PTHREAD_MUTEXATTR_SIZE        : constant := 88;          --  pthread_mutexattr_t
+   PTHREAD_MUTEX_SIZE            : constant := 140;         --  pthread_mutex_t TODO: check this value
    PTHREAD_CONDATTR_SIZE         : constant := 4;          --  pthread_condattr_t
-   PTHREAD_COND_SIZE             : constant := 48;         --  pthread_cond_t
+   PTHREAD_COND_SIZE             : constant := 440;         --  pthread_cond_t
    PTHREAD_RWLOCKATTR_SIZE       : constant := 8;          --  pthread_rwlockattr_t
    PTHREAD_RWLOCK_SIZE           : constant := 56;         --  pthread_rwlock_t
-   PTHREAD_ONCE_SIZE             : constant := 4;          --  pthread_once_t
+   PTHREAD_ONCE_SIZE             : constant := 148;          --  pthread_once_t
 
    --------------------------------
    -- File and directory support --

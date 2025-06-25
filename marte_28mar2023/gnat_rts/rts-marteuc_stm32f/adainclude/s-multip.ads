@@ -18,7 +18,7 @@ package System.Multiprocessors is
 
    type CPU_Range is range 0 .. 2 ** 16 - 1;
 
-   subtype CPU is CPU_Range range 1 .. CPU_Range'Last;
+   subtype CPU is CPU_Range range 1 .. 1; --  single core
 
    Not_A_Specific_CPU : constant CPU_Range := 0;
 
