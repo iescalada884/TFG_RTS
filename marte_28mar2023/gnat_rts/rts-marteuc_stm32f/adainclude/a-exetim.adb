@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---         Copyright (C) 2007-2023, Free Software Foundation, Inc.          --
+--         Copyright (C) 2007-2024, Free Software Foundation, Inc.          --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,30 +29,22 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  This is the Bare Board version of this package
+--  This is the POSIX (Realtime Extension) version of this package
 
 with Ada.Task_Identification;  use Ada.Task_Identification;
 with Ada.Unchecked_Conversion;
 
 with System.Tasking;
-with System.Task_Primitives.Operations;
+with System.OS_Interface; use System.OS_Interface;
+with System.Task_Primitives.Operations; use System.Task_Primitives.Operations;
 
-with System.BB.Execution_Time;
-with System.BB.Time;
-with System.BB.Threads;
+with Interfaces.C; use Interfaces.C;
 
 package body Ada.Execution_Time is
 
-   package BB_Exec_Time renames System.BB.Execution_Time;
-
-   function To_CPU_Time is new Ada.Unchecked_Conversion
-     (System.BB.Time.Time, CPU_Time);
-   --  Function to change the view from System.BB.Time.Time (unsigned 64-bit)
-   --  to CPU_Time (unsigned 64-bit).
-   --
-   --  CPU_Time is derived from Ada.Real_Time.Time which is derived from
-   --  System.BB.Time.Time. So CPU_Time and System.BB.Time.Time are the same
-   --  type, but Ada.Real_Time.Time is private so we don't have visibility.
+   pragma Linker_Options ("-lrt");
+   --  POSIX.1b Realtime Extensions library. Needed to have access to function
+   --  clock_gettime.
 
    ---------
    -- "+" --
@@ -106,19 +98,62 @@ package body Ada.Execution_Time is
      (T : Ada.Task_Identification.Task_Id :=
         Ada.Task_Identification.Current_Task) return CPU_Time
    is
-      function To_Task_Id is new Ada.Unchecked_Conversion
-        (Ada.Task_Identification.Task_Id, System.Tasking.Task_Id);
+      TS       : aliased timespec;
+      Clock_Id : aliased Interfaces.C.int;
+      Result   : Interfaces.C.int;
 
-      Th : System.BB.Threads.Thread_Id;
+      function To_CPU_Time is
+        new Ada.Unchecked_Conversion (Duration, CPU_Time);
+      --  Time is equal to Duration (although it is a private type) and
+      --  CPU_Time is equal to Time.
+
+      function Convert_Ids is new
+        Ada.Unchecked_Conversion (Task_Id, System.Tasking.Task_Id);
+
+      function clock_gettime
+        (clock_id : Interfaces.C.int;
+         tp       : access timespec)
+         return int;
+      pragma Import (C, clock_gettime, "clock_gettime");
+      --  Function from the POSIX.1b Realtime Extensions library
+
+      function pthread_getcpuclockid
+        (tid       : Thread_Id;
+         clock_id  : access Interfaces.C.int)
+         return int;
+      pragma Import (C, pthread_getcpuclockid, "pthread_getcpuclockid");
+      --  Function from the Thread CPU-Time Clocks option
+
    begin
       if T = Ada.Task_Identification.Null_Task_Id then
          raise Program_Error;
+      else
+         --  Get the CPU clock for the task passed as parameter
+
+         Result := pthread_getcpuclockid
+           (Get_Thread_Id (Convert_Ids (T)), Clock_Id'Access);
+         pragma Assert (Result = 0);
       end if;
 
-      Th := System.Task_Primitives.Operations.Get_Thread_Id (To_Task_Id (T));
+      Result := clock_gettime
+        (clock_id => Clock_Id, tp => TS'Unchecked_Access);
+      pragma Assert (Result = 0);
 
-      return To_CPU_Time (BB_Exec_Time.Thread_Clock (Th));
+      return To_CPU_Time (To_Duration (TS));
    end Clock;
+
+   --------------------------
+   -- Clock_For_Interrupts --
+   --------------------------
+
+   function Clock_For_Interrupts return CPU_Time is
+   begin
+      --  According to AI 0170-1, D.14(18.1/3), if Interrupt_Clocks_Supported
+      --  is set to False the function raises Program_Error.
+
+      raise Program_Error;
+      return CPU_Time_First;
+   end Clock_For_Interrupts;
 
    -----------
    -- Split --
@@ -129,6 +164,7 @@ package body Ada.Execution_Time is
       SC : out Ada.Real_Time.Seconds_Count;
       TS : out Ada.Real_Time.Time_Span)
    is
+
    begin
       Ada.Real_Time.Split (Ada.Real_Time.Time (T), SC, TS);
    end Split;
@@ -145,14 +181,5 @@ package body Ada.Execution_Time is
    begin
       return CPU_Time (Ada.Real_Time.Time_Of (SC, TS));
    end Time_Of;
-
-   --------------------------
-   -- Clock_For_Interrupts --
-   --------------------------
-
-   function Clock_For_Interrupts return CPU_Time is
-   begin
-      return To_CPU_Time (BB_Exec_Time.Global_Interrupt_Clock);
-   end Clock_For_Interrupts;
 
 end Ada.Execution_Time;

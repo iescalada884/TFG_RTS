@@ -57,7 +57,7 @@ extern void direct_write_on_stdout (char * str, int count); // 'Direct_IO'
 extern void basic_stdout_initialization (); //  From 'Direct_IO'
 extern void basic_stderr_initialization (); //  From 'Direct_IO'
 
-int main(int argc, char *argv[], char *envp[])
+int wrapper_main(int argc, char *argv[], char *envp[])
 {
   basic_stderr_initialization ();
   basic_stdout_initialization ();

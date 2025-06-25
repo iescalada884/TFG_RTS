@@ -26,67 +26,73 @@
 #                                                                           #
 #############################################################################
 
-	.syntax unified
-	.cpu cortex-m4
-	.thumb
+    .syntax unified
+    .cpu cortex-m4
+    .thumb
 
-	/* This is the initial vector table and also the one that is used by
-	   the light runtime. The tasking runtimes install their own table (using
-	   VTOR register) defined in handler.S.  */
-	.section .vectors,"a"
+    /* This is the initial vector table and also the one that is used by
+       the light runtime. The tasking runtimes install their own table (using
+       VTOR register) defined in handler.S.  */
+    .section .vectors,"a"
 __vectors0:
-	.word   __stack_end /* stack top address */
-	.word   _start_rom  /* 1 Reset */
-	.word   hang        /* 2 NMI */
-	.word   hang        /* 3 HardFault */
-	.word   hang        /* 4 MemManage */
+    .word   __stack_end /* stack top address */
+    .word   _start_rom  /* 1 Reset */
+    .word   hang        /* 2 NMI */
+    .word   hang        /* 3 HardFault */
+    .word   hang        /* 4 MemManage */
 
-	.text
+    .text
 
-	.thumb_func
-	.globl _start_rom
+    .thumb_func
+    .globl _start_rom
 _start_rom:
         /* Enable FPU and cache when appropriate */
         bl _stm32_start_common
 
-	/* Copy .data */
-	movw	r0,#:lower16:__data_start
-	movt	r0,#:upper16:__data_start
-	movw	r1,#:lower16:__data_words
-	movw	r2,#:lower16:__data_load
-	movt	r2,#:upper16:__data_load
-	cbz	r1,1f
-0:	ldr	r4,[r2],#4
-	str	r4,[r0],#4
-	subs	r1,r1,#1
-	bne	0b
+    /* Copy .data */
+    movw    r0,#:lower16:__data_start
+    movt    r0,#:upper16:__data_start
+    movw    r1,#:lower16:__data_words
+    movw    r2,#:lower16:__data_load
+    movt    r2,#:upper16:__data_load
+    cbz r1,1f
+0:  ldr r4,[r2],#4
+    str r4,[r0],#4
+    subs    r1,r1,#1
+    bne 0b
 1:
-	/* Copy .ccmdata */
-	movw	r0,#:lower16:__ccmdata_start
-	movt	r0,#:upper16:__ccmdata_start
-	movw	r1,#:lower16:__ccmdata_words
-	movw	r2,#:lower16:__ccmdata_load
-	movt	r2,#:upper16:__ccmdata_load
-	cbz	r1,1f
-0:	ldr	r4,[r2],#4
-	str	r4,[r0],#4
-	subs	r1,r1,#1
-	bne	0b
+    /* Copy .ccmdata */
+    movw    r0,#:lower16:__ccmdata_start
+    movt    r0,#:upper16:__ccmdata_start
+    movw    r1,#:lower16:__ccmdata_words
+    movw    r2,#:lower16:__ccmdata_load
+    movt    r2,#:upper16:__ccmdata_load
+    cbz r1,1f
+0:  ldr r4,[r2],#4
+    str r4,[r0],#4
+    subs    r1,r1,#1
+    bne 0b
 1:
-	/* Clear .bss */
-	movw	r0,#:lower16:__bss_start
-	movt	r0,#:upper16:__bss_start
-	movw	r1,#:lower16:__bss_words
-	mov	r2,#0
-	cbz	r1,1f
-0:	str	r2,[r0],#4
-	subs	r1,r1,#1
-	bne	0b
+    /* Clear .bss */
+    movw    r0,#:lower16:__bss_start
+    movt    r0,#:upper16:__bss_start
+    movw    r1,#:lower16:__bss_words
+    mov r2,#0
+    cbz r1,1f
+0:  str r2,[r0],#4
+    subs    r1,r1,#1
+    bne 0b
 
 1:
-	#bl	_ada_setup_pll
-	bl	main
+    bl  wrapper_main
+   
+    bl  _exit /* Analize if in a future we need runtime exit too */
 
-	bl	_exit
+.globl _exit
+_exit:
+    mov r0, #0x18       /* SYS_EXIT semihosting operation */
+    mov r1, #0          /* Exit status (0 for success) */
+    bkpt #0xAB          /* Trigger semihosting call */
+    b .                 /* Infinite loop as a fallback */
 
 hang:   b .

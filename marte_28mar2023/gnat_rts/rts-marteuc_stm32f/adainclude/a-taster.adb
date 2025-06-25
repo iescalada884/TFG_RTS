@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---         Copyright (C) 2005-2023, Free Software Foundation, Inc.          --
+--          Copyright (C) 2005-2024, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,29 +29,22 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  This is a simplified version of this package body to be used in when the
---  Ravenscar profile and there are no exception handlers present (either of
---  the restrictions No_Exception_Handlers or No_Exception_Propagation are in
---  effect). This means that the only task termination cause that need to be
---  taken into account is normal task termination (abort is not allowed by
---  the Ravenscar profile and the restricted exception support does not
---  include Exception_Occurrence).
-
 with System.Tasking;
---  used for Task_Id
---           Self
---           Fall_Back_Handler
-
 with System.Task_Primitives.Operations;
---  Used for Self
---           Set_Priority
---           Get_Priority
+with System.Soft_Links;
 
 with Ada.Unchecked_Conversion;
 
 package body Ada.Task_Termination is
 
-   use System.Task_Primitives.Operations;
+   use type Ada.Task_Identification.Task_Id;
+
+   package STPO renames System.Task_Primitives.Operations;
+   package SSL  renames System.Soft_Links;
+
+   -----------------------
+   -- Local subprograms --
+   -----------------------
 
    function To_TT is new Ada.Unchecked_Conversion
      (System.Tasking.Termination_Handler, Termination_Handler);
@@ -59,50 +52,107 @@ package body Ada.Task_Termination is
    function To_ST is new Ada.Unchecked_Conversion
      (Termination_Handler, System.Tasking.Termination_Handler);
 
+   function To_Task_Id is new Ada.Unchecked_Conversion
+     (Ada.Task_Identification.Task_Id, System.Tasking.Task_Id);
+
    -----------------------------------
    -- Current_Task_Fallback_Handler --
    -----------------------------------
 
    function Current_Task_Fallback_Handler return Termination_Handler is
-      Self_Id         : constant System.Tasking.Task_Id := Self;
-      Caller_Priority : constant System.Any_Priority := Get_Priority (Self_Id);
-
-      Result : Termination_Handler;
-
    begin
-      --  Raise the priority to prevent race conditions when modifying
-      --  System.Tasking.Fall_Back_Handler.
+      --  There is no need for explicit protection against race conditions
+      --  for this function because this function can only be executed by
+      --  Self, and the Fall_Back_Handler can only be modified by Self.
 
-      Set_Priority (Self_Id, System.Any_Priority'Last);
-
-      Result := To_TT (System.Tasking.Fall_Back_Handler);
-
-      --  Restore the original priority
-
-      Set_Priority (Self_Id, Caller_Priority);
-
-      return Result;
+      return To_TT (STPO.Self.Common.Fall_Back_Handler);
    end Current_Task_Fallback_Handler;
 
    -------------------------------------
    -- Set_Dependents_Fallback_Handler --
    -------------------------------------
 
-   procedure Set_Dependents_Fallback_Handler (Handler : Termination_Handler) is
-      Self_Id         : constant System.Tasking.Task_Id := Self;
-      Caller_Priority : constant System.Any_Priority := Get_Priority (Self_Id);
+   procedure Set_Dependents_Fallback_Handler
+     (Handler : Termination_Handler)
+   is
+      Self : constant System.Tasking.Task_Id := STPO.Self;
 
    begin
-      --  Raise the priority to prevent race conditions when modifying
-      --  System.Tasking.Fall_Back_Handler.
+      SSL.Abort_Defer.all;
+      STPO.Write_Lock (Self);
 
-      Set_Priority (Self_Id, System.Any_Priority'Last);
+      Self.Common.Fall_Back_Handler := To_ST (Handler);
 
-      System.Tasking.Fall_Back_Handler := To_ST (Handler);
-
-      --  Restore the original priority
-
-      Set_Priority (Self_Id, Caller_Priority);
+      STPO.Unlock (Self);
+      SSL.Abort_Undefer.all;
    end Set_Dependents_Fallback_Handler;
+
+   --------------------------
+   -- Set_Specific_Handler --
+   --------------------------
+
+   procedure Set_Specific_Handler
+     (T       : Ada.Task_Identification.Task_Id;
+      Handler : Termination_Handler)
+   is
+   begin
+      --  Tasking_Error is raised if the task identified by T has already
+      --  terminated. Program_Error is raised if the value of T is
+      --  Null_Task_Id.
+
+      if T = Ada.Task_Identification.Null_Task_Id then
+         raise Program_Error;
+      elsif Ada.Task_Identification.Is_Terminated (T) then
+         raise Tasking_Error;
+      else
+         declare
+            Target : constant System.Tasking.Task_Id := To_Task_Id (T);
+
+         begin
+            SSL.Abort_Defer.all;
+            STPO.Write_Lock (Target);
+
+            Target.Common.Specific_Handler := To_ST (Handler);
+
+            STPO.Unlock (Target);
+            SSL.Abort_Undefer.all;
+         end;
+      end if;
+   end Set_Specific_Handler;
+
+   ----------------------
+   -- Specific_Handler --
+   ----------------------
+
+   function Specific_Handler
+     (T : Ada.Task_Identification.Task_Id) return Termination_Handler
+   is
+   begin
+      --  Tasking_Error is raised if the task identified by T has already
+      --  terminated. Program_Error is raised if the value of T is
+      --  Null_Task_Id.
+
+      if T = Ada.Task_Identification.Null_Task_Id then
+         raise Program_Error;
+      elsif Ada.Task_Identification.Is_Terminated (T) then
+         raise Tasking_Error;
+      else
+         declare
+            Target : constant System.Tasking.Task_Id := To_Task_Id (T);
+            TH     : Termination_Handler;
+
+         begin
+            SSL.Abort_Defer.all;
+            STPO.Write_Lock (Target);
+
+            TH := To_TT (Target.Common.Specific_Handler);
+
+            STPO.Unlock (Target);
+            SSL.Abort_Undefer.all;
+
+            return TH;
+         end;
+      end if;
+   end Specific_Handler;
 
 end Ada.Task_Termination;

@@ -5,9 +5,8 @@
 --                     S Y S T E M . T A S K _ I N F O                      --
 --                                                                          --
 --                                 B o d y                                  --
---                           (Compiler Interface)                           --
 --                                                                          --
---          Copyright (C) 1998-2023, Free Software Foundation, Inc.         --
+--            Copyright (C) 2009-2024, Free Software Foundation, Inc.       --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -30,12 +29,27 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  This is a dummy version of this package that is needed to solve bootstrap
---  problems when compiling a library that doesn't require s-tasinf.adb from
---  a compiler that contains one.
-
---  This package contains the definitions and routines associated with the
---  implementation of the Task_Info pragma.
+--  This is the GNU/Linux version of this module
 
 package body System.Task_Info is
+
+   N_CPU : Natural := 0;
+   pragma Atomic (N_CPU);
+   --  Cache CPU number. Use pragma Atomic to avoid a race condition when
+   --  setting N_CPU in Number_Of_Processors below.
+
+   --------------------------
+   -- Number_Of_Processors --
+   --------------------------
+
+   function Number_Of_Processors return Positive is
+   begin
+      if N_CPU = 0 then
+         N_CPU := Natural
+           (OS_Interface.sysconf (OS_Interface.SC_NPROCESSORS_ONLN));
+      end if;
+
+      return N_CPU;
+   end Number_Of_Processors;
+
 end System.Task_Info;

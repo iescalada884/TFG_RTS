@@ -6,12 +6,13 @@
 --                                                                          --
 --                                  B o d y                                 --
 --                                                                          --
---          Copyright (C) 1992-2023, Free Software Foundation, Inc.         --
+--            Copyright (C) 1991-2017, Florida State University             --
+--                     Copyright (C) 1995-2024, AdaCore                     --
 --                                                                          --
--- GNARL is free software; you can  redistribute it  and/or modify it under --
+-- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
 -- ware  Foundation;  either version 3,  or (at your option) any later ver- --
--- sion. GNARL is distributed in the hope that it will be useful, but WITH- --
+-- sion.  GNAT is distributed in the hope that it will be useful, but WITH- --
 -- OUT ANY WARRANTY;  without even the  implied warranty of MERCHANTABILITY --
 -- or FITNESS FOR A PARTICULAR PURPOSE.                                     --
 --                                                                          --
@@ -29,20 +30,34 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  This is the Ravenscar version of this package
-
 with System.Task_Primitives.Operations;
---  Used for Set_Priority
---           Get_Priority
---           Self
+with System.Soft_Links.Tasking;
+
+with System.Secondary_Stack;
+pragma Elaborate_All (System.Secondary_Stack);
+pragma Unreferenced (System.Secondary_Stack);
+--  Make sure the body of Secondary_Stack is elaborated before calling
+--  Init_Tasking_Soft_Links. See comments for this routine for explanation.
 
 package body System.Tasking.Protected_Objects is
 
    use System.Task_Primitives.Operations;
-   use System.Multiprocessors;
 
-   Multiprocessor : constant Boolean := CPU'Range_Length /= 1;
-   --  Set true if on multiprocessor (more than one CPU)
+   ----------------
+   -- Local Data --
+   ----------------
+
+   Locking_Policy : constant Character;
+   pragma Import (C, Locking_Policy, "__gl_locking_policy");
+
+   -------------------------
+   -- Finalize_Protection --
+   -------------------------
+
+   procedure Finalize_Protection (Object : in out Protection) is
+   begin
+      Finalize_Lock (Object.L'Unrestricted_Access);
+   end Finalize_Protection;
 
    ---------------------------
    -- Initialize_Protection --
@@ -59,117 +74,194 @@ package body System.Tasking.Protected_Objects is
          Init_Priority := System.Priority'Last;
       end if;
 
+      Initialize_Lock (Init_Priority, Object.L'Access);
       Object.Ceiling := System.Any_Priority (Init_Priority);
-      Object.Caller_Priority := System.Any_Priority'First;
+      Object.New_Ceiling := System.Any_Priority (Init_Priority);
       Object.Owner := Null_Task;
-
-      --  Only for multiprocessor
-
-      if Multiprocessor then
-         Multiprocessors.Fair_Locks.Initialize (Object.Lock);
-      end if;
    end Initialize_Protection;
+
+   -----------------
+   -- Get_Ceiling --
+   -----------------
+
+   function Get_Ceiling
+     (Object : Protection_Access) return System.Any_Priority is
+   begin
+      return Object.New_Ceiling;
+   end Get_Ceiling;
 
    ----------
    -- Lock --
    ----------
 
    procedure Lock (Object : Protection_Access) is
-      Self_Id         : constant Task_Id := Self;
-      Caller_Priority : constant Any_Priority := Get_Priority (Self_Id);
+      Ceiling_Violation : Boolean;
 
    begin
-      --  For this run time, pragma Detect_Blocking is always active. As
-      --  described in ARM 9.5.1, par. 15, an external call on a protected
-      --  subprogram with the same target object as that of the protected
-      --  action that is currently in progress (i.e., if the caller is
-      --  already the protected object's owner) is a potentially blocking
-      --  operation, and hence Program_Error must be raised.
+      --  The lock is made without deferring abort
 
-      if Object.Owner = Self_Id then
+      --  Therefore the abort has to be deferred before calling this routine.
+      --  This means that the compiler has to generate a Defer_Abort call
+      --  before the call to Lock.
+
+      --  The caller is responsible for undeferring abort, and compiler
+      --  generated calls must be protected with cleanup handlers to ensure
+      --  that abort is undeferred in all cases.
+
+      --  If pragma Detect_Blocking is active then, as described in the ARM
+      --  9.5.1, par. 15, we must check whether this is an external call on a
+      --  protected subprogram with the same target object as that of the
+      --  protected action that is currently in progress (i.e., if the caller
+      --  is already the protected object's owner). If this is the case hence
+      --  Program_Error must be raised.
+
+      if Detect_Blocking and then Object.Owner = Self then
          raise Program_Error;
       end if;
 
-      --  Check ceiling locking violation. It is perfectly correct to stay at
-      --  the same priority because a running task will never be preempted by
-      --  another task at the same priority (no potentially blocking operation,
-      --  no time slicing).
+      Write_Lock (Object.L'Access, Ceiling_Violation);
 
-      if Caller_Priority > Object.Ceiling then
+      if Ceiling_Violation then
          raise Program_Error;
       end if;
-
-      Set_Priority (Self_Id, Object.Ceiling);
-
-      --  Locking for multiprocessor systems
-
-      --  This lock ensure mutual exclusion of tasks from different processors,
-      --  not for tasks on the same processors. But, because of the ceiling
-      --  priority, this case never occurs.
-
-      if Multiprocessor then
-
-         --  Only for multiprocessor
-
-         Multiprocessors.Fair_Locks.Lock (Object.Lock);
-      end if;
-
-      --  Update the protected object's owner
-
-      Object.Owner := Self_Id;
-
-      --  Store caller's active priority so that it can be later
-      --  restored when finishing the protected action.
-
-      Object.Caller_Priority := Caller_Priority;
 
       --  We are entering in a protected action, so that we increase the
-      --  protected object nesting level.
+      --  protected object nesting level (if pragma Detect_Blocking is
+      --  active), and update the protected object's owner.
 
-      Self_Id.Common.Protected_Action_Nesting :=
-        Self_Id.Common.Protected_Action_Nesting + 1;
+      if Detect_Blocking then
+         declare
+            Self_Id : constant Task_Id := Self;
+         begin
+            --  Update the protected object's owner
+
+            Object.Owner := Self_Id;
+
+            --  Increase protected object nesting level
+
+            Self_Id.Common.Protected_Action_Nesting :=
+              Self_Id.Common.Protected_Action_Nesting + 1;
+         end;
+      end if;
    end Lock;
+
+   --------------------
+   -- Lock_Read_Only --
+   --------------------
+
+   procedure Lock_Read_Only (Object : Protection_Access) is
+      Ceiling_Violation : Boolean;
+
+   begin
+      --  If pragma Detect_Blocking is active then, as described in the ARM
+      --  9.5.1, par. 15, we must check whether this is an external call on
+      --  protected subprogram with the same target object as that of the
+      --  protected action that is currently in progress (i.e., if the caller
+      --  is already the protected object's owner). If this is the case hence
+      --  Program_Error must be raised.
+      --
+      --  Note that in this case (getting read access), several tasks may have
+      --  read ownership of the protected object, so that this method of
+      --  storing the (single) protected object's owner does not work reliably
+      --  for read locks. However, this is the approach taken for two major
+      --  reasons: first, this function is not currently being used (it is
+      --  provided for possible future use), and second, it largely simplifies
+      --  the implementation.
+
+      if Detect_Blocking and then Object.Owner = Self then
+         raise Program_Error;
+      end if;
+
+      Read_Lock (Object.L'Access, Ceiling_Violation);
+
+      if Ceiling_Violation then
+         raise Program_Error;
+      end if;
+
+      --  We are entering in a protected action, so we increase the protected
+      --  object nesting level (if pragma Detect_Blocking is active).
+
+      if Detect_Blocking then
+         declare
+            Self_Id : constant Task_Id := Self;
+         begin
+            --  Update the protected object's owner
+
+            Object.Owner := Self_Id;
+
+            --  Increase protected object nesting level
+
+            Self_Id.Common.Protected_Action_Nesting :=
+              Self_Id.Common.Protected_Action_Nesting + 1;
+         end;
+      end if;
+   end Lock_Read_Only;
+
+   -----------------
+   -- Set_Ceiling --
+   -----------------
+
+   procedure Set_Ceiling
+     (Object : Protection_Access;
+      Prio   : System.Any_Priority) is
+   begin
+      Object.New_Ceiling := Prio;
+   end Set_Ceiling;
 
    ------------
    -- Unlock --
    ------------
 
    procedure Unlock (Object : Protection_Access) is
-      Self_Id         : constant Task_Id := Self;
-      Caller_Priority : constant Any_Priority := Object.Caller_Priority;
-
    begin
-      --  Calls to this procedure can only take place when being within a
-      --  protected action and when the caller is the protected object's
-      --  owner.
-
-      pragma Assert (Self_Id.Common.Protected_Action_Nesting > 0
-                     and then Object.Owner = Self_Id);
-
-      --  Remove ownership of the protected object
-
-      Object.Owner := Null_Task;
-
       --  We are exiting from a protected action, so that we decrease the
-      --  protected object nesting level.
+      --  protected object nesting level (if pragma Detect_Blocking is
+      --  active), and remove ownership of the protected object.
 
-      Self_Id.Common.Protected_Action_Nesting :=
-        Self_Id.Common.Protected_Action_Nesting - 1;
+      if Detect_Blocking then
+         declare
+            Self_Id : constant Task_Id := Self;
 
-      --  Locking for multiprocessor systems
+         begin
+            --  Calls to this procedure can only take place when being within
+            --  a protected action and when the caller is the protected
+            --  object's owner.
 
-      if Multiprocessor then
+            pragma Assert (Self_Id.Common.Protected_Action_Nesting > 0
+                             and then Object.Owner = Self_Id);
 
-         --  Only for multiprocessor
+            --  Remove ownership of the protected object
 
-         Multiprocessors.Fair_Locks.Unlock (Object.Lock);
+            Object.Owner := Null_Task;
+
+            --  We are exiting from a protected action, so we decrease the
+            --  protected object nesting level.
+
+            Self_Id.Common.Protected_Action_Nesting :=
+              Self_Id.Common.Protected_Action_Nesting - 1;
+         end;
       end if;
 
-      Set_Priority (Self_Id, Caller_Priority);
+      --  Before releasing the mutex we must actually update its ceiling
+      --  priority if it has been changed.
+
+      if Object.New_Ceiling /= Object.Ceiling then
+         if Locking_Policy = 'C' then
+            System.Task_Primitives.Operations.Set_Ceiling
+              (Object.L'Access, Object.New_Ceiling);
+         end if;
+
+         Object.Ceiling := Object.New_Ceiling;
+      end if;
+
+      Unlock (Object.L'Access);
+
    end Unlock;
 
 begin
-   --  Ensure that tasking is initialized when using protected objects
+   --  Ensure that tasking is initialized, as well as tasking soft links
+   --  when using protected objects.
 
    Tasking.Initialize;
+   System.Soft_Links.Tasking.Init_Tasking_Soft_Links;
 end System.Tasking.Protected_Objects;

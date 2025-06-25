@@ -1,12 +1,13 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---                  GNAT RUN-TIME LIBRARY (GNARL) COMPONENTS                --
+--                 GNAT RUN-TIME LIBRARY (GNARL) COMPONENTS                 --
 --                                                                          --
---                 S Y S T E M . T A S K _ P R I M I T I V E S              --
+--               S Y S T E M . T A S K _ P R I M I T I V E S                --
 --                                                                          --
---                                  S p e c                                 --
+--                                 S p e c                                  --
 --                                                                          --
---          Copyright (C) 2001-2023, Free Software Foundation, Inc.         --
+--            Copyright (C) 1991-2017, Florida State University             --
+--                     Copyright (C) 1995-2024, AdaCore                     --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,49 +30,87 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  This is the version of this package for Ravenscar bare board targets
+--  This is a POSIX-like version of this package
+
+--  Note: this file can only be used for POSIX compliant systems
 
 with System.OS_Interface;
 
 package System.Task_Primitives is
    pragma Preelaborate;
 
+   type Lock is limited private;
+   --  Should be used for implementation of protected objects
+
+   type RTS_Lock is limited private;
+   --  Should be used inside the runtime system. The difference between Lock
+   --  and the RTS_Lock is that the latter serves only as a semaphore so that
+   --  we do not check for ceiling violations.
+
+   type Suspension_Object is limited private;
+   --  Should be used for the implementation of Ada.Synchronous_Task_Control
+
    type Task_Body_Access is access procedure;
-   --  Pointer to the task body's entry point (or possibly a wrapper
-   --  declared local to the GNARL).
+   --  Pointer to the task body's entry point (or possibly a wrapper declared
+   --  local to the GNARL).
 
    type Private_Data is limited private;
-   --  Any information that the GNULLI needs maintained on a per-task
-   --  basis.  A component of this type is guaranteed to be included
-   --  in the Ada_Task_Control_Block.
+   --  Any information that the GNULLI needs maintained on a per-task basis.
+   --  A component of this type is guaranteed to be included in the
+   --  Ada_Task_Control_Block.
 
    subtype Task_Address is System.Address;
    Task_Address_Size : constant := Standard'Address_Size;
    --  Type used for task addresses and its size
 
-   Alternate_Stack_Size : constant := 0;
-   --  No alternate signal stack is used on this platform
+   Alternate_Stack_Size : constant := System.OS_Interface.Alternate_Stack_Size;
+   --  Import value from System.OS_Interface
 
 private
 
-   type Private_Data is limited record
-      Thread_Desc : aliased System.OS_Interface.Thread_Descriptor;
-      --  Thread descriptor associated to the ATCB to which it belongs
+   type RTS_Lock is new System.OS_Interface.pthread_mutex_t;
 
-      Thread : aliased System.OS_Interface.Thread_Id :=
-                 System.OS_Interface.Null_Thread_Id;
-      --  Thread Id associated to the ATCB to which it belongs, mostly used by
-      --  GDB.
+   type Lock is record
+      RW : aliased System.OS_Interface.pthread_rwlock_t;
+      WO : aliased RTS_Lock;
+   end record;
+
+   type Suspension_Object is record
+      State : Boolean;
+      pragma Atomic (State);
+      --  Boolean that indicates whether the object is open. This field is
+      --  marked Atomic to ensure that we can read its value without locking
+      --  the access to the Suspension_Object.
+
+      Waiting : Boolean;
+      --  Flag showing if there is a task already suspended on this object
+
+      L : aliased RTS_Lock;
+      --  Protection for ensuring mutual exclusion on the Suspension_Object
+
+      CV : aliased System.OS_Interface.pthread_cond_t;
+      --  Condition variable used to queue threads until condition is signaled
+   end record;
+
+   type Private_Data is limited record
+      Thread : aliased System.OS_Interface.pthread_t;
       pragma Atomic (Thread);
       --  Thread field may be updated by two different threads of control.
-      --  (See, Enter_Task and Create_Task in s-taprop.adb).
-      --  They put the same value (thr_self value). We do not want to
-      --  use lock on those operations and the only thing we have to
-      --  make sure is that they are updated in atomic fashion.
+      --  (See, Enter_Task and Create_Task in s-taprop.adb). They put the same
+      --  value (thr_self value). We do not want to use lock on those
+      --  operations and the only thing we have to make sure is that they are
+      --  updated in atomic fashion.
 
-      Lwp : aliased System.Address := System.Null_Address;
-      --  This element duplicates the Thread element. It is read by gdb when
-      --  the remote protocol is used.
+      LWP : aliased System.Address;
+      --  The purpose of this field is to provide a better tasking support on
+      --  gdb. The order of the two first fields (Thread and LWP) is important.
+      --  On targets where lwp is not relevant, this is equivalent to Thread.
+
+      CV : aliased System.OS_Interface.pthread_cond_t;
+      --  Should be commented ??? (in all versions of taspri)
+
+      L : aliased RTS_Lock;
+      --  Protection for all components is lock L
    end record;
 
 end System.Task_Primitives;

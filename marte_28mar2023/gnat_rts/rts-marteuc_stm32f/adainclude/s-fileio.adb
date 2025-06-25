@@ -1173,6 +1173,8 @@ package body System.File_IO is
      (File  : AFCB_Ptr;
       Errno : Integer := OS_Lib.Errno)
    is
+      pragma Unreferenced (Errno);
+
    begin
       --  Clear error status so that the same error is not reported twice
 
@@ -1180,7 +1182,7 @@ package body System.File_IO is
          clearerr (File.Stream);
       end if;
 
-      raise Device_Error with OS_Lib.Errno_Message (Err => Errno);
+      raise Device_Error; --  with OS_Lib.Errno_Message (Err => Errno);
    end Raise_Device_Error;
 
    --------------

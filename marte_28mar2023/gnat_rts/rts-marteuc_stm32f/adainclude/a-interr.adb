@@ -6,7 +6,8 @@
 --                                                                          --
 --                                  B o d y                                 --
 --                                                                          --
---                     Copyright (C) 2001-2023, AdaCore                     --
+--             Copyright (C) 1991-2017, Florida State University            --
+--                     Copyright (C) 1995-2024, AdaCore                     --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,9 +30,17 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  This is the Ravenscar version of this package
+with Ada.Unchecked_Conversion;
 
 package body Ada.Interrupts is
+
+   package SI renames System.Interrupts;
+
+   function To_System is new Ada.Unchecked_Conversion
+     (Parameterless_Handler, SI.Parameterless_Handler);
+
+   function To_Ada is new Ada.Unchecked_Conversion
+     (SI.Parameterless_Handler, Parameterless_Handler);
 
    --------------------
    -- Attach_Handler --
@@ -42,7 +51,8 @@ package body Ada.Interrupts is
       Interrupt   : Interrupt_ID)
    is
    begin
-      raise Program_Error;
+      SI.Attach_Handler
+        (To_System (New_Handler), SI.Interrupt_ID (Interrupt), False);
    end Attach_Handler;
 
    ---------------------
@@ -53,8 +63,7 @@ package body Ada.Interrupts is
      (Interrupt : Interrupt_ID) return Parameterless_Handler
    is
    begin
-      raise Program_Error;
-      return null;
+      return To_Ada (SI.Current_Handler (SI.Interrupt_ID (Interrupt)));
    end Current_Handler;
 
    --------------------
@@ -63,7 +72,7 @@ package body Ada.Interrupts is
 
    procedure Detach_Handler (Interrupt : Interrupt_ID) is
    begin
-      raise Program_Error;
+      SI.Detach_Handler (SI.Interrupt_ID (Interrupt), False);
    end Detach_Handler;
 
    ----------------------
@@ -75,8 +84,13 @@ package body Ada.Interrupts is
       New_Handler : Parameterless_Handler;
       Interrupt   : Interrupt_ID)
    is
+      H : SI.Parameterless_Handler;
+
    begin
-      raise Program_Error;
+      SI.Exchange_Handler
+        (H, To_System (New_Handler),
+         SI.Interrupt_ID (Interrupt), False);
+      Old_Handler := To_Ada (H);
    end Exchange_Handler;
 
    -------------
@@ -86,8 +100,12 @@ package body Ada.Interrupts is
    function Get_CPU
      (Interrupt : Interrupt_ID) return System.Multiprocessors.CPU_Range
    is
+      pragma Unreferenced (Interrupt);
+
    begin
-      raise Program_Error;
+      --  The underlying operating system does not indicate the processor on
+      --  which the handler for Interrupt is executed.
+
       return System.Multiprocessors.Not_A_Specific_CPU;
    end Get_CPU;
 
@@ -97,8 +115,7 @@ package body Ada.Interrupts is
 
    function Is_Attached (Interrupt : Interrupt_ID) return Boolean is
    begin
-      raise Program_Error;
-      return False;
+      return SI.Is_Handler_Attached (SI.Interrupt_ID (Interrupt));
    end Is_Attached;
 
    -----------------
@@ -107,8 +124,7 @@ package body Ada.Interrupts is
 
    function Is_Reserved (Interrupt : Interrupt_ID) return Boolean is
    begin
-      raise Program_Error;
-      return False;
+      return SI.Is_Reserved (SI.Interrupt_ID (Interrupt));
    end Is_Reserved;
 
    ---------------
@@ -117,8 +133,7 @@ package body Ada.Interrupts is
 
    function Reference (Interrupt : Interrupt_ID) return System.Address is
    begin
-      raise Program_Error;
-      return System.Null_Address;
+      return SI.Reference (SI.Interrupt_ID (Interrupt));
    end Reference;
 
 end Ada.Interrupts;

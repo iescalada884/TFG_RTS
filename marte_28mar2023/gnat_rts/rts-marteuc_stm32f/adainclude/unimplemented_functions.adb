@@ -39,6 +39,26 @@ package body Unimplemented_Functions is
       Put_Line ("Function 'Gnat_Target_Object_Extension' not implemented.");
    end Gnat_Target_Object_Extension;
 
+   procedure Gnat_Initialize is
+   begin
+      Put_Line ("Function '__gnat_initialize' not implemented.");
+   end Gnat_Initialize;
+
+   procedure Gnat_Finalize is
+   begin
+      Put_Line ("Function '__gnat_finalize' not implemented.");
+   end Gnat_Finalize;
+
+   procedure Gnat_Runtime_Initialize is
+   begin
+      Put_Line ("Function '__gnat_runtime_initialize' not implemented.");
+   end Gnat_Runtime_Initialize;
+
+   procedure Gnat_Runtime_Finalize is
+   begin
+      Put_Line ("Function '__gnat_runtime_finalize' not implemented.");
+   end Gnat_Runtime_Finalize;
+
    procedure Gnat_Getenv is
    begin
       Put_Line ("Function 'Gnat_Getenv' not implemented.");
@@ -304,11 +324,6 @@ package body Unimplemented_Functions is
       Put_Line ("Function 'Ada_Setup_PLL' not implemented.");
    end Ada_Setup_PLL;
 
-   procedure Exit_Funct is
-   begin
-      Put_Line ("Function '_Exit' not implemented.");
-   end Exit_Funct;
-
    procedure GL_Priority_Specific_Dispatching is
    begin
       Put_Line (
@@ -337,22 +352,26 @@ package body Unimplemented_Functions is
 
    procedure Gnat_Constant_Stderr is
    begin
-      Put_Line ("Function 'Gnat_Constant_Stderr' not implemented.");
+      null;
+      --  it is call by    Ada.Text_Io'Elab_Body; so we cant use Put_line yet
    end Gnat_Constant_Stderr;
 
    procedure Gnat_Is_Regular_File_Fd is
    begin
-      Put_Line ("Function 'Gnat_Is_Regular_File_Fd' not implemented.");
+      null;
+      --  it is call by    Ada.Text_Io'Elab_Body; so we cant use Put_line yet
    end Gnat_Is_Regular_File_Fd;
 
    procedure Gnat_Constant_Stdin is
    begin
-      Put_Line ("Function 'Gnat_Constant_Stdin' not implemented.");
+      null;
+      --  it is call by    Ada.Text_Io'Elab_Body; so we cant use Put_line yet
    end Gnat_Constant_Stdin;
 
    procedure Gnat_Constant_Stdout is
    begin
-      Put_Line ("Function 'Gnat_Constant_Stdout' not implemented.");
+      null;
+      --  it is call by    Ada.Text_Io'Elab_Body; so we cant use Put_line yet
    end Gnat_Constant_Stdout;
 
    procedure Get_Errno is
@@ -427,7 +446,8 @@ package body Unimplemented_Functions is
    --  File Access and Attributes
    procedure Gnat_Fileno is
    begin
-      Put_Line ("Function 'Gnat_Fileno' not implemented.");
+      null;
+      --  it is call by    Ada.Text_Io'Elab_Body; so we cant use Put_line yet
    end Gnat_Fileno;
 
    procedure Gnat_Set_Binary_Mode is
@@ -521,11 +541,6 @@ package body Unimplemented_Functions is
       Put_Line ("Function 'Read' not implemented.");
    end Read;
 
-   procedure Sbrk is
-   begin
-      Put_Line ("Function 'Sbrk' not implemented.");
-   end Sbrk;
-
    procedure Write is
    begin
       Put_Line ("Function 'Write' not implemented.");
@@ -560,4 +575,205 @@ package body Unimplemented_Functions is
    begin
       Put_Line ("Function '__gnat_bkpt_trap' not implemented.");
    end Gnat_Bkpt_Trap;
+
+   --  ========================================================================
+   --  ADA RUNTIME GLOBALS (GL_*) - Missing Procedures
+   --  ========================================================================
+
+   --  ARM and Hardware Specific
+   procedure GL_Main_CPU is
+   begin
+      Put_Line ("Function 'GL_Main_CPU' not implemented.");
+   end GL_Main_CPU;
+
+   --  Interrupt Management
+   procedure GL_Interrupt_States is
+   begin
+      Put_Line ("Function 'GL_Interrupt_States' not implemented.");
+   end GL_Interrupt_States;
+
+   procedure GL_Num_Interrupt_States is
+   begin
+      Put_Line ("Function 'GL_Num_Interrupt_States' not implemented.");
+   end GL_Num_Interrupt_States;
+
+   procedure GL_Unreserve_All_Interrupts is
+   begin
+      Put_Line ("Function 'GL_Unreserve_All_Interrupts' not implemented.");
+   end GL_Unreserve_All_Interrupts;
+
+   --  Task and Scheduling Policies
+   procedure GL_Default_Stack_Size is
+   begin
+      Put_Line ("Function 'GL_Default_Stack_Size' not implemented.");
+   end GL_Default_Stack_Size;
+
+   procedure GL_Detect_Blocking is
+   begin
+      Put_Line ("Function 'GL_Detect_Blocking' not implemented.");
+   end GL_Detect_Blocking;
+
+   procedure GL_Locking_Policy is
+   begin
+      Put_Line ("Function 'GL_Locking_Policy' not implemented.");
+   end GL_Locking_Policy;
+
+   procedure GL_Num_Specific_Dispatching is
+   begin
+      Put_Line ("Function 'GL_Num_Specific_Dispatching' not implemented.");
+   end GL_Num_Specific_Dispatching;
+
+   procedure GL_Queuing_Policy is
+   begin
+      Put_Line ("Function 'GL_Queuing_Policy' not implemented.");
+   end GL_Queuing_Policy;
+
+   procedure GL_Task_Dispatching_Policy is
+   begin
+      Put_Line ("Function 'GL_Task_Dispatching_Policy' not implemented.");
+   end GL_Task_Dispatching_Policy;
+
+   procedure GL_Time_Slice_Val is
+   begin
+      Put_Line ("Function 'GL_Time_Slice_Val' not implemented.");
+   end GL_Time_Slice_Val;
+
+   --  Character Encoding and I/O
+   procedure GL_WC_Encoding is
+   begin
+      Put_Line ("Function 'GL_WC_Encoding' not implemented.");
+   end GL_WC_Encoding;
+
+   procedure GL_Xdr_Stream is
+   begin
+      Put_Line ("Function 'GL_Xdr_Stream' not implemented.");
+   end GL_Xdr_Stream;
+
+   --  =====================================================
+   --  GNAT Runtime Support
+   --  =====================================================
+   procedure Runtime_Initialize (Install_Handler : Integer) is null;
+   pragma Export (C, Runtime_Initialize, "__gnat_runtime_initialize");
+
+   procedure Runtime_Finalize is null;
+   pragma Export (C, Runtime_Finalize, "__gnat_runtime_finalize");
+
+   procedure Finalize is null;
+   pragma Export (C, Finalize, "__gnat_finalize");
+
+   procedure Initialize is null;
+   pragma Export (C, Initialize, "__gnat_initialize");
+
+   procedure Gnat_Get_Specific_Dispatching is null;
+   pragma Export (C, Gnat_Get_Specific_Dispatching,
+                  "__gnat_get_specific_dispatching");
+
+   procedure Gnat_Lwp_Self is null;
+   pragma Export (C, Gnat_Lwp_Self, "__gnat_lwp_self");
+
+   procedure Gnat_Pthread_Condattr_Setup is null;
+   pragma Export (C, Gnat_Pthread_Condattr_Setup,
+                  "__gnat_pthread_condattr_setup");
+
+   procedure Gnat_Cpu_Free is null;
+   pragma Export (C, Gnat_Cpu_Free, "__gnat_cpu_free");
+
+   procedure Gnat_Get_Interrupt_State is null;
+   pragma Export (C, Gnat_Get_Interrupt_State,
+                  "__gnat_get_interrupt_state");
+
+   procedure Gnat_Alternate_Stack is null;
+   pragma Export (C, Gnat_Alternate_Stack,
+                  "__gnat_alternate_stack");
+
+   procedure Gnat_Has_Cap_Sys_Nice is null;
+   pragma Export (C, Gnat_Has_Cap_Sys_Nice,
+                  "__gnat_has_cap_sys_nice");
+
+   procedure Gnat_Install_Seh_Handler is null;
+   pragma Export (C, Gnat_Install_Seh_Handler,
+                  "__gnat_install_SEH_handler");
+
+   procedure Gnat_Adjust_Context_For_Raise is null;
+   pragma Export (C, Gnat_Adjust_Context_For_Raise,
+                  "__gnat_adjust_context_for_raise");
+
+   procedure Gnat_Number_Of_Cpus is null;
+   pragma Export (C, Gnat_Number_Of_Cpus, "__gnat_number_of_cpus");
+
+   procedure Gnat_Timeval_To_Duration is null;
+   pragma Export (C, Gnat_Timeval_To_Duration, "__gnat_timeval_to_duration");
+
+   --  =====================================================
+   --  GNAT TLS (Thread-Local Storage)
+   --  =====================================================
+
+   procedure Emutls_Get_Address is null;
+   pragma Export (C, Emutls_Get_Address, "__emutls_get_address");
+
+   --  =====================================================
+   --  GNAT CPU Affinity
+   --  =====================================================
+
+   procedure Gnat_Cpu_Alloc_Size is null;
+   pragma Export (C, Gnat_Cpu_Alloc_Size, "__gnat_cpu_alloc_size");
+
+   procedure Gnat_Cpu_Alloc is null;
+   pragma Export (C, Gnat_Cpu_Alloc, "__gnat_cpu_alloc");
+
+   procedure Gnat_Cpu_Zero is null;
+   pragma Export (C, Gnat_Cpu_Zero, "__gnat_cpu_zero");
+
+   procedure Gnat_Cpu_Set is null;
+   pragma Export (C, Gnat_Cpu_Set, "__gnat_cpu_set");
+
+   --  =====================================================
+   --  POSIX Threads API
+   --  =====================================================
+
+   procedure Pthread_Rwlockattr_Init is null;
+   pragma Export (C, Pthread_Rwlockattr_Init, "pthread_rwlockattr_init");
+
+   procedure Pthread_Rwlockattr_Setkind_Np is null;
+   pragma Export (C, Pthread_Rwlockattr_Setkind_Np,
+                     "pthread_rwlockattr_setkind_np");
+
+   procedure Pthread_Rwlock_Init is null;
+   pragma Export (C, Pthread_Rwlock_Init, "pthread_rwlock_init");
+
+   procedure Pthread_Rwlock_Wrlock is null;
+   pragma Export (C, Pthread_Rwlock_Wrlock, "pthread_rwlock_wrlock");
+
+   procedure Pthread_Rwlock_Rdlock is null;
+   pragma Export (C, Pthread_Rwlock_Rdlock, "pthread_rwlock_rdlock");
+
+   procedure Pthread_Rwlock_Destroy is null;
+   pragma Export (C, Pthread_Rwlock_Destroy, "pthread_rwlock_destroy");
+
+   procedure Pthread_Rwlock_Unlock is null;
+   pragma Export (C, Pthread_Rwlock_Unlock, "pthread_rwlock_unlock");
+
+   --  =====================================================
+   --  Linux / Unix System API
+   --  =====================================================
+
+   procedure Prctl is null;
+   pragma Export (C, Prctl, "prctl");
+
+   procedure Sigaltstack is null;
+   pragma Export (C, Sigaltstack, "sigaltstack");
+
+   procedure Geteuid is null;
+   pragma Export (C, Geteuid, "geteuid");
+
+   --  =====================================================
+   --  Standard C Library Functions
+   --  =====================================================
+
+   procedure Getenv is null;
+   pragma Export (C, Getenv, "getenv");
+
+   procedure Atoi is null;
+   pragma Export (C, Atoi, "atoi");
+
 end Unimplemented_Functions;

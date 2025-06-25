@@ -6,7 +6,7 @@
 --                                                                          --
 --                                  S p e c                                 --
 --                                                                          --
---                     Copyright (C) 2001-2023, AdaCore                    --
+--          Copyright (C) 1992-2024, Free Software Foundation, Inc.         --
 --                                                                          --
 -- This specification is derived from the Ada Reference Manual for use with --
 -- GNAT. The copyright notice above, and the license provisions that follow --
@@ -33,29 +33,24 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  Ravenscar version of this package for generic bare board targets
-
-with System.OS_Interface;
+with System.Task_Primitives.Operations;
+pragma Elaborate_All (System.Task_Primitives.Operations);
 
 package Ada.Real_Time with
   SPARK_Mode,
   Abstract_State => (Clock_Time with Synchronous),
-  Initializes    => Clock_Time
+  Initializes    => Clock_Time,
+  Always_Terminates
 is
-   pragma Assert
-     (System.OS_Interface.Ticks_Per_Second >= 50_000,
-      "Ada RM D.8 (30) requires " &
-      "that Time_Unit shall be less than or equal to 20 microseconds");
+
+   pragma Compile_Time_Error
+     (Duration'Size /= 64,
+      "this version of Ada.Real_Time requires 64-bit Duration");
 
    type Time is private;
    Time_First : constant Time;
    Time_Last  : constant Time;
-
-   Time_Unit : constant := 1.0 / System.OS_Interface.Ticks_Per_Second;
-   --  The BB platforms use a time stamp counter driven by the system clock,
-   --  where the duration of the clock tick (Time_Unit) depends on the speed
-   --  of the underlying hardware. The system clock frequency is used here to
-   --  determine Time_Unit.
+   Time_Unit  : constant := 10#1.0#E-9;
 
    type Time_Span is private;
    Time_Span_First : constant Time_Span;
@@ -68,16 +63,14 @@ is
      Volatile_Function,
      Global => Clock_Time;
 
-   function "+"  (Left : Time; Right : Time_Span) return Time with
+   function "+"  (Left : Time;      Right : Time_Span) return Time with
      Global => null;
-   function "-"  (Left : Time; Right : Time_Span) return Time with
+   function "+"  (Left : Time_Span; Right : Time)      return Time with
      Global => null;
-   function "-"  (Left : Time; Right : Time)      return Time_Span with
+   function "-"  (Left : Time;      Right : Time_Span) return Time with
      Global => null;
-
-   function "+" (Left : Time_Span; Right : Time) return Time is
-     (Right + Left)
-   with Global => null;
+   function "-"  (Left : Time;      Right : Time)      return Time_Span with
+     Global => null;
 
    function "<"  (Left, Right : Time) return Boolean with
      Global => null;
@@ -135,36 +128,48 @@ is
      Global => null;
    pragma Ada_05 (Minutes);
 
-   --  Seconds_Count needs 64 bits. Time is a 64-bits unsigned integer
-   --  representing clock ticks, and if the clock frequency is lower than
-   --  2 ** 32 Hz (~ 4 GHz), which is the case so far, we need more than 32
-   --  bits to represent the number of seconds. Additionally, Time is
-   --  unsigned, so Seconds_Count is always positive.
+   type Seconds_Count is new Long_Long_Integer;
+   --  Seconds_Count needs 64 bits, since the type Time has the full range of
+   --  Duration. The delta of Duration is 10 ** (-9), so the maximum number of
+   --  seconds is 2**63/10**9 = 8*10**9 which does not quite fit in 32 bits.
+   --  However, rather than make this explicitly 64-bits we derive from
+   --  Long_Long_Integer. In normal usage this will have the same effect. But
+   --  in the case of CodePeer with a target configuration file with a maximum
+   --  integer size of 32, it allows analysis of this unit.
 
-   type Seconds_Count is range 0 .. 2 ** 63 - 1;
-
-   procedure Split (T : Time; SC : out Seconds_Count; TS : out Time_Span) with
+   procedure Split (T : Time; SC : out Seconds_Count; TS : out Time_Span)
+   with
      Global => null;
-   function Time_Of (SC : Seconds_Count; TS : Time_Span) return Time with
+   function Time_Of (SC : Seconds_Count; TS : Time_Span) return Time
+   with
      Global => null;
 
 private
    pragma SPARK_Mode (Off);
 
-   type Time is new System.OS_Interface.Time;
+   --  Time and Time_Span are represented in 64-bit Duration value in
+   --  nanoseconds. For example, 1 second and 1 nanosecond is represented
+   --  as the stored integer 1_000_000_001. This is for the 64-bit Duration
+   --  case, not clear if this also is used for 32-bit Duration values.
+
+   type Time is new Duration;
 
    Time_First : constant Time := Time'First;
+
    Time_Last  : constant Time := Time'Last;
 
-   type Time_Span is new System.OS_Interface.Time_Span;
+   type Time_Span is new Duration;
 
    Time_Span_First : constant Time_Span := Time_Span'First;
+
    Time_Span_Last  : constant Time_Span := Time_Span'Last;
 
-   Time_Span_Zero  : constant Time_Span := 0;
-   Time_Span_Unit  : constant Time_Span := 1;
+   Time_Span_Zero  : constant Time_Span := 0.0;
 
-   Tick : constant Time_Span := 1;
+   Time_Span_Unit  : constant Time_Span := 10#1.0#E-9;
+
+   Tick : constant Time_Span :=
+            Time_Span (System.Task_Primitives.Operations.RT_Resolution);
 
    pragma Import (Intrinsic, "<");
    pragma Import (Intrinsic, "<=");

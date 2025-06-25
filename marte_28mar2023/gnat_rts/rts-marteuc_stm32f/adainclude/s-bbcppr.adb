@@ -107,8 +107,7 @@ package body System.BB.CPU_Primitives is
    pragma Export (Asm, SV_Call_Handler, "__gnat_sv_call_trap");
 
    procedure Sys_Tick_Handler;
-   --  ! MARTE-UC implementation instead
-   pragma Export (Asm, Sys_Tick_Handler, "__gnat_sys_tick_trap_NO_USE");
+   pragma Export (Asm, Sys_Tick_Handler, "__gnat_sys_tick_trap");
 
    procedure Interrupt_Request_Handler;
    pragma Export (Asm, Interrupt_Request_Handler, "__gnat_irq_trap");
@@ -227,21 +226,21 @@ package body System.BB.CPU_Primitives is
    SHPR3 : Word with Volatile, Address => 16#E000_ED20#; -- Sys Hand 12-15 Prio
    SHCSR : Word with Volatile, Address => 16#E000_ED24#; -- Sys Hand Ctrl/State
 
-   --  function PRIMASK return Word with Inline, Export, Convention => C;
+   function PRIMASK return Word with Inline, Export, Convention => C;
    --  Function returning the contents of the PRIMASK register
 
    -------------
    -- PRIMASK --
    -------------
 
-   --  function PRIMASK return Word is -- ! MARTE-UC implementation instead
-   --     Result : Word;
-   --  begin
-   --     Asm ("mrs %0, PRIMASK",
-   --          Outputs  => Word'Asm_Output ("=r", Result),
-   --    Volatile => True);
-   --     return Result;
-   --  end PRIMASK;
+   function PRIMASK return Word is
+      Result : Word;
+   begin
+      Asm ("mrs %0, PRIMASK",
+           Outputs  => Word'Asm_Output ("=r", Result),
+           Volatile => True);
+      return Result;
+   end PRIMASK;
 
    --------------------
    -- Initialize_CPU --
@@ -339,7 +338,8 @@ package body System.BB.CPU_Primitives is
    begin
       --  Interrupts must be disabled at this point
 
-      --  pragma Assert (PRIMASK = 1); MARTE-UC implementation instead
+      pragma Assert (PRIMASK = 1);
+
       Trigger_Context_Switch;
 
       --  Memory must be clobbered, as task switching causes a task to signal,

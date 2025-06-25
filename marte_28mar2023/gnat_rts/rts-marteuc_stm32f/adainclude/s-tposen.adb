@@ -1,17 +1,17 @@
 ------------------------------------------------------------------------------
 --                                                                          --
---                 GNAT RUN-TIME LIBRARY (GNARL) COMPONENTS                 --
+--                GNAT RUN-TIME LIBRARY (GNARL) COMPONENTS                  --
 --                                                                          --
---               SYSTEM.TASKING.PROTECTED_OBJECTS.SINGLE_ENTRY              --
+--             SYSTEM.TASKING.PROTECTED_OBJECTS.SINGLE_ENTRY                --
 --                                                                          --
 --                                B o d y                                   --
 --                                                                          --
---                     Copyright (C) 1998-2023, AdaCore                     --
+--         Copyright (C) 1998-2024, Free Software Foundation, Inc.          --
 --                                                                          --
 -- GNARL is free software; you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
 -- ware  Foundation;  either version 3,  or (at your option) any later ver- --
--- sion. GNARL is distributed in the hope that it will be useful, but WITH- --
+-- sion.  GNAT is distributed in the hope that it will be useful, but WITH- --
 -- OUT ANY WARRANTY;  without even the  implied warranty of MERCHANTABILITY --
 -- or FITNESS FOR A PARTICULAR PURPOSE.                                     --
 --                                                                          --
@@ -36,7 +36,7 @@ pragma Style_Checks (All_Checks);
 --  This package provides an optimized version of Protected_Objects.Operations
 --  and Protected_Objects.Entries making the following assumptions:
 
---    PO's have only one entry
+--    PO has only one entry
 --    There is only one caller at a time (No_Entry_Queue)
 --    There is no dynamic priority support (No_Dynamic_Priorities)
 --    No Abort Statements
@@ -44,34 +44,143 @@ pragma Style_Checks (All_Checks);
 --    PO are at library level
 --    No Requeue
 --    None of the tasks will terminate (no need for finalization)
---
+
 --  This interface is intended to be used in the ravenscar and restricted
 --  profiles, the compiler is responsible for ensuring that the conditions
 --  mentioned above are respected, except for the No_Entry_Queue restriction
 --  that is checked dynamically in this package, since the check cannot be
---  performed at compile time (see Protected_Single_Entry_Call, Service_Entry).
---
---  Note that the difference with respect to the high integrity version of
---  this package is that exception handlers are allowed, so that support for
---  exceptional completion of entry bodies needs to be provided.
+--  performed at compile time, and is relatively cheap (see PO_Do_Or_Queue,
+--  Service_Entry).
 
 pragma Suppress (All_Checks);
---  Why is this needed???
+--  Why is this required ???
 
-with System.Multiprocessors;
+with Ada.Exceptions;
 
 with System.Task_Primitives.Operations;
 
-with System.Tasking.Protected_Objects.Multiprocessors;
-
 package body System.Tasking.Protected_Objects.Single_Entry is
 
-   use System.Multiprocessors;
-
    package STPO renames System.Task_Primitives.Operations;
-   package STPOM renames System.Tasking.Protected_Objects.Multiprocessors;
 
-   Multiprocessor : constant Boolean := CPU'Range_Length /= 1;
+   -----------------------
+   -- Local Subprograms --
+   -----------------------
+
+   procedure Send_Program_Error (Entry_Call : Entry_Call_Link);
+   pragma Inline (Send_Program_Error);
+   --  Raise Program_Error in the caller of the specified entry call
+
+   --------------------------
+   -- Entry Calls Handling --
+   --------------------------
+
+   procedure Wakeup_Entry_Caller (Entry_Call : Entry_Call_Link);
+   pragma Inline (Wakeup_Entry_Caller);
+   --  This is called at the end of service of an entry call, to abort the
+   --  caller if he is in an abortable part, and to wake up the caller if he
+   --  is on Entry_Caller_Sleep. Call it holding the lock of Entry_Call.Self.
+
+   procedure Wait_For_Completion (Entry_Call : Entry_Call_Link);
+   pragma Inline (Wait_For_Completion);
+   --  This procedure suspends the calling task until the specified entry call
+   --  has either been completed or cancelled. On exit, the call will not be
+   --  queued. This waits for calls on protected entries.
+   --  Call this only when holding Self_ID locked.
+
+   procedure Check_Exception
+     (Self_ID : Task_Id;
+      Entry_Call : Entry_Call_Link);
+   pragma Inline (Check_Exception);
+   --  Raise any pending exception from the Entry_Call. This should be called
+   --  at the end of every compiler interface procedure that implements an
+   --  entry call. The caller should not be holding any locks, or there will
+   --  be deadlock.
+
+   procedure PO_Do_Or_Queue
+     (Object     : Protection_Entry_Access;
+      Entry_Call : Entry_Call_Link);
+   --  This procedure executes or queues an entry call, depending on the status
+   --  of the corresponding barrier. The specified object is assumed locked.
+
+   ---------------------
+   -- Check_Exception --
+   ---------------------
+
+   procedure Check_Exception
+     (Self_ID    : Task_Id;
+      Entry_Call : Entry_Call_Link)
+   is
+      pragma Warnings (Off, Self_ID);
+
+      procedure Internal_Raise (X : Ada.Exceptions.Exception_Id);
+      pragma Import (C, Internal_Raise, "__gnat_raise_with_msg");
+
+      use type Ada.Exceptions.Exception_Id;
+
+      E : constant Ada.Exceptions.Exception_Id :=
+            Entry_Call.Exception_To_Raise;
+
+   begin
+      if E /= Ada.Exceptions.Null_Id then
+         Internal_Raise (E);
+      end if;
+   end Check_Exception;
+
+   ------------------------
+   -- Send_Program_Error --
+   ------------------------
+
+   procedure Send_Program_Error (Entry_Call : Entry_Call_Link) is
+      Caller : constant Task_Id := Entry_Call.Self;
+
+   begin
+      Entry_Call.Exception_To_Raise := Program_Error'Identity;
+      STPO.Write_Lock (Caller);
+      Wakeup_Entry_Caller (Entry_Call);
+      STPO.Unlock (Caller);
+   end Send_Program_Error;
+
+   -------------------------
+   -- Wait_For_Completion --
+   -------------------------
+
+   procedure Wait_For_Completion (Entry_Call : Entry_Call_Link) is
+      Self_Id : constant Task_Id := Entry_Call.Self;
+   begin
+      Self_Id.Common.State := Entry_Caller_Sleep;
+      STPO.Sleep (Self_Id, Entry_Caller_Sleep);
+      Self_Id.Common.State := Runnable;
+   end Wait_For_Completion;
+
+   -------------------------
+   -- Wakeup_Entry_Caller --
+   -------------------------
+
+   --  This is called at the end of service of an entry call, to abort the
+   --  caller if he is in an abortable part, and to wake up the caller if it
+   --  is on Entry_Caller_Sleep. It assumes that the call is already off-queue.
+
+   --  (This enforces the rule that a task must be off-queue if its state is
+   --  Done or Cancelled.) Call it holding the lock of Entry_Call.Self.
+
+   --  The caller is waiting on Entry_Caller_Sleep, in Wait_For_Completion.
+
+   procedure Wakeup_Entry_Caller
+     (Entry_Call : Entry_Call_Link)
+   is
+      Caller : constant Task_Id := Entry_Call.Self;
+   begin
+      pragma Assert
+        (Caller.Common.State /= Terminated and then
+         Caller.Common.State /= Unactivated);
+      Entry_Call.State := Done;
+      STPO.Wakeup (Caller, Entry_Caller_Sleep);
+   end Wakeup_Entry_Caller;
+
+   -----------------------
+   -- Restricted GNARLI --
+   -----------------------
 
    --------------------------------------------
    -- Exceptional_Complete_Single_Entry_Body --
@@ -108,10 +217,83 @@ package body System.Tasking.Protected_Objects.Single_Entry is
    -- Lock_Entry --
    ----------------
 
+   --  Compiler interface only
+
+   --  Do not call this procedure from within the run-time system.
+
    procedure Lock_Entry (Object : Protection_Entry_Access) is
    begin
       Lock (Object.Common'Access);
    end Lock_Entry;
+
+   --------------------------
+   -- Lock_Read_Only_Entry --
+   --------------------------
+
+   --  Compiler interface only
+
+   --  Do not call this procedure from within the runtime system
+
+   procedure Lock_Read_Only_Entry (Object : Protection_Entry_Access) is
+   begin
+      Lock_Read_Only (Object.Common'Access);
+   end Lock_Read_Only_Entry;
+
+   --------------------
+   -- PO_Do_Or_Queue --
+   --------------------
+
+   procedure PO_Do_Or_Queue
+     (Object     : Protection_Entry_Access;
+      Entry_Call : Entry_Call_Link)
+   is
+      Barrier_Value : Boolean;
+
+   begin
+      --  When the Action procedure for an entry body returns, it must be
+      --  completed (having called [Exceptional_]Complete_Entry_Body).
+
+      Barrier_Value := Object.Entry_Body.Barrier (Object.Compiler_Info, 1);
+
+      if Barrier_Value then
+         if Object.Call_In_Progress /= null then
+
+            --  This violates the No_Entry_Queue restriction, send
+            --  Program_Error to the caller.
+
+            Send_Program_Error (Entry_Call);
+            return;
+         end if;
+
+         Object.Call_In_Progress := Entry_Call;
+         Object.Entry_Body.Action
+           (Object.Compiler_Info, Entry_Call.Uninterpreted_Data, 1);
+         Object.Call_In_Progress := null;
+
+         STPO.Write_Lock (Entry_Call.Self);
+         Wakeup_Entry_Caller (Entry_Call);
+         STPO.Unlock (Entry_Call.Self);
+
+      else
+         pragma Assert (Entry_Call.Mode = Simple_Call);
+
+         if Object.Entry_Queue /= null then
+
+            --  This violates the No_Entry_Queue restriction, send
+            --  Program_Error to the caller.
+
+            Send_Program_Error (Entry_Call);
+            return;
+         else
+            Object.Entry_Queue := Entry_Call;
+         end if;
+
+      end if;
+
+   exception
+      when others =>
+         Send_Program_Error (Entry_Call);
+   end PO_Do_Or_Queue;
 
    ---------------------------
    -- Protected_Count_Entry --
@@ -119,7 +301,11 @@ package body System.Tasking.Protected_Objects.Single_Entry is
 
    function Protected_Count_Entry (Object : Protection_Entry) return Natural is
    begin
-      return Boolean'Pos (Object.Entry_Queue /= null);
+      if Object.Entry_Queue /= null then
+         return 1;
+      else
+         return 0;
+      end if;
    end Protected_Count_Entry;
 
    ---------------------------------
@@ -130,76 +316,48 @@ package body System.Tasking.Protected_Objects.Single_Entry is
      (Object             : Protection_Entry_Access;
       Uninterpreted_Data : System.Address)
    is
-      Self_Id : constant Task_Id := STPO.Self;
-
-      use type Ada.Exceptions.Exception_Id;
-
+      Self_Id    : constant Task_Id := STPO.Self;
+      Entry_Call : Entry_Call_Record renames
+        Self_Id.Entry_Calls (Self_Id.Entry_Calls'First);
    begin
-      --  For this run time, pragma Detect_Blocking is always active, so we
-      --  must raise Program_Error if this potentially blocking operation is
-      --  called from a protected action.
+      --  If pragma Detect_Blocking is active then Program_Error must be
+      --  raised if this potentially blocking operation is called from a
+      --  protected action.
 
-      if Self_Id.Common.Protected_Action_Nesting > 0 then
-         raise Program_Error;
+      if Detect_Blocking
+        and then Self_Id.Common.Protected_Action_Nesting > 0
+      then
+         raise Program_Error with "potentially blocking operation";
       end if;
 
       Lock_Entry (Object);
-      Self_Id.Entry_Call.Uninterpreted_Data := Uninterpreted_Data;
-      Self_Id.Entry_Call.Exception_To_Raise := Ada.Exceptions.Null_Id;
 
-      if Object.Entry_Body.Barrier (Object.Compiler_Info, 1) then
+      Entry_Call.Mode := Simple_Call;
+      Entry_Call.State := Now_Abortable;
+      Entry_Call.Uninterpreted_Data := Uninterpreted_Data;
+      Entry_Call.Exception_To_Raise := Ada.Exceptions.Null_Id;
 
-         --  No other task can be executing an entry within this protected
-         --  object. On a single processor implementation (such as this one),
-         --  the ceiling priority protocol and the strictly preemptive priority
-         --  scheduling policy guarantee that protected objects are always
-         --  available when any task tries to use them (otherwise, either the
-         --  currently executing task would not have had a high enough priority
-         --  to be executing, or a blocking operation would have been called
-         --  from within the entry body).
+      PO_Do_Or_Queue (Object, Entry_Call'Access);
+      Unlock_Entry (Object);
 
-         pragma Assert (Object.Call_In_Progress = null);
+      --  The call is either `Done' or not. It cannot be cancelled since there
+      --  is no ATC construct.
 
-         Object.Call_In_Progress := Self_Id.Entry_Call'Access;
-         Object.Entry_Body.Action
-           (Object.Compiler_Info, Self_Id.Entry_Call.Uninterpreted_Data, 1);
-         Object.Call_In_Progress := null;
+      pragma Assert (Entry_Call.State /= Cancelled);
 
-         --  Entry call is over
+      --  Note that we need to acquire Self_Id's lock before checking the value
+      --  of Entry_Call.State, even though the latter is specified as atomic
+      --  with a pragma. If we didn't, another task could execute the entry on
+      --  our behalf right between the check of Entry_Call.State and the call
+      --  to Wait_For_Completion, and that would cause a deadlock.
 
-         Unlock_Entry (Object);
-
-      else
-         if Object.Entry_Queue /= null then
-
-            --  This violates restriction No_Entry_Queue, raise Program_Error
-
-            Unlock_Entry (Object);
-            raise Program_Error with "No_Entry_Queue restriction violated";
-         end if;
-
-         --  There is a potential race condition between the Unlock_Entry and
-         --  the Sleep below (the Wakeup may be called before the Sleep). This
-         --  case is explicitly handled in the Sleep and Wakeup procedures:
-         --  Sleep won't block if Wakeup has been called before.
-
-         Object.Entry_Queue := Self_Id.Entry_Call'Access;
-         Unlock_Entry (Object);
-
-         --  Suspend until entry call has been completed. On exit, the call
-         --  will not be queued.
-
-         Self_Id.Common.State := Entry_Caller_Sleep;
-         STPO.Sleep (Self_Id, Entry_Caller_Sleep);
-         Self_Id.Common.State := Runnable;
+      STPO.Write_Lock (Self_Id);
+      if Entry_Call.State /= Done then
+         Wait_For_Completion (Entry_Call'Access);
       end if;
+      STPO.Unlock (Self_Id);
 
-      --  Check whether there is any exception to raise
-
-      if Self_Id.Entry_Call.Exception_To_Raise /= Ada.Exceptions.Null_Id then
-         Ada.Exceptions.Raise_Exception
-           (Self_Id.Entry_Call.Exception_To_Raise);
-      end if;
+      Check_Exception (Self_Id, Entry_Call'Access);
    end Protected_Single_Entry_Call;
 
    -----------------------------------
@@ -227,16 +385,14 @@ package body System.Tasking.Protected_Objects.Single_Entry is
       then
          Object.Entry_Queue := null;
 
-         --  No other task can be executing an entry within this protected
-         --  object. On a single processor implementation (such as this one),
-         --  the ceiling priority protocol and the strictly preemptive priority
-         --  scheduling policy guarantee that protected objects are always
-         --  available when any task tries to use them (otherwise, either the
-         --  currently executing task would not have had a high enough priority
-         --  to be executing, or a blocking operation would have been called
-         --  from within the entry body).
+         if Object.Call_In_Progress /= null then
 
-         pragma Assert (Object.Call_In_Progress = null);
+            --  Violation of No_Entry_Queue restriction, raise exception
+
+            Send_Program_Error (Entry_Call);
+            Unlock_Entry (Object);
+            return;
+         end if;
 
          Object.Call_In_Progress := Entry_Call;
          Object.Entry_Body.Action
@@ -245,26 +401,20 @@ package body System.Tasking.Protected_Objects.Single_Entry is
          Caller := Entry_Call.Self;
          Unlock_Entry (Object);
 
-         --  Signal the entry caller that the entry is completed
-
-         if not Multiprocessor
-           or else Caller.Common.Base_CPU = STPO.Self.Common.Base_CPU
-         then
-            --  Entry caller and servicing tasks are on the same CPU.
-            --  We are allowed to directly wake up the task.
-
-            STPO.Wakeup (Caller, Entry_Caller_Sleep);
-         else
-            --  The entry caller is on a different CPU.
-
-            STPOM.Served (Entry_Call);
-         end if;
+         STPO.Write_Lock (Caller);
+         Wakeup_Entry_Caller (Entry_Call);
+         STPO.Unlock (Caller);
 
       else
          --  Just unlock the entry
 
          Unlock_Entry (Object);
       end if;
+
+   exception
+      when others =>
+         Send_Program_Error (Entry_Call);
+         Unlock_Entry (Object);
    end Service_Entry;
 
    ------------------

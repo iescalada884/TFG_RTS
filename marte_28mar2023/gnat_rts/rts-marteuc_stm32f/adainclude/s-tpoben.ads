@@ -6,7 +6,7 @@
 --                                                                          --
 --                                  S p e c                                 --
 --                                                                          --
---          Copyright (C) 1992-2023, Free Software Foundation, Inc.         --
+--          Copyright (C) 1992-2024, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNARL is free software; you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -42,6 +42,7 @@
 --  Note: the compiler generates direct calls to this interface, via Rtsfind.
 --  Any changes to this interface may require corresponding compiler changes.
 
+with Ada.Finalization;
 with Ada.Unchecked_Conversion;
 
 package System.Tasking.Protected_Objects.Entries is
@@ -71,14 +72,9 @@ package System.Tasking.Protected_Objects.Entries is
 
    type Protected_Entry_Queue_Max_Array is
      array (Positive_Protected_Entry_Index range <>) of Natural;
-   --  Contains Max_Queue_Length values
 
    type Protected_Entry_Queue_Max_Access is
      access constant Protected_Entry_Queue_Max_Array;
-
-   --  The following declarations define an array that contains the string
-   --  names of entries and entry family members, together with an associated
-   --  access type.
 
    --  The following type contains the GNARL state of a protected object.
    --  The application-defined portion of the state (i.e. private objects)
@@ -86,16 +82,58 @@ package System.Tasking.Protected_Objects.Entries is
    --  simplified version of this type declared in System.Tasking.PO_Simple
    --  that handle the simple case (no entries).
 
-   type Protection_Entries (Num_Entries : Protected_Entry_Index) is record
-      Common : aliased Protection;
-      --  State of the protected object. This part is common to any protected
-      --  object, including those without entries.
+   type Protection_Entries (Num_Entries : Protected_Entry_Index) is new
+     Ada.Finalization.Limited_Controlled
+   with record
+      L : aliased Task_Primitives.Lock;
+      --  The underlying lock associated with a Protection_Entries. Note
+      --  that you should never (un)lock Object.L directly, but instead
+      --  use Lock_Entries/Unlock_Entries.
 
       Compiler_Info : System.Address;
       --  Pointer to compiler-generated record representing protected object
 
       Call_In_Progress : Entry_Call_Link;
       --  Pointer to the entry call being executed (if any)
+
+      Ceiling : System.Any_Priority;
+      --  Ceiling priority associated with the protected object
+
+      New_Ceiling : System.Any_Priority;
+      --  New ceiling priority associated to the protected object. In case
+      --  of assignment of a new ceiling priority to the protected object the
+      --  frontend generates a call to set_ceiling to save the new value in
+      --  this field. After such assignment this value can be read by means
+      --  of the 'Priority attribute, which generates a call to get_ceiling.
+      --  However, the ceiling of the protected object will not be changed
+      --  until completion of the protected action in which the assignment
+      --  has been executed (AARM D.5.2 (10/2)).
+
+      Owner : Task_Id;
+      --  This field contains the protected object's owner. Null_Task
+      --  indicates that the protected object is not currently being used.
+      --  This information is used for detecting the type of potentially
+      --  blocking operations described in the ARM 9.5.1, par. 15 (external
+      --  calls on a protected subprogram with the same target object as that
+      --  of the protected action).
+
+      Old_Base_Priority : System.Any_Priority;
+      --  Task's base priority when the protected operation was called
+
+      Pending_Action : Boolean;
+      --  Flag indicating that priority has been dipped temporarily in order
+      --  to avoid violating the priority ceiling of the lock associated with
+      --  this protected object, in Lock_Server. The flag tells Unlock_Server
+      --  or Unlock_And_Update_Server to restore the old priority to
+      --  Old_Base_Priority. This is needed because of situations (bad
+      --  language design?) where one needs to lock a PO but to do so would
+      --  violate the priority ceiling. For example, this can happen when an
+      --  entry call has been requeued to a lower-priority object, and the
+      --  caller then tries to cancel the call while its own priority is
+      --  higher than the ceiling of the new PO.
+
+      Finalized : Boolean := False;
+      --  Set to True by Finalize to make this routine idempotent
 
       Entry_Bodies : Protected_Entry_Body_Access;
       --  Pointer to an array containing the executable code for all entry
@@ -116,12 +154,26 @@ package System.Tasking.Protected_Objects.Entries is
    --  No default initial values for this type, since call records will need to
    --  be re-initialized before every use.
 
-   type Protection_Entries_Access is access all Protection_Entries;
+   type Protection_Entries_Access is access all Protection_Entries'Class;
+   --  See comments in s-tassta.adb about the implicit call to Current_Master
+   --  generated by this declaration.
 
    function To_Address is
      new Ada.Unchecked_Conversion (Protection_Entries_Access, System.Address);
    function To_Protection is
      new Ada.Unchecked_Conversion (System.Address, Protection_Entries_Access);
+
+   function Get_Ceiling
+     (Object : Protection_Entries_Access) return System.Any_Priority;
+   --  Returns the new ceiling priority of the protected object
+
+   function Has_Interrupt_Or_Attach_Handler
+     (Object : Protection_Entries_Access) return Boolean;
+   --  Returns True if an Interrupt_Handler or Attach_Handler pragma applies
+   --  to the protected object. That is to say this primitive returns False for
+   --  Protection, but is overridden to return True when interrupt handlers are
+   --  declared so the check required by C.3.1(11) can be implemented in
+   --  System.Tasking.Protected_Objects.Initialize_Protection.
 
    procedure Initialize_Protection_Entries
      (Object            : Protection_Entries_Access;
@@ -134,20 +186,56 @@ package System.Tasking.Protected_Objects.Entries is
    --  to keep track of the runtime state of a protected object.
 
    procedure Lock_Entries (Object : Protection_Entries_Access);
-   pragma Inline (Lock_Entries);
    --  Lock a protected object for write access. Upon return, the caller owns
    --  the lock to this object, and no other call to Lock or Lock_Read_Only
    --  with the same argument will return until the corresponding call to
-   --  Unlock has been made by the caller. Program_Error is raised in case of
-   --  ceiling violation.
+   --  Unlock has been made by the caller. Program_Error is raised in case
+   --  of ceiling violation, or if the protected object has already been
+   --  finalized, or if Detect_Blocking is true and the protected object
+   --  is already locked by the current task. In the Program_Error cases,
+   --  the object is not locked.
+
+   procedure Lock_Entries_With_Status
+     (Object            : Protection_Entries_Access;
+      Ceiling_Violation : out Boolean);
+   --  Same as above, but return the ceiling violation status instead of
+   --  raising Program_Error. This raises Program_Error in the other
+   --  cases mentioned for Lock_Entries. In the Program_Error cases,
+   --  the object is not locked.
+
+   procedure Lock_Read_Only_Entries (Object : Protection_Entries_Access);
+   --  Lock a protected object for read access. Upon return, the caller owns
+   --  the lock for read access, and no other calls to Lock with the same
+   --  argument will return until the corresponding call to Unlock has been
+   --  made by the caller. Other calls to Lock_Read_Only may (but need not)
+   --  return before the call to Unlock, and the corresponding callers will
+   --  also own the lock for read access.
+   --
+   --  Note: we are not currently using this interface, it is provided for
+   --  possible future use. At the current time, everyone uses Lock for both
+   --  read and write locks.
+
+   function Number_Of_Entries
+     (Object : Protection_Entries_Access) return Entry_Index;
+   --  Return the number of entries of a protected object
+
+   procedure Set_Ceiling
+     (Object : Protection_Entries_Access;
+      Prio   : System.Any_Priority);
+   --  Sets the new ceiling priority of the protected object
 
    procedure Unlock_Entries (Object : Protection_Entries_Access);
-   pragma Inline (Unlock_Entries);
    --  Relinquish ownership of the lock for the object represented by the
    --  Object parameter. If this ownership was for write access, or if it was
    --  for read access where there are no other read access locks outstanding,
    --  one (or more, in the case of Lock_Read_Only) of the tasks waiting on
    --  this lock (if any) will be given the lock and allowed to return from
    --  the Lock or Lock_Read_Only call.
+
+private
+
+   overriding procedure Finalize (Object : in out Protection_Entries);
+   --  Clean up a Protection object; in particular, finalize the associated
+   --  Lock object.
 
 end System.Tasking.Protected_Objects.Entries;
