@@ -748,7 +748,8 @@ package body System.Tasking.Initialization is
             Locked_Abort_To_Level (Self_ID, Caller, Entry_Call.Level - 1);
          end if;
 
-      elsif Caller.Common.State = Entry_Caller_Sleep then
+      --  elsif Caller.Common.State = Entry_Caller_Sleep then
+      else -- wake up dosent happend until change
          Wakeup (Caller, Entry_Caller_Sleep);
       end if;
    end Wakeup_Entry_Caller;

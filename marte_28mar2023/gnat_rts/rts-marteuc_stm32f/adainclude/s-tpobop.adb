@@ -607,7 +607,7 @@ package body System.Tasking.Protected_Objects.Operations is
       end if;
 
       Initialization.Undefer_Abort_Nestable (Self_ID);
-      Entry_Calls.Check_Exception (Self_ID, Entry_Call);
+      --  Entry_Calls.Check_Exception (Self_ID, Entry_Call); ! NOT SUPORTED YET
    end Protected_Entry_Call;
 
    ------------------
