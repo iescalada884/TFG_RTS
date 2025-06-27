@@ -649,6 +649,27 @@ package body Unimplemented_Functions is
       Put_Line ("Function 'GL_Xdr_Stream' not implemented.");
    end GL_Xdr_Stream;
 
+   --  Calend
+   procedure Ada_Calendar_UTC_Time_Offset is
+   begin
+      Put_Line ("Function 'Ada__Calendar__UTC_Time_Offset' not implemented.");
+   end Ada_Calendar_UTC_Time_Offset;
+
+   procedure Ada_Calendar_Elabb is
+   begin
+      Put_Line ("Function 'Ada__Calendar___Elabb' not implemented.");
+   end Ada_Calendar_Elabb;
+
+   procedure GL_Leap_Seconds_Support is
+   begin
+      Put_Line ("Function '__GL_Leap_Seconds_Support' not implemented.");
+   end GL_Leap_Seconds_Support;
+
+   procedure Gnat_Localtime_Tzoff is
+   begin
+      Put_Line ("Function 'Gnat_Localtime_Tzoff' not implemented.");
+   end Gnat_Localtime_Tzoff;
+
    --  =====================================================
    --  GNAT Runtime Support
    --  =====================================================
@@ -736,28 +757,55 @@ package body Unimplemented_Functions is
    --  POSIX Threads API
    --  =====================================================
 
-   procedure Pthread_Rwlockattr_Init is null;
+   procedure Pthread_Rwlockattr_Init;
    pragma Export (C, Pthread_Rwlockattr_Init, "pthread_rwlockattr_init");
+   procedure Pthread_Rwlockattr_Init is
+   begin
+      Put_Line ("Function 'pthread_rwlockattr_init' not implemented.");
+   end Pthread_Rwlockattr_Init;
 
-   procedure Pthread_Rwlockattr_Setkind_Np is null;
+   procedure Pthread_Rwlockattr_Setkind_Np;
    pragma Export (C, Pthread_Rwlockattr_Setkind_Np,
                      "pthread_rwlockattr_setkind_np");
+   procedure Pthread_Rwlockattr_Setkind_Np is
+   begin
+      Put_Line ("Function 'pthread_rwlockattr_setkind_np' not implemented.");
+   end Pthread_Rwlockattr_Setkind_Np;
 
-   procedure Pthread_Rwlock_Init is null;
+   procedure Pthread_Rwlock_Init;
    pragma Export (C, Pthread_Rwlock_Init, "pthread_rwlock_init");
+   procedure Pthread_Rwlock_Init is
+   begin
+      Put_Line ("Function 'pthread_rwlock_init' not implemented.");
+   end Pthread_Rwlock_Init;
 
-   procedure Pthread_Rwlock_Wrlock is null;
+   procedure Pthread_Rwlock_Wrlock;
    pragma Export (C, Pthread_Rwlock_Wrlock, "pthread_rwlock_wrlock");
+   procedure Pthread_Rwlock_Wrlock is
+   begin
+      Put_Line ("Function 'pthread_rwlock_wrlock' not implemented.");
+   end Pthread_Rwlock_Wrlock;
 
-   procedure Pthread_Rwlock_Rdlock is null;
+   procedure Pthread_Rwlock_Rdlock;
    pragma Export (C, Pthread_Rwlock_Rdlock, "pthread_rwlock_rdlock");
+   procedure Pthread_Rwlock_Rdlock is
+   begin
+      Put_Line ("Function 'pthread_rwlock_rdlock' not implemented.");
+   end Pthread_Rwlock_Rdlock;
 
-   procedure Pthread_Rwlock_Destroy is null;
+   procedure Pthread_Rwlock_Destroy;
    pragma Export (C, Pthread_Rwlock_Destroy, "pthread_rwlock_destroy");
+   procedure Pthread_Rwlock_Destroy is
+   begin
+      Put_Line ("Function 'pthread_rwlock_destroy' not implemented.");
+   end Pthread_Rwlock_Destroy;
 
-   procedure Pthread_Rwlock_Unlock is null;
+   procedure Pthread_Rwlock_Unlock;
    pragma Export (C, Pthread_Rwlock_Unlock, "pthread_rwlock_unlock");
-
+   procedure Pthread_Rwlock_Unlock is
+   begin
+      Put_Line ("Function 'pthread_rwlock_unlock' not implemented.");
+   end Pthread_Rwlock_Unlock;
    --  =====================================================
    --  Linux / Unix System API
    --  =====================================================

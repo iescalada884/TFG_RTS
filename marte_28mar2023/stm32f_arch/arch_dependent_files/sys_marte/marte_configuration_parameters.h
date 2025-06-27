@@ -28,7 +28,7 @@
 
 // Dinamic Memory
 //extern char dynamic_memory_pool[]; <--- remove??
-#define DYNAMIC_MEMORY_POOL_SIZE_IN_K           1
+#define DYNAMIC_MEMORY_POOL_SIZE_IN_K           0
 #define USE_TLSF_MEMORY_ALLOCATOR
 #undef TLSF_DEBUG
 #define TLSF_MAX_SL_LOG2_INDEX           5

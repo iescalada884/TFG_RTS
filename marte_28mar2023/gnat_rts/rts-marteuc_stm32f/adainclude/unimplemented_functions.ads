@@ -129,6 +129,10 @@ package Unimplemented_Functions is
    procedure Gnat_Current_Time_String;
    procedure Gnat_To_Gm_Time;
    procedure Gnat_To_Os_Time;
+   procedure Ada_Calendar_UTC_Time_Offset;
+   procedure Ada_Calendar_Elabb;
+   procedure GL_Leap_Seconds_Support;
+   procedure Gnat_Localtime_Tzoff;
 
    --  ========================================================================
    --  ERROR HANDLING AND DIAGNOSTICS
@@ -328,6 +332,12 @@ package Unimplemented_Functions is
    pragma Export (C, Gnat_Current_Time_String, "__gnat_current_time_string");
    pragma Export (C, Gnat_To_Gm_Time, "__gnat_to_gm_time");
    pragma Export (C, Gnat_To_Os_Time, "__gnat_to_os_time");
+
+   pragma Export (C, Ada_Calendar_UTC_Time_Offset,
+                  "__ada_calendar_utc_time_offset");
+   pragma Export (C, Ada_Calendar_Elabb, "__ada_calendar__elabb");
+   pragma Export (C, GL_Leap_Seconds_Support, "__gl_leap_seconds_support");
+   pragma Export (C, Gnat_Localtime_Tzoff, "__gnat_localtime_tzoff");
 
    --  ERROR HANDLING AND DIAGNOSTICS
    pragma Export (C, Get_Errno, "__get_errno");
