@@ -829,4 +829,21 @@ package body Unimplemented_Functions is
    procedure Atoi is null;
    pragma Export (C, Atoi, "atoi");
 
+   --  =====================================================
+   --  Atomic Operations
+   --  =====================================================
+   procedure Atomic_Load_8;
+   pragma Export (C, Atomic_Load_8, "__atomic_load_8");
+   procedure Atomic_Load_8 is
+   begin
+      Put_Line ("Function '__atomic_load_8' not implemented.");
+   end Atomic_Load_8;
+
+   procedure Atomic_compare_exchange_8;
+   pragma Export (C, Atomic_compare_exchange_8, "__atomic_compare_exchange_8");
+   procedure Atomic_compare_exchange_8 is
+   begin
+      Put_Line ("Function '__atomic_compare_exchange_8' not implemented.");
+   end Atomic_compare_exchange_8;
+
 end Unimplemented_Functions;
