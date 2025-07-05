@@ -1,0 +1,24 @@
+with "../../stm32f_shared_switches.gpr";
+--with "../../marte_stm32f.gpr";
+
+project Examples_STM32F4 is
+
+   for Languages use ("C", "Ada");
+   for Source_Dirs use (".", "utils", "../../stm32f_arch/drivers/stm32f4");
+   for Object_Dir use "obj";
+   for Exec_Dir use ".";
+   for Main use ("test_uart.c", "led.c", "blink_led.adb");
+   for Create_Missing_Dirs use "True";
+   for Runtime ("ada") use Stm32F_Shared_Switches.Runtime;
+   for Target use Stm32F_Shared_Switches.Target;
+
+   package Compiler renames Stm32F_Shared_Switches.Compiler;
+
+   package Linker renames Stm32F_Shared_Switches.Linker;
+
+   package Ide renames Stm32F_Shared_Switches.Ide;
+
+   package Emulator renames Stm32F_Shared_Switches.Emulator;
+
+end Examples_STM32F4;
+

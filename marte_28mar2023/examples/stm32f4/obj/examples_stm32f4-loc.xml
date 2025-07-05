@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<Locations >
+  <Project>
+    <vfs_file>/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/examples_stm32f4.gpr</vfs_file>
+    <file_marker column=" 1" line=" 1" >
+      <vfs_project />
+      <vfs_file>/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/kernel/marte-kernel-file_system.adb</vfs_file>
+    </file_marker>
+    <file_marker column=" 1" line=" 265" >
+      <vfs_project />
+      <vfs_file>/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/kernel/marte-kernel-file_system.adb</vfs_file>
+    </file_marker>
+    <file_marker column=" 1" line=" 1" >
+      <vfs_project>/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/examples_stm32f4.gpr</vfs_project>
+      <vfs_file>/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/led.c</vfs_file>
+    </file_marker>
+    <file_marker column=" 35" line=" 11" >
+      <vfs_project>/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/examples_stm32f4.gpr</vfs_project>
+      <vfs_file>/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/led.c</vfs_file>
+    </file_marker>
+    <file_marker current="true" column=" 6" line=" 20" >
+      <vfs_project>/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/examples_stm32f4.gpr</vfs_project>
+      <vfs_file>/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/led.c</vfs_file>
+    </file_marker>
+  </Project>
+</Locations>

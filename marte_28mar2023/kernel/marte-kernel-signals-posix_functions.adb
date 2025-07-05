@@ -494,4 +494,12 @@ package body MaRTE.Kernel.Signals.POSIX_Functions is
       Initialized := True;
    end Initialize;
 
+   -----------------
+   -- Wrap_Raise --
+   -----------------
+   function Wrap_Raise (Sig : in Signal) return MaRTE.Integer_Types.Int is
+   begin
+      return Raise_POSIX (Sig);
+   end Wrap_Raise;
+
 end MaRTE.Kernel.Signals.POSIX_Functions;

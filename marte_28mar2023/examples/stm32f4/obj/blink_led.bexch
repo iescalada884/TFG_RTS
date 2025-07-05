@@ -1,0 +1,28 @@
+[GENERATED OBJECT FILE]
+b__blink_led.o
+[PROJECT FILES]
+/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/examples_stm32f4.gpr
+20250703154242 12bb7af4fc49d3b10a9540e70f774f1a
+/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/global_switches.gpr
+20250415180127 4f9766c38cc52e5d9bafd4f1c209086e
+/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/stm32f_shared_switches.gpr
+20250705110623 6494a385e6b88498596cda49a4114bad
+[BOUND OBJECT FILES]
+/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/obj/stm32f4.o
+/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/obj/stm32f4-gpio.o
+/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/obj/stm32f4-reset_clock_control.o
+/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/obj/stm32f4-sysconfig_control.o
+/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/obj/registers.o
+/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/obj/leds.o
+/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/obj/blink_led.o
+[GENERATED SOURCE FILES]
+b__blink_led.ads
+b__blink_led.adb
+b__blink_led.ali
+[RESULTING OPTIONS]
+-L/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/obj/
+-L/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/obj/
+-L/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/gnat_rts/rts-marteuc_stm32f/adalib/
+-static
+-static-libgcc
+/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/gnat_rts/rts-marteuc_stm32f/adalib/libgnat.a

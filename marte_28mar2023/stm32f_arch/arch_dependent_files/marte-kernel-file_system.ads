@@ -176,5 +176,24 @@ package MaRTE.Kernel.File_System is
      return Off_t;
    pragma Export (C, Lseek, "lseek");
 
+   -- Wrapper functions for --wrap linker option
+   function Wrap_Close (Fd : in File_Descriptor) return Int;
+   pragma Export (C, Wrap_Close, "__wrap_close");
+
+   function Wrap_Read
+     (Fd            : in File_Descriptor;
+      Buffer_Ptr    : in Buffer_Ac;
+      Bytes_To_Read : in Buffer_Length)
+     return Int;
+   pragma Export (C, Wrap_Read, "__wrap_read");
+
+   function Wrap_Write
+     (Fd             : in File_Descriptor;
+      Buffer_Ptr     : in Buffer_Ac;
+      Bytes_To_Write : in Buffer_Length)
+     return Int;
+   pragma Export (C, Wrap_Write, "__wrap_write");
+
 end MaRTE.Kernel.File_System;
+
 

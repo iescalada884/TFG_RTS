@@ -113,6 +113,10 @@ package MaRTE.Kernel.Signals.POSIX_Functions is
    function Raise_POSIX (Sig : in Signal) return MaRTE.Integer_Types.Int;
    pragma Export (C, Raise_POSIX, "raise");
 
+   -- Wrapper function for --wrap linker option
+   function Wrap_Raise (Sig : in Signal) return MaRTE.Integer_Types.Int;
+   pragma Export (C, Wrap_Raise, "__wrap_raise");
+
    ------------------
    --  Initialize  --
    ------------------

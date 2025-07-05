@@ -562,5 +562,37 @@ package body MaRTE.Kernel.File_System is
       return Int_Error;
    end Lseek;
 
+   -----------------
+   -- Wrap_Close --
+   -----------------
+   function Wrap_Close (Fd : in File_Descriptor) return Int is
+   begin
+      return Close (Fd);
+   end Wrap_Close;
+
+   ----------------
+   -- Wrap_Read --
+   ----------------
+   function Wrap_Read
+     (Fd            : in File_Descriptor;
+      Buffer_Ptr    : in Buffer_Ac;
+      Bytes_To_Read : in Buffer_Length)
+     return Int is
+   begin
+      return Read (Fd, Buffer_Ptr, Bytes_To_Read);
+   end Wrap_Read;
+
+   -----------------
+   -- Wrap_Write --
+   -----------------
+   function Wrap_Write
+     (Fd             : in File_Descriptor;
+      Buffer_Ptr     : in Buffer_Ac;
+      Bytes_To_Write : in Buffer_Length)
+     return Int is
+   begin
+      return Write (Fd, Buffer_Ptr, Bytes_To_Write);
+   end Wrap_Write;
+
 end MaRTE.Kernel.File_System;
 
