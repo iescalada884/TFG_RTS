@@ -51,14 +51,21 @@ abstract project STM32F_Shared_Switches is
 
    package Linker is
       Common_Default_Switches :=
-        ("-Wl,-v",
-         "-Wl,--gc-sections",
-         "-Wl,--print-memory-usage",
-         "-Wl,-Map,map.txt",
-         "-L" & project'Project_Dir & "/objs/stm32f_objs/libmarte");
+        ("-lmarte",
+         "-Wl,--undefined=close",
+         "-Wl,--undefined=read", 
+         "-Wl,--undefined=write",
+         "-Wl,--undefined=raise",
+         "-Wl,--start-group",
+         --"-lgnarl", not in ZFP
+         "-lgnat", "-lgcc", "-lc",
+--           "-lgnat", "-lgcc", "-lgcov", "-lc",
+         "-Wl,--end-group");
       case Global_Switches.MTarget is
          when "stm32f4" =>
-            null;
+            Common_Default_Switches := Common_Default_Switches
+              & ("-L" & project'Project_Dir &
+                   "/objs/stm32f_objs/libmarte");
          when "stm32f769disco" =>
             Common_Default_Switches := Common_Default_Switches
               & ("-L" & project'Project_Dir &
