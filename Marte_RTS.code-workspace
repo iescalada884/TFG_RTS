@@ -1,28 +1,37 @@
 {
 	"folders": [
-		{
-			"path": "marte_28mar2023/rts-marteuc_stm32f"
-		},
-		{
-			"path": "marte_28mar2023/kernel"
-		},
-		{
-			"path": "marte_28mar2023/objs"
-		},
-		{
-			"path": "marte_28mar2023/stm32f_arch"
-		},
-		{
-			"path": "marte_28mar2023/tasks_inspector"
-		},
-		{
-			"path": "marte_28mar2023/tests"
-		},
-		{
-			"path": "marte_28mar2023/utils"
-		}
-	],
-	"settings": {},
+    {
+      "path": "marte_28mar2023/rts-marteuc_stm32f"
+    },
+    {
+      "path": "marte_28mar2023/kernel"
+    },
+    {
+      "path": "marte_28mar2023/objs"
+    },
+    {
+      "path": "marte_28mar2023/stm32f_arch"
+    },
+    {
+      "path": "marte_28mar2023/tasks_inspector"
+    },
+    {
+      "path": "marte_28mar2023/tests"
+    },
+    {
+      "path": "marte_28mar2023/utils"
+    },
+    {
+      "path": "marte_28mar2023/examples/stm32f4"
+    }
+  ],
+  "settings": {
+    "files.associations": {
+      ".als.json": "jsonc",
+      "system_stm32f4xx.h": "c",
+      "stm32f4xx.h": "c"
+    }
+  },
 	"launch": {
 		"version": "0.2.0",
 		"configurations": [
@@ -40,6 +49,23 @@
           { "description": "Enable pretty printing", "text": "-enable-pretty-printing", "ignoreFailures": true },
           { "description": "Connect to GNATemulator", "text": "target rem:1234", "ignoreFailures": false }
         ]
+      },
+      {
+        "name": "Debug stm32f4",
+        "type": "cppdbg",
+        "request": "launch",              // ← must be "launch"
+        "program": "/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023/examples/stm32f4/testio_wrapper",
+        "cwd": "/home/ubuntfg/Documents/TFG_RTS/marte_28mar2023",
+        "miDebuggerPath": "/home/ubuntfg/Downloads/gnat-arm-elf-linux64-x86_64-14.2.0-1/bin/arm-eabi-gdb",
+        "MIMode": "gdb",
+        "externalConsole": false,
+        "setupCommands": [
+          { "description": "Enable pretty printing", "text": "-enable-pretty-printing", "ignoreFailures": true },
+          { "description": "Increase remote timeout", "text": "set remotetimeout 10", "ignoreFailures": true },
+          { "description": "Connect to OpenOCD", "text": "target extended-remote:4242", "ignoreFailures": false }
+        ],
+        "stopAtEntry": true,
+        "entryPoint": "wrapper_main"
       },
 
       {

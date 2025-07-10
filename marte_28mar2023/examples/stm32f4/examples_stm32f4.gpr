@@ -7,7 +7,7 @@ project Examples_STM32F4 is
    for Source_Dirs use (".", "utils", "../../stm32f_arch/drivers/stm32f4");
    for Object_Dir use "obj";
    for Exec_Dir use ".";
-   for Main use ("test_uart.c", "led.c", "blink_led.adb");
+   for Main use ("led.c", "blink_led.adb", "testio_wrapper.adb");
    for Create_Missing_Dirs use "True";
    for Runtime ("ada") use Stm32F_Shared_Switches.Runtime;
    for Target use Stm32F_Shared_Switches.Target;
@@ -19,6 +19,11 @@ project Examples_STM32F4 is
    package Ide renames Stm32F_Shared_Switches.Ide;
 
    package Emulator renames Stm32F_Shared_Switches.Emulator;
+
+ package Binder is
+   for Switches ("Ada") use ("-Muser_main");
+end Binder;
+
 
 end Examples_STM32F4;
 
