@@ -846,4 +846,11 @@ package body Unimplemented_Functions is
       Put_Line ("Function '__atomic_compare_exchange_8' not implemented.");
    end Atomic_compare_exchange_8;
 
+   procedure fini;
+   pragma Export (C, fini, "_fini");
+   procedure fini is
+   begin
+      Put_Line ("Function '_fini' not implemented.");
+   end fini;
+
 end Unimplemented_Functions;

@@ -24,10 +24,10 @@ begin
    loop
 
       LEDs.On(LEDs.Blue);         -- Encender LED
-      My_Delay (The_Delay);
+      delay 1.0;
 
       LEDs.Off(LEDs.Blue);        -- Apagar LED
-      My_Delay (The_Delay);
+      delay 1.0;
 
    end loop;
 end Blink_LED;

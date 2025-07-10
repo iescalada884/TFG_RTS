@@ -372,9 +372,9 @@ package Unimplemented_Functions is
    pragma Export (C, Gnat_Bkpt_Trap, "__gnat_bkpt_trap");
    pragma Export (C, Gnat_UnhandledTerminate,
                   "__gnat_unhandled_terminate");
-   pragma Export (C, Put_Char, "put_char");
+   --  pragma Export (C, Put_Char, "put_char");
    pragma Export (C, Put_Char_Stderr, "put_char_stderr");
-   pragma Export (C, Put_Int, "put_int");
+   --  pragma Export (C, Put_Int, "put_int");
    pragma Export (C, Put_Int_Stderr, "put_int_stderr");
    pragma Export (C, R_Debug, "_r_debug");
 

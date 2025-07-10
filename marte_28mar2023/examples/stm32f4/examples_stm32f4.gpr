@@ -4,13 +4,29 @@ with "../../stm32f_shared_switches.gpr";
 project Examples_STM32F4 is
 
    for Languages use ("C", "Ada");
-   for Source_Dirs use (".", "utils", "../../stm32f_arch/drivers/stm32f4");
    for Object_Dir use "obj";
    for Exec_Dir use ".";
-   for Main use ("led.c", "blink_led.adb", "testio_wrapper.adb");
    for Create_Missing_Dirs use "True";
    for Runtime ("ada") use Stm32F_Shared_Switches.Runtime;
    for Target use Stm32F_Shared_Switches.Target;
+   type Marte_Target is
+      ("stm32f4", "stm32f769disco", "ev3");
+   Mtarget : Marte_Target := external ("mtarget");
+
+   case Mtarget is
+
+      when "stm32f4" =>
+         for Main use ("blink_led.adb", "led.c", "testio_wrapper.adb", "test_uart.c");
+         for Source_Dirs use (".", "utils", "../../stm32f_arch/drivers/stm32f4", "../../objs/stm32f_objs/**");
+
+      when "stm32f769disco" =>
+         for Main use ("blink_led.adb", "led.c", "testio_wrapper.adb", "test_uart.c");
+         for Source_Dirs use (".", "utils", "../../stm32f_arch/drivers/stm32f4", "../../objs/stm32f_objs/**");
+
+      when "ev3" =>
+         for Main use ("blink_led.adb", "led.c", "testio_wrapper.adb", "test_uart.c");
+         for Source_Dirs use (".", "utils", "../../stm32f_arch/drivers/stm32f4", "../../objs/stm32f_objs/**");
+   end case;
 
    package Compiler renames Stm32F_Shared_Switches.Compiler;
 
@@ -20,10 +36,13 @@ project Examples_STM32F4 is
 
    package Emulator renames Stm32F_Shared_Switches.Emulator;
 
- package Binder is
-   for Switches ("Ada") use ("-Muser_main");
-end Binder;
+   package Binder is
+      for Switches ("Ada") use ("-Muser_main");
+   end Binder;
 
+   package Check is
+      for Default_Switches ("ada") use ("-d");
+   end Check;
 
 end Examples_STM32F4;
 

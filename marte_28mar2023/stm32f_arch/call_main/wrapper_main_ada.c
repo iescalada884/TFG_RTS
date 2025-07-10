@@ -59,14 +59,14 @@ extern void basic_stderr_initialization (); //  From 'Direct_IO'
 
 int wrapper_main(int argc, char *argv[], char *envp[])
 {
-  basic_stderr_initialization ();
-  basic_stdout_initialization ();
-  direct_write_on_stdout
-    ("                       -=  M a R T E   O S  =-\n", 47);
-  direct_write_on_stdout
-    ("                           V2.0 2019-05-24\n", 44);
-  direct_write_on_stdout
-    ("            Copyright (C) Universidad de Cantabria, SPAIN\n", 58);
+  // basic_stderr_initialization ();
+  // basic_stdout_initialization ();
+  // direct_write_on_stdout
+  //   ("                       -=  M a R T E   O S  =-\n", 47);
+  // direct_write_on_stdout
+  //   ("                           V2.0 2019-05-24\n", 44);
+  // direct_write_on_stdout
+  //   ("            Copyright (C) Universidad de Cantabria, SPAIN\n", 58);
 
   //init_dynamic_memory (); // Initialize dynamic_memory
 
