@@ -6,7 +6,7 @@ begin
    
    Put_Error("testando error");
    
-   Set_Mode(UART);
+   Set_Mode(SEMIHOST);
    
    Put_Line("Prueba mensaje regular");
    

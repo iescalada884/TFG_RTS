@@ -853,4 +853,17 @@ package body Unimplemented_Functions is
       Put_Line ("Function '_fini' not implemented.");
    end fini;
 
+   procedure get_char;
+   pragma Export (C, get_char, "get_char");
+   procedure get_char is
+   begin
+      Put_Line ("Function 'get_char' not implemented.");
+   end get_char;
+   procedure get_int;
+   pragma Export (C, get_int, "get_int");
+   procedure get_int is
+   begin
+      Put_Line ("Function 'get_int' not implemented.");
+   end get_int;
+
 end Unimplemented_Functions;

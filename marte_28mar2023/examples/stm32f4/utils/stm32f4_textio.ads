@@ -24,7 +24,7 @@ package Stm32f4_TextIO is
 private
    -- Internal state
    Is_Initialized : Boolean := False;  -- True if the text IO is initialized
-   Mode : Output_Mode := SEMIHOST;  -- 0 para semihosting, 1 para UART
+   Mode : Output_Mode := UART;  -- 0 para semihosting, 1 para UART
    -- Internal error functions
    procedure Output (Str : in String);
    procedure Output_Error (Str : in String);
