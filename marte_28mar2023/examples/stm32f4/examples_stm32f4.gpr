@@ -16,16 +16,16 @@ project Examples_STM32F4 is
    case Mtarget is
 
       when "stm32f4" =>
-         for Main use ("blink_led.adb", "led.c", "testio_wrapper.adb", "test_uart.c");
-         for Source_Dirs use (".", "utils", "../../stm32f_arch/drivers/stm32f4", "../../objs/stm32f_objs/**");
+         for Main use ("blink_led.adb", "led.c", "testio_wrapper.adb", "test_uart.c", "simple_delay.adb");
+         for Source_Dirs use (".", "utils", "../../stm32f_arch/drivers/stm32f4", "../../objs/stm32f_objs/**", "../../stm32f_arch/arch_dependent_files");
 
       when "stm32f769disco" =>
          for Main use ("blink_led.adb", "led.c", "testio_wrapper.adb", "test_uart.c");
-         for Source_Dirs use (".", "utils", "../../stm32f_arch/drivers/stm32f4", "../../objs/stm32f_objs/**");
+         for Source_Dirs use (".", "utils", "../../stm32f_arch/drivers/stm32f4", "../../objs/stm32f_objs/**", "../../stm32f_arch/arch_dependent_files");
 
       when "ev3" =>
          for Main use ("blink_led.adb", "led.c", "testio_wrapper.adb", "test_uart.c");
-         for Source_Dirs use (".", "utils", "../../stm32f_arch/drivers/stm32f4", "../../objs/stm32f_objs/**");
+         for Source_Dirs use (".", "utils", "../../stm32f_arch/drivers/stm32f4", "../../objs/stm32f_objs/**", "../../stm32f_arch/arch_dependent_files");
    end case;
 
    package Compiler renames Stm32F_Shared_Switches.Compiler;
@@ -39,10 +39,6 @@ project Examples_STM32F4 is
    package Binder is
       for Switches ("Ada") use ("-Muser_main");
    end Binder;
-
-   package Check is
-      for Default_Switches ("ada") use ("-d");
-   end Check;
 
 end Examples_STM32F4;
 
