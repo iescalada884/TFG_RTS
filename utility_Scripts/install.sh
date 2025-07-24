@@ -68,6 +68,9 @@ install_marte() {
 
     # Add utils folder to PATH if not already added
     if [[ ":$PATH:" != *":$PROJECT_ROOT/utils:"* ]]; then
+        #get abs path
+        PROJECT_ROOT=$(realpath "$PROJECT_ROOT")
+
         export PATH="$PROJECT_ROOT/utils:$PATH"
         echo "Added $PROJECT_ROOT/utils to PATH"
     fi
@@ -80,7 +83,11 @@ install_marte() {
     # Execute ./minstall
     if [ -x ./minstall ]; then
         echo "Running ./minstall..."
-        ./minstall < "13"
+        echo 13  | ./minstall
+        if [ $? -ne 0 ]; then
+        echo "Error: MInsallation failed. Check the output for details."
+        exit 1
+    fi
     else
         echo "Error: ./minstall not found or not executable in $PROJECT_ROOT"
         return 1
@@ -89,10 +96,13 @@ install_marte() {
     # Select architecture
     echo "Selecting architecture: stm32 f4"
     msetcurrentarch stm32f f4
-    # Check if msetcurrentarch was successful
-    if [ $? -ne 0 ]; then
-        echo "Error: Failed to set current architecture."
-        exit 1
+
+    # if RTS or Marte is already compiles, remove objs
+    if [ -d "objs/stm32f_objs" ]; then
+        rm -rf objs/stm32f_objs
+    fi
+    if [ -d "gnat_rts/rts-marteuc_stm32f/adalib" ] ; then
+        rm -rf gnat_rts/rts-marteuc_stm32f/adalib
     fi
 
     # Compile RTS and Marte

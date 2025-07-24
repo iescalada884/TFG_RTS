@@ -108,6 +108,10 @@ if ($march eq "x86") {
 	"cp reports-init.adb.linux reports-init.adb";
 }
 
+#set links to to include
+if ($march eq "stm32f") {
+    exec_command "ln -sf $MPATH/x86_arch/./include $MPATH/stm32f_arch/include";
+}
 # ------------
 # set links to the adainclude and adalib directories
 #my $RTS_MARTE_UC_PATH="$GNAT_PATH/rts-marteuc_${march}";
